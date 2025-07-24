@@ -1,10 +1,10 @@
 <?php
 
+use App\Http\Controllers\AuthController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
     return view('welcome');
 });
-Route::get('/sign-up', function () {
-    return view('sign-up');
-});
+Route::get('/register', [AuthController::class, 'register'])->name('register');
+Route::get('/login', [AuthController::class, 'login'])->name('login');
