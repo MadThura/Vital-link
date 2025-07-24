@@ -5,23 +5,26 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>Sign Up</title>
-    <link rel="icon" type="image/png" href="/images/logo.png">
+    <link rel="icon" type="image/png" href="/imgages/logo.png">
     @vite(['resources/css/app.css', 'resources/js/app.js'])
-
 </head>
 
-<body class="m-0 text-gray-200 font-[Segoe_UI] min-h-screen flex overflow-hidden bg-cover bg-center" style="background-image: url('/images/bg-blood.jpg')">
+<body class="m-0 text-gray-200 font-[Segoe_UI] min-h-screen flex overflow-hidden bg-cover bg-center"
+    style="background-image: url('/images/bg-blood.jpg')">
     <!-- Left Pane -->
-    <div class="w-[65%] h-screen flex items-center backdrop-blur-xl bg-white/10 border-r border-white/20 rounded-r-[60%] shadow-[inset_0_0_30px_rgba(255,255,255,0.1),0_8px_30px_rgba(0,0,0,0.4)]">
-        <div class="    ml-10 max-w-xl">
-            <p class="text-white text-5xl font-medium leading-tight mb-4">Connect with donors and request blood with ease.</p>
+    <div
+        class="w-[65%] h-screen flex items-center backdrop-blur-xl bg-white/10 border-r border-white/20 rounded-r-[60%] shadow-[inset_0_0_30px_rgba(255,255,255,0.1),0_8px_30px_rgba(0,0,0,0.4)]">
+        <div class="ml-10 max-w-xl">
+            <p class="text-white text-5xl font-medium leading-tight mb-4">Connect with donors and request blood with
+                ease.</p>
             <p class="text-white text-2xl font-light">Every helping hand writes a new beginning.</p>
         </div>
     </div>
 
     <!-- Right Pane -->
     <div class="w-[35%] flex items-center justify-center p-6">
-        <div class="bg-white/10 backdrop-blur-md rounded-2xl p-8 w-full max-w-md shadow-lg hover:bg-white/15 transition-colors">
+        <div
+            class="bg-white/10 backdrop-blur-md rounded-2xl p-8 w-full max-w-md shadow-lg hover:bg-white/15 transition-colors">
             <form action="" method="POST" enctype="multipart/form-data" class="flex flex-col">
                 @csrf
 
