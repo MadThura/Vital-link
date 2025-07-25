@@ -9,6 +9,7 @@
             <x-input-field.psw id="comfirm-password" placeholder="Comfirm password" />
 
             <x-button.submit name="Submit" />
+
             <!-- Already have account -->
             <p class="text-center text-sm mt-4 text-gray-400">Already have an account?
                 <a href="{{ route('login') }}"

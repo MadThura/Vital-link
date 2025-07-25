@@ -12,3 +12,7 @@ Route::get('/login', [AuthController::class, 'login'])->name('login');
 Route::post('/request-info', function() {
     return view('auth.request-info');
 });
+
+Route::get('/admin-dashboard', function() {
+    return view("dashboards.admin-dashboard");
+});
