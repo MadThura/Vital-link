@@ -11,16 +11,7 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('donors', function (Blueprint $table) {
-            // $table->id();
-            // $table->foreignId('blood_bank_id')->constrained()->onDelete('cascade');
-            // $table->string('blood_type');
-            // $table->timestamp('last_donation_at')->nullable();
-            // $table->timestamp('cooldown_until')->nullable();
-            // $table->string('health_certificate')->nullable();
-            // $table->enum('status', ['pending', 'approved', 'rejected'])->default('pending');
-            // $table->timestamps();
-
+        Schema::create('donors', function (Blueprint $table) { 
             $table->id();
 
             // Link to users table (email/password etc)

@@ -9,7 +9,7 @@ Route::get('/', function () {
 Route::get('/register', [AuthController::class, 'register'])->name('register');
 Route::get('/login', [AuthController::class, 'login'])->name('login');
 
-Route::post('/request-info', function() {
+Route::get('/request-info', function() {
     return view('auth.request-info');
 });
 
