@@ -13,6 +13,6 @@ Route::get('/request-info', function() {
     return view('auth.request-info');
 });
 
-Route::get('/admin-dashboard', function() {
-    return view("dashboards.admin-dashboard");
+Route::get('/donor-detail', function() {
+    return view("admin.donors.donor-detail");
 });

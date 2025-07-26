@@ -2,3 +2,22 @@
 @tailwind components;
 @tailwind utilities;
 
+.status-badge {
+    @apply px-2 py-1 rounded-full text-xs font-medium;
+}
+
+.status-badge.pending {
+    @apply bg-amber-500/20 text-amber-400;
+}
+
+.status-badge.approved {
+    @apply bg-emerald-500/20 text-emerald-400;
+}
+
+.status-badge.rejected {
+    @apply bg-rose-500/20 text-rose-400;
+}
+
+.status-badge.completed {
+    @apply bg-blue-500/20 text-blue-400;
+}

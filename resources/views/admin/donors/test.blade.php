@@ -1,54 +1,9 @@
 <x-layout title="Admin Dashboard">
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Dashboard</title>
-    <link rel="icon" type="image/png" href="/images/logo.png">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display&family=Roboto&display=swap" rel="stylesheet">
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <script src="https://cdn.tailwindcss.com"></script>
-</head>
-
-<body class="h-full overflow-hidden font-roboto">
-    <div class="flex h-full text-black">
-        <!-- Left Pane -->
-        <div class="w-[17%] bg-white border-r border-gray-200 p-5 flex flex-col justify-between">
-            <div>
-                <div class="text-center mb-8">
-                    <img src="/images/logo.png" alt="RedLink Logo" class="w-[150px] h-[150px] object-contain rounded-lg mx-auto">
-                    <h2 class="text-xl mt-2 text-red-600">RedLink</h2>
-                </div>
-
-                <nav class="flex flex-col gap-4">
-                    <a href="#" class="no-underline text-gray-700 text-sm py-3 px-2 rounded flex items-center gap-3 hover:bg-blue-50 hover:text-blue-500 transition-colors">
-                        <i class="fa-solid fa-house text-blue-500 text-base"></i> Dashboard
-                    </a>
-                    <a href="#" class="no-underline text-gray-700 text-sm py-3 px-2 rounded flex items-center gap-3 hover:bg-blue-50 hover:text-blue-500 transition-colors">
-                        <i class="fa-solid fa-user-check text-blue-500 text-base"></i> Approval Requests
-                    </a>
-                    <a href="#" class="no-underline text-gray-700 text-sm py-3 px-2 rounded flex items-center gap-3 hover:bg-blue-50 hover:text-blue-500 transition-colors">
-                        <i class="fa-solid fa-file-medical text-blue-500 text-base"></i> Donation Records
-                    </a>
-                    <a href="#" class="no-underline text-gray-700 text-sm py-3 px-2 rounded flex items-center gap-3 hover:bg-blue-50 hover:text-blue-500 transition-colors">
-                        <i class="fa-solid fa-file-export text-blue-500 text-base"></i> Export Reports
-                    </a>
-                    <a href="#" class="no-underline text-gray-700 text-sm py-3 px-2 rounded flex items-center gap-3 hover:bg-blue-50 hover:text-blue-500 transition-colors">
-                        <i class="fa-solid fa-arrow-right-from-bracket text-blue-500 text-base"></i>Logout
-                    </a>
-                </nav>
-            </div>
-
-            <div class="text-sm text-center text-gray-600 border-t border-gray-200 pt-5 mt-5">
-                <p>Role: <strong>Admin</strong></p>
-            </div>
-        </div>
+    <div class="flex w-full h-full text-black">
+        <x-side-bar/>
 
         <!-- Right Pane -->
-        <div class="w-[83%] h-full">
+        <div class="w-[85%] h-full">
             <!-- Top Bar -->
             <div class="h-[7%] p-1 flex items-center justify-around">
                 <div class="w-[900px]">
@@ -269,6 +224,4 @@
             </div>
         </div>
     </div>
-</body>
-</html>
 </x-layout>
