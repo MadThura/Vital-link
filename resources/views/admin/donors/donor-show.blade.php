@@ -41,13 +41,13 @@
                         <td class="py-3 px-3 text-center">
                             <div class="flex justify-center gap-1">
                                 <x-tooltip-button peerClass="view" tooltipText="View" icon="fa-eye"
-                                    hoverColor="cyan-400" />
+                                    hoverColor="cyan-400" route="/" />
                                 <x-tooltip-button peerClass="edit" tooltipText="Edit" icon="fa-pen-to-square"
-                                    hoverColor="emerald-400" />
+                                    hoverColor="emerald-400" route="/"/>
                                 <x-tooltip-button peerClass="delete" tooltipText="Delete" icon="fa-trash"
-                                    hoverColor="rose-500" />
+                                    hoverColor="rose-500" route="/"/>
                                 <x-tooltip-button peerClass="ban" tooltipText="Ban" icon="fa-ban"
-                                    hoverColor="rose-500" />
+                                    hoverColor="rose-500" route="/"/>
                             </div>
                         </td>
 
@@ -74,11 +74,11 @@
                         <td class="py-3 px-3 text-center">
                             <div class="flex justify-center gap-1">
                                 <x-tooltip-button peerClass="view" tooltipText="View" icon="fa-eye"
-                                    hoverColor="cyan-400" />
+                                    hoverColor="cyan-400" route="/"/>
                                 <x-tooltip-button peerClass="approve" tooltipText="Approve" icon="fa-check"
-                                    hoverColor="emerald-400" />
+                                    hoverColor="emerald-400" route="/"/>
                                 <x-tooltip-button peerClass="reject" tooltipText="Approve" icon="fa-xmark"
-                                    hoverColor="rose-500" />
+                                    hoverColor="rose-500" route="/"/>
                             </div>
                         </td>
                     </tr>
