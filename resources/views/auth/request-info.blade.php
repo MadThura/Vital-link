@@ -25,12 +25,6 @@
                                 class="form-radio text-red-500 focus:ring-red-400" />
                             <span class="ml-2 text-white">Female</span>
                         </label>
-
-                        <label class="inline-flex items-center cursor-pointer">
-                            <input type="radio" id="gender-other" name="gender" value="Other" required
-                                class="form-radio text-red-500 focus:ring-red-400" />
-                            <span class="ml-2 text-white">Other</span>
-                        </label>
                     </div>
                 </div>
                 {{-- Blood Type --}}
@@ -91,6 +85,10 @@
                         pattern="[0-9]{6}" title="Enter 6 digit NRC number" required
                         class="flex-1 min-w-[80px] bg-white/90 text-black placeholder:text-gray-500 rounded-md px-4 py-3 outline-none focus:ring-2 focus:ring-red-400" />
                 </div>
+                <x-label label="NRC Front"/>
+                <x-input-field type="file" id="nrc_front" placeholder=""></x-input-field>
+                <x-label label="NRC Back"/>
+                <x-input-field type="file" id="nrc_back" placeholder=""></x-input-field>
                 {{-- Ph Number --}}
                 <x-label label="Phone Number"></x-label>
                 <x-input-field type="tel" id="ph_number" placeholder="Enter your phone number"></x-input-field>
