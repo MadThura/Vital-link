@@ -15,11 +15,10 @@ return new class extends Migration
             $table->id();
             $table->string('name');
             $table->string('email')->unique();
-            $table->string('address')->nullable();
+            $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
-            $table->enum('role', ['super_admin', 'ward_operator', 'donor', 'blood_bank_admin']);
-            $table->foreignId('blood_bank_id')->nullable()->constrained()->onDelete('set null');
-            $table->enum('status', ['pending', 'approved', 'rejected'])->default('pending');
+            $table->enum('role', ['super_admin', 'ward_operator', 'donor', 'blood_bank_admin'])->nullable();
+            $table->rememberToken();
             $table->timestamps();
         });
 
