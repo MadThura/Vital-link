@@ -1,35 +1,40 @@
 <x-admin-layout>
-    <x-search-bar />
-    {{-- resources/views/components/status-alert.blade.php --}}
-    @if (session()->has('status'))
-        @php
-            $status = session('status');
-            $messages = [
-                'approved' => ['text' => 'Donor approved successfully!', 'color' => 'green'],
-                'rejected' => ['text' => 'Donor rejected.', 'color' => 'rose'],
-                'suspended' => ['text' => 'Donor suspended.', 'color' => 'yellow'],
-                'deleted' => ['text' => 'Donor deleted.', 'color' => 'gray'],
-                'edited' => ['text' => 'Donor information updated.', 'color' => 'blue'],
-            ];
-        @endphp
+    <form action="" method="GET"
+        class="h-[10%] p-5 bg-gray-800 flex flex-col md:flex-row items-center gap-4 justify-center">
+        <!-- Search Input -->
+        <div class="w-full md:w-[700px]">
+            <input type="text" name="search" placeholder="Search..." value="{{ request('search') }}"
+                class="w-full py-2 px-4 text-sm border border-gray-600 rounded-full bg-gray-700 text-gray-200 
+                   outline-none focus:border-cyan-400 focus:ring-1 focus:ring-cyan-400/30 transition-all 
+                   placeholder-gray-400" />
+        </div>
 
-        @if (isset($messages[$status]))
-            <div id="alertBox"
-                class="fixed top-6 left-1/2 transform -translate-x-1/2 z-50 w-full max-w-md shadow-xl rounded-xl overflow-hidden">
-                <div
-                    class="bg-{{ $messages[$status]['color'] }}-100 text-{{ $messages[$status]['color'] }}-800
-                        flex items-start justify-between gap-4 px-6 py-4">
-                    <span class="text-base font-medium">
-                        {{ $messages[$status]['text'] }}
-                    </span>
-                    <button onclick="document.getElementById('alertBox').style.display='none'"
-                        class="text-gray-600 hover:text-black transition cursor-pointer">
-                        &times;
-                    </button>
-                </div>
-            </div>
-        @endif
-    @endif
+        <!-- Status Filter -->
+        <div class="w-full md:w-[200px]">
+            <select name="status"
+                class="w-full py-2 px-4 text-sm rounded-full border border-gray-600 bg-gray-700 text-gray-200 
+                   outline-none focus:border-cyan-400 focus:ring-1 focus:ring-cyan-400/30 transition-all">
+                <option value="">All Status</option>
+                @foreach (['pending', 'approved', 'rejected'] as $status)
+                    <option value="{{ $status }}" {{ request('status') === $status ? 'selected' : '' }}>
+                        {{ ucfirst($status) }}
+                    </option>
+                @endforeach
+            </select>
+        </div>
+
+        <!-- Submit Button -->
+        <div>
+            <button type="submit"
+                class="flex items-center gap-2 text-white font-semibold py-2 px-5 
+                   rounded-full shadow transition duration-300">
+                <i class="fa-solid fa-magnifying-glass"></i>
+                Search
+            </button>
+        </div>
+    </form>
+
+    <x-alert-box />
 
     <!-- Donor Table Area (scrollable) -->
     <div class="flex-grow overflow-y-auto p-5 bg-gray-800 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
@@ -44,7 +49,10 @@
                         <th class="py-3 px-3 border-b border-gray-700 text-gray-300 font-semibold text-left w-[50%]">
                             Name</th>
                         <th class="py-3 px-3 border-b border-gray-700 text-gray-300 font-semibold text-center w-[30%]">
-                            Status</th>
+
+                            Status
+
+                        </th>
                         <th class="py-3 px-3 border-b border-gray-700 text-gray-300 font-semibold text-center w-[20%]">
                             Actions</th>
                     </tr>
