@@ -1,4 +1,5 @@
 <x-admin-layout>
+    <x-alert-box/>
     <form action="" method="GET"
         class="h-[10%] p-5 bg-gray-800 flex flex-col md:flex-row items-center gap-4 justify-center">
         <!-- Search Input -->
