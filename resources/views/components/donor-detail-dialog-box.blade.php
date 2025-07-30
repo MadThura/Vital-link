@@ -37,7 +37,7 @@
                                 <i class="fas fa-user-circle mr-2 text-cyan-400"></i>Donor Information
                             </h4>
                             <div class="flex items-center mb-4">
-                                <img x-bind:src="selectedDonor.photo"
+                                <img:src="/donor-files/${selectedDonor.profile_img}" alt="Donor Profile Image"
                                     class="w-16 h-16 rounded-full border-2 border-cyan-400 object-cover mr-3">
                                 <div>
                                     <p x-text="selectedDonor.name" class="text-xl font-bold text-white"></p>

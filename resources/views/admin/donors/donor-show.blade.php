@@ -1,4 +1,6 @@
+
 <x-admin-layout>
+    
     <form action="" method="GET"
         class="h-[10%] p-2 bg-gray-800/90 backdrop-blur-sm flex flex-col md:flex-row items-center gap-4 justify-center border-b border-gray-700 shadow-lg">
         <!-- Search Input - Enhanced with glass morphism effect -->
@@ -61,9 +63,9 @@
             <table class="w-full border-collapse font-roboto text-sm">
                 <thead>
                     <tr class="sticky top-0 bg-gray-800 z-10">
-                        <th class="py-3 px-3 border-b border-gray-700 text-gray-300 font-semibold text-left w-[50%]">
+                        <th class="py-3 px-3 border-b border-gray-700 text-gray-300 font-semibold text-left w-[40%]">
                             Name</th>
-                        <th class="py-3 px-3 border-b border-gray-700 text-gray-300 font-semibold text-center w-[30%]">
+                        <th class="py-3 px-3 border-b border-gray-700 text-gray-300 font-semibold text-center w-[40%]">
                             Status</th>
                         <th class="py-3 px-3 border-b border-gray-700 text-gray-300 font-semibold text-center w-[20%]">
                             Actions</th>
@@ -77,17 +79,21 @@
                             <td class="py-3 px-3 text-gray-300">
                                 <div class="flex items-center gap-3">
                                     <div class="relative">
-                                        <img src="images/gojo.jpg" alt="user"
+                                        <img src="donors/nrc/{{ $donor->profile_img }}" alt="user"
                                             class="w-8 h-8 rounded-full border-2 border-gray-600 group-hover:border-cyan-400 object-cover transition-colors" />
                                     </div>
                                     <span
-                                        class="group-hover:text-cyan-400 transition-colors">{{ $donor->fullname }}</span>
+                                        class="group-hover:text-cyan-400 transition-colors">{{ $donor->user->name }}</span>
                                 </div>
                             </td>
 
                             <!-- Status Column -->
                             <td class="py-3 px-3 text-center">
-                                <span class="status-badge {{ $donor->status }}">{{ $donor->status }}</span>
+                                @if ($donor->status === 'pending')
+                                    <span class="status-badge {{ $donor->status }}">{{ $donor->status }}</span>
+                                @elseif ($donor->status === 'approved' || $donor->status === 'suspended' || $donor->status === 'rejected')
+                                    <span class="status-badge {{ $donor->status }}">{{ $donor->status }} by {{$donor->bloodBank->name}} </span>
+                                @endif
                             </td>
 
                             <!-- Actions Column -->
