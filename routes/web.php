@@ -35,3 +35,4 @@ Route::middleware(['auth', 'role:blood_bank_admin'])->group(function () {
         Route::delete('/{donor}/destroy', [AdminDonorController::class, 'destroy'])->name('destroy');
     });
 });
+

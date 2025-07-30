@@ -7,12 +7,12 @@
                 class="flex flex-col space-y-4">
                 @method('POST')
                 @csrf
+                {{-- Profile Picture --}}
+                <x-label label="Profile picture"/>
+                <x-input-field type="file" name="profile_img" placeholder=""></x-input-field> 
                 {{-- Full Name --}}
                 <x-label label="Full Name" />
                 <x-input-field type="text" name="fullname" placeholder="Enter Your Full Name" />
-                @error('fullname')
-                    <p class="text-white-400 text-sm mt-1">{{ $message }}</p>
-                @enderror
 
                 {{-- Gender --}}
                 <div class="mb-6 p-3">
@@ -30,9 +30,7 @@
                             <span class="ml-2 text-white">Female</span>
                         </label>
                     </div>
-                    @error('gender')
-                        <p class="text-white-400 text-sm mt-1">{{ $message }}</p>
-                    @enderror
+
                 </div>
 
                 {{-- Blood Type --}}
@@ -49,23 +47,14 @@
                     <option value="O+">O+</option>
                     <option value="O-">O-</option>
                 </select>
-                @error('blood_type')
-                    <p class="text-white-400 text-sm mt-1">{{ $message }}</p>
-                @enderror
 
                 {{-- DOB --}}
                 <x-label label="Date of Birth" />
                 <x-input-field type="date" name="dob" placeholder="" />
-                @error('dob')
-                    <p class="text-white-400 text-sm mt-1">{{ $message }}</p>
-                @enderror
 
                 {{-- Health Certificate --}}
                 <x-label label="Health Certificate" />
                 <x-input-field type="file" name="health_certificate" placeholder=""></x-input-field>
-                @error('certificate')
-                    <p class="text-white-400 text-sm mt-1">{{ $message }}</p>
-                @enderror
 
                 {{-- NRC Number --}}
                 <x-label label="NRC Number"></x-label>
@@ -78,9 +67,7 @@
                             <option value="{{ $i < 10 ? '0' . $i : $i }}">{{ $i < 10 ? '0' . $i : $i }}</option>
                         @endfor
                     </select>
-                    @error('nrc-state')
-                        <p class="text-white-400 text-sm mt-1 w-full">{{ $message }}</p>
-                    @enderror
+
 
                     <!-- Township Abbreviation -->
                     <select id="nrc-township" name="nrc-township" required
@@ -91,9 +78,7 @@
                         <option value="TH">TH</option>
                         <option value="YGN">YGN</option>
                     </select>
-                    @error('nrc-township')
-                        <p class="text-white-400 text-sm mt-1 w-full">{{ $message }}</p>
-                    @enderror
+
 
                     <!-- NRC Type -->
                     <select id="nrc-type" name="nrc-type" required
@@ -104,33 +89,26 @@
                         <option value="P">P</option>
                         <option value="T">T</option>
                     </select>
-                    @error('nrc-type')
-                        <p class="text-white-400 text-sm mt-1 w-full">{{ $message }}</p>
-                    @enderror
+
 
                     <!-- NRC Number -->
                     <input type="text" id="nrc-number-input" name="nrc-number" maxlength="6" placeholder="123456"
                         pattern="[0-9]{6}" title="Enter 6 digit NRC number" required
                         class="flex-1 min-w-[80px] bg-white/90 text-black placeholder:text-gray-500 rounded-md px-4 py-3 outline-none focus:ring-2 focus:ring-red-400" />
-                    @error('nrc-number')
-                        <p class="text-white-400 text-sm mt-1 w-full">{{ $message }}</p>
-                    @enderror
-                </div>
 
+                </div>
+                <x-label label="NRC Front"/>
+                <x-input-field type="file" name="nrc_front" placeholder=""></x-input-field>
+                <x-label label="NRC Back"/>
+                <x-input-field type="file" name="nrc_back" placeholder=""></x-input-field>
                 {{-- Phone Number --}}
                 <x-label label="Phone Number"></x-label>
                 <x-input-field type="tel" name="phone" placeholder="Enter your phone number" />
-                @error('phone')
-                    <p class="text-white-400 text-sm mt-1">{{ $message }}</p>
-                @enderror
 
                 {{-- Address --}}
                 <x-label label="Address" />
                 <textarea id="address" name="address" placeholder="Enter your address" required rows="3"
                     class="bg-white/90 text-black placeholder:text-gray-500 rounded-xl px-4 py-3 mb-1 outline-none focus:ring-2 focus:ring-red-400 resize-none"></textarea>
-                @error('address')
-                    <p class="text-white-400 text-sm mt-1">{{ $message }}</p>
-                @enderror
 
                 {{-- Submit --}}
                 <x-submit-button name="Confirm" />
