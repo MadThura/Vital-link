@@ -2,6 +2,10 @@
 @tailwind components;
 @tailwind utilities;
 
+
+.scrollbar-none {
+    scrollbar-width: none;
+}
 .status-badge {
     @apply px-2 py-1 rounded-full text-xs font-medium;
 }
@@ -21,3 +25,101 @@
 .status-badge.completed {
     @apply bg-blue-500/20 text-blue-400;
 } 
+.status-badge.active {
+    @apply bg-green-500/20 text-green-400;
+}
+.status-badge.suspended {
+    @apply bg-gray-500/20 text-gray-400;
+}
+.status-badge.processing {
+    @apply bg-purple-500/20 text-purple-400;
+}
+.status-badge.cancelled {
+    @apply bg-gray-600/20 text-gray-300;
+}
+.status-badge.failed {
+    @apply bg-red-500/20 text-red-400;
+}
+.status-badge.warning {
+    @apply bg-yellow-500/20 text-yellow-400;
+}
+.status-badge.hold {
+    @apply bg-orange-500/20 text-orange-400;
+}
+.status-badge.draft {
+    @apply bg-slate-500/20 text-slate-400;
+}
+.status-badge.published {
+    @apply bg-indigo-500/20 text-indigo-400;
+}
+.status-badge.archived {
+    @apply bg-gray-700/20 text-gray-300;
+}
+.status-badge.expired {
+    @apply bg-amber-700/20 text-amber-300;
+}
+.status-badge.verified {
+    @apply bg-teal-500/20 text-teal-400;
+}
+.status-badge.unverified {
+    @apply bg-gray-500/20 text-gray-400;
+}
+.status-badge.scheduled {
+    @apply bg-sky-500/20 text-sky-400;
+}
+.status-badge.queued {
+    @apply bg-fuchsia-500/20 text-fuchsia-400;
+}
+.status-badge.paid {
+    @apply bg-emerald-600/20 text-emerald-300;
+}
+.status-badge.unpaid {
+    @apply bg-rose-600/20 text-rose-300;
+}
+.status-badge.refunded {
+    @apply bg-cyan-500/20 text-cyan-400;
+}
+.status-badge.disabled {
+    @apply bg-gray-800/20 text-gray-400;
+}
+.status-badge.overdue {
+    @apply bg-red-600/20 text-red-300;
+}
+.status-badge.partial {
+    @apply bg-amber-600/20 text-amber-300;
+}
+.status-badge.new {
+    @apply bg-blue-500/20 text-blue-400;
+}
+.status-badge.urgent {
+    @apply bg-red-500/20 text-red-400;
+}
+.status-badge.low {
+    @apply bg-green-500/20 text-green-400;
+}
+.status-badge.medium {
+    @apply bg-yellow-500/20 text-yellow-400;
+}
+.status-badge.high {
+    @apply bg-orange-500/20 text-orange-400;
+}
+.status-badge.critical {
+    @apply bg-red-600/20 text-red-300;
+}
+
+/* Special statuses */
+.status-badge.beta {
+    @apply bg-purple-600/20 text-purple-300;
+}
+.status-badge.demo {
+    @apply bg-indigo-600/20 text-indigo-300;
+}
+.status-badge.limited {
+    @apply bg-amber-700/20 text-amber-300;
+}
+.status-badge.premium {
+    @apply bg-yellow-600/20 text-yellow-300;
+}
+.status-badge.featured {
+    @apply bg-pink-600/20 text-pink-300;
+}

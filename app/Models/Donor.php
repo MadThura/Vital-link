@@ -13,6 +13,7 @@ class Donor extends Model
         'user_id',
         'fullname',
         'gender',
+        'profile_img',
         'blood_type',
         'dob',
         'health_certificate',

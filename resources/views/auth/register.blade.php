@@ -9,24 +9,13 @@
                 @method('POST')
                 @csrf
                 <x-input-field type="text" id="name" name="name" placeholder="Enter your name" />
-                @error('name')
-                    <p class="text-white-500">{{ $message }}</p>
-                @enderror
+                
                 <x-input-field type="text" id="email" name="email" placeholder="Enter your email" />
-                @error('email')
-                    <p class="text-white-500">{{ $message }}</p>
-                @enderror
 
                 <x-input-field type="password" id="password" name="password" placeholder="Enter new password" />
-                @error('password')
-                    <p class="text-white-500">{{ $message }}</p>
-                @enderror
 
                 <x-input-field type="password" id="password_confirmation" name="password_confirmation"
                     placeholder="Confirm password" />
-                @error('password_confirmation')
-                    <p class="text-white-500">{{ $message }}</p>
-                @enderror
                 <x-submit-button name="Submit" />
 
                 <p class="text-center text-sm mt-4 text-gray-400">Already have an account?

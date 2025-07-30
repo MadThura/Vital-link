@@ -31,12 +31,6 @@ class DonorFactory extends Factory
             'address' => $this->faker->address,
 
             'blood_type' => $this->faker->randomElement(['A-', 'B-', 'O-', 'AB-', 'A+', 'B+', 'O+', 'AB+']),
-
-            'donation_count' => $this->faker->numberBetween(0, 10),
-            'last_donation_at' => $this->faker->optional()->dateTimeBetween('-1 year', 'now'),
-            'cooldown_until' => $this->faker->optional()->dateTimeBetween('now', '+3 months'),
-
-            'health_certificate' => $this->faker->optional()->imageUrl(640, 480, 'medical', true),
         ];
     }
 }

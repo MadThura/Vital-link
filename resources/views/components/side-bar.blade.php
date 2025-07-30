@@ -8,6 +8,22 @@
         </div>
 
         <nav aria-label="Main navigation" class="flex flex-col gap-2">
+            <a href="/profile">
+                <div class="flex items-center gap-6">
+                    <div class="flex items-center gap-3 group cursor-pointer">
+                        <div
+                            class="w-8 h-8 rounded-full border-2 border-transparent group-hover:border-cyan-400 transition-all overflow-hidden">
+                            <a href="/profile"><img src="/images/gojo-2.jpeg" alt="profile"
+                                    class="w-full h-full object-cover"></a>
+                        </div>
+                        <div>
+                            <p class="text-sm font-medium text-gray-300 group-hover:text-cyan-400 transition-colors">
+                                {{auth()->user()->name}}</p>
+                            <p class="text-xs text-gray-500 group-hover:text-gray-400 transition-colors">{{auth()->user()->role}}</p>
+                        </div>
+                    </div>
+                </div>
+            </a>
             <a href="{{ route('dashboard') }}"
                 class="no-underline text-gray-300 text-sm py-3 px-4 rounded-lg flex items-center gap-3 hover:bg-gray-700/50 hover:text-cyan-400 transition-all group border-l-4 border-transparent hover:border-cyan-400">
                 <i class="fa-solid fa-house text-gray-400 group-hover:text-cyan-400 text-base transition-colors"></i>
@@ -45,7 +61,7 @@
     </div>
 
     <footer class="text-sm text-center text-gray-400 border-t border-gray-700 pt-5 mt-5">
-        <p>Role: <strong class="bg-gradient-to-r from-blue-400 to-cyan-400 bg-clip-text text-transparent">Admin</strong>
+        <p>Role: <strong class="bg-gradient-to-r from-blue-400 to-cyan-400 bg-clip-text text-transparent">{{auth()->user()->role}}</strong>
         </p>
         <p class="text-xs mt-1 text-gray-500">v1.0.1</p>
     </footer>
