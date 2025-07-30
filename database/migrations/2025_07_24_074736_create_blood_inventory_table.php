@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->foreignId('blood_bank_id')->constrained()->onDelete('cascade');
             $table->string('blood_type');
-            $table->integer('quantity_ml')->default(0);
+            $table->integer('units')->default(0);
             $table->timestamps();
         });
     }

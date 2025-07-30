@@ -9,4 +9,9 @@ class BloodBank extends Model
 {
     /** @use HasFactory<\Database\Factories\BloodBankFactory> */
     use HasFactory;
+
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
 }

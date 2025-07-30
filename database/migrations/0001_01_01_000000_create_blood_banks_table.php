@@ -13,6 +13,7 @@ return new class extends Migration
     {
         Schema::create('blood_banks', function (Blueprint $table) {
             $table->id();
+            $table->unsignedInteger('user_id');
             $table->string('name');
             $table->string('address');
             $table->timestamps();

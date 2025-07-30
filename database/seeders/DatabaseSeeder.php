@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Models\BloodBank;
 use App\Models\Donor;
 use App\Models\User;
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
@@ -27,6 +28,24 @@ class DatabaseSeeder extends Seeder
         ]);
 
         User::factory(10)->create();
+
+        BloodBank::factory()->create([
+            'user_id' => 2,
+            'name' => 'National Blood Center',
+            'address' => 'No. 97, Corner of Bogyoke Aung San Road and Shwedagon Pagoda Road, Latha Township, Yangon 11131, Myanmar'
+        ]);
+
+        BloodBank::factory()->create([
+            'user_id' => 3,
+            'name' => 'Yangon General Hospital Blood Bank',
+            'address' => 'Inside Yangon General Hospital campus, Lanmadaw Township, Yangon 11131, Myanmar'
+        ]);
+
+        BloodBank::factory()->create([
+            'user_id' => 4,
+            'name' => 'North Okkalapa General Hospital Blood Bank',
+            'address' => 'Maydarwi Street, Sa Lein Ward, North Okkalapa Township, Yangon 11031, Myanmar'
+        ]);
 
         Donor::factory(20)->create();
     }

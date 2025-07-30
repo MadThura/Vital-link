@@ -16,15 +16,34 @@ class DonorController extends Controller
     public function storeCompletion(Request $request)
     {
 
+        if (auth()->user()->donor) {
+            return redirect()->route('login')->with('fail', 'You\'re already registered as a donor.');
+        }
+
         $validated = $request->validate([
-            'fullname' => ['required', 'min:3', 'max:30'],
             'gender' => ['required', 'in:Male,Female'],
             'blood_type' => ['required', 'in:A-,B-,O-,AB-,A+,B+,O+,AB+'],
-            'dob' => ['required', 'date'],
+            'dob' => ['required', 'date', 'before_or_equal:' . now()->subYears(18)->toDateString()],
             'health_certificate' => ['required', 'file', 'image'],
             'phone' => ['required'],
             'address' => ['required', 'string'],
+            'profile_img' => ['required', 'file', 'image'],
+            'health_certificate' => ['required', 'file', 'image'],
+            'nrc_front' => ['required', 'file', 'image'],
+            'nrc_back' => ['required', 'file', 'image'],
         ]);
+
+        $profileImgPath = $request->file('profile_img')->store('donors/profiles', 'local');
+        $validated['profile_img'] = $profileImgPath;
+
+        $healthPath = $request->file('health_certificate')->store('donors/health_certificates', 'local');
+        $validated['health_certificate'] = $healthPath;
+
+        $nrcFrontImgPath = $request->file('nrc_front')->store('donors/nrc', 'local');
+        $validated['nrc_front'] = $nrcFrontImgPath;
+
+        $nrcBackImgPath = $request->file('nrc_back')->store('donors/nrc', 'local');
+        $validated['nrc_back'] = $nrcBackImgPath;
 
         // Optional: if NRC fields come from individual inputs, you can manually build a string:
         $validated['nrc'] = $request->input('nrc-state') . '/' .
@@ -35,8 +54,8 @@ class DonorController extends Controller
         // Add user_id manually
         $validated['user_id'] = Auth::user()->id;
 
-        Donor::create($validated);
+        $donor = Donor::create($validated);
 
-        return redirect('');
+        return redirect('/');
     }
 }

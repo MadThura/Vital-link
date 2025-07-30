@@ -20,9 +20,8 @@ class DonorFactory extends Factory
     {
         return [
             'user_id' => User::factory(),
-            'blood_bank_id' => BloodBank::factory(),
+            // 'blood_bank_id' => random_int(1, 3),
 
-            'fullname' => $this->faker->name,
             'gender' => $this->faker->randomElement(['Male', 'Female']),
             'DOB' => $this->faker->date('Y-m-d', '2005-01-01'),
 
@@ -38,8 +37,6 @@ class DonorFactory extends Factory
             'cooldown_until' => $this->faker->optional()->dateTimeBetween('now', '+3 months'),
 
             'health_certificate' => $this->faker->optional()->imageUrl(640, 480, 'medical', true),
-
-            'status' => $this->faker->randomElement(['pending', 'approved', 'rejected', 'suspended']),
         ];
     }
 }

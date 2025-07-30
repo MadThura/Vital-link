@@ -21,8 +21,8 @@ return new class extends Migration
             $table->foreignId('blood_bank_id')->nullable()->constrained()->onDelete('cascade');
 
             // Personal info
-            $table->string('fullname');
-            $table->enum('gender', ['Male', 'Female', 'Other']);
+            $table->string('profile_img')->nullable();
+            $table->enum('gender', ['Male', 'Female']);
             $table->date('DOB');
 
             // NRC number parts
@@ -42,10 +42,11 @@ return new class extends Migration
 
             // Health certificate path
             $table->string('health_certificate')->nullable();
-
+            $table->string('nrc_front')->nullable();
+            $table->string('nrc_back')->nullable();
             // Donor status in system
             $table->enum('status', ['pending', 'approved', 'rejected', 'suspended'])->default('pending');
-            
+
             $table->timestamps();
         });
     }
