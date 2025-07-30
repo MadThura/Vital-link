@@ -7,9 +7,10 @@
 
             <form action="" method="GET" enctype="multipart/form-data" class="flex flex-col space-y-4">
                 @csrf
-                {{-- Full Name --}}
-                <x-label label="Full Name"/>
-                <x-input-field type="text" id="fullname" placeholder="Enter Your Full Name" />
+                {{-- Profile Picture --}}
+                <x-label label="Profile picture"/>
+                <x-input-field type="file" id="profile_img" placeholder=""></x-input-field>
+                
                 {{-- Gender --}}
                 <div class="mb-6 p-3">
                     <label class="block mb-2 text-sm font-medium text-white">Gender</label>
