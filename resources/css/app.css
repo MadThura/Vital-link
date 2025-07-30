@@ -2,6 +2,10 @@
 @tailwind components;
 @tailwind utilities;
 
+
+.scrollbar-none {
+    scrollbar-width: none;
+}
 .status-badge {
     @apply px-2 py-1 rounded-full text-xs font-medium;
 }

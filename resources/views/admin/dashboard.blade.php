@@ -1,7 +1,7 @@
 <x-admin-layout>
     <div class="min-h-screen bg-gray-900 text-gray-200 overflow-auto scrollbar-none">
         <!-- Header -->
-        <header class="bg-gray-800 border-b border-gray-700 px-6 py-4 flex justify-between items-center">
+        {{-- <header class="bg-gray-800 border-b border-gray-700 px-6 py-4 flex justify-between items-center">
             <div class="flex items-center space-x-4">
                 <h1 class="text-xl font-bold text-white">Vital<span class="text-red-500"> Link</span> </h1>
             </div>
@@ -34,7 +34,7 @@
                     </div>
                 </div>
             </div>
-        </header>
+        </header> --}}
 
         <!-- Main Content -->
         <div class="p-6">
@@ -45,7 +45,7 @@
                     <div class="flex items-center justify-between">
                         <div>
                             <p class="text-sm text-gray-400">Total Donors</p>
-                            <h3 class="text-2xl font-bold text-white">1,842</h3>
+                            <h3 class="text-2xl font-bold text-white">{{ $numOfDonors }}</h3>
                         </div>
                         <div class="p-3 rounded-full bg-gray-700 text-red-400">
                             <i class="fa-solid fa-hand-holding-medical"></i>
@@ -62,7 +62,7 @@
                     <div class="flex items-center justify-between">
                         <div>
                             <p class="text-sm text-gray-400">Total Donation</p>
-                            <h3 class="text-2xl font-bold text-white">58</h3>
+                            <h3 class="text-2xl font-bold text-white">{{ $totalDonations }}</h3>
                         </div>
                         <div class="p-3 rounded-full bg-gray-700 text-yellow-400">
                             <i class="fas fa-exclamation-triangle text-xl"></i>
@@ -79,7 +79,7 @@
                     <div class="flex items-center justify-between">
                         <div>
                             <p class="text-sm text-gray-400">Active Donors</p>
-                            <h3 class="text-2xl font-bold text-white">985</h3>
+                            <h3 class="text-2xl font-bold text-white">{{ $numOfAvailable }}</h3>
                         </div>
                         <div class="p-3 rounded-full bg-gray-700 text-blue-400">
                             <i class="fas fa-user-check text-xl"></i>
@@ -96,7 +96,7 @@
                     <div class="flex items-center justify-between">
                         <div>
                             <p class="text-sm text-gray-400">Deferred Donors</p>
-                            <h3 class="text-2xl font-bold text-white">27</h3>
+                            <h3 class="text-2xl font-bold text-white">{{ $deferredDonors }}</h3>
                         </div>
                         <div class="p-3 rounded-full bg-gray-700 text-purple-400">
                             <i class="fa-solid fa-user-slash"></i>

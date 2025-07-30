@@ -20,7 +20,7 @@
             <div
                 class="bg-gray-900 px-4 py-3 sm:px-6 sm:flex sm:items-center sm:justify-between border-b border-gray-700">
                 <h3 class="text-lg leading-6 font-medium text-white" id="modal-title">
-                 <span x-text="selectedDonor.user.name" class="font-mono"></span>
+                    <span x-text="selectedDonor.user.name"></span>
                 </h3>
                 <button @click="showDonorDetail = false" class="text-gray-400 hover:text-white">
                     <i class="fas fa-times"></i>
@@ -32,12 +32,12 @@
                 <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
                     <!-- Donor Information -->
                     <div class="col-span-1">
-                        <div class="bg-gray-700 rounded-lg p-4">
+                        <div class="bg-gray-700 rounded-lg p-4 h-full max-h-[400px] overflow-y-auto scrollbar-none">
                             <h4 class="text-lg font-medium text-white mb-4 border-b border-gray-600 pb-2">
                                 <i class="fas fa-user-circle mr-2 text-cyan-400"></i>Donor Information
                             </h4>
                             <div class="flex items-center mb-4">
-                                <img:src="/donor-files/${selectedDonor.profile_img}" alt="Donor Profile Image"
+                                <img :src="`/donor-files/${selectedDonor.profile_img}`" alt="Donor Profile Image"
                                     class="w-16 h-16 rounded-full border-2 border-cyan-400 object-cover mr-3">
                                 <div>
                                     <p x-text="selectedDonor.name" class="text-xl font-bold text-white"></p>
@@ -67,37 +67,38 @@
 
                     <!-- Health Certificate -->
                     <div class="col-span-1">
-                        <div class="bg-gray-700 rounded-lg p-4 h-full">
+                        <div class="bg-gray-700 rounded-lg p-4 h-full max-h-[400px] overflow-y-auto scrollbar-none">
                             <h4 class="text-lg font-medium text-white mb-4 border-b border-gray-600 pb-2">
                                 <i class="fas fa-notes-medical mr-2 text-cyan-400"></i>Health Certificate
                             </h4>
                             <div class="flex items-center justify-center">
-                                <img x-bind:src="selectedDonor.health_certificate" alt="Health Certificate"
-                                    class="rounded-lg max-h-90 object-contain border border-cyan-400">
+                                <img :src="`/donor-files/${selectedDonor.health_certificate}`" alt="Health Certificate"
+                                    class="rounded-lg w-[250px] object-contain border border-cyan-400">
                             </div>
                         </div>
                     </div>
 
                     <!-- NRC Images -->
                     <div class="col-span-1">
-                        <div class="bg-gray-700 rounded-lg p-4 h-full">
+                        <div class="bg-gray-700 rounded-lg p-4 h-full max-h-[400px] overflow-y-auto scrollbar-none">
                             <h4 class="text-lg font-medium text-white mb-4 border-b border-gray-600 pb-2">
                                 <i class="fas fa-id-card mr-2 text-cyan-400"></i>NRC Images
                             </h4>
                             <div class="space-y-4">
                                 <div>
                                     <p class="text-gray-400 text-sm mb-1">Front:</p>
-                                    <img x-bind:src="selectedDonor.nrc_front" alt="NRC Front"
-                                        class="rounded-lg max-h-30 object-contain border border-cyan-400">
+                                    <img :src="`/donor-files/${selectedDonor.nrc_front}`" alt="NRC Front"
+                                        class="rounded-lg w-[250px] object-contain border border-cyan-400 mx-auto">
                                 </div>
                                 <div>
                                     <p class="text-gray-400 text-sm mb-1">Back:</p>
-                                    <img x-bind:src="selectedDonor.nrc_back" alt="NRC Back"
-                                        class="rounded-lg max-h-30 object-contain border border-cyan-400">
+                                    <img :src="`/donor-files/${selectedDonor.nrc_back}`" alt="NRC Back"
+                                        class="rounded-lg w-[250px] object-contain border border-cyan-400 mx-auto">
                                 </div>
                             </div>
                         </div>
                     </div>
+
                 </div>
             </div>
 

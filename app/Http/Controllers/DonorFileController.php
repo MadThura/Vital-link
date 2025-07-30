@@ -13,12 +13,13 @@ class DonorFileController extends Controller
     {
         $user = Auth::user();
 
-        $donor = Donor::where('nrc_front', 'like', "%$path%")
+        $donor = Donor::where('profile_img', 'like', "%$path%")
+            ->orwhere('nrc_front', 'like', "%$path%")
             ->orWhere('nrc_back', 'like', "%$path%")
             ->orWhere('health_certificate', 'like', "%$path%")
             ->firstOrFail();
 
-        if ($user->role !== 'blood_bank_admin' || $donor->user_id !== $user->id) {
+        if ($user->role !== 'blood_bank_admin') {
             abort(403, 'Unauthorized');
         }
 
@@ -26,6 +27,10 @@ class DonorFileController extends Controller
             abort(404, 'File not found.');
         }
 
-        return response()->file(storage_path("app/" . $path));
+        $file = Storage::disk('local')->get($path);
+
+        $mimeType = Storage::disk('local')->mimeType($path);
+
+        return response($file, 200)->header('Content-Type', $mimeType);
     }
 }

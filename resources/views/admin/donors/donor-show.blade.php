@@ -79,7 +79,7 @@
                             <td class="py-3 px-3 text-gray-300">
                                 <div class="flex items-center gap-3">
                                     <div class="relative">
-                                        <img src="donors/nrc/{{ $donor->profile_img }}" alt="user"
+                                        <img src="/donor-files/{{ $donor->profile_img }}" alt="user"
                                             class="w-8 h-8 rounded-full border-2 border-gray-600 group-hover:border-cyan-400 object-cover transition-colors" />
                                     </div>
                                     <span
