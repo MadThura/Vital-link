@@ -4,6 +4,7 @@ use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\DonorController as AdminDonorController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\DonorController;
+use App\Http\Controllers\DonorFileController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
@@ -34,5 +35,6 @@ Route::middleware(['auth', 'role:blood_bank_admin'])->group(function () {
         Route::patch('/{donor}/suspend', [AdminDonorController::class, 'suspend'])->name('suspend');
         Route::delete('/{donor}/destroy', [AdminDonorController::class, 'destroy'])->name('destroy');
     });
-});
 
+    Route::get('/donor-files/{path}', [DonorFileController::class, 'show'])->where('path', '.*')->name('donor.files.show');
+});
