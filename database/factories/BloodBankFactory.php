@@ -17,6 +17,7 @@ class BloodBankFactory extends Factory
     public function definition(): array
     {
         return [
+            'user_id' => 2,
             'name' => $this->faker->company . ' Blood Bank',
             'address' => $this->faker->address,
         ];

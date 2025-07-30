@@ -11,7 +11,7 @@ class DonorController extends Controller
 
     public function index(Request $request)
     {
-        $donors = Donor::with('user')->filter($request->only(['search', 'status']))->latest()->paginate(10);
+        $donors = Donor::with('user', 'bloodBank')->filter($request->only(['search', 'status']))->latest()->paginate(10);
 
         return view('admin.donors.donor-show', [
             'donors' => $donors
@@ -22,7 +22,13 @@ class DonorController extends Controller
     {
 
         $donor->status = 'approved';
+        $donor->blood_bank_id = auth()->user()->bloodBank->id;
+
         $donor->save();
+
+        $user = $donor->user;
+        $user->role = 'donor';
+        $user->update();
 
         return back()->with('success', 'Donor approved successfully.');
     }
@@ -31,6 +37,7 @@ class DonorController extends Controller
     {
 
         $donor->status = 'rejected';
+        $donor->blood_bank_id = auth()->user()->bloodBank->id;
         $donor->save();
 
         return back()->with('success', 'Donor rejected successfully.');
@@ -40,20 +47,11 @@ class DonorController extends Controller
     {
 
         $donor->status = 'suspended';
+        $donor->blood_bank_id = auth()->user()->bloodBank->id;
         $donor->save();
 
         return back()->with('success', 'Donor suspended successfully.');
     }
-
-    public function activate(Donor $donor)
-    {
-
-        $donor->status = 'activated';
-        $donor->save();
-
-        return back()->with('success', 'Donor activated successfully.');
-    }
-
 
     public function destroy(Donor $donor)
     {

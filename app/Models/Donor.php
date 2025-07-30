@@ -18,7 +18,9 @@ class Donor extends Model
         'health_certificate',
         'phone',
         'address',
-        'nrc'
+        'nrc',
+        'nrc_front',
+        'nrc_back'
     ];
 
     public function user()
@@ -26,11 +28,18 @@ class Donor extends Model
         return $this->belongsTo(User::class);
     }
 
+    public function bloodBank()
+    {
+        return $this->belongsTo(BloodBank::class);
+    }
+
     public static function scopeFilter($query, $filters = [])
     {
 
         if ($search = $filters['search'] ?? null) {
-            $query->where('fullname', 'LIKE', '%' . $search . '%');
+            $query->whereHas('user', function ($q) use ($search) {
+                $q->where('name', 'LIKE', '%' . $search . '%');
+            });
         }
 
         if ($status = $filters['status'] ?? null) {
