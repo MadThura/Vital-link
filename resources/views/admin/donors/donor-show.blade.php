@@ -20,7 +20,7 @@
                        outline-none focus:border-cyan-400 focus:ring-2 focus:ring-cyan-400/30 transition-all
                        hover:bg-gray-700/80 shadow-md appearance-none">
                 <option value="">All Status</option>
-                @foreach (['pending', 'approved', 'rejected'] as $status)
+                @foreach (['pending', 'approved', 'rejected', 'suspended'] as $status)
                     <option value="{{ $status }}" {{ request('status') === $status ? 'selected' : '' }}>
                         {{ ucfirst($status) }}
                     </option>
