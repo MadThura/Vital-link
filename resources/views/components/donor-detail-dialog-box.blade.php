@@ -61,6 +61,10 @@
                                     <span class="text-gray-400">Address:</span>
                                     <p x-text="selectedDonor.address" class="text-white text-sm mt-1"></p>
                                 </div>
+                                <div class="flex justify-between">
+                                    <span class="text-gray-400">NRC Number: </span>
+                                    <span x-text="selectedDonor.nrc" class="text-white"></span>
+                                </div>
                             </div>
                         </div>
                     </div>
