@@ -1,6 +1,5 @@
-
 <x-admin-layout>
-    
+
     <form action="" method="GET"
         class="h-[10%] p-2 bg-gray-800/90 backdrop-blur-sm flex flex-col md:flex-row items-center gap-4 justify-center border-b border-gray-700 shadow-lg">
         <!-- Search Input - Enhanced with glass morphism effect -->
@@ -92,7 +91,8 @@
                                 @if ($donor->status === 'pending')
                                     <span class="status-badge {{ $donor->status }}">{{ $donor->status }}</span>
                                 @elseif ($donor->status === 'approved' || $donor->status === 'suspended' || $donor->status === 'rejected')
-                                    <span class="status-badge {{ $donor->status }}">{{ $donor->status }} by {{$donor->bloodBank->name}} </span>
+                                    <span class="status-badge {{ $donor->status }}">{{ $donor->status }} by
+                                        {{ $donor->bloodBank->name }} </span>
                                 @endif
                             </td>
 
@@ -112,15 +112,18 @@
                                         <!-- Donation Detail Dialog -->
                                         <x-donor-detail-dialog-box />
                                     </div>
-                                    <span x-text="selectedDonor"></span>
                                     @if ($donor->status === 'pending')
-                                        <form action="{{ route('donors.approve', $donor) }}" method="POST">
+                                        <form
+                                            action="{{ route('donors.updateStatus', ['donor' => $donor, 'action' => 'approve']) }}"
+                                            method="POST">
                                             @csrf
                                             @method('PATCH')
                                             <x-tooltip-button peerClass="approve" tooltipText="Approve" icon="fa-check"
                                                 hoverColor="emerald-400" />
                                         </form>
-                                        <form action="{{ route('donors.reject', $donor) }}" method="POST">
+                                        <form
+                                            action="{{ route('donors.updateStatus', ['donor' => $donor, 'action' => 'reject']) }}"
+                                            method="POST">
                                             @csrf
                                             @method('PATCH')
                                             <x-tooltip-button peerClass="reject" tooltipText="Approve" icon="fa-xmark"
@@ -128,7 +131,9 @@
                                         </form>
                                     @endif
                                     @if ($donor->status === 'approved')
-                                        <form action="{{ route('donors.suspend', $donor) }}" method="POST">
+                                        <form
+                                            action="{{ route('donors.updateStatus', ['donor' => $donor, 'action' => 'suspend']) }}"
+                                            method="POST">
                                             @csrf
                                             @method('PATCH')
                                             <x-tooltip-button peerClass="ban" tooltipText="Ban" icon="fa-ban"
@@ -142,7 +147,9 @@
                                         </form>
                                     @endif
                                     @if ($donor->status === 'suspended')
-                                        <form action="{{ route('donors.approve', $donor) }}" method="POST">
+                                        <form
+                                            action="{{ route('donors.updateStatus', ['donor' => $donor, 'action' => 'approve']) }}"
+                                            method="POST">
                                             @csrf
                                             @method('PATCH')
                                             <x-tooltip-button peerClass="approve" tooltipText="Approve" icon="fa-check"
@@ -156,7 +163,9 @@
                                         </form>
                                     @endif
                                     @if ($donor->status === 'rejected')
-                                        <form action="{{ route('donors.approve', $donor) }}" method="POST">
+                                        <form
+                                            action="{{ route('donors.updateStatus', ['donor' => $donor, 'action' => 'approve']) }}"
+                                            method="POST">
                                             @csrf
                                             @method('PATCH')
                                             <x-tooltip-button peerClass="approve" tooltipText="Approve" icon="fa-check"

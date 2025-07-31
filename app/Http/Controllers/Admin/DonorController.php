@@ -18,39 +18,29 @@ class DonorController extends Controller
         ]);
     }
 
-    public function approve(Donor $donor)
+    public function updateStatus(Donor $donor, string $action)
     {
+        switch ($action) {
+            case 'approve':
+                $donor->status = 'approved';
+                $user = $donor->user;
+                $user->role = 'donor';
+                $user->update();
+                break;
+            case 'reject':
+                $donor->status = 'rejected';
+                break;
+            case 'suspend':
+                $donor->status = 'suspended';
+                break;
+            default:
+                return back()->with('fail', 'Invalid action');
+        }
 
-        $donor->status = 'approved';
-        $donor->blood_bank_id = auth()->user()->bloodBank->id;
-
-        $donor->save();
-
-        $user = $donor->user;
-        $user->role = 'donor';
-        $user->update();
-
-        return back()->with('success', 'Donor approved successfully.');
-    }
-
-    public function reject(Donor $donor)
-    {
-
-        $donor->status = 'rejected';
-        $donor->blood_bank_id = auth()->user()->bloodBank->id;
-        $donor->save();
-
-        return back()->with('success', 'Donor rejected successfully.');
-    }
-
-    public function suspend(Donor $donor)
-    {
-
-        $donor->status = 'suspended';
         $donor->blood_bank_id = auth()->user()->bloodBank->id;
         $donor->save();
 
-        return back()->with('success', 'Donor suspended successfully.');
+        return back()->with('success', 'Donor ' . $donor->status . ' successfully.');
     }
 
     public function destroy(Donor $donor)

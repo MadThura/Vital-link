@@ -30,9 +30,9 @@ Route::middleware(['auth', 'role:blood_bank_admin'])->group(function () {
 
     Route::prefix('/donors')->name('donors.')->group(function () {
         Route::get('/', [AdminDonorController::class, 'index'])->name('index');
-        Route::patch('/{donor}/approve', [AdminDonorController::class, 'approve'])->name('approve');
-        Route::patch('/{donor}/reject', [AdminDonorController::class, 'reject'])->name('reject');
-        Route::patch('/{donor}/suspend', [AdminDonorController::class, 'suspend'])->name('suspend');
+        Route::patch('/{donor}/{action}', [AdminDonorController::class, 'updateStatus'])
+            ->where('action', 'approve|reject|suspend')
+            ->name('updateStatus');
         Route::delete('/{donor}/destroy', [AdminDonorController::class, 'destroy'])->name('destroy');
     });
 
