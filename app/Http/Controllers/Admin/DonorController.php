@@ -18,7 +18,7 @@ class DonorController extends Controller
         ]);
     }
 
-    public function updateStatus(Donor $donor, string $action)
+    public function updateStatus(Request $request, Donor $donor, string $action)
     {
         switch ($action) {
             case 'approve':
@@ -29,6 +29,11 @@ class DonorController extends Controller
                 break;
             case 'reject':
                 $donor->status = 'rejected';
+                $validated = $request->validate([
+                    'reasons' => ['required', 'array'],
+                    'reasons.*' => ['string'],
+                ]);
+                $donor->rejection_reasons = $validated['reasons'];
                 break;
             case 'suspend':
                 $donor->status = 'suspended';

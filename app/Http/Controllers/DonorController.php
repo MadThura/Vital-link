@@ -5,12 +5,27 @@ namespace App\Http\Controllers;
 use App\Models\Donor;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\MessageBag;
 
 class DonorController extends Controller
 {
     public function showCompletionForm()
     {
-        return view('auth.request-info');
+
+        $user = auth()->user();
+
+        $donor = $user->donor;
+
+        // Merge admin rejection errors into Laravel's $errors
+        if ($donor && $donor->status === 'rejected' && $donor->rejection_errors) {
+            $bag = new MessageBag($donor->rejection_errors);
+            session()->flash('errors', $bag);
+        }
+
+        return view('auth.request-info', [
+            'donor' => $donor
+        ]);
     }
 
     public function storeCompletion(Request $request)
@@ -54,8 +69,79 @@ class DonorController extends Controller
         // Add user_id manually
         $validated['user_id'] = Auth::user()->id;
 
-        $donor = Donor::create($validated);
+        Donor::create($validated);
 
         return redirect('/');
+    }
+
+
+    public function updateCompletion(Request $request)
+    {
+        $user = auth()->user();
+        $donor = $user->donor;
+
+        if (!$donor) {
+            return redirect()->route('login')->with('fail', 'You\'re not registered as a donor.');
+        }
+
+        if ($donor->status !== 'rejected') {
+            return back()->with('fail', 'You are already approved or pending.');
+        }
+
+        $validated = $request->validate([
+            'gender' => ['required', 'in:Male,Female'],
+            'blood_type' => ['required', 'in:A-,B-,O-,AB-,A+,B+,O+,AB+'],
+            'dob' => ['required', 'date', 'before_or_equal:' . now()->subYears(18)->toDateString()],
+            'phone' => ['required'],
+            'address' => ['required', 'string'],
+            'profile_img' => ['nullable', 'file', 'image'],
+            'health_certificate' => ['nullable', 'file', 'image'],
+            'nrc_front' => ['nullable', 'file', 'image'],
+            'nrc_back' => ['nullable', 'file', 'image'],
+        ]);
+
+        // Handle file uploads conditionally
+        if ($request->hasFile('profile_img')) {
+            if ($donor->profile_img && Storage::disk('local')->exists($donor->profile_img)) {
+                Storage::disk('local')->delete($donor->profile_img);
+            }
+            $validated['profile_img'] = $request->file('profile_img')->store('donors/profiles', 'local');
+        }
+
+        if ($request->hasFile('health_certificate')) {
+            if ($donor->health_certificate && Storage::disk('local')->exists($donor->health_certificate)) {
+                Storage::disk('local')->delete($donor->health_certificate);
+            }
+            $validated['health_certificate'] = $request->file('health_certificate')->store('donors/health_certificates', 'local');
+        }
+
+        if ($request->hasFile('nrc_front')) {
+            if ($donor->nrc_front && Storage::disk('local')->exists($donor->nrc_front)) {
+                Storage::disk('local')->delete($donor->nrc_front);
+            }
+            $validated['nrc_front'] = $request->file('nrc_front')->store('donors/nrc', 'local');
+        }
+
+        if ($request->hasFile('nrc_back')) {
+            if ($donor->nrc_back && Storage::disk('local')->exists($donor->nrc_back)) {
+                Storage::disk('local')->delete($donor->nrc_back);
+            }
+            $validated['nrc_back'] = $request->file('nrc_back')->store('donors/nrc', 'local');
+        }
+
+        // Optional: rebuild NRC string
+        $validated['nrc'] = $request->input('nrc-state') . '/' .
+            $request->input('nrc-township') . '(' .
+            $request->input('nrc-type') . ')' .
+            $request->input('nrc-number');
+
+        // Reset rejection reasons and set status
+        $validated['rejection_reasons'] = null;
+        $validated['status'] = 'resubmitted';
+
+        // Update donor with all new fields
+        $donor->update($validated);
+
+        return redirect('/')->with('success', 'Donor information updated successfully.');
     }
 }
