@@ -45,8 +45,8 @@
                             </div>
                             <div class="space-y-3">
                                 <div class="flex justify-between">
-                                    <span class="text-gray-400">Age/Gender:</span>
-                                    <span x-text="selectedDonor.DOB + ' / ' + selectedDonor.gender"
+                                    <span class="text-gray-400">Date of Birth/Gender:</span>
+                                    <span x-text="selectedDonor.dob + ' / ' + selectedDonor.gender"
                                         class="text-white"></span>
                                 </div>
                                 <div class="flex justify-between">

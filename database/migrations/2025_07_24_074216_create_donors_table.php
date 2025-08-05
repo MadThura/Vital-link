@@ -23,7 +23,7 @@ return new class extends Migration
             // Personal info
             $table->string('profile_img')->nullable();
             $table->enum('gender', ['Male', 'Female']);
-            $table->date('DOB');
+            $table->date('dob');
 
             // NRC number parts
             $table->string('nrc');

@@ -91,6 +91,13 @@
                             class="bg-dark-800 hover:bg-blood-900 text-white px-4 py-2 rounded-md text-sm font-medium transition duration-300 border border-blood-800">
                             Log In
                         </a>
+                        <form action="{{ route('logout') }}" method="post">
+                            @csrf
+                            <button type="submit"
+                                class="bg-dark-800 hover:bg-blood-900 text-white px-4 py-2 rounded-md text-sm font-medium transition duration-300 border border-blood-800">
+                                Logout
+                            </button>
+                        </form>
                     </div>
                 </div>
                 <div class="-mr-2 flex md:hidden">
@@ -392,7 +399,7 @@
                             <textarea id="reason" rows="3"
                                 class="mt-1 block w-full bg-dark-700 border border-gray-600 rounded-md shadow-sm focus:ring-blood-500 focus:border-blood-500 sm:text-sm text-black p-2 placeholder-gray-400"></textarea>
                         </div>
-                        
+
                     </form>
                 </div>
                 <div class="bg-dark-800 px-4 py-3 sm:px-6 sm:flex sm:flex-row-reverse">
@@ -525,157 +532,157 @@
         </div>
     </footer>
     <script>
-  // Hospital and wards data
-  const hospitalData = {
-    "500-bed Specialty Hospital, Yangon": [],
-    "Defence Services General Hospital (1000-bed)": [],
-    "Defence Services Orthopaedic Hospital (500-Bed)": [],
-    "Defence Services Obstetric, Gynaecological and Paediatric Hospital": [],
-    "East Yangon General Hospital": [],
-    "Insein General Hospital": [
-      "General Medical Ward",
-      "General Surgical Ward",
-      "Obstetrics & Gynaecology Ward",
-      "Paediatric Ward",
-      "Trauma & Orthopaedic Ward",
-      "Ophthalmology Ward",
-      "ENT Ward",
-      "Oncology Ward",
-      "Intensive Care Unit",
-      "Sanga Ward",
-      "Guard Ward"
-    ],
-    "New Yangon General Hospital": [],
-    "New Yangon Specialist Hospital": [],
-    "No.2 Military Hospital (500-bed)": [],
-    "North Okkalapa General Hospital": [
-      "Internal Medicine Ward",
-      "General Surgical Ward",
-      "Obstetrics & Gynaecology Ward",
-      "Paediatric Ward",
-      "Neonatal Unit",
-      "Orthopaedic Ward",
-      "Cardiology Ward",
-      "Neurology / Neurosurgery Ward",
-      "Gastroenterology Ward",
-      "Haematology Ward",
-      "Respiratory Medicine Ward",
-      "Dermatology Ward",
-      "Medical Oncology Ward",
-      "Physical Rehabilitation Ward",
-      "Emergency Ward",
-      "ENT Ward",
-      "Ophthalmology Ward",
-      "Urology Ward",
-      "Endocrinology Ward",
-      "Psychiatric Ward"
-    ],
-    "South Okkalapa Women and Children Hospital": [
-      "Maternity Ward",
-      "Gynaecology Ward I",
-      "Gynaecology Ward II",
-      "Paediatric Ward",
-      "Neonatal Unit",
-      "Intensive Care Unit"
-    ],
-    "Thingangyun Sanpya Hospital": [
-      "Medical Ward",
-      "Surgical Ward",
-      "Obstetrics & Gynaecology Ward",
-      "Child Medical Ward",
-      "Child Surgical Ward",
-      "Orthopaedic Ward",
-      "Urological Surgical Ward",
-      "Urological Medical Ward",
-      "Gastrointestinal Ward",
-      "Chest Medical Ward",
-      "Chest Surgical Ward",
-      "Eye Ward",
-      "Dental OPD",
-      "ENT OPD",
-      "Psychiatric OPD",
-      "Nuclear Medicine OPD",
-      "Physiotherapy OPD"
-    ],
-    "Universities Hospital[1]": [],
-    "Waibargi Hospital": [],
-    "West Yangon General Hospital": [],
-    "Yangon Central Women's Hospital": [],
-    "Yangon Children's Hospital": [],
-    "Yangon ENT Hospital": [],
-    "Yangon General Hospital": [
-      "Medical Ward 1A",
-      "Medical Ward 1B",
-      "Medical Ward 2A",
-      "Medical Ward 2B",
-      "Medical Ward 3A",
-      "Medical Ward 3B",
-      "Medical Ward 4",
-      "Surgical Ward 1",
-      "Surgical Ward 2",
-      "Surgical Ward 3",
-      "Trauma & Orthopaedic Ward 1",
-      "Trauma & Orthopaedic Ward 2"
-    ],
-    "Yangon Orthopaedic Hospital": [],
-    "Yangon Workers' Hospital": [],
-    "Yangon Mental Health Hospital": [],
-    "Yankin Children's Hospital": [
-      "General Paediatric Medicine",
-      "General Paediatric Surgery",
-      "Paediatric Cardiac Surgery",
-      "Paediatric Cardiac Medicine",
-      "Neonatal ICU",
-      "General Paediatric ICU",
-      "Paediatric Cardiac ICU",
-      "Paediatric Cardiac Catheterization",
-      "Physiotherapy Unit",
-      "Laboratory & Blood Bank",
-      "Imaging Department",
-      "Emergency & OPD",
-      "Reception Centre",
-      "ART Center"
-    ]
-  };
+        // Hospital and wards data
+        const hospitalData = {
+            "500-bed Specialty Hospital, Yangon": [],
+            "Defence Services General Hospital (1000-bed)": [],
+            "Defence Services Orthopaedic Hospital (500-Bed)": [],
+            "Defence Services Obstetric, Gynaecological and Paediatric Hospital": [],
+            "East Yangon General Hospital": [],
+            "Insein General Hospital": [
+                "General Medical Ward",
+                "General Surgical Ward",
+                "Obstetrics & Gynaecology Ward",
+                "Paediatric Ward",
+                "Trauma & Orthopaedic Ward",
+                "Ophthalmology Ward",
+                "ENT Ward",
+                "Oncology Ward",
+                "Intensive Care Unit",
+                "Sanga Ward",
+                "Guard Ward"
+            ],
+            "New Yangon General Hospital": [],
+            "New Yangon Specialist Hospital": [],
+            "No.2 Military Hospital (500-bed)": [],
+            "North Okkalapa General Hospital": [
+                "Internal Medicine Ward",
+                "General Surgical Ward",
+                "Obstetrics & Gynaecology Ward",
+                "Paediatric Ward",
+                "Neonatal Unit",
+                "Orthopaedic Ward",
+                "Cardiology Ward",
+                "Neurology / Neurosurgery Ward",
+                "Gastroenterology Ward",
+                "Haematology Ward",
+                "Respiratory Medicine Ward",
+                "Dermatology Ward",
+                "Medical Oncology Ward",
+                "Physical Rehabilitation Ward",
+                "Emergency Ward",
+                "ENT Ward",
+                "Ophthalmology Ward",
+                "Urology Ward",
+                "Endocrinology Ward",
+                "Psychiatric Ward"
+            ],
+            "South Okkalapa Women and Children Hospital": [
+                "Maternity Ward",
+                "Gynaecology Ward I",
+                "Gynaecology Ward II",
+                "Paediatric Ward",
+                "Neonatal Unit",
+                "Intensive Care Unit"
+            ],
+            "Thingangyun Sanpya Hospital": [
+                "Medical Ward",
+                "Surgical Ward",
+                "Obstetrics & Gynaecology Ward",
+                "Child Medical Ward",
+                "Child Surgical Ward",
+                "Orthopaedic Ward",
+                "Urological Surgical Ward",
+                "Urological Medical Ward",
+                "Gastrointestinal Ward",
+                "Chest Medical Ward",
+                "Chest Surgical Ward",
+                "Eye Ward",
+                "Dental OPD",
+                "ENT OPD",
+                "Psychiatric OPD",
+                "Nuclear Medicine OPD",
+                "Physiotherapy OPD"
+            ],
+            "Universities Hospital[1]": [],
+            "Waibargi Hospital": [],
+            "West Yangon General Hospital": [],
+            "Yangon Central Women's Hospital": [],
+            "Yangon Children's Hospital": [],
+            "Yangon ENT Hospital": [],
+            "Yangon General Hospital": [
+                "Medical Ward 1A",
+                "Medical Ward 1B",
+                "Medical Ward 2A",
+                "Medical Ward 2B",
+                "Medical Ward 3A",
+                "Medical Ward 3B",
+                "Medical Ward 4",
+                "Surgical Ward 1",
+                "Surgical Ward 2",
+                "Surgical Ward 3",
+                "Trauma & Orthopaedic Ward 1",
+                "Trauma & Orthopaedic Ward 2"
+            ],
+            "Yangon Orthopaedic Hospital": [],
+            "Yangon Workers' Hospital": [],
+            "Yangon Mental Health Hospital": [],
+            "Yankin Children's Hospital": [
+                "General Paediatric Medicine",
+                "General Paediatric Surgery",
+                "Paediatric Cardiac Surgery",
+                "Paediatric Cardiac Medicine",
+                "Neonatal ICU",
+                "General Paediatric ICU",
+                "Paediatric Cardiac ICU",
+                "Paediatric Cardiac Catheterization",
+                "Physiotherapy Unit",
+                "Laboratory & Blood Bank",
+                "Imaging Department",
+                "Emergency & OPD",
+                "Reception Centre",
+                "ART Center"
+            ]
+        };
 
-  const hospitalSelect = document.getElementById("hospital");
-  const wardSelect = document.getElementById("ward");
+        const hospitalSelect = document.getElementById("hospital");
+        const wardSelect = document.getElementById("ward");
 
-  // Populate hospital select options
-  Object.keys(hospitalData).forEach(hospital => {
-    const option = document.createElement("option");
-    option.value = hospital;
-    option.textContent = hospital;
-    hospitalSelect.appendChild(option);
-  });
+        // Populate hospital select options
+        Object.keys(hospitalData).forEach(hospital => {
+            const option = document.createElement("option");
+            option.value = hospital;
+            option.textContent = hospital;
+            hospitalSelect.appendChild(option);
+        });
 
-  hospitalSelect.addEventListener("change", () => {
-    const selectedHospital = hospitalSelect.value;
-    wardSelect.innerHTML = ""; // Clear previous options
+        hospitalSelect.addEventListener("change", () => {
+            const selectedHospital = hospitalSelect.value;
+            wardSelect.innerHTML = ""; // Clear previous options
 
-    if (selectedHospital && hospitalData[selectedHospital].length > 0) {
-      wardSelect.disabled = false;
-      // Add default option
-      const defaultOption = document.createElement("option");
-      defaultOption.value = "";
-      defaultOption.textContent = "Select ward";
-      wardSelect.appendChild(defaultOption);
+            if (selectedHospital && hospitalData[selectedHospital].length > 0) {
+                wardSelect.disabled = false;
+                // Add default option
+                const defaultOption = document.createElement("option");
+                defaultOption.value = "";
+                defaultOption.textContent = "Select ward";
+                wardSelect.appendChild(defaultOption);
 
-      hospitalData[selectedHospital].forEach(ward => {
-        const option = document.createElement("option");
-        option.value = ward;
-        option.textContent = ward;
-        wardSelect.appendChild(option);
-      });
-    } else {
-      wardSelect.disabled = true;
-      const option = document.createElement("option");
-      option.value = "";
-      option.textContent = "No wards available";
-      wardSelect.appendChild(option);
-    }
-  });
-</script>
+                hospitalData[selectedHospital].forEach(ward => {
+                    const option = document.createElement("option");
+                    option.value = ward;
+                    option.textContent = ward;
+                    wardSelect.appendChild(option);
+                });
+            } else {
+                wardSelect.disabled = true;
+                const option = document.createElement("option");
+                option.value = "";
+                option.textContent = "No wards available";
+                wardSelect.appendChild(option);
+            }
+        });
+    </script>
 </body>
 
 </html>

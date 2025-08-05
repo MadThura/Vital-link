@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -10,7 +11,7 @@
 
 <body>
     @if ($donor->status === 'rejected')
-        <a href="">Edit and Resubmit</a>
+        <a href="{{route('donor.complete')}}">Edit and Resubmit</a>
     @elseif($donor->status === 'pending')
         <p>pending</p>
     @else

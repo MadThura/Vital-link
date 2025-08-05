@@ -43,7 +43,7 @@
 .status-badge.warning {
     @apply bg-yellow-500/20 text-yellow-400;
 }
-.status-badge.hold {
+.status-badge.resubmitted {
     @apply bg-orange-500/20 text-orange-400;
 }
 .status-badge.draft {
