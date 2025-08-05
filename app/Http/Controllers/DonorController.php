@@ -144,4 +144,13 @@ class DonorController extends Controller
 
         return redirect('/')->with('success', 'Donor information updated successfully.');
     }
+
+
+    public function profile()
+    {
+        $donor = auth()->user()->donor;
+        return view('donor.profile', [
+            'donor' => $donor
+        ]);
+    }
 }

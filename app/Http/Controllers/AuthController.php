@@ -24,11 +24,11 @@ class AuthController extends Controller
 
         $user = User::create($validated);
 
-        // event(new Registered($user));
-        // return redirect('email-verify-waitin-page');
+        event(new Registered($user));
+
         Auth::login($user);
 
-        return redirect()->route('auth.complete');
+        return redirect()->route('donor.complete');
     }
 
     public function login()

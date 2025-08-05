@@ -3,7 +3,7 @@
         <div
             class="w-full max-w-xl h-[90vh] overflow-y-auto scrollbar-none p-6 rounded-2xl bg-white/5 backdrop-blur-md shadow-lg hover:bg-white/15 transition-colors">
 
-            <form action="{{ route('auth.storeComplete') }}" method="POST" enctype="multipart/form-data"
+            <form action="{{ route('donor.storeComplete') }}" method="POST" enctype="multipart/form-data"
                 class="flex flex-col space-y-4">
                 @method('POST')
                 @csrf

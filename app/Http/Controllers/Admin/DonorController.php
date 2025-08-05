@@ -55,4 +55,7 @@ class DonorController extends Controller
 
         return back()->with('success', 'Donor deleted successfully.');
     }
+
+    
+
 }
