@@ -19,8 +19,12 @@ Route::post('/login', [AuthController::class, 'loginStore'])->name('login');
 
 Route::middleware(['auth'])->group(function () {
     Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
-    Route::get('/donor/complete', [DonorController::class, 'showCompletionForm'])->name('auth.complete');
-    Route::post('/donor/complete', [DonorController::class, 'storeCompletion'])->name('auth.storeComplete');
+
+    Route::prefix('/donor')->name('donor.')->group(function () {
+        Route::get('/complete', [DonorController::class, 'showCompletionForm'])->name('complete');
+        Route::post('/complete', [DonorController::class, 'storeCompletion'])->name('storeComplete');
+        Route::put('/update', [DonorController::class, 'updateCompletion'])->name('upateComplete');
+    });
 });
 
 

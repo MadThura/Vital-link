@@ -45,8 +45,11 @@ return new class extends Migration
             $table->string('nrc_front')->nullable();
             $table->string('nrc_back')->nullable();
             // Donor status in system
-            $table->enum('status', ['pending', 'approved', 'rejected', 'suspended'])->default('pending');
+            $table->enum('status', ['pending', 'approved', 'rejected', 'suspended', 'resubmitted'])->default('pending');
 
+            // To store rejected fields and errors
+            $table->json('rejection_errors')->nullable();
+            
             $table->timestamps();
         });
     }
