@@ -183,7 +183,7 @@
 
                         </tr>
                     @empty
-                        <p class="text-red-50">No donors</p>
+                        <p class="text-red-50">No donors found</p>
                     @endforelse
 
                 </tbody>

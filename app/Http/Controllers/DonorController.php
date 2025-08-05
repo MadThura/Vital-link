@@ -27,11 +27,13 @@ class DonorController extends Controller
             'health_certificate' => ['required', 'file', 'image'],
             'phone' => ['required'],
             'address' => ['required', 'string'],
-            'profile_img' => ['required', 'file', 'image'],
-            'health_certificate' => ['required', 'file', 'image'],
-            'nrc_front' => ['required', 'file', 'image'],
-            'nrc_back' => ['required', 'file', 'image'],
+            'profile_img' => ['required'],
+            'health_certificate' => ['required'],
+            'nrc_front' => ['required'],
+            'nrc_back' => ['required'],
         ]);
+
+        // dd($validated);
 
         $profileImgPath = $request->file('profile_img')->store('donors/profiles', 'local');
         $validated['profile_img'] = $profileImgPath;
@@ -53,6 +55,8 @@ class DonorController extends Controller
 
         // Add user_id manually
         $validated['user_id'] = Auth::user()->id;
+
+        // dd($validated);  
 
         $donor = Donor::create($validated);
 

@@ -342,7 +342,7 @@
                     </div>
                 </div>
                 <div class="px-4 py-3 sm:px-6 sm:flex sm:flex-col">
-                    <form class="space-y-4">
+                    <form class="space-y-4" action="/hello">
                         <div>
                             <label for="full-name" class="block text-sm font-medium text-gray-300">Your Full
                                 Name</label>
@@ -392,10 +392,11 @@
                             <textarea id="reason" rows="3"
                                 class="mt-1 block w-full bg-dark-700 border border-gray-600 rounded-md shadow-sm focus:ring-blood-500 focus:border-blood-500 sm:text-sm text-black p-2 placeholder-gray-400"></textarea>
                         </div>
+                        
                     </form>
                 </div>
                 <div class="bg-dark-800 px-4 py-3 sm:px-6 sm:flex sm:flex-row-reverse">
-                    <button type="button"
+                    <button type="submit"
                         class="w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-blood-600 text-base font-medium text-white hover:bg-blood-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blood-500 sm:ml-3 sm:w-auto sm:text-sm transition duration-300">
                         Request Access
                     </button>
