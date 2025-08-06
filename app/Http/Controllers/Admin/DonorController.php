@@ -33,7 +33,7 @@ class DonorController extends Controller
                     'reasons' => ['nullable', 'array'],
                     'reasons.*' => ['string'],
                 ]);
-                // $donor->rejection_reasons = $validated['reasons'];
+                $donor->rejection_errors = $validated['reasons'];
                 break;
             case 'suspend':
                 $donor->status = 'suspended';
@@ -55,7 +55,4 @@ class DonorController extends Controller
 
         return back()->with('success', 'Donor deleted successfully.');
     }
-
-    
-
 }

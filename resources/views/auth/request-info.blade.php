@@ -12,7 +12,6 @@
 
 @endphp
 
-
 <!DOCTYPE html>
 <html lang="en">
 
@@ -145,7 +144,9 @@
                     @error('profile_img')
                         <p class="text-red-500 text-sm">{{ $message }}</p>
                     @enderror
-
+                    @if ($errorMsg['profile_img'] ?? null)
+                        <p class="text-red-500 text-sm">{{ $errorMsg['profile_img'] }}</p>
+                    @endif
                 </div>
 
 
@@ -287,11 +288,11 @@
                             @error('address')
                                 <p class="text-red-500 text-sm">{{ $message }}</p>
                             @enderror
+                            {{-- @dd(session('errors')) --}}
                         </div>
 
                     </div>
                 </div>
-
                 <!-- NRC Information Section -->
                 <div class="space-y-6">
                     <h2 class="text-xl font-medium text-primary-dark border-b border-secondary-light pb-2">
@@ -318,8 +319,11 @@
                                     </option>
                                 @endfor
                             </select>
-
+                            @error('nrc-state')
+                                <p class="text-red-500 text-[10px]">{{ $message }}</p>
+                            @enderror
                         </div>
+
 
                         <!-- Township -->
                         <div class="space-y-2">
@@ -328,8 +332,11 @@
                             </label>
                             <select id="nrc-township" name="nrc-township"
                                 class="w-full px-3 py-3 border border-secondary-light rounded-lg input-focus focus:ring-2 focus:ring-accent focus:border-accent outline-none bg-background">
-                                <option value="" disabled selected>Select</option>
+                                <option value="" disabled>Select</option>
                             </select>
+                            @error('nrc-township')
+                                <p class="text-red-500 text-[10px]">{{ $message }}</p>
+                            @enderror
                         </div>
 
                         <!-- NRC Type -->
@@ -352,6 +359,9 @@
                                 <option value="F"
                                     {{ old('nrc-type', $nrc_type ?? '') === 'F' ? 'selected' : '' }}>F</option>
                             </select>
+                            @error('nrc-type')
+                                <p class="text-red-500 text-[10px]">{{ $message }}</p>
+                            @enderror
 
                         </div>
 
@@ -363,7 +373,9 @@
                             <input id="nrc-number" name="nrc-number" type="text" placeholder="123456"
                                 class="w-full px-3 py-3 border border-secondary-light rounded-lg input-focus focus:ring-2 focus:ring-accent focus:border-accent outline-none bg-background"
                                 value="{{ old('nrc-number', $nrc_number ?? '') }}">
-
+                            @error('nrc-number')
+                                <p class="text-red-500 text-[10px]">{{ $message }}</p>
+                            @enderror
                         </div>
                     </div>
 
@@ -459,6 +471,9 @@
                                 @enderror
                             </div>
                         </div>
+                        @if ($errorMsg['nrc'] ?? null)
+                            <p class="text-red-500 text-sm">{{ $errorMsg['nrc'] }}</p>
+                        @endif
                     </div>
                 </div>
 
@@ -479,6 +494,9 @@
                         @endif
 
                         <div class="space-y-2">
+                            @if ($errorMsg['health_certificate'] ?? null)
+                                <p class="text-red-500 text-sm">{{ $errorMsg['health_certificate'] }}</p>
+                            @endif
                             <label class="block text-sm font-medium text-primary" for="health-certificate">
                                 @if (isset($donor->health_certificate))
                                     New Health Certificate
@@ -939,8 +957,7 @@
                 "ZaLaNa" // Zalun
             ]
         };
-
-        const existingTownship = "{{ $nrc_township ?? '' }}";
+        const existingTownship = "{{ old('nrc-township', $nrc_township ?? '') }}";
 
         function populateTownships(state) {
             const townshipSelect = document.getElementById("nrc-township");
@@ -959,19 +976,16 @@
             }
         }
 
-        // On state change
         document.getElementById("nrc-state").addEventListener("change", function() {
             populateTownships(this.value);
         });
 
-        // On page load, if state is pre-selected, populate townships and select the existing one
         window.addEventListener('DOMContentLoaded', () => {
             const stateSelect = document.getElementById("nrc-state");
             if (stateSelect.value) {
                 populateTownships(stateSelect.value);
             }
         });
-
         // Function to handle file previews
         const profilePicInput = document.getElementById('profile_img');
         const profilePreview = document.getElementById('profile-preview');
