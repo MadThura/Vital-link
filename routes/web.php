@@ -27,7 +27,7 @@ Route::get('/email/verify', function () {
 // Verification Handler (clicked from email)
 Route::get('/email/verify/{id}/{hash}', function (EmailVerificationRequest $request) {
     $request->fulfill(); // marks email as verified
-    return redirect('/home');
+    return redirect()->route('donor.complete');
 })->middleware(['auth', 'signed'])->name('verification.verify');
 
 // Resend verification email
@@ -37,10 +37,9 @@ Route::post('/email/verification-notification', function (Request $request) {
 })->middleware(['auth', 'throttle:6,1'])->name('verification.send');
 
 
-Route::middleware(['auth', 'verified'])->group(function () {
 Route::get('/donor-files/{path}', [DonorFileController::class, 'show'])->where('path', '.*')->name('donor.files.show');
 
-Route::middleware(['auth'])->group(function () {
+Route::middleware(['auth', 'verified'])->group(function () {
     Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 
     Route::prefix('/donor')->name('donor.')->group(function () {

@@ -147,9 +147,7 @@
                     @enderror
 
                 </div>
-                @if (isset($donor->profile_img))
-                    <p class="text-sm text-primary mt-4">Left: Existing profile | Right: New upload</p>
-                @endif
+
 
                 <!-- Personal Information Section -->
                 <div class="space-y-6">
@@ -210,7 +208,7 @@
 
 
                                 @error('dob')
-                                    <p class="text-red-500 text-sm">{{ $message }}</p>
+                                    <p class="text-red-500 text-sm">Must be over 18</p>
                                 @enderror
                             </div>
                         </div>
@@ -225,21 +223,22 @@
                                 <label class="inline-flex items-center">
                                     <input type="radio" name="gender" value="Male"
                                         class="h-4 w-4 text-accent focus:ring-accent"
-                                        {{ optional($donor)->gender === 'Male' ? 'checked' : '' }}>
+                                        {{ old('gender', optional($donor)->gender) === 'Male' ? 'checked' : '' }}>
                                     <span class="ml-2 text-primary">Male</span>
                                 </label>
                                 <label class="inline-flex items-center">
                                     <input type="radio" name="gender" value="Female"
                                         class="h-4 w-4 text-accent focus:ring-accent"
-                                        {{ optional($donor)->gender === 'Female' ? 'checked' : '' }}>
+                                        {{ old('gender', optional($donor)->gender) === 'Female' ? 'checked' : '' }}>
                                     <span class="ml-2 text-primary">Female</span>
                                 </label>
                             </div>
+                            @error('gender')
+                                <p class="text-red-500 text-sm">{{ $message }}</p>
+                            @enderror
                         </div>
 
-                        @error('gender')
-                            <p class="text-red-500 text-sm">{{ $message }}</p>
-                        @enderror
+
 
                         <!-- Blood Type -->
                         <div class="space-y-2">
@@ -329,7 +328,7 @@
                             </label>
                             <select id="nrc-township" name="nrc-township"
                                 class="w-full px-3 py-3 border border-secondary-light rounded-lg input-focus focus:ring-2 focus:ring-accent focus:border-accent outline-none bg-background">
-                                <option value="" disabled>Select</option>
+                                <option value="" disabled selected>Select</option>
                             </select>
                         </div>
 
@@ -340,13 +339,18 @@
                             </label>
                             <select id="nrc-type" name="nrc-type"
                                 class="w-full px-3 py-3 border border-secondary-light rounded-lg input-focus focus:ring-2 focus:ring-accent focus:border-accent outline-none bg-background">
-                                <option value="" disabled {{ empty($nrc_type) ? 'selected' : '' }}>Select
-                                </option>
-                                <option value="N" {{ $nrc_type === 'N' ? 'selected' : '' }}>N</option>
-                                <option value="P" {{ $nrc_type === 'P' ? 'selected' : '' }}>P</option>
-                                <option value="E" {{ $nrc_type === 'E' ? 'selected' : '' }}>E</option>
-                                <option value="A" {{ $nrc_type === 'A' ? 'selected' : '' }}>A</option>
-                                <option value="F" {{ $nrc_type === 'F' ? 'selected' : '' }}>F</option>
+                                <option value="" disabled
+                                    {{ empty(old('nrc-type', $nrc_type ?? '')) ? 'selected' : '' }}>Select</option>
+                                <option value="N"
+                                    {{ old('nrc-type', $nrc_type ?? '') === 'N' ? 'selected' : '' }}>N</option>
+                                <option value="P"
+                                    {{ old('nrc-type', $nrc_type ?? '') === 'P' ? 'selected' : '' }}>P</option>
+                                <option value="E"
+                                    {{ old('nrc-type', $nrc_type ?? '') === 'E' ? 'selected' : '' }}>E</option>
+                                <option value="A"
+                                    {{ old('nrc-type', $nrc_type ?? '') === 'A' ? 'selected' : '' }}>A</option>
+                                <option value="F"
+                                    {{ old('nrc-type', $nrc_type ?? '') === 'F' ? 'selected' : '' }}>F</option>
                             </select>
 
                         </div>

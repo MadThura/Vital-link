@@ -28,7 +28,7 @@ class AuthController extends Controller
 
         Auth::login($user);
 
-        return redirect()->route('donor.complete');
+        return redirect()->route('verification.notice');
     }
 
     public function login()
