@@ -28,7 +28,7 @@ class AuthController extends Controller
         // return redirect('email-verify-waitin-page');
         Auth::login($user);
 
-        return redirect()->route('auth.complete');
+        return redirect()->route('donor.complete');
     }
 
     public function login()
@@ -57,7 +57,7 @@ class AuthController extends Controller
             return redirect()->route('dashboard');
         }
 
-        return redirect()->route('welcome');
+        return redirect()->route('home');
     }
 
     public function logout(Request $request)

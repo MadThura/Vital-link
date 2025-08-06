@@ -17,14 +17,22 @@ Route::post('/register', [AuthController::class, 'registerStore'])->name('regist
 Route::get('/login', [AuthController::class, 'login'])->name('login');
 Route::post('/login', [AuthController::class, 'loginStore'])->name('login');
 
+Route::get('/donor-files/{path}', [DonorFileController::class, 'show'])->where('path', '.*')->name('donor.files.show');
+
 Route::middleware(['auth'])->group(function () {
     Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 
     Route::prefix('/donor')->name('donor.')->group(function () {
         Route::get('/complete', [DonorController::class, 'showCompletionForm'])->name('complete');
         Route::post('/complete', [DonorController::class, 'storeCompletion'])->name('storeComplete');
-        Route::put('/update', [DonorController::class, 'updateCompletion'])->name('upateComplete');
+        Route::put('/update', [DonorController::class, 'updateCompletion'])->name('updateComplete');
     });
+
+    Route::get('/home', function () {
+        return view('home-page', [
+            'donor' => auth()->user()->donor
+        ]);
+    })->name('home');
 });
 
 
@@ -39,6 +47,4 @@ Route::middleware(['auth', 'role:blood_bank_admin'])->group(function () {
             ->name('updateStatus');
         Route::delete('/{donor}/destroy', [AdminDonorController::class, 'destroy'])->name('destroy');
     });
-
-    Route::get('/donor-files/{path}', [DonorFileController::class, 'show'])->where('path', '.*')->name('donor.files.show');
 });

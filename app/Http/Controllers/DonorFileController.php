@@ -19,9 +19,10 @@ class DonorFileController extends Controller
             ->orWhere('health_certificate', 'like', "%$path%")
             ->firstOrFail();
 
-        if ($user->role !== 'blood_bank_admin') {
-            abort(403, 'Unauthorized');
-        }
+
+        // if ($user->role !== 'blood_bank_admin' || $user->id !== $donor->user_id) {
+        //     abort(403, 'Unauthorized');
+        // }
 
         if (!Storage::disk('local')->exists($path)) {
             abort(404, 'File not found.');

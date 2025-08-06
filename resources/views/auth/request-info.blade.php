@@ -1,4 +1,17 @@
 @props(['donor' => null])
+@php
+    $nrc = $donor->nrc ?? '';
+    $nrc_state = $nrc_township = $nrc_type = $nrc_number = null;
+
+    if (preg_match('/^(\d{1,2})\/([A-Z][a-zA-Z]+)\(([A-Z])\)(\d{6})$/', $nrc, $matches)) {
+        $nrc_state = str_pad($matches[1], 2, '0', STR_PAD_LEFT); // e.g., "10"
+        $nrc_township = $matches[2]; // e.g., "MaDaNa"
+        $nrc_type = $matches[3]; // e.g., "E"
+        $nrc_number = $matches[4]; // e.g., "575777"
+    }
+
+@endphp
+
 
 <!DOCTYPE html>
 <html lang="en">
@@ -93,7 +106,7 @@
 
             <!-- Form -->
             <form class="p-8 space-y-8"
-                action="{{ $donor ? route('auth.storeComplete') : route('auth.storeComplete') }}" method="POST"
+                action="{{ $donor ? route('donor.updateComplete') : route('donor.storeComplete') }}" method="POST"
                 enctype="multipart/form-data">
                 @csrf
                 @if ($donor)
@@ -102,41 +115,39 @@
                     @method('POST')
                 @endif
                 <!-- Profile Picture Section -->
-                <div class="flex items-center space-x-6">
-                    <!-- Existing Profile Image -->
-                    @if (isset($donor['profile_img']))
+                <div class="flex flex-col items-center">
+                    <div class="flex items-center space-x-6">
+                        @if (isset($donor->profile_img))
+                            <div class="relative">
+                                <div class="profile-preview"
+                                    style="background-image: url('/donor-files/{{ $donor->profile_img }}')"></div>
+                                <div
+                                    class="absolute bottom-0 right-0 bg-primary text-white text-xs px-2 py-1 rounded-full">
+                                    Existing</div>
+                            </div>
+                        @endif
                         <div class="relative">
-                            <div class="profile-preview" style="background-image: url('{{ $donor['profile_img'] }}')">
+                            <div id="profile-preview"
+                                class="profile-preview bg-secondary-light flex items-center justify-center">
+                                <i class="fas fa-user text-4xl text-white"></i>
                             </div>
-                            <div class="absolute bottom-0 right-0 bg-primary text-white text-xs px-2 py-1 rounded-full">
-                                Existing
-                            </div>
+                            <label for="profile_img"
+                                class="absolute bottom-0 right-0 bg-accent text-white p-2 rounded-full cursor-pointer hover:bg-accent-dark transition">
+                                <i class="fas fa-camera"></i>
+                                <input id="profile_img" type="file" name="profile_img" class="hidden"
+                                    accept="image/png, image/jpeg" />
+                            </label>
                         </div>
-                    @endif
-
-                    <!-- New Profile Image Upload & Preview -->
-                    <div class="relative">
-                        <div id="profile-preview"
-                            class="profile-preview bg-secondary-light flex items-center justify-center">
-                            <i class="fas fa-user text-4xl text-white"></i>
-                        </div>
-                        <label for="profile_img"
-                            class="absolute bottom-0 right-0 bg-accent text-white p-2 rounded-full cursor-pointer hover:bg-accent-dark transition"
-                            aria-label="Upload profile image">
-                            <i class="fas fa-camera"></i>
-                            <input id="profile_img" type="file" name="profile_img" class="hidden" />
-
-                        </label>
-
                     </div>
+                    @if (isset($donor->profile_img))
+                        <p class="text-sm text-primary mt-4">Left: Existing profile | Right: New upload</p>
+                    @endif
                     @error('profile_img')
                         <p class="text-red-500 text-sm">{{ $message }}</p>
                     @enderror
 
                 </div>
-                @if (isset($donor['profile_img']))
-                    <p class="text-sm text-primary mt-4">Left: Existing profile | Right: New upload</p>
-                @endif
+
 
                 <!-- Personal Information Section -->
                 <div class="space-y-6">
@@ -156,7 +167,7 @@
                                 </span>
                                 <input id="name" type="text" name="fullname"
                                     class="w-full pl-10 pr-3 py-3 border border-secondary-light rounded-lg outline-none bg-background "
-                                    value="{{ auth()->user()->name }}" disabled >
+                                    value="{{ auth()->user()->name }}" disabled>
                             </div>
                         </div>
                         @error('fullname')
@@ -174,7 +185,7 @@
                                 </span>
                                 <input id="phone" type="tel" name="phone" placeholder="09XXXXXXXX"
                                     class="w-full pl-10 pr-3 py-3 border border-secondary-light rounded-lg input-focus focus:ring-2 focus:ring-accent focus:border-accent outline-none bg-background"
-                                    value={{ old('phone') }}>
+                                    value="{{ $donor ? $donor->phone : old('phone') }}">
                                 @error('phone')
                                     <p class="text-red-500 text-sm">{{ $message }}</p>
                                 @enderror
@@ -192,9 +203,12 @@
                                     <i class="fas fa-calendar-alt"></i>
                                 </span>
                                 <input id="dob" type="date" name="dob"
-                                    class="w-full pl-10 pr-3 py-3 border border-secondary-light rounded-lg input-focus focus:ring-2 focus:ring-accent focus:border-accent outline-none bg-background appearance-none">
+                                    class="w-full pl-10 pr-3 py-3 border border-secondary-light rounded-lg input-focus focus:ring-2 focus:ring-accent focus:border-accent outline-none bg-background appearance-none"
+                                    value="{{ $donor ? $donor->dob : old('dob') }}">
+
+
                                 @error('dob')
-                                    <p class="text-red-500 text-sm">{{ $message }}</p>
+                                    <p class="text-red-500 text-sm">Must be over 18</p>
                                 @enderror
                             </div>
                         </div>
@@ -208,20 +222,23 @@
                             <div class="flex space-x-6 pt-2">
                                 <label class="inline-flex items-center">
                                     <input type="radio" name="gender" value="Male"
-                                        class="h-4 w-4 text-accent focus:ring-accent" checked>
+                                        class="h-4 w-4 text-accent focus:ring-accent"
+                                        {{ old('gender', optional($donor)->gender) === 'Male' ? 'checked' : '' }}>
                                     <span class="ml-2 text-primary">Male</span>
                                 </label>
                                 <label class="inline-flex items-center">
                                     <input type="radio" name="gender" value="Female"
-                                        class="h-4 w-4 text-accent focus:ring-accent">
+                                        class="h-4 w-4 text-accent focus:ring-accent"
+                                        {{ old('gender', optional($donor)->gender) === 'Female' ? 'checked' : '' }}>
                                     <span class="ml-2 text-primary">Female</span>
                                 </label>
-
                             </div>
+                            @error('gender')
+                                <p class="text-red-500 text-sm">{{ $message }}</p>
+                            @enderror
                         </div>
-                        @error('gender')
-                            <p class="text-red-500 text-sm">{{ $message }}</p>
-                        @enderror
+
+
 
                         <!-- Blood Type -->
                         <div class="space-y-2">
@@ -234,16 +251,20 @@
                                 </span>
                                 <select id="blood_type" name="blood_type"
                                     class="w-full pl-10 pr-3 py-3 border border-secondary-light rounded-lg input-focus focus:ring-2 focus:ring-accent focus:border-accent outline-none bg-background appearance-none">
-                                    <option value="" disabled selected>Select your blood type</option>
-                                    <option value="A+">A+</option>
-                                    <option value="A-">A-</option>
-                                    <option value="B+">B+</option>
-                                    <option value="B-">B-</option>
-                                    <option value="AB+">AB+</option>
-                                    <option value="AB-">AB-</option>
-                                    <option value="O+">O+</option>
-                                    <option value="O-">O-</option>
+
+                                    <option value="" disabled
+                                        {{ old('blood_type', $donor->blood_type ?? '') == '' ? 'selected' : '' }}>
+                                        Select your blood type
+                                    </option>
+
+                                    @foreach (['A+', 'A-', 'B+', 'B-', 'AB+', 'AB-', 'O+', 'O-'] as $type)
+                                        <option value="{{ $type }}"
+                                            {{ old('blood_type', $donor->blood_type ?? '') == $type ? 'selected' : '' }}>
+                                            {{ $type }}
+                                        </option>
+                                    @endforeach
                                 </select>
+
                             </div>
                             @error('blood_type')
                                 <p class="text-red-500 text-sm">{{ $message }}</p>
@@ -261,7 +282,7 @@
                                     <i class="fas fa-map-marker-alt"></i>
                                 </span>
                                 <textarea id="address" rows="3" name ="address" placeholder="Your full address"
-                                    class="w-full pl-10 pr-3 py-3 border border-secondary-light rounded-lg input-focus focus:ring-2 focus:ring-accent focus:border-accent outline-none bg-background"></textarea>
+                                    class="w-full pl-10 pr-3 py-3 border border-secondary-light rounded-lg input-focus focus:ring-2 focus:ring-accent focus:border-accent outline-none bg-background">{{ $donor ? $donor->address : old('address') }}</textarea>
                             </div>
                             @error('address')
                                 <p class="text-red-500 text-sm">{{ $message }}</p>
@@ -270,7 +291,6 @@
 
                     </div>
                 </div>
-
                 <!-- NRC Information Section -->
                 <div class="space-y-6">
                     <h2 class="text-xl font-medium text-primary-dark border-b border-secondary-light pb-2">
@@ -286,16 +306,22 @@
                             </label>
                             <select id="nrc-state" name="nrc-state"
                                 class="w-full px-3 py-3 border border-secondary-light rounded-lg input-focus focus:ring-2 focus:ring-accent focus:border-accent outline-none bg-background">
-                                <option value="" disabled selected>Select</option>
+                                <option value="" disabled
+                                    {{ old('nrc-state', $nrc_state ?? '') == '' ? 'selected' : '' }}>Select</option>
+
                                 @for ($i = 1; $i <= 14; $i++)
-                                    @php $val = $i < 10 ? '0' . $i : (string) $i; @endphp
+                                    @php $val = str_pad($i, 2, '0', STR_PAD_LEFT); @endphp
                                     <option value="{{ $val }}"
-                                        {{ old('nrc-state') == $val ? 'selected' : '' }}>
+                                        {{ old('nrc-state', $nrc_state ?? '') == $val ? 'selected' : '' }}>
                                         {{ $val }}
                                     </option>
                                 @endfor
                             </select>
+                            @error('nrc-state')
+                                <p class="text-red-500 text-[10px]">{{ $message }}</p>
+                            @enderror
                         </div>
+                        
 
                         <!-- Township -->
                         <div class="space-y-2">
@@ -304,17 +330,11 @@
                             </label>
                             <select id="nrc-township" name="nrc-township"
                                 class="w-full px-3 py-3 border border-secondary-light rounded-lg input-focus focus:ring-2 focus:ring-accent focus:border-accent outline-none bg-background">
-                                <option value="" disabled selected>Select</option>
-                                <option value="ABC">ABC</option>
-                                <option value="DEF">DEF</option>
-                                <option value="GHI">GHI</option>
-                                <option value="JKL">JKL</option>
-                                <option value="MNO">MNO</option>
-                                <option value="PQR">PQR</option>
-                                <option value="STU">STU</option>
-                                <option value="VWX">VWX</option>
-                                <option value="YZ">YZ</option>
+                                <option value="" disabled>Select</option>
                             </select>
+                            @error('nrc-township')
+                                <p class="text-red-500 text-[10px]">{{ $message }}</p>
+                            @enderror
                         </div>
 
                         <!-- NRC Type -->
@@ -324,13 +344,23 @@
                             </label>
                             <select id="nrc-type" name="nrc-type"
                                 class="w-full px-3 py-3 border border-secondary-light rounded-lg input-focus focus:ring-2 focus:ring-accent focus:border-accent outline-none bg-background">
-                                <option value="" disabled selected>Select</option>
-                                <option value="N">N</option>
-                                <option value="P">P</option>
-                                <option value="E">E</option>
-                                <option value="A">A</option>
-                                <option value="F">F</option>
+                                <option value="" disabled
+                                    {{ empty(old('nrc-type', $nrc_type ?? '')) ? 'selected' : '' }}>Select</option>
+                                <option value="N"
+                                    {{ old('nrc-type', $nrc_type ?? '') === 'N' ? 'selected' : '' }}>N</option>
+                                <option value="P"
+                                    {{ old('nrc-type', $nrc_type ?? '') === 'P' ? 'selected' : '' }}>P</option>
+                                <option value="E"
+                                    {{ old('nrc-type', $nrc_type ?? '') === 'E' ? 'selected' : '' }}>E</option>
+                                <option value="A"
+                                    {{ old('nrc-type', $nrc_type ?? '') === 'A' ? 'selected' : '' }}>A</option>
+                                <option value="F"
+                                    {{ old('nrc-type', $nrc_type ?? '') === 'F' ? 'selected' : '' }}>F</option>
                             </select>
+                            @error('nrc-type')
+                                <p class="text-red-500 text-[10px]">{{ $message }}</p>
+                            @enderror
+
                         </div>
 
                         <!-- NRC Number -->
@@ -339,28 +369,32 @@
                                 Number
                             </label>
                             <input id="nrc-number" name="nrc-number" type="text" placeholder="123456"
-                                class="w-full px-3 py-3 border border-secondary-light rounded-lg input-focus focus:ring-2 focus:ring-accent focus:border-accent outline-none bg-background">
+                                class="w-full px-3 py-3 border border-secondary-light rounded-lg input-focus focus:ring-2 focus:ring-accent focus:border-accent outline-none bg-background"
+                                value="{{ old('nrc-number', $nrc_number ?? '') }}">
+                            @error('nrc-number')
+                                <p class="text-red-500 text-[10px]">{{ $message }}</p>
+                            @enderror
                         </div>
                     </div>
 
                     <!-- NRC Photos -->
                     <div class="space-y-6">
                         <!-- Existing NRC Photos (side by side) -->
-                        @if (isset($donor['nrc_front']) || isset($donor['nrc_back']))
+                        @if (isset($donor->nrc_front) || isset($donor->nrc_back))
                             <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                                @if (isset($donor['nrc_front']))
+                                @if (isset($donor->nrc_front))
                                     <div class="space-y-2">
                                         <label class="block text-sm font-medium text-primary">NRC Front</label>
                                         <div class="h-40 border border-secondary-light rounded-lg overflow-hidden existing-file"
-                                            style="background: url('{{ $donor['nrc_front'] }}') center/cover no-repeat;">
+                                            style="background: url('/donor-files/{{ $donor->nrc_front }}') center/cover no-repeat;">
                                         </div>
                                     </div>
                                 @endif
-                                @if (isset($donor['nrc_back']))
+                                @if (isset($donor->nrc_back))
                                     <div class="space-y-2">
                                         <label class="block text-sm font-medium text-primary">NRC Back</label>
                                         <div class="h-40 border border-secondary-light rounded-lg overflow-hidden existing-file"
-                                            style="background: url('{{ $donor['nrc_back'] }}') center/cover no-repeat;">
+                                            style="background: url('/donor-files/{{ $donor->nrc_back }}') center/cover no-repeat;">
                                         </div>
                                     </div>
                                 @endif
@@ -371,7 +405,7 @@
                         <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                             <div class="space-y-2">
                                 <label class="block text-sm font-medium text-primary" for="nrc-front">
-                                    @if (isset($donor['nrc_front']))
+                                    @if (isset($donor->nrc_front))
                                         New NRC Front
                                     @else
                                         NRC Front
@@ -385,7 +419,7 @@
                                             class="flex flex-col items-center justify-center pt-8 pb-6 px-4 text-center w-full h-full">
                                             <i class="fas fa-camera text-3xl text-secondary mb-3"></i>
                                             <p class="mb-1 text-sm font-medium text-primary">
-                                                @if (isset($donor['nrc_front']))
+                                                @if (isset($donor->nrc_front))
                                                     Upload new front
                                                 @else
                                                     Upload front
@@ -404,7 +438,7 @@
 
                             <div class="space-y-2">
                                 <label class="block text-sm font-medium text-primary" for="nrc-back">
-                                    @if (isset($donor['nrc_back']))
+                                    @if (isset($donor->nrc_back))
                                         New NRC Back
                                     @else
                                         NRC Back
@@ -418,7 +452,7 @@
                                             class="flex flex-col items-center justify-center pt-8 pb-6 px-4 text-center w-full h-full">
                                             <i class="fas fa-camera text-3xl text-secondary mb-3"></i>
                                             <p class="mb-1 text-sm font-medium text-primary">
-                                                @if (isset($donor['nrc_back']))
+                                                @if (isset($donor->nrc_back))
                                                     Upload new back
                                                 @else
                                                     Upload back
@@ -445,18 +479,18 @@
                     </h2>
 
                     <div class="space-y-4">
-                        @if (isset($donor['health_certificate']))
+                        @if (isset($donor->health_certificate))
                             <div class="space-y-2">
                                 <label class="block text-sm font-medium text-primary">Health Certificate</label>
                                 <div class="h-40 border border-secondary-light rounded-lg overflow-hidden existing-file"
-                                    style="background: url('{{ $donor['health_certificate'] }}') center/cover no-repeat;">
+                                    style="background: url('/donor-files/{{ $donor->health_certificate }}') center/cover no-repeat;">
                                 </div>
                             </div>
                         @endif
 
                         <div class="space-y-2">
                             <label class="block text-sm font-medium text-primary" for="health-certificate">
-                                @if (isset($donor['health_certificate']))
+                                @if (isset($donor->health_certificate))
                                     New Health Certificate
                                 @else
                                     Health Certificate
@@ -470,7 +504,7 @@
                                         class="flex flex-col items-center justify-center pt-8 pb-6 px-4 text-center w-full h-full">
                                         <i class="fas fa-file-medical text-3xl text-secondary mb-3"></i>
                                         <p class="mb-1 text-sm font-medium text-primary">
-                                            @if (isset($donor['health_certificate']))
+                                            @if (isset($donor->health_certificate))
                                                 Upload new certificate
                                             @else
                                                 Upload certificate
@@ -915,23 +949,36 @@
                 "ZaLaNa" // Zalun
             ]
         };
+        const existingTownship = "{{ old('nrc-township', $nrc_township ?? '') }}";
 
-        document.getElementById("nrc-state").addEventListener("change", function() {
-            const state = this.value;
+        function populateTownships(state) {
             const townshipSelect = document.getElementById("nrc-township");
-            townshipSelect.innerHTML = '<option value="" disabled selected>Township</option>';
+            townshipSelect.innerHTML = '<option value="" disabled>Select township</option>';
 
             if (state && stateToTownships[state]) {
                 stateToTownships[state].forEach(township => {
                     const option = document.createElement("option");
                     option.value = township;
                     option.textContent = township;
+                    if (township === existingTownship) {
+                        option.selected = true;
+                    }
                     townshipSelect.appendChild(option);
                 });
             }
+        }
+
+        document.getElementById("nrc-state").addEventListener("change", function() {
+            populateTownships(this.value);
         });
 
-        // Profile picture preview functionality
+        window.addEventListener('DOMContentLoaded', () => {
+            const stateSelect = document.getElementById("nrc-state");
+            if (stateSelect.value) {
+                populateTownships(stateSelect.value);
+            }
+        });
+        // Function to handle file previews
         const profilePicInput = document.getElementById('profile_img');
         const profilePreview = document.getElementById('profile-preview');
 
