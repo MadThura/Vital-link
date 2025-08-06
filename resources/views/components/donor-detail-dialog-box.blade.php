@@ -45,8 +45,8 @@
                             </div>
                             <div class="space-y-3">
                                 <div class="flex justify-between">
-                                    <span class="text-gray-400">Age/Gender:</span>
-                                    <span x-text="selectedDonor.DOB + ' / ' + selectedDonor.gender"
+                                    <span class="text-gray-400">Date of Birth/Gender:</span>
+                                    <span x-text="selectedDonor.dob + ' / ' + selectedDonor.gender"
                                         class="text-white"></span>
                                 </div>
                                 <div class="flex justify-between">
@@ -60,6 +60,10 @@
                                 <div>
                                     <span class="text-gray-400">Address:</span>
                                     <p x-text="selectedDonor.address" class="text-white text-sm mt-1"></p>
+                                </div>
+                                <div class="flex justify-between">
+                                    <span class="text-gray-400">NRC Number: </span>
+                                    <span x-text="selectedDonor.nrc" class="text-white"></span>
                                 </div>
                             </div>
                         </div>

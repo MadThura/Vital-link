@@ -12,7 +12,6 @@ class DonorController extends Controller
 {
     public function showCompletionForm()
     {
-
         $user = auth()->user();
 
         $donor = $user->donor;
@@ -42,11 +41,13 @@ class DonorController extends Controller
             'health_certificate' => ['required', 'file', 'image'],
             'phone' => ['required'],
             'address' => ['required', 'string'],
-            'profile_img' => ['required', 'file', 'image'],
-            'health_certificate' => ['required', 'file', 'image'],
-            'nrc_front' => ['required', 'file', 'image'],
-            'nrc_back' => ['required', 'file', 'image'],
+            'profile_img' => ['required'],
+            'health_certificate' => ['required'],
+            'nrc_front' => ['required'],
+            'nrc_back' => ['required'],
         ]);
+
+        // dd($validated);
 
         $profileImgPath = $request->file('profile_img')->store('donors/profiles', 'local');
         $validated['profile_img'] = $profileImgPath;
@@ -100,47 +101,53 @@ class DonorController extends Controller
             'nrc_back' => ['nullable', 'file', 'image'],
         ]);
 
-        // Handle file uploads conditionally
+        // Update text fields
+        $donor->gender = $validated['gender'];
+        $donor->blood_type = $validated['blood_type'];
+        $donor->dob = $validated['dob'];
+        $donor->phone = $validated['phone'];
+        $donor->address = $validated['address'];
+
+        // File uploads
         if ($request->hasFile('profile_img')) {
             if ($donor->profile_img && Storage::disk('local')->exists($donor->profile_img)) {
                 Storage::disk('local')->delete($donor->profile_img);
             }
-            $validated['profile_img'] = $request->file('profile_img')->store('donors/profiles', 'local');
+            $donor->profile_img = $request->file('profile_img')->store('donors/profiles', 'local');
         }
 
         if ($request->hasFile('health_certificate')) {
             if ($donor->health_certificate && Storage::disk('local')->exists($donor->health_certificate)) {
                 Storage::disk('local')->delete($donor->health_certificate);
             }
-            $validated['health_certificate'] = $request->file('health_certificate')->store('donors/health_certificates', 'local');
+            $donor->health_certificate = $request->file('health_certificate')->store('donors/health_certificates', 'local');
         }
 
         if ($request->hasFile('nrc_front')) {
             if ($donor->nrc_front && Storage::disk('local')->exists($donor->nrc_front)) {
                 Storage::disk('local')->delete($donor->nrc_front);
             }
-            $validated['nrc_front'] = $request->file('nrc_front')->store('donors/nrc', 'local');
+            $donor->nrc_front = $request->file('nrc_front')->store('donors/nrc', 'local');
         }
 
         if ($request->hasFile('nrc_back')) {
             if ($donor->nrc_back && Storage::disk('local')->exists($donor->nrc_back)) {
                 Storage::disk('local')->delete($donor->nrc_back);
             }
-            $validated['nrc_back'] = $request->file('nrc_back')->store('donors/nrc', 'local');
+            $donor->nrc_back = $request->file('nrc_back')->store('donors/nrc', 'local');
         }
 
-        // Optional: rebuild NRC string
-        $validated['nrc'] = $request->input('nrc-state') . '/' .
+        // Rebuild NRC string
+        $donor->nrc = $request->input('nrc-state') . '/' .
             $request->input('nrc-township') . '(' .
             $request->input('nrc-type') . ')' .
             $request->input('nrc-number');
 
-        // Reset rejection reasons and set status
-        $validated['rejection_reasons'] = null;
-        $validated['status'] = 'resubmitted';
+        // Reset rejection reasons and update status
+        // $donor->rejection_reasons = null;
+        $donor->status = 'resubmitted';
 
-        // Update donor with all new fields
-        $donor->update($validated);
+        $donor->save();
 
         return redirect('/')->with('success', 'Donor information updated successfully.');
     }

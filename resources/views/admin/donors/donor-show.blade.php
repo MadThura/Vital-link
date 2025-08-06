@@ -20,7 +20,7 @@
                        outline-none focus:border-cyan-400 focus:ring-2 focus:ring-cyan-400/30 transition-all
                        hover:bg-gray-700/80 shadow-md appearance-none">
                 <option value="">All Status</option>
-                @foreach (['pending', 'approved', 'rejected'] as $status)
+                @foreach (['pending', 'approved', 'rejected', 'suspended', 'resubmitted'] as $status)
                     <option value="{{ $status }}" {{ request('status') === $status ? 'selected' : '' }}>
                         {{ ucfirst($status) }}
                     </option>
@@ -93,6 +93,8 @@
                                 @elseif ($donor->status === 'approved' || $donor->status === 'suspended' || $donor->status === 'rejected')
                                     <span class="status-badge {{ $donor->status }}">{{ $donor->status }} by
                                         {{ $donor->bloodBank->name }} </span>
+                                @elseif($donor->status === 'resubmitted')
+                                <span class="status-badge {{ $donor->status }}">{{ $donor->status }}</span>
                                 @endif
                             </td>
 
@@ -178,12 +180,30 @@
                                                 hoverColor="rose-500" />
                                         </form>
                                     @endif
+                                    @if ($donor->status === 'resubmitted')
+                                        <form
+                                            action="{{ route('donors.updateStatus', ['donor' => $donor, 'action' => 'approve']) }}"
+                                            method="POST">
+                                            @csrf
+                                            @method('PATCH')
+                                            <x-tooltip-button peerClass="approve" tooltipText="Approve"
+                                                icon="fa-check" hoverColor="emerald-400" />
+                                        </form>
+                                        <form
+                                            action="{{ route('donors.updateStatus', ['donor' => $donor, 'action' => 'reject']) }}"
+                                            method="POST">
+                                            @csrf
+                                            @method('PATCH')
+                                            <x-tooltip-button peerClass="reject" tooltipText="Approve"
+                                                icon="fa-xmark" hoverColor="rose-500" />
+                                        </form>
+                                    @endif
                                 </div>
                             </td>
 
                         </tr>
                     @empty
-                        <p class="text-red-50">No donors</p>
+                        <p class="text-red-50">No donors found</p>
                     @endforelse
 
                 </tbody>

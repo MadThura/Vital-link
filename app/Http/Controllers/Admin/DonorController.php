@@ -30,10 +30,10 @@ class DonorController extends Controller
             case 'reject':
                 $donor->status = 'rejected';
                 $validated = $request->validate([
-                    'reasons' => ['required', 'array'],
+                    'reasons' => ['nullable', 'array'],
                     'reasons.*' => ['string'],
                 ]);
-                $donor->rejection_reasons = $validated['reasons'];
+                // $donor->rejection_reasons = $validated['reasons'];
                 break;
             case 'suspend':
                 $donor->status = 'suspended';
