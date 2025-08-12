@@ -1,163 +1,58 @@
-<!DOCTYPE html>
-<html lang="en" x-data="{ showBloodDialog: false }">
-
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>VitalLink | Blood Donation Network</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <!-- Add Alpine JS -->
-    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
-    <script>
-        tailwind.config = {
-            theme: {
-                extend: {
-                    colors: {
-                        blood: {
-                            50: '#fff5f5',
-                            100: '#fed7d7',
-                            200: '#feb2b2',
-                            300: '#fc8181',
-                            400: '#f56565',
-                            500: '#e53e3e',
-                            600: '#c53030',
-                            700: '#9b2c2c',
-                            800: '#822727',
-                            900: '#63171b',
-                        },
-                        dark: {
-                            800: '#1a1a1a',
-                            900: '#0d0d0d',
-                        }
-                    },
-                    animation: {
-                        'pulse-slow': 'pulse 6s cubic-bezier(0.4, 0, 0.6, 1) infinite',
-                        'heartbeat': 'heartbeat 1.5s ease-in-out infinite',
-                    },
-                    keyframes: {
-                        heartbeat: {
-                            '0%, 100%': {
-                                transform: 'scale(1)'
-                            },
-                            '50%': {
-                                transform: 'scale(1.1)'
-                            },
-                        }
-                    }
-                }
-            }
-        }
-    </script>
-</head>
-
-<body class="bg-dark-900 text-gray-200 min-h-screen font-sans overflow-x-hidden">
+<x-home-layout :donor="$donor ?? null">
     <!-- Blood droplet background elements -->
-    <div class="fixed -z-10 inset-0 overflow-hidden opacity-20">
-        <div class="absolute top-1/4 left-1/4 w-64 h-64 bg-blood-700 rounded-full filter blur-3xl animate-pulse-slow">
-        </div>
-        <div
-            class="absolute top-1/3 right-1/4 w-96 h-96 bg-blood-800 rounded-full filter blur-3xl animate-pulse-slow animation-delay-2000">
-        </div>
-        <div
-            class="absolute bottom-1/4 right-1/3 w-80 h-80 bg-blood-600 rounded-full filter blur-3xl animate-pulse-slow animation-delay-4000">
-        </div>
+    <div class="fixed -z-10 inset-0 overflow-hidden opacity-20 ">
+        <div class="absolute top-1/4 left-1/4 w-64 h-64 bg-red-700 rounded-full filter blur-3xl opacity-70"></div>
+        <div class="absolute top-1/3 right-1/4 w-96 h-96 bg-red-800 rounded-full filter blur-3xl opacity-70"></div>
+        <div class="absolute bottom-1/4 right-1/3 w-80 h-80 bg-red-600 rounded-full filter blur-3xl opacity-70"></div>
     </div>
-
-    <!-- Navigation -->
-    <nav class="border-b border-blood-900 bg-dark-900 bg-opacity-90 backdrop-blur-sm">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="flex items-center justify-between h-16">
-                <div class="flex items-center">
-                    <div class="flex-shrink-0 flex items-center">
-                        <i class="fas fa-heartbeat text-blood-500 text-2xl mr-2 animate-heartbeat"></i>
-                        <span
-                            class="text-2xl font-bold bg-gradient-to-r from-blood-400 to-blood-600 bg-clip-text text-transparent">VitalLink</span>
-                    </div>
-                    <div class="hidden md:block">
-                        <div class="ml-10 flex items-baseline space-x-4">
-                            <a href="#"
-                                class="text-blood-400 hover:text-blood-300 px-3 py-2 rounded-md text-sm font-medium">Home</a>
-                            <a href="#"
-                                class="text-gray-300 hover:text-white px-3 py-2 rounded-md text-sm font-medium">About</a>
-                            <a href="#"
-                                class="text-gray-300 hover:text-white px-3 py-2 rounded-md text-sm font-medium">Contact</a>
-                        </div>
-                    </div>
-                </div>
-                <div class="hidden md:block">
-                    <div class="ml-4 flex items-end md:ml-6 space-x-3">
-                        <a href="/login"
-                            class="bg-dark-800 hover:bg-blood-900 text-white px-4 py-2 rounded-md text-sm font-medium transition duration-300 border border-blood-800">
-                            Log In
-                        </a>
-                        <form action="{{ route('logout') }}" method="post">
-                            @csrf
-                            <button type="submit"
-                                class="bg-dark-800 hover:bg-blood-900 text-white px-4 py-2 rounded-md text-sm font-medium transition duration-300 border border-blood-800">
-                                Logout
-                            </button>
-                        </form>
-                    </div>
-                </div>
-                <div class="-mr-2 flex md:hidden">
-                    <button type="button"
-                        class="inline-flex items-center justify-center p-2 rounded-md text-gray-400 hover:text-white hover:bg-blood-900 focus:outline-none">
-                        <span class="sr-only">Open main menu</span>
-                        <svg class="block h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
-                            stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                d="M4 6h16M4 12h16M4 18h16" />
-                        </svg>
-                    </button>
-                </div>
-            </div>
-        </div>
-    </nav>
-
     <!-- Hero Section -->
-    <main class="mt-10 mx-auto max-w-7xl px-4 sm:mt-12 sm:px-6 md:mt-16 lg:mt-20 lg:px-8 xl:mt-28">
-        <div class="sm:text-center lg:text-left">
+    <main class="pt-20 mt-10 mx-auto max-w-7xl px-4 sm:mt-12 sm:px-6 md:mt-16 lg:mt-20 lg:px-8 xl:mt-28">
+        <div class="sm:text-center lg:text-left ">
             <h1 class="text-4xl tracking-tight font-extrabold text-white sm:text-5xl md:text-6xl">
                 <span class="block">Donate Blood,</span>
-                <span class="block bg-gradient-to-r from-blood-400 to-blood-600 bg-clip-text text-transparent">Save
+                <span class="block bg-gradient-to-r from-red-400 to-red-600 bg-clip-text text-transparent">Save
                     Lives</span>
             </h1>
-            <p
-                class="mt-3 text-base text-gray-300 sm:mt-5 sm:text-lg sm:max-w-xl sm:mx-auto md:mt-5 md:text-xl lg:mx-0">
+            <p class="mt-3 text-base text-gray-300 sm:mt-5 sm:text-lg sm:max-w-xl sm:mx-auto md:mt-5 md:text-xl lg:mx-0">
                 Join our network of heroes. Every donation can save up to 3 lives. Become a life-saver today.
             </p>
             <div class="mt-5 sm:mt-8 sm:flex sm:justify-center lg:justify-start space-y-3 sm:space-y-0 sm:space-x-4">
-                <div class="rounded-md shadow-lg shadow-blood-900/30">
+                <div class="rounded-md shadow-lg shadow-red-900/30">
                     <a href="/register"
-                        class="w-full flex items-center justify-center px-8 py-3 border border-transparent text-base font-medium rounded-md text-white bg-gradient-to-r from-blood-500 to-blood-700 hover:from-blood-600 hover:to-blood-800 md:py-4 md:text-lg md:px-10 transition duration-300">
+                        class="w-full flex items-center justify-center px-8 py-3 border border-transparent text-base font-medium rounded-md text-white bg-gradient-to-r from-red-500 to-red-700 hover:from-red-600 hover:to-red-800 md:py-4 md:text-lg md:px-10 transition duration-300">
                         <i class="fas fa-heart mr-2"></i> Become a Donor
                     </a>
                 </div>
                 <div class="rounded-md shadow">
-                    <button @click="showBloodDialog = true"
-                        class="w-full flex items-center justify-center px-8 py-3 border border-blood-800 text-base font-medium rounded-md text-blood-300 bg-dark-800 hover:bg-blood-900 md:py-4 md:text-lg md:px-10 transition duration-300">
-                        <i class="fas fa-droplet mr-2"></i> Find Blood
-                    </button>
+                    <div x-data="{ showContact: false }" class="relative">
+                        <!-- Contact Button -->
+                        <button @click="showContact = true"
+                            class="w-full flex items-center justify-center px-8 py-3 border border-red-800 text-base font-medium rounded-md text-red-300 bg-gray-800 hover:bg-red-900 md:py-4 md:text-lg md:px-10 transition duration-300">
+                            <i class="fas fa-droplet mr-2"></i> Request Acces for ward operator account
+                        </button>
+                        <!-- Modal Overlay -->
+                        <x-contact-dialog/>
+                    </div>
+                    
                 </div>
             </div>
 
             <!-- Stats -->
             <div class="mt-12 grid grid-cols-2 gap-8 sm:grid-cols-4">
                 <div class="text-center">
-                    <div class="text-4xl font-bold text-blood-400">10K+</div>
+                    <div class="text-4xl font-bold text-red-400">10K+</div>
                     <div class="mt-2 text-sm font-medium text-gray-400 uppercase tracking-wider">Donations</div>
                 </div>
                 <div class="text-center">
-                    <div class="text-4xl font-bold text-blood-400">3K+</div>
+                    <div class="text-4xl font-bold text-red-400">3K+</div>
                     <div class="mt-2 text-sm font-medium text-gray-400 uppercase tracking-wider">Lives Saved</div>
                 </div>
                 <div class="text-center">
-                    <div class="text-4xl font-bold text-blood-400">500+</div>
+                    <div class="text-4xl font-bold text-red-400">500+</div>
                     <div class="mt-2 text-sm font-medium text-gray-400 uppercase tracking-wider">Partners</div>
                 </div>
                 <div class="text-center">
-                    <div class="text-4xl font-bold text-blood-400">24/7</div>
+                    <div class="text-4xl font-bold text-red-400">24/7</div>
                     <div class="mt-2 text-sm font-medium text-gray-400 uppercase tracking-wider">Support</div>
                 </div>
             </div>
@@ -165,10 +60,10 @@
     </main>
 
     <!-- Blood Types Section -->
-    <section class="py-12 bg-dark-800 bg-opacity-50 backdrop-blur-sm mt-20">
+    <section class="py-12 bg-gray-800 bg-opacity-50 backdrop-blur-sm mt-20">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="lg:text-center">
-                <h2 class="text-base text-blood-400 font-semibold tracking-wide uppercase">Blood Types</h2>
+                <h2 class="text-base text-red-400 font-semibold tracking-wide uppercase">Blood Types</h2>
                 <p class="mt-2 text-3xl leading-8 font-extrabold tracking-tight text-white sm:text-4xl">
                     All Blood Types Are Needed
                 </p>
@@ -180,38 +75,38 @@
             <div class="mt-10">
                 <div class="grid grid-cols-2 md:grid-cols-4 gap-6">
                     <!-- O+ -->
-                    <div class="bg-dark-800 p-6 rounded-lg border-l-4 border-blood-500">
-                        <div class="text-3xl font-bold text-blood-400">O+</div>
+                    <div class="bg-gray-800 p-6 rounded-lg border-l-4 border-red-500">
+                        <div class="text-3xl font-bold text-red-400">O+</div>
                         <div class="mt-2 text-gray-300">37% of population</div>
-                        <div class="mt-4 h-2 bg-dark-700 rounded-full">
-                            <div class="h-2 bg-blood-500 rounded-full" style="width: 37%"></div>
+                        <div class="mt-4 h-2 bg-gray-700 rounded-full">
+                            <div class="h-2 bg-red-500 rounded-full" style="width: 37%"></div>
                         </div>
                     </div>
 
                     <!-- A+ -->
-                    <div class="bg-dark-800 p-6 rounded-lg border-l-4 border-blood-500">
-                        <div class="text-3xl font-bold text-blood-400">A+</div>
+                    <div class="bg-gray-800 p-6 rounded-lg border-l-4 border-red-500">
+                        <div class="text-3xl font-bold text-red-400">A+</div>
                         <div class="mt-2 text-gray-300">36% of population</div>
-                        <div class="mt-4 h-2 bg-dark-700 rounded-full">
-                            <div class="h-2 bg-blood-500 rounded-full" style="width: 36%"></div>
+                        <div class="mt-4 h-2 bg-gray-700 rounded-full">
+                            <div class="h-2 bg-red-500 rounded-full" style="width: 36%"></div>
                         </div>
                     </div>
 
                     <!-- B+ -->
-                    <div class="bg-dark-800 p-6 rounded-lg border-l-4 border-blood-500">
-                        <div class="text-3xl font-bold text-blood-400">B+</div>
+                    <div class="bg-gray-800 p-6 rounded-lg border-l-4 border-red-500">
+                        <div class="text-3xl font-bold text-red-400">B+</div>
                         <div class="mt-2 text-gray-300">9% of population</div>
-                        <div class="mt-4 h-2 bg-dark-700 rounded-full">
-                            <div class="h-2 bg-blood-500 rounded-full" style="width: 9%"></div>
+                        <div class="mt-4 h-2 bg-gray-700 rounded-full">
+                            <div class="h-2 bg-red-500 rounded-full" style="width: 9%"></div>
                         </div>
                     </div>
 
                     <!-- AB+ -->
-                    <div class="bg-dark-800 p-6 rounded-lg border-l-4 border-blood-500">
-                        <div class="text-3xl font-bold text-blood-400">AB+</div>
+                    <div class="bg-gray-800 p-6 rounded-lg border-l-4 border-red-500">
+                        <div class="text-3xl font-bold text-red-400">AB+</div>
                         <div class="mt-2 text-gray-300">3% of population</div>
-                        <div class="mt-4 h-2 bg-dark-700 rounded-full">
-                            <div class="h-2 bg-blood-500 rounded-full" style="width: 3%"></div>
+                        <div class="mt-4 h-2 bg-gray-700 rounded-full">
+                            <div class="h-2 bg-red-500 rounded-full" style="width: 3%"></div>
                         </div>
                     </div>
                 </div>
@@ -223,7 +118,7 @@
     <section class="py-12 mt-20">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="lg:text-center">
-                <h2 class="text-base text-blood-400 font-semibold tracking-wide uppercase">Testimonials</h2>
+                <h2 class="text-base text-red-400 font-semibold tracking-wide uppercase">Testimonials</h2>
                 <p class="mt-2 text-3xl leading-8 font-extrabold tracking-tight text-white sm:text-4xl">
                     Stories from Our Donors
                 </p>
@@ -231,15 +126,15 @@
 
             <div class="mt-10 grid grid-cols-1 md:grid-cols-3 gap-8">
                 <!-- Testimonial 1 -->
-                <div class="bg-dark-800 p-6 rounded-lg border-t-4 border-blood-500">
+                <div class="bg-gray-800 p-6 rounded-lg border-t-4 border-red-500">
                     <div class="flex items-center">
                         <div
-                            class="flex-shrink-0 h-12 w-12 rounded-full bg-blood-900 flex items-center justify-center text-blood-400">
+                            class="flex-shrink-0 h-12 w-12 rounded-full bg-red-900 flex items-center justify-center text-red-400">
                             <i class="fas fa-user text-xl"></i>
                         </div>
                         <div class="ml-4">
                             <div class="text-lg font-medium text-white">Sarah Johnson</div>
-                            <div class="text-blood-400">Regular Donor</div>
+                            <div class="text-red-400">Regular Donor</div>
                         </div>
                     </div>
                     <div class="mt-4 text-gray-300">
@@ -249,15 +144,15 @@
                 </div>
 
                 <!-- Testimonial 2 -->
-                <div class="bg-dark-800 p-6 rounded-lg border-t-4 border-blood-500">
+                <div class="bg-gray-800 p-6 rounded-lg border-t-4 border-red-500">
                     <div class="flex items-center">
                         <div
-                            class="flex-shrink-0 h-12 w-12 rounded-full bg-blood-900 flex items-center justify-center text-blood-400">
+                            class="flex-shrink-0 h-12 w-12 rounded-full bg-red-900 flex items-center justify-center text-red-400">
                             <i class="fas fa-user text-xl"></i>
                         </div>
                         <div class="ml-4">
                             <div class="text-lg font-medium text-white">Michael Chen</div>
-                            <div class="text-blood-400">First-Time Donor</div>
+                            <div class="text-red-400">First-Time Donor</div>
                         </div>
                     </div>
                     <div class="mt-4 text-gray-300">
@@ -267,15 +162,15 @@
                 </div>
 
                 <!-- Testimonial 3 -->
-                <div class="bg-dark-800 p-6 rounded-lg border-t-4 border-blood-500">
+                <div class="bg-gray-800 p-6 rounded-lg border-t-4 border-red-500">
                     <div class="flex items-center">
                         <div
-                            class="flex-shrink-0 h-12 w-12 rounded-full bg-blood-900 flex items-center justify-center text-blood-400">
+                            class="flex-shrink-0 h-12 w-12 rounded-full bg-red-900 flex items-center justify-center text-red-400">
                             <i class="fas fa-user text-xl"></i>
                         </div>
                         <div class="ml-4">
                             <div class="text-lg font-medium text-white">David Wilson</div>
-                            <div class="text-blood-400">Recipient's Father</div>
+                            <div class="text-red-400">Recipient's Father</div>
                         </div>
                     </div>
                     <div class="mt-4 text-gray-300">
@@ -286,6 +181,7 @@
             </div>
         </div>
     </section>
+<<<<<<< HEAD
 
     <!-- Call to Action -->
     <section class="bg-gradient-to-r from-blood-800 to-blood-900 py-12 mt-20">
@@ -686,3 +582,6 @@
 </body>
 
 </html>
+=======
+</x-home-layout>
+>>>>>>> 707570c022e7380119d6de39260c017badf31646

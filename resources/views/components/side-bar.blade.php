@@ -1,5 +1,4 @@
-<aside
-    class="w-[15%] bg-gradient-to-b from-gray-900 to-gray-800 border-r border-gray-700  flex flex-col justify-between">
+<aside class="w-[15%] bg-gradient-to-b from-gray-900 to-gray-800 border-r border-gray-700 flex flex-col justify-between">
     <div>
         <div class="text-center mb-8">
             <img src="/images/logo.png" alt="RedLink Logo" class="w-[100px] h-[100px] object-contain rounded-lg mx-auto">
@@ -18,34 +17,36 @@
                         </div>
                         <div>
                             <p class="text-sm font-medium text-gray-300 group-hover:text-cyan-400 transition-colors">
-                                {{auth()->user()->name}}</p>
-                            <p class="text-xs text-gray-500 group-hover:text-gray-400 transition-colors">{{auth()->user()->role}}</p>
+                                {{ auth()->user()->name }}</p>
+                            <p class="text-xs text-gray-500 group-hover:text-gray-400 transition-colors">
+                                {{ auth()->user()->role }}</p>
                         </div>
                     </div>
                 </div>
             </a>
             <a href="{{ route('dashboard') }}"
-                class="no-underline text-gray-300 text-sm py-3 px-4 rounded-lg flex items-center gap-3 hover:bg-gray-700/50 hover:text-cyan-400 transition-all group border-l-4 border-transparent hover:border-cyan-400">
-                <i class="fa-solid fa-house text-gray-400 group-hover:text-cyan-400 text-base transition-colors"></i>
+                class="no-underline text-gray-300 text-sm py-3 px-4 rounded-lg flex items-center gap-3 hover:bg-gray-700/50 hover:text-cyan-400 transition-all group border-l-4 {{ request()->routeIs('dashboard') ? 'border-cyan-400 bg-gray-700/50 text-cyan-400' : 'border-transparent' }}">
+                <i
+                    class="fa-solid fa-house text-gray-400 {{ request()->routeIs('dashboard') ? 'text-cyan-400' : 'group-hover:text-cyan-400' }} text-base transition-colors"></i>
                 <span class="group-hover:translate-x-1 transition-transform">Dashboard</span>
             </a>
             <a href="{{ route('donors.index') }}"
-                class="no-underline text-gray-300 text-sm py-3 px-4 rounded-lg flex items-center gap-3 hover:bg-gray-700/50 hover:text-purple-400 transition-all group border-l-4 border-transparent hover:border-purple-400">
+                class="no-underline text-gray-300 text-sm py-3 px-4 rounded-lg flex items-center gap-3 hover:bg-gray-700/50 hover:text-purple-400 transition-all group border-l-4 {{ request()->routeIs('donors.*') ? 'border-purple-400 bg-gray-700/50 text-purple-400' : 'border-transparent' }}">
                 <i
-                    class="fa-solid fa-user-check text-gray-400 group-hover:text-purple-400 text-base transition-colors"></i>
+                    class="fa-solid fa-user-check text-gray-400 {{ request()->routeIs('donors.*') ? 'text-purple-400' : 'group-hover:text-purple-400' }} text-base transition-colors"></i>
                 <span class="group-hover:translate-x-1 transition-transform">Donor Management</span>
             </a>
-            <a href="#"
-                class="no-underline text-gray-300 text-sm py-3 px-4 rounded-lg flex items-center gap-3 hover:bg-gray-700/50 hover:text-emerald-400 transition-all group border-l-4 border-transparent hover:border-emerald-400">
+            <a href="{{ route('donation-record') }}"
+                class="no-underline text-gray-300 text-sm py-3 px-4 rounded-lg flex items-center gap-3 hover:bg-gray-700/50 hover:text-emerald-400 transition-all group border-l-4 {{ request()->is('donation-record') ? 'border-emerald-400 bg-gray-700/50 text-emerald-400' : 'border-transparent' }}">
                 <i
-                    class="fa-solid fa-file-medical text-gray-400 group-hover:text-emerald-400 text-base transition-colors"></i>
+                    class="fa-solid fa-file-medical text-gray-400 {{ request()->is('donation-record') ? 'text-emerald-400' : 'group-hover:text-emerald-400' }} text-base transition-colors"></i>
                 <span class="group-hover:translate-x-1 transition-transform">Donation Records</span>
             </a>
-            <a href="#"
+            <a href="/blood-inventory"
                 class="no-underline text-gray-300 text-sm py-3 px-4 rounded-lg flex items-center gap-3 hover:bg-gray-700/50 hover:text-amber-400 transition-all group border-l-4 border-transparent hover:border-amber-400">
                 <i
                     class="fa-solid fa-file-export text-gray-400 group-hover:text-amber-400 text-base transition-colors"></i>
-                <span class="group-hover:translate-x-1 transition-transform">Export Reports</span>
+                <span class="group-hover:translate-x-1 transition-transform">Blood Inventory</span>
             </a>
             <form method="POST" action="{{ route('logout') }}">
                 @csrf
@@ -56,12 +57,13 @@
                     <span class="group-hover:translate-x-1 transition-transform">Logout</span>
                 </button>
             </form>
-
         </nav>
     </div>
 
+
     <footer class="text-sm text-center text-gray-400 border-t border-gray-700 pt-5 mt-5">
-        <p>Role: <strong class="bg-gradient-to-r from-blue-400 to-cyan-400 bg-clip-text text-transparent">{{auth()->user()->role}}</strong>
+        <p>Role: <strong
+                class="bg-gradient-to-r from-blue-400 to-cyan-400 bg-clip-text text-transparent">{{ auth()->user()->role }}</strong>
         </p>
         <p class="text-xs mt-1 text-gray-500">v1.0.1</p>
     </footer>

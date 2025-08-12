@@ -48,3 +48,25 @@ Route::middleware(['auth', 'role:blood_bank_admin'])->group(function () {
         Route::delete('/{donor}/destroy', [AdminDonorController::class, 'destroy'])->name('destroy');
     });
 });
+Route::get('/donation-record', function() {
+    return view('admin.donation-record');
+})->name('donation-record');
+Route::get('/profile', function() {
+    return view('admin.profile');
+});
+Route::get('/test', function() {
+    return view('blog-test');
+});
+Route::get('/blood-inventory', function() {
+    return view('admin.blood-inventory');
+});
+Route::get('/sp', function() {
+    return view('superAdmin.dashboard');
+})->name('sp');
+Route::get('/blog', function() {
+    return view('superAdmin.blog-board');
+})->name('blog');
+Route::get('/oa', function() {
+    return view('superAdmin.operator-admin-show');
+})->name('show');
+
