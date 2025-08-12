@@ -25,22 +25,22 @@
                             </div>
                         </div>
                     </a>
-                    <a href="{{ route('sp') }}"
-                        class="no-underline text-gray-300 text-sm py-3 px-4 rounded-lg flex items-center gap-3 hover:bg-gray-700/50 hover:text-cyan-400 transition-all group border-l-4 {{ request()->routeIs('sp') ? 'border-cyan-400 bg-gray-700/50 text-cyan-400' : 'border-transparent' }}">
+                    <a href="{{ route('super-admin') }}"
+                        class="no-underline text-gray-300 text-sm py-3 px-4 rounded-lg flex items-center gap-3 hover:bg-gray-700/50 hover:text-cyan-400 transition-all group border-l-4 border-cyan-400 bg-gray-700/50}}">
                         <i
-                            class="fa-solid fa-house text-gray-400 {{ request()->routeIs('sp') ? 'text-cyan-400' : 'group-hover:text-cyan-400' }} text-base transition-colors"></i>
+                            class="fa-solid fa-house text-gray-400 group-hover:text-cyan-400 }} text-base transition-colors"></i>
                         <span class="group-hover:translate-x-1 transition-transform">Dashboard</span>
                     </a>
 
-                    <a href="{{ route('blog') }}"
-                        class="no-underline text-gray-300 text-sm py-3 px-4 rounded-lg flex items-center gap-3 hover:bg-gray-700/50 hover:text-cyan-400 transition-all group border-l-4 {{ request()->routeIs('blog') ? 'border-cyan-400 bg-gray-700/50 text-cyan-400' : 'border-transparent' }}">
+                    <a href="{{ route('blog-board') }}"
+                        class="no-underline text-gray-300 text-sm py-3 px-4 rounded-lg flex items-center gap-3 hover:bg-gray-700/50 hover:text-cyan-400 transition-all group border-l-4  border-cyan-400 bg-gray-700/50">
 
                         <i
-                            class="fa-solid fa-blog text-gray-400 {{ request()->routeIs('sp') ? 'text-cyan-400' : 'group-hover:text-cyan-400' }} text-base transition-colors"></i>
+                            class="fa-solid fa-blog text-gray-400 group-hover:text-cyan-400 text-base transition-colors"></i>
                         <span class="group-hover:translate-x-1 transition-transform">Blog Board</span>
                     </a>
-                    <a href="{{ route('show') }}"
-                        class="no-underline text-gray-300 text-sm py-3 px-4 rounded-lg flex items-center gap-3 hover:bg-gray-700/50 hover:text-cyan-400 transition-all group border-l-4 {{ request()->routeIs('show') ? 'border-cyan-400 bg-gray-700/50 text-cyan-400' : 'border-transparent' }}">
+                    <a href="{{ route('user-management') }}"
+                        class="no-underline text-gray-300 text-sm py-3 px-4 rounded-lg flex items-center gap-3 hover:bg-gray-700/50 hover:text-cyan-400 transition-all group border-l-4  border-transparent">
                         <i
                             class="fa-solid fa-square-poll-horizontal text-gray-400 {{ request()->routeIs('show') ? 'text-cyan-400' : 'group-hover:text-cyan-400' }} text-base transition-colors"></i>
                         <span class="group-hover:translate-x-1 transition-transform">User Management</span>
@@ -65,6 +65,7 @@
                 <p class="text-xs mt-1 text-gray-500">v1.0.1</p>
             </footer>
         </aside>
+
         <div class="flex flex-col w-[85%]">
             <!-- Dark Theme Header -->
             <header class="flex items-center justify-between bg-gray-900 shadow-lg p-4">
@@ -120,12 +121,11 @@
                             </span>
                         </button>
 
-                        <x-superadmin-noti/>
+                        <x-superadmin-noti />
                     </div>
                     <!-- Profile Information -->
                     <div class="flex items-center space-x-3 group cursor-pointer">
-                        <div
-                            class="relative h-10 w-10 rounded-full bg-gradient-to-r from-blue-500 to-purple-600 p-0.5">
+                        <div class="relative h-10 w-10 rounded-full bg-gradient-to-r from-blue-500 to-purple-600 p-0.5">
                             <div class="h-full w-full rounded-full bg-gray-800 overflow-hidden border border-gray-700">
                                 <img src="https://randomuser.me/api/portraits/men/32.jpg" alt="Profile"
                                     class="h-full w-full object-cover">
@@ -140,7 +140,7 @@
                     </div>
                 </div>
             </header>
-          
+
             <!-- Blog Dashboard Container -->
             <div
                 class="flex flex-col w-full h-full bg-gradient-to-br from-gray-900 to-gray-800 text-gray-100  p-8 backdrop-blur-sm border border-gray-700/50 overflow-hidden">
@@ -198,8 +198,7 @@
                                     </div>
 
                                     <!-- Event photo -->
-                                    <img src="/images/bg-1.jpg" alt="Upcoming Event"
-                                        class="w-full h-full object-cover">
+                                    <img src="/images/bg-1.jpg" alt="Upcoming Event" class="w-full h-full object-cover">
 
                                     <!-- Content -->
                                     <div class="absolute bottom-0 left-0 z-20 p-6 w-full">
@@ -232,8 +231,7 @@
                                 </div>
                                 <!-- Slide 3 -->
                                 <div class="min-w-full h-full relative rounded-xl overflow-hidden shadow-lg">
-                                    <div
-                                        class="absolute inset-0 bg-gradient-to-r from-blue-900/70 to-cyan-900/70 z-10">
+                                    <div class="absolute inset-0 bg-gradient-to-r from-blue-900/70 to-cyan-900/70 z-10">
                                     </div>
                                     <img src="images/bg-3.jpg" alt="Coding" class="w-full h-full object-cover">
                                     <div class="absolute bottom-0 left-0 z-20 p-6 w-full">
@@ -270,156 +268,63 @@
                             Recent Posts</h2>
                         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                             <!-- Blog Post Card 1 -->
-                            <div x-data="{
-                                showViewDialog: false,
-                                showEditDialog: false,
-                            }"
-                                class="relative group rounded-xl overflow-hidden shadow-lg hover:shadow-xl transition-all duration-300">
-                                <!-- Event photo -->
-                                <img src="/images/bg-2.jpg" alt="Event"
-                                    class="absolute inset-0 w-full h-full object-cover z-0">
+                            @foreach ($blogs as $blog)
+                                <div x-data="{
+                                    showViewDialog: false,
+                                    showEditDialog: false,
+                                }"
+                                    class="relative group rounded-xl overflow-hidden shadow-lg hover:shadow-xl transition-all duration-300">
+                                    <!-- Event photo -->
+                                    <img src="{{ asset('storage/' . $blog->image) }}" alt="Event"
+                                        class="absolute inset-0 w-full h-full object-cover z-0">
 
-                                <!-- Dark overlay on hover -->
-                                <div
-                                    class="absolute inset-0 bg-gradient-to-br from-indigo-900/20 to-purple-900/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300 z-0">
-                                </div>
+                                    <!-- Dark overlay on hover -->
+                                    <div
+                                        class="absolute inset-0 bg-gradient-to-br from-indigo-900/20 to-purple-900/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300 z-0">
+                                    </div>
 
-                                <!-- Card content -->
-                                <div class="relative z-10 p-6 flex flex-col h-full bg-gray-800/40 backdrop-blur-sm">
-                                    <h3
-                                        class="text-xl font-bold text-white mb-3 group-hover:text-indigo-300 transition-colors duration-200">
-                                        2025 Summer Music Trends
-                                    </h3>
-                                    <p class="text-gray-200 text-sm mb-6 flex-grow">
-                                        Explore the hottest music and event styles shaping this summer’s festival
-                                        season.
-                                    </p>
-                                    <div class="flex justify-between items-center text-sm text-white">
-                                        <div class="flex items-center space-x-1">
-                                            <i class="fa-regular fa-clock"></i>
-                                            <span>8 min ago</span>
-                                        </div>
-                                        <div class="flex space-x-2">
-                                            <button @click="showViewDialog = true"
-                                                class="text-white-400 hover:text-indigo-300 transition-colors">
-                                                <i class="fa-solid fa-eye"></i>
-                                            </button>
-                                            <button @click="showEditDialog = true"
-                                                class="text-white hover:text-indigo-300 transition-colors">
-                                                <i class="fa-regular fa-pen-to-square"></i>
-                                            </button>
-                                            <button class="text-white hover:text-indigo-300 transition-colors">
-                                                <i class="fa-solid fa-trash"></i>
-                                            </button>
+                                    <!-- Card content -->
+                                    <div
+                                        class="relative z-10 p-6 flex flex-col h-full bg-gray-800/40 backdrop-blur-sm">
+                                        <h3
+                                            class="text-xl font-bold text-white mb-3 group-hover:text-indigo-300 transition-colors duration-200">
+                                            {{ $blog->title }}
+                                        </h3>
+                                        <p class="text-gray-200 text-sm mb-6 flex-grow">
+                                            {{ $blog->body }}
+                                        </p>
+                                        <div class="flex justify-between items-center text-sm text-white">
+                                            <div class="flex items-center space-x-1">
+                                                <i class="fa-regular fa-clock"></i>
+                                                <span>{{ $blog->created_at->diffForHumans() }}</span>
+                                            </div>
+                                            <div class="flex space-x-2">
+                                                <button @click="showViewDialog = true"
+                                                    class="text-white-400 hover:text-indigo-300 transition-colors">
+                                                    <i class="fa-solid fa-eye"></i>
+                                                </button>
+                                                <button @click="showEditDialog = true"
+                                                    class="text-white hover:text-indigo-300 transition-colors">
+                                                    <i class="fa-regular fa-pen-to-square"></i>
+                                                </button>
+                                                <form action="{{ route('blogs.destroy', $blog) }}" method="POST">
+                                                    @csrf
+                                                    @method('DELETE')
+                                                    <button type="submit"
+                                                        class="text-white hover:text-indigo-300 transition-colors">
+                                                        <i class="fa-solid fa-trash"></i>
+                                                    </button>
+                                                </form>
+                                            </div>
                                         </div>
                                     </div>
+                                    <!-- View Blog Dialog -->
+                                    <x-view-blog-dialog />
+
+                                    <!-- Edit Blog Dialog -->
+                                    <x-edit-blog-dialog />
                                 </div>
-                                <!-- View Blog Dialog -->
-                                <x-view-blog-dialog />
-
-                                <!-- Edit Blog Dialog -->
-                                <x-edit-blog-dialog />
-                            </div>
-
-                            <!-- Blog Post Card 2 -->
-                            <div x-data="{ showViewDialog: false, showEditDialog: false }"
-                                class="relative group rounded-xl overflow-hidden shadow-lg hover:shadow-xl transition-all duration-300">
-                                <!-- Event photo -->
-                                <img src="/images/bg-3.jpg" alt="Event"
-                                    class="absolute inset-0 w-full h-full object-cover z-0">
-
-                                <!-- Dark overlay on hover -->
-                                <div
-                                    class="absolute inset-0 bg-gradient-to-br from-indigo-900/20 to-purple-900/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300 z-0">
-                                </div>
-
-                                <!-- Card content -->
-                                <div class="relative z-10 p-6 flex flex-col h-full bg-gray-800/40 backdrop-blur-sm">
-                                    <h3
-                                        class="text-xl font-bold text-white mb-3 group-hover:text-indigo-300 transition-colors duration-200">
-                                        2025 Summer Music Trends
-                                    </h3>
-                                    <p class="text-gray-200 text-sm mb-6 flex-grow">
-                                        Explore the hottest music and event styles shaping this summer's festival
-                                        season.
-                                    </p>
-                                    <div class="flex justify-between items-center text-sm text-white">
-                                        <div class="flex items-center space-x-1">
-                                            <i class="fa-regular fa-clock"></i>
-                                            <span>8 min ago</span>
-                                        </div>
-                                        <div class="flex space-x-2">
-                                            <button @click="showViewDialog = true"
-                                                class="text-white-400 hover:text-indigo-300 transition-colors">
-                                                <i class="fa-solid fa-eye"></i>
-                                            </button>
-                                            <button @click="showEditDialog = true"
-                                                class="text-white hover:text-indigo-300 transition-colors">
-                                                <i class="fa-regular fa-pen-to-square"></i>
-                                            </button>
-                                            <button class="text-white hover:text-indigo-300 transition-colors">
-                                                <i class="fa-solid fa-trash"></i>
-                                            </button>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <!-- View Blog Dialog -->
-                                <x-view-blog-dialog />
-
-                                <!-- Edit Blog Dialog -->
-                                <x-edit-blog-dialog />
-                            </div>
-
-                            <!-- Blog Post Card 3 -->
-                            <div x-data="{ showViewDialog: false, showEditDialog: false }"
-                                class="relative group rounded-xl overflow-hidden shadow-lg hover:shadow-xl transition-all duration-300">
-                                <!-- Event photo -->
-                                <img src="/images/bg-1.jpg" alt="Event"
-                                    class="absolute inset-0 w-full h-full object-cover z-0">
-
-                                <!-- Dark overlay on hover -->
-                                <div
-                                    class="absolute inset-0 bg-gradient-to-br from-indigo-900/20 to-purple-900/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300 z-0">
-                                </div>
-
-                                <!-- Card content -->
-                                <div class="relative z-10 p-6 flex flex-col h-full bg-gray-800/40 backdrop-blur-sm">
-                                    <h3
-                                        class="text-xl font-bold text-white mb-3 group-hover:text-indigo-300 transition-colors duration-200">
-                                        2025 Summer Music Trends
-                                    </h3>
-                                    <p class="text-gray-200 text-sm mb-6 flex-grow">
-                                        Explore the hottest music and event styles shaping this summer’s festival
-                                        season.
-                                    </p>
-                                    <div class="flex justify-between items-center text-sm text-white">
-                                        <div class="flex items-center space-x-1">
-                                            <i class="fa-regular fa-clock"></i>
-                                            <span>8 min ago</span>
-                                        </div>
-                                        <div class="flex space-x-2">
-                                            <button @click="showViewDialog = true"
-                                                class="text-white-400 hover:text-indigo-300 transition-colors">
-                                                <i class="fa-solid fa-eye"></i>
-                                            </button>
-                                            <button @click="showEditDialog = true"
-                                                class="text-white hover:text-indigo-300 transition-colors">
-                                                <i class="fa-regular fa-pen-to-square"></i>
-                                            </button>
-                                            <button class="text-white hover:text-indigo-300 transition-colors">
-                                                <i class="fa-solid fa-trash"></i>
-                                            </button>
-                                        </div>
-                                    </div>
-                                </div>
-                                <!-- View Blog Dialog -->
-                                <x-view-blog-dialog />
-
-                                <!-- Edit Blog Dialog -->
-                                <x-edit-blog-dialog />
-                            </div>
-
+                            @endforeach
                         </div>
                     </div>
 

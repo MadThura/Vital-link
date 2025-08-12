@@ -12,6 +12,16 @@ use Illuminate\Support\Facades\Storage;
 
 class BlogController extends Controller
 {
+
+    public function index()
+    {
+        $blogs = Blog::latest()->paginate(6);
+
+        return view("superAdmin.blog-board", [
+            'blogs' => $blogs
+        ]);
+    }
+
     public function store(Request $request)
     {
         $user = auth()->user();
@@ -40,5 +50,15 @@ class BlogController extends Controller
         Notification::send($users, new NewBlogUploaded($blog));
 
         return back()->with('success', 'New blog is uploaded successfully.');
+    }
+
+    public function destroy(Blog $blog)
+    {
+
+        Storage::disk('public')->delete($blog->image);
+
+        $blog->delete();
+
+        return back()->with('success', 'Blog deleted successfully.');
     }
 }

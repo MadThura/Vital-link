@@ -25,22 +25,22 @@
                             </div>
                         </div>
                     </a>
-                    <a href="{{ route('sp') }}"
-                        class="no-underline text-gray-300 text-sm py-3 px-4 rounded-lg flex items-center gap-3 hover:bg-gray-700/50 hover:text-cyan-400 transition-all group border-l-4 {{ request()->routeIs('sp') ? 'border-cyan-400 bg-gray-700/50 text-cyan-400' : 'border-transparent' }}">
+                    <a href="{{route('super-admin')}}"
+                        class="no-underline text-gray-300 text-sm py-3 px-4 rounded-lg flex items-center gap-3 hover:bg-gray-700/50 hover:text-cyan-400 transition-all group border-l-4 border-cyan-400 bg-gray-700/50}}">
                         <i
-                            class="fa-solid fa-house text-gray-400 {{ request()->routeIs('sp') ? 'text-cyan-400' : 'group-hover:text-cyan-400' }} text-base transition-colors"></i>
+                            class="fa-solid fa-house text-gray-400 group-hover:text-cyan-400 }} text-base transition-colors"></i>
                         <span class="group-hover:translate-x-1 transition-transform">Dashboard</span>
                     </a>
 
-                    <a href="{{ route('blog') }}"
-                        class="no-underline text-gray-300 text-sm py-3 px-4 rounded-lg flex items-center gap-3 hover:bg-gray-700/50 hover:text-cyan-400 transition-all group border-l-4 {{ request()->routeIs('blog') ? 'border-cyan-400 bg-gray-700/50 text-cyan-400' : 'border-transparent' }}">
+                    <a href="{{route('blog-board')}}"
+                        class="no-underline text-gray-300 text-sm py-3 px-4 rounded-lg flex items-center gap-3 hover:bg-gray-700/50 hover:text-cyan-400 transition-all group border-l-4  border-cyan-400 bg-gray-700/50">
 
                         <i
-                            class="fa-solid fa-blog text-gray-400 {{ request()->routeIs('sp') ? 'text-cyan-400' : 'group-hover:text-cyan-400' }} text-base transition-colors"></i>
+                            class="fa-solid fa-blog text-gray-400 group-hover:text-cyan-400 text-base transition-colors"></i>
                         <span class="group-hover:translate-x-1 transition-transform">Blog Board</span>
                     </a>
-                    <a href="{{ route('show') }}"
-                        class="no-underline text-gray-300 text-sm py-3 px-4 rounded-lg flex items-center gap-3 hover:bg-gray-700/50 hover:text-cyan-400 transition-all group border-l-4 {{ request()->routeIs('show') ? 'border-cyan-400 bg-gray-700/50 text-cyan-400' : 'border-transparent' }}">
+                    <a href="{{route('user-management')}}"
+                        class="no-underline text-gray-300 text-sm py-3 px-4 rounded-lg flex items-center gap-3 hover:bg-gray-700/50 hover:text-cyan-400 transition-all group border-l-4  border-transparent">
                         <i
                             class="fa-solid fa-square-poll-horizontal text-gray-400 {{ request()->routeIs('show') ? 'text-cyan-400' : 'group-hover:text-cyan-400' }} text-base transition-colors"></i>
                         <span class="group-hover:translate-x-1 transition-transform">User Management</span>
@@ -65,6 +65,7 @@
                 <p class="text-xs mt-1 text-gray-500">v1.0.1</p>
             </footer>
         </aside>
+
         <!-- Main Content -->
         <div class="flex flex-col w-[85%] ">
             <!-- Dark Theme Header -->

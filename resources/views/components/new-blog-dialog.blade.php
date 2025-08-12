@@ -24,7 +24,10 @@
         </div>
 
         <!-- Body (scrollable) -->
-        <form class="p-6 overflow-y-auto flex-grow scrollbar-none">
+        <form action="{{ route('blogs.store') }}" class="p-6 overflow-y-auto flex-grow scrollbar-none"
+            enctype="multipart/form-data" method="POST">
+            @csrf
+            @method('post')
             <!-- Featured Image Upload -->
             <div class="mb-6">
                 <label class="block text-sm font-medium text-gray-300 mb-2">Featured
@@ -43,39 +46,39 @@
                     <template x-if="previewImage">
                         <img :src="previewImage" alt="Preview" class="max-h-48 mx-auto rounded-lg object-cover">
                     </template>
-                    <input x-ref="fileInput" @change="handleFileChange" type="file" class="hidden" accept="image/*">
+                    <input x-ref="fileInput" @change="handleFileChange" name="image" type="file" class="hidden"
+                        accept="image/*">
                 </div>
             </div>
 
             <!-- Title -->
             <div class="mb-6">
-                <label for="postTitle" class="block text-sm font-medium text-gray-300 mb-2">Title</label>
-                <input type="text" id="postTitle"
+                <label for="postTitle"  class="block text-sm font-medium text-gray-300 mb-2">Title</label>
+                <input type="text" id="postTitle" name="title" 
                     class="w-full px-4 py-3 bg-gray-700 border border-gray-600 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition-all">
             </div>
 
             <!-- Content -->
             <div class="mb-6">
                 <label for="postContent" class="block text-sm font-medium text-gray-300 mb-2">Content</label>
-                <textarea id="postContent" rows="6"
+                <textarea id="postContent" rows="6" name="body"
                     class="w-full px-4 py-3 bg-gray-700 border border-gray-600 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition-all"></textarea>
             </div>
 
             <!-- Tags -->
-            
+            <div class="bg-gray-800/50 border-t border-gray-700 p-4 flex justify-end space-x-3 flex-shrink-0">
+                <button @click="isOpen = false"
+                    class="px-5 py-2.5 text-sm font-medium text-gray-300 bg-gray-700 hover:bg-gray-600 rounded-lg transition-colors duration-200">
+                    Cancel
+                </button>
+                <button type="submit"
+                    class="px-5 py-2.5 text-sm font-medium text-white bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-500 hover:to-purple-500 rounded-lg transition-all duration-200 shadow-md hover:shadow-indigo-500/30 flex items-center">
+                    <i class="fa-solid fa-paper-plane mr-2"></i>
+                    Publish Post
+                </button>
+            </div>
+
         </form>
 
-        <!-- Footer -->
-        <div class="bg-gray-800/50 border-t border-gray-700 p-4 flex justify-end space-x-3 flex-shrink-0">
-            <button @click="isOpen = false"
-                class="px-5 py-2.5 text-sm font-medium text-gray-300 bg-gray-700 hover:bg-gray-600 rounded-lg transition-colors duration-200">
-                Cancel
-            </button>
-            <button type="submit"
-                class="px-5 py-2.5 text-sm font-medium text-white bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-500 hover:to-purple-500 rounded-lg transition-all duration-200 shadow-md hover:shadow-indigo-500/30 flex items-center">
-                <i class="fa-solid fa-paper-plane mr-2"></i>
-                Publish Post
-            </button>
-        </div>
     </div>
 </div>
