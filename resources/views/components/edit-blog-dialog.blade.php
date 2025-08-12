@@ -31,7 +31,7 @@
                         </div>
                         <div>
                             <!-- Hidden file input -->
-                            <input type="file" id="featured-image" name="featured_image" accept="image/*"
+                            <input type="file" id="featured-image" name="featured_image"
                                 class="hidden">
                             <!-- Label styled as button -->
                             <label for="featured-image"
