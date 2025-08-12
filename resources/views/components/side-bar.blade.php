@@ -36,7 +36,7 @@
                     class="fa-solid fa-user-check text-gray-400 {{ request()->routeIs('donors.*') ? 'text-purple-400' : 'group-hover:text-purple-400' }} text-base transition-colors"></i>
                 <span class="group-hover:translate-x-1 transition-transform">Donor Management</span>
             </a>
-            <a href="{{ route('donation-record') }}"
+            <a href=""
                 class="no-underline text-gray-300 text-sm py-3 px-4 rounded-lg flex items-center gap-3 hover:bg-gray-700/50 hover:text-emerald-400 transition-all group border-l-4 {{ request()->is('donation-record') ? 'border-emerald-400 bg-gray-700/50 text-emerald-400' : 'border-transparent' }}">
                 <i
                     class="fa-solid fa-file-medical text-gray-400 {{ request()->is('donation-record') ? 'text-emerald-400' : 'group-hover:text-emerald-400' }} text-base transition-colors"></i>

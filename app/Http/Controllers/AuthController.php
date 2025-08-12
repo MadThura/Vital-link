@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Donor;
 use App\Models\User;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Http\Request;
@@ -24,11 +25,11 @@ class AuthController extends Controller
 
         $user = User::create($validated);
 
-        // event(new Registered($user));
-        // return redirect('email-verify-waitin-page');
+        event(new Registered($user));
+
         Auth::login($user);
 
-        return redirect()->route('donor.complete');
+        return redirect()->route('verification.notice');
     }
 
     public function login()
@@ -50,6 +51,13 @@ class AuthController extends Controller
 
         $user = auth()->user();
 
+        if ($user->role === 'super_admin') {
+
+            $request->session()->regenerate();
+
+            return view('superAdmin.dashboard');
+        }
+
         if ($user->role === 'blood_bank_admin') {
 
             $request->session()->regenerate();
@@ -57,7 +65,22 @@ class AuthController extends Controller
             return redirect()->route('dashboard');
         }
 
-        return redirect()->route('home');
+        $donor = Donor::where('user_id', $user->id)->first();
+        if ($donor->status === 'pending' || $donor->status === 'rejected' || $donor->status === 'resubmitted') {
+
+            $request->session()->regenerate();
+
+            return view('welcome', [
+                'donor' => $donor
+            ]);
+        } elseif ($donor->status === 'approved') {
+
+            $request->session()->regenerate();
+
+            return view('home-page', [
+                'donor' => $donor
+            ]);
+        }
     }
 
     public function logout(Request $request)

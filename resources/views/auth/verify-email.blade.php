@@ -10,7 +10,8 @@
 
         <!-- Message -->
         <div class="mb-6 text-sm text-gray-300 text-center">
-            Thanks for signing up! Before getting started, please verify your email address by clicking on the link we just
+            Thanks for signing up! Before getting started, please verify your email address by clicking on the link we
+            just
             emailed to you at <span class="font-semibold text-white">{{ auth()->user()->email ?? 'your email' }}</span>.
         </div>
 
@@ -22,7 +23,7 @@
         @endif
 
         <!-- Verification form -->
-        <form method="POST" action="" class="space-y-6">
+        <form method="POST" action="{{ route('verification.send') }}" class="space-y-6">
             @csrf
             <div class="flex flex-col items-center">
                 <button type="submit"
@@ -44,7 +45,9 @@
 
         <!-- Loading indicator (hidden by default) -->
         <div id="loadingIndicator" class="hidden mt-6 text-center">
-            <div class="inline-block h-8 w-8 animate-spin rounded-full border-4 border-solid border-blue-500 border-r-transparent"></div>
+            <div
+                class="inline-block h-8 w-8 animate-spin rounded-full border-4 border-solid border-blue-500 border-r-transparent">
+            </div>
             <p class="mt-2 text-sm text-gray-400">Waiting for verification...</p>
         </div>
     </div>

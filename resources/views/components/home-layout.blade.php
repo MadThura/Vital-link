@@ -1,5 +1,4 @@
 @props(['donor' => null])
-
 <!DOCTYPE html>
 <html lang="en">
 
@@ -25,7 +24,7 @@
                     </div>
                     <div class="hidden md:block">
                         <div class="ml-10 flex items-baseline space-x-4">
-                            <a href="#"
+                            <a href="/"
                                 class="text-red-400 hover:text-red-300 px-3 py-2 rounded-md text-sm font-medium">Welcome</a>
                             <a href="#"
                                 class="text-gray-300 hover:text-white px-3 py-2 rounded-md text-sm font-medium">About</a>
@@ -36,10 +35,13 @@
                         </div>
                     </div>
                 </div>
-                @isset($donor)
+                @auth
+                @php
+                    $donor = auth()->user()->donor;
+                @endphp
                     <div class="flex items-center gap-10">
                         {{-- Donor Home Link --}}
-                        @if ($donor->status === 'approved')
+                        @if ($donor?->status === 'approved')
                             <a href="{{ route('home') }}"
                                 class="text-red-400 hover:text-red-300 px-3 py-2 rounded-md text-sm font-medium">
                                 Donor Home
@@ -54,7 +56,7 @@
                                 </button>
                                 <x-notification-pane />
                             </div>
-                        @elseif($donor->status === 'rejected')
+                        @elseif($donor?->status === 'rejected')
                             <a href="{{ route('donor.complete') }}"
                                 class="inline-flex items-center text-xs bg-[#e11d48] hover:bg-[#bf1a3e] text-white px-3 py-1.5 rounded-full transition">
                                 <i class="fas fa-redo mr-1.5"></i> Edit and Resubmit
@@ -65,13 +67,18 @@
                         <div class="group relative">
                             <button
                                 class="px-4 py-2 rounded-lg hover:bg-[#262626] transition flex text-sm items-center space-x-2 text-red-400 hover:text-white">
-                                <img src="{{ asset('donor-files/' . $donor->profile_img) }}" alt="Profile"
-                                    class="w-9 h-9 p-1 rounded-full border-2
-                                    @if ($donor->status === 'pending') border-amber-400
-                                    @elseif ($donor->status === 'rejected') border-red-500
-                                    @elseif ($donor->status === 'approved') border-green-400
-                                    @else border-ice-400 @endif">
-                                <span>{{ $donor->user->name }}</span>
+                                @php
+                                    $borderColor = match ($donor?->status) {
+                                        'pending' => 'border-amber-400',
+                                        'rejected' => 'border-red-500',
+                                        'approved' => 'border-green-400',
+                                        default => 'border-ice-400',
+                                    };
+                                @endphp
+
+                                <img src="{{ asset('donor-files/' . $donor?->profile_img) }}" alt="Profile"
+                                    class="w-9 h-9 p-1 rounded-full border-2 {{ $borderColor }}">
+                                <span>{{ $donor?->user->name }}</span>
                                 <i class="fas fa-chevron-down text-xs transition transform group-hover:rotate-180"></i>
                             </button>
 
@@ -80,13 +87,13 @@
                                 class="absolute right-0 mt-2 w-56 bg-[#262626] rounded-lg shadow-xl border border-[#404040] opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-50">
                                 <div class="px-4 py-3 border-b border-[#404040]">
                                     <p class="text-xs">Blood Type:
-                                        <span class="font-bold text-[#e11d48]">{{ $donor->blood_type }}</span>
+                                        <span class="font-bold text-[#e11d48]">{{ $donor?->blood_type }}</span>
                                     </p>
-                                    @if ($donor->status === 'approved')
+                                    @if ($donor?->status === 'approved')
                                         <p class="text-xs mt-1">Next eligible:
                                             <span
-                                                class="font-bold {{ $donor->cooldown_until > now() ? 'text-red-400' : 'text-green-400' }}">
-                                                {{ $donor->cooldown_until > now() ? 'Not Ready' : 'Ready' }}
+                                                class="font-bold {{ $donor?->cooldown_until > now() ? 'text-red-400' : 'text-green-400' }}">
+                                                {{ $donor?->cooldown_until > now() ? 'Not Ready' : 'Ready' }}
                                             </span>
                                         </p>
                                     @endif
@@ -96,7 +103,7 @@
                                 <a href="#"
                                     class="px-4 py-3 hover:bg-[#404040] transition border-b flex items-center justify-between">
                                     <div><i class="fas fa-user mr-2"></i> Profile</div>
-                                    @switch($donor->status)
+                                    @switch($donor?->status)
                                         @case('pending')
                                             <span
                                                 class="text-xs bg-amber-500/20 text-amber-400 px-2 py-1 rounded-full flex items-center">
@@ -121,7 +128,7 @@
                                 </a>
 
                                 {{-- History --}}
-                                @if ($donor->status === 'approved')
+                                @if ($donor?->status === 'approved')
                                     <a href="#" class="block px-4 py-3 hover:bg-[#404040] transition border-b">
                                         <i class="fas fa-history mr-2"></i> History
                                     </a>
@@ -149,7 +156,8 @@
                             </a>
                         </div>
                     </div>
-                @endisset
+                @endauth
+
             </div>
         </div>
     </nav>

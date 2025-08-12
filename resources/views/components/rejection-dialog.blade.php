@@ -22,19 +22,19 @@
 
                 <div class="space-y-2">
                     <label class="flex items-center space-x-2">
-                        <input type="checkbox" name="reasons['health_certificate']" value="Invalid health certificate"
+                        <input type="checkbox" name="reasons[health_certificate]" value="Invalid health certificate"
                             class="text-rose-500">
                         <span class="text-gray-200">Invalid health
                             certificate</span>
                     </label>
 
                     <label class="flex items-center space-x-2">
-                        <input type="checkbox" name="reasons['nrc']" value="Incorrect personal information"
+                        <input type="checkbox" name="reasons[nrc]" value="Incorrect personal information"
                             class="text-rose-500">
                         <span class="text-gray-200">Invalid NRC Photos</span>
                     </label>
                     <label class="flex items-center space-x-2">
-                        <input type="checkbox" name="reasons['profile_img']" value="Incorrect personal information"
+                        <input type="checkbox" name="reasons[profile_img]" value="Incorrect personal information"
                             class="text-rose-500">
                         <span class="text-gray-200">Invalid Profile Picture</span>
                     </label>

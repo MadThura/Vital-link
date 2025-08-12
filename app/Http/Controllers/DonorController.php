@@ -6,30 +6,27 @@ use App\Models\Donor;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
-use Illuminate\Support\MessageBag;
 
 class DonorController extends Controller
 {
     public function showCompletionForm()
     {
         $user = auth()->user();
-
         $donor = $user->donor;
 
-        // Merge admin rejection errors into Laravel's $errors
-        if ($donor && $donor->status === 'rejected' && $donor->rejection_errors) {
-            $bag = new MessageBag($donor->rejection_errors);
-            session()->flash('errors', $bag);
+        if ($donor->rejection_errors ?? null) {
+            $errorMsg = collect(json_decode($donor->rejection_errors, true));
         }
 
         return view('auth.request-info', [
-            'donor' => $donor
+            'donor' => $donor,
+            'errorMsg' => $errorMsg ?? null
         ]);
     }
 
+
     public function storeCompletion(Request $request)
     {
-
         if (auth()->user()->donor) {
             return redirect()->route('login')->with('fail', 'You\'re already registered as a donor.');
         }
@@ -41,17 +38,16 @@ class DonorController extends Controller
             'health_certificate' => ['required', 'file', 'image'],
             'phone' => ['required'],
             'address' => ['required', 'string'],
-            'profile_img' => ['required'],
-            'nrc-state'=>['required'],
-            'nrc-township'=>['required'],
-            'nrc-type'=>['required'],
-            'nrc-number'=>['required'],
-            'health_certificate' => ['required'],
-            'nrc_front' => ['required'],
-            'nrc_back' => ['required'],
+            'nrc-state' => ['required'],
+            'nrc-township' => ['required'],
+            'nrc-type' => ['required'],
+            'nrc-number' => ['required'],
+            'profile_img'        => ['required', 'file', 'image', 'max:2048'],
+            'health_certificate' => ['required', 'file', 'image', 'max:2048'],
+            'nrc_front'          => ['required', 'file', 'image', 'max:2048'],
+            'nrc_back'           => ['required', 'file', 'image', 'max:2048'],
         ]);
 
-        // dd($validated);
 
         $profileImgPath = $request->file('profile_img')->store('donors/profiles', 'local');
         $validated['profile_img'] = $profileImgPath;
@@ -99,12 +95,16 @@ class DonorController extends Controller
             'dob' => ['required', 'date', 'before_or_equal:' . now()->subYears(18)->toDateString()],
             'phone' => ['required'],
             'address' => ['required', 'string'],
-            'profile_img' => ['nullable', 'file', 'image'],
-            'health_certificate' => ['nullable', 'file', 'image'],
-            'nrc_front' => ['nullable', 'file', 'image'],
-            'nrc_back' => ['nullable', 'file', 'image'],
+            'nrc-state' => ['required'],
+            'nrc-township' => ['required'],
+            'nrc-type' => ['required'],
+            'nrc-number' => ['required'],
+            'profile_img'        => ['nullable', 'file', 'image', 'max:2048'],
+            'health_certificate' => ['nullable', 'file', 'image', 'max:2048'],
+            'nrc_front'          => ['nullable', 'file', 'image', 'max:2048'],
+            'nrc_back'           => ['nullable', 'file', 'image', 'max:2048'],
         ]);
-
+        // dd($validated);
         // Update text fields
         $donor->gender = $validated['gender'];
         $donor->blood_type = $validated['blood_type'];
@@ -154,5 +154,14 @@ class DonorController extends Controller
         $donor->save();
 
         return redirect('/')->with('success', 'Donor information updated successfully.');
+    }
+
+
+    public function profile()
+    {
+        $donor = auth()->user()->donor;
+        return view('donor.profile', [
+            'donor' => $donor
+        ]);
     }
 }

@@ -145,7 +145,9 @@
                     @error('profile_img')
                         <p class="text-red-500 text-sm">{{ $message }}</p>
                     @enderror
-
+                    @if ($errorMsg['profile_img'] ?? null)
+                        <p class="text-red-500 text-sm">{{ $errorMsg['profile_img'] }}</p>
+                    @endif
                 </div>
 
                 <!-- Personal Information Section -->
@@ -204,8 +206,6 @@
                                 <input id="dob" type="date" name="dob"
                                     class="w-full pl-10 pr-3 py-3 border border-secondary-light rounded-lg input-focus focus:ring-2 focus:ring-accent focus:border-accent outline-none bg-background appearance-none"
                                     value="{{ $donor ? $donor->dob : old('dob') }}">
-
-
                                 @error('dob')
                                     <p class="text-red-500 text-sm">Must be over 18</p>
                                 @enderror
@@ -222,21 +222,13 @@
                                 <label class="inline-flex items-center">
                                     <input type="radio" name="gender" value="Male"
                                         class="h-4 w-4 text-accent focus:ring-accent"
-<<<<<<< HEAD
-                                        {{ optional($donor)->gender === 'Male' ? 'checked' : '' }}>
-=======
                                         {{ old('gender', optional($donor)->gender) === 'Male' ? 'checked' : '' }}>
->>>>>>> 707570c022e7380119d6de39260c017badf31646
                                     <span class="ml-2 text-primary">Male</span>
                                 </label>
                                 <label class="inline-flex items-center">
                                     <input type="radio" name="gender" value="Female"
                                         class="h-4 w-4 text-accent focus:ring-accent"
-<<<<<<< HEAD
-                                        {{ optional($donor)->gender === 'Female' ? 'checked' : '' }}>
-=======
                                         {{ old('gender', optional($donor)->gender) === 'Female' ? 'checked' : '' }}>
->>>>>>> 707570c022e7380119d6de39260c017badf31646
                                     <span class="ml-2 text-primary">Female</span>
                                 </label>
                             </div>
@@ -245,13 +237,6 @@
                             @enderror
                         </div>
 
-<<<<<<< HEAD
-                        @error('gender')
-                            <p class="text-red-500 text-sm">{{ $message }}</p>
-                        @enderror
-=======
-
->>>>>>> 707570c022e7380119d6de39260c017badf31646
 
                         <!-- Blood Type -->
                         <div class="space-y-2">
@@ -330,15 +315,11 @@
                                     </option>
                                 @endfor
                             </select>
-<<<<<<< HEAD
-
-=======
                             @error('nrc-state')
                                 <p class="text-red-500 text-[10px]">{{ $message }}</p>
                             @enderror
->>>>>>> 707570c022e7380119d6de39260c017badf31646
                         </div>
-                        
+
 
                         <!-- Township -->
                         <div class="space-y-2">
@@ -361,16 +342,6 @@
                             </label>
                             <select id="nrc-type" name="nrc-type"
                                 class="w-full px-3 py-3 border border-secondary-light rounded-lg input-focus focus:ring-2 focus:ring-accent focus:border-accent outline-none bg-background">
-<<<<<<< HEAD
-                                <option value="" disabled {{ empty($nrc_type) ? 'selected' : '' }}>Select
-                                </option>
-                                <option value="N" {{ $nrc_type === 'N' ? 'selected' : '' }}>N</option>
-                                <option value="P" {{ $nrc_type === 'P' ? 'selected' : '' }}>P</option>
-                                <option value="E" {{ $nrc_type === 'E' ? 'selected' : '' }}>E</option>
-                                <option value="A" {{ $nrc_type === 'A' ? 'selected' : '' }}>A</option>
-                                <option value="F" {{ $nrc_type === 'F' ? 'selected' : '' }}>F</option>
-                            </select>
-=======
                                 <option value="" disabled
                                     {{ empty(old('nrc-type', $nrc_type ?? '')) ? 'selected' : '' }}>Select</option>
                                 <option value="N"
@@ -387,7 +358,6 @@
                             @error('nrc-type')
                                 <p class="text-red-500 text-[10px]">{{ $message }}</p>
                             @enderror
->>>>>>> 707570c022e7380119d6de39260c017badf31646
 
                         </div>
 
@@ -399,13 +369,9 @@
                             <input id="nrc-number" name="nrc-number" type="text" placeholder="123456"
                                 class="w-full px-3 py-3 border border-secondary-light rounded-lg input-focus focus:ring-2 focus:ring-accent focus:border-accent outline-none bg-background"
                                 value="{{ old('nrc-number', $nrc_number ?? '') }}">
-<<<<<<< HEAD
-
-=======
                             @error('nrc-number')
                                 <p class="text-red-500 text-[10px]">{{ $message }}</p>
                             @enderror
->>>>>>> 707570c022e7380119d6de39260c017badf31646
                         </div>
                     </div>
 
@@ -499,6 +465,9 @@
                                 @error('nrc_back')
                                     <p class="text-red-500 text-sm">{{ $message }}</p>
                                 @enderror
+                                @if ($errorMsg['nrc'] ?? null)
+                                    <p class="text-red-500 text-sm">{{ $errorMsg['nrc'] }}</p>
+                                @endif
                             </div>
                         </div>
                     </div>
@@ -552,6 +521,9 @@
                             @error('health_certificate')
                                 <p class="text-red-500 text-sm">{{ $message }}</p>
                             @enderror
+                            @if ($errorMsg['health_certificate'] ?? null)
+                                <p class="text-red-500 text-sm">{{ $errorMsg['health_certificate'] }}</p>
+                            @endif
                         </div>
                         <p class="text-xs text-secondary mt-2">Upload your official health certificate issued within
                             the last 6 months</p>
@@ -983,11 +955,6 @@
         };
         const existingTownship = "{{ old('nrc-township', $nrc_township ?? '') }}";
 
-<<<<<<< HEAD
-        const existingTownship = "{{ $nrc_township ?? '' }}";
-
-=======
->>>>>>> 707570c022e7380119d6de39260c017badf31646
         function populateTownships(state) {
             const townshipSelect = document.getElementById("nrc-township");
             townshipSelect.innerHTML = '<option value="" disabled>Select township</option>';
@@ -1005,28 +972,16 @@
             }
         }
 
-<<<<<<< HEAD
-        // On state change
-=======
->>>>>>> 707570c022e7380119d6de39260c017badf31646
         document.getElementById("nrc-state").addEventListener("change", function() {
             populateTownships(this.value);
         });
 
-<<<<<<< HEAD
-        // On page load, if state is pre-selected, populate townships and select the existing one
-=======
->>>>>>> 707570c022e7380119d6de39260c017badf31646
         window.addEventListener('DOMContentLoaded', () => {
             const stateSelect = document.getElementById("nrc-state");
             if (stateSelect.value) {
                 populateTownships(stateSelect.value);
             }
         });
-<<<<<<< HEAD
-
-=======
->>>>>>> 707570c022e7380119d6de39260c017badf31646
         // Function to handle file previews
         const profilePicInput = document.getElementById('profile_img');
         const profilePreview = document.getElementById('profile-preview');
