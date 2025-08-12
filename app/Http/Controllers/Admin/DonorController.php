@@ -25,7 +25,8 @@ class DonorController extends Controller
                 $donor->status = 'approved';
                 $user = $donor->user;
                 $user->role = 'donor';
-                $user->update();
+                $donor->donor_code = Donor::generateDonorCode();
+                $donor->save();
                 break;
             case 'reject':
                 $donor->status = 'rejected';

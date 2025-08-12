@@ -24,6 +24,16 @@ class Donor extends Model
         'nrc_back'
     ];
 
+    protected static function generateDonorCode()
+    {
+        do {
+            // Example: DNR-2025-ABC123
+            $code = 'DNR-' . date('Y') . '-' . strtoupper(Str::random(6));
+        } while (self::where('donor_code', $code)->exists());
+
+        return $code;
+    }
+
     public function user()
     {
         return $this->belongsTo(User::class);
@@ -32,6 +42,11 @@ class Donor extends Model
     public function bloodBank()
     {
         return $this->belongsTo(BloodBank::class);
+    }
+
+    public function donations()
+    {
+        return $this->hasMany(Donation::class);
     }
 
     public static function scopeFilter($query, $filters = [])

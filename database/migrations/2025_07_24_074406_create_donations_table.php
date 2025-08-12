@@ -13,11 +13,11 @@ return new class extends Migration
     {
         Schema::create('donations', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('donor_id')->constrained('users')->onDelete('cascade');
+            $table->foreignId('donor_id')->constrained('donors')->onDelete('cascade');
             $table->foreignId('blood_bank_id')->constrained()->onDelete('cascade');
             $table->timestamp('donation_date');
-            $table->double('volume_ml');
-            $table->text('notes')->nullable();
+            $table->integer('units')->default(0);
+            $table->text('note')->nullable();
             $table->timestamps();
         });
     }
