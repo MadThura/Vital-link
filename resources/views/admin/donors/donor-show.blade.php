@@ -1,5 +1,5 @@
 <x-admin-layout>
-    <x-alert-box/>
+    <x-alert-box />
     <form action="" method="GET"
         class="h-[10%] p-5 bg-gray-800 flex flex-col md:flex-row items-center gap-4 justify-center">
         <!-- Search Input -->
@@ -50,9 +50,7 @@
                         <th class="py-3 px-3 border-b border-gray-700 text-gray-300 font-semibold text-left w-[50%]">
                             Name</th>
                         <th class="py-3 px-3 border-b border-gray-700 text-gray-300 font-semibold text-center w-[30%]">
-
                             Status
-
                         </th>
                         <th class="py-3 px-3 border-b border-gray-700 text-gray-300 font-semibold text-center w-[20%]">
                             Actions</th>
@@ -80,9 +78,35 @@
                         <!-- Actions Column -->
                         <td class="py-3 px-3 text-center">
                             <div class="flex justify-center gap-1">
-                                <x-tooltip-button peerClass="view" tooltipText="View" icon="fa-eye"
-                                    hoverColor="cyan-400" route="/" />
-                        
+                                <div x-data="{ showDonorDetail: false, selectedDonor: null }">
+                                    <!-- View Button -->
+                                    <button
+                                        @click="
+                                                selectedDonor = { 
+                                                    donor: {
+                                                        name: 'Sarah Johnson',
+                                                        photo: '/images/donor1.jpg',
+                                                        age: 32,
+                                                        gender: 'Female',
+                                                        contact: '+1 (555) 123-4567',
+                                                        email: 'sarah.j@example.com',
+                                                        address: '123 Main St, Anytown, USA',
+                                                        health_certificate: '/images/profile-1.jpg',
+                                                        nrc_front: '/images/profile-1.jpg',
+                                                        nrc_back: '/images/profile-1.jpg'
+
+                                                    },
+                                                };
+                                                showDonorDetail = true;
+                                            "
+                                        class="text-cyan-400 hover:text-cyan-300 p-2 rounded-full hover:bg-gray-700 transition"
+                                        title="View">
+                                        <i class="fas fa-eye"></i>
+                                    </button>
+                                    <!-- Donation Detail Dialog -->
+                                    <x-donor-detail-dialog-box />
+                                </div>
+
                                 <x-tooltip-button peerClass="delete" tooltipText="Delete" icon="fa-trash"
                                     hoverColor="rose-500" route="/" />
                                 <x-tooltip-button peerClass="ban" tooltipText="Ban" icon="fa-ban" hoverColor="rose-500"
@@ -115,7 +139,7 @@
                                 <x-tooltip-button peerClass="view" tooltipText="View" icon="fa-eye"
                                     hoverColor="cyan-400" route="/" />
                                 <x-tooltip-button peerClass="approve" tooltipText="Approve" icon="fa-check"
-                                    hoverColor="emerald-400" route=""/>
+                                    hoverColor="emerald-400" route="" />
                                 <x-tooltip-button peerClass="reject" tooltipText="Approve" icon="fa-xmark"
                                     hoverColor="rose-500" route="/" />
                             </div>

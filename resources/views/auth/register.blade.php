@@ -9,9 +9,9 @@
             class="bg-white/10 backdrop-blur-md rounded-2xl p-8 w-full max-w-md shadow-lg hover:bg-white/15 transition-colors">
             <form action="/request-info" method="GET" enctype="multipart/form-data" class="flex flex-col">
                 @csrf
-                <x-input-field type="text" id="email" placeholder="Enter your email"/>
-                <x-input-field type="password" id="password" placeholder="Enter new password" />
-                <x-input-field type="password" id="password_comfirmation" placeholder="Comfirm password" />
+                <x-input-field type="text" id="email" name="email" placeholder="Enter your email"/>
+                <x-input-field type="password" id="password" name=password placeholder="Enter new password" />
+                <x-input-field type="password" id="password_comfirmation" name="password_comfirmation" placeholder="Comfirm password" />
 
                 <x-submit-button name="Submit" />
           
