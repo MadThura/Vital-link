@@ -46,6 +46,18 @@
                                 </div>
                             </div>
                             <div class="space-y-3">
+                                {{-- unique id --}}
+                                <div class="flex justify-between">
+                                    <div class="text-gray-400">Unique ID</div>
+                                    <div x-data="{ text: 'DNR-2025-hello', copied: false }" class="flex items-center gap-2 ">
+                                        <p class="font-bold text-cyan-300 text-xs" x-text="text"></p>
+                                        <button
+                                            @click="navigator.clipboard.writeText(text).then(() => { copied = true; setTimeout(() => copied = false, 1000) })">
+                                            <i class="fa-solid fa-copy text-cyan-200 text-sm"></i>
+                                        </button>
+                                        <span x-show="copied" x-transition class="text-green-400 text-xs">Copied!</span>
+                                    </div>
+                                </div>
                                 <div class="flex justify-between">
                                     <span class="text-gray-400">Date of Birth:</span>
                                     <span class="text-white">{{ $donor->dob }}</span>

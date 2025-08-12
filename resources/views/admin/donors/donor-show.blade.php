@@ -126,7 +126,7 @@
                                             <x-tooltip-button peerClass="reject" tooltipText="Reject" icon="fa-xmark"
                                                 hoverColor="red-400" @click="showRejectModal = true" />
                                             <!-- Modal -->
-                                            <x-rejection-dialog :donor="$donor"/>
+                                            <x-rejection-dialog :donor="$donor" />
                                         </div>
                                 </div>
                     @endif
@@ -135,8 +135,7 @@
                             method="POST">
                             @csrf
                             @method('PATCH')
-                            <x-tooltip-button peerClass="ban" tooltipText="Ban" icon="fa-ban"
-                                hoverColor="rose-500" />
+                            <x-tooltip-button peerClass="ban" tooltipText="Ban" icon="fa-ban" hoverColor="rose-500" />
                         </form>
                         <form action="{{ route('donors.destroy', $donor) }}" method="POST">
                             @csrf
