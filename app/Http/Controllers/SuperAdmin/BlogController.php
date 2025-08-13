@@ -47,7 +47,10 @@ class BlogController extends Controller
         //         Notification::send($users, new NewBlogUploaded($blog));
         //     });
 
-        $users = User::where('id', '!=', $user->id)->get();
+        $users = User::where('id', '!=', $user->id)
+            ->whereIn('role', ['donor', 'ward_operator', 'blood_bank_admin'])
+            ->whereNotNull('email_verified_at')
+            ->get();
 
         Notification::send($users, new NewBlogUploaded($blog));
 

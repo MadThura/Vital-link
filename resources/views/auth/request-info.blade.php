@@ -84,7 +84,7 @@
 
 <body class="bg-background min-h-screen flex items-center justify-center p-4">
     <div class="w-full max-w-2xl">
-        @if (!$errorMsg->isEmpty())
+        @if (isset($errorMsg) && !$errorMsg->isEmpty())
             <div class="w-full space-y-2 bg-red-100 border border-red-400 rounded-md p-3 mb-5">
                 @if (!empty($errorMsg['profile_img']))
                     <p class="flex items-center text-red-700 text-sm">
