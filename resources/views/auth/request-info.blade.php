@@ -84,53 +84,55 @@
 
 <body class="bg-background min-h-screen flex items-center justify-center p-4">
     <div class="w-full max-w-2xl">
-        <div class="w-full space-y-2 bg-red-100 border border-red-400 rounded-md p-3 mb-5">
-            @if (!empty($errorMsg['profile_img']))
-                <p class="flex items-center text-red-700 text-sm">
-                    <svg class="w-4 h-4 mr-1.5 flex-shrink-0" fill="none" stroke="currentColor" stroke-width="2"
-                        viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-                        <path stroke-linecap="round" stroke-linejoin="round"
-                            d="M12 8v4m0 4h.01M21 12c0 4.97-4.03 9-9 9s-9-4.03-9-9 4.03-9 9-9 9 4.03 9 9z"></path>
-                    </svg>
-                    Your Profile Image is not valid.
-                </p>
-            @endif
+        @if (!$errorMsg->isEmpty())
+            <div class="w-full space-y-2 bg-red-100 border border-red-400 rounded-md p-3 mb-5">
+                @if (!empty($errorMsg['profile_img']))
+                    <p class="flex items-center text-red-700 text-sm">
+                        <svg class="w-4 h-4 mr-1.5 flex-shrink-0" fill="none" stroke="currentColor" stroke-width="2"
+                            viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                            <path stroke-linecap="round" stroke-linejoin="round"
+                                d="M12 8v4m0 4h.01M21 12c0 4.97-4.03 9-9 9s-9-4.03-9-9 4.03-9 9-9 9 4.03 9 9z"></path>
+                        </svg>
+                        Your Profile Image is not valid.
+                    </p>
+                @endif
 
-            @if (!empty($errorMsg['health_certificate']))
-                <p class="flex items-center text-red-700 text-sm">
-                    <svg class="w-4 h-4 mr-1.5 flex-shrink-0" fill="none" stroke="currentColor" stroke-width="2"
-                        viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-                        <path stroke-linecap="round" stroke-linejoin="round"
-                            d="M12 8v4m0 4h.01M21 12c0 4.97-4.03 9-9 9s-9-4.03-9-9 4.03-9 9-9 9 4.03 9 9z"></path>
-                    </svg>
-                    Your Health Certificate is not valid.
-                </p>
-            @endif
+                @if (!empty($errorMsg['health_certificate']))
+                    <p class="flex items-center text-red-700 text-sm">
+                        <svg class="w-4 h-4 mr-1.5 flex-shrink-0" fill="none" stroke="currentColor" stroke-width="2"
+                            viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                            <path stroke-linecap="round" stroke-linejoin="round"
+                                d="M12 8v4m0 4h.01M21 12c0 4.97-4.03 9-9 9s-9-4.03-9-9 4.03-9 9-9 9 4.03 9 9z"></path>
+                        </svg>
+                        Your Health Certificate is not valid.
+                    </p>
+                @endif
 
-            @if (!empty($errorMsg['nrc']))
-                <p class="flex items-center text-red-700 text-sm">
-                    <svg class="w-4 h-4 mr-1.5 flex-shrink-0" fill="none" stroke="currentColor" stroke-width="2"
-                        viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-                        <path stroke-linecap="round" stroke-linejoin="round"
-                            d="M12 8v4m0 4h.01M21 12c0 4.97-4.03 9-9 9s-9-4.03-9-9 4.03-9 9-9 9 4.03 9 9z"></path>
-                    </svg>
-                    Your NRC credential is not valid.
-                </p>
-            @endif
-            @if (!empty($errorMsg['note']))
-                <p
-                    class="flex items-center text-yellow-600 text-sm bg-yellow-100 rounded-md px-3 py-1.5 border border-yellow-400 shadow-sm">
-                    <svg class="w-5 h-5 mr-2 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20" aria-hidden="true">
-                        <path fill-rule="evenodd"
-                            d="M8.257 3.099c.765-1.36 2.681-1.36 3.446 0l5.451 9.68c.75 1.332-.213 2.98-1.723 2.98H4.529c-1.51 0-2.473-1.648-1.723-2.98l5.451-9.68zM11 13a1 1 0 11-2 0 1 1 0 012 0zm-.25-4.75a.75.75 0 00-1.5 0v3.5a.75.75 0 001.5 0v-3.5z"
-                            clip-rule="evenodd" />
-                    </svg>
-                    <span class="font-semibold">Note:</span>{{ $errorMsg['note'] }}
-                </p>
-            @endif
+                @if (!empty($errorMsg['nrc']))
+                    <p class="flex items-center text-red-700 text-sm">
+                        <svg class="w-4 h-4 mr-1.5 flex-shrink-0" fill="none" stroke="currentColor" stroke-width="2"
+                            viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                            <path stroke-linecap="round" stroke-linejoin="round"
+                                d="M12 8v4m0 4h.01M21 12c0 4.97-4.03 9-9 9s-9-4.03-9-9 4.03-9 9-9 9 4.03 9 9z"></path>
+                        </svg>
+                        Your NRC credential is not valid.
+                    </p>
+                @endif
+                @if (!empty($errorMsg['note']))
+                    <p
+                        class="flex items-center text-yellow-600 text-sm bg-yellow-100 rounded-md px-3 py-1.5 border border-yellow-400 shadow-sm">
+                        <svg class="w-5 h-5 mr-2 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20"
+                            aria-hidden="true">
+                            <path fill-rule="evenodd"
+                                d="M8.257 3.099c.765-1.36 2.681-1.36 3.446 0l5.451 9.68c.75 1.332-.213 2.98-1.723 2.98H4.529c-1.51 0-2.473-1.648-1.723-2.98l5.451-9.68zM11 13a1 1 0 11-2 0 1 1 0 012 0zm-.25-4.75a.75.75 0 00-1.5 0v3.5a.75.75 0 001.5 0v-3.5z"
+                                clip-rule="evenodd" />
+                        </svg>
+                        <span class="font-semibold">Note:</span>{{ $errorMsg['note'] }}
+                    </p>
+                @endif
 
-        </div>
-
+            </div>
+        @endif
         <div class="bg-white rounded-xl form-shadow overflow-hidden">
             <!-- Header -->
             <div class="bg-gradient-to-r from-primary-dark to-primary p-8 text-white">
