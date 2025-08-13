@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Admin;
+namespace App\Http\Controllers\BloodBankAdmin;
 
 use App\Http\Controllers\Controller;
 use App\Models\Donor;
@@ -13,7 +13,7 @@ class DonorController extends Controller
     {
         $donors = Donor::with('user', 'bloodBank')->filter($request->only(['search', 'status']))->latest()->paginate(10);
 
-        return view('admin.donors.donor-show', [
+        return view('bloodBankAdmin.donors.donor-show', [
             'donors' => $donors
         ]);
     }

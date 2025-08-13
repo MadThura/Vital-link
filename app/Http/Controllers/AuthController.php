@@ -40,23 +40,30 @@ class AuthController extends Controller
     public function loginStore(Request $request)
     {
         $credentials = $request->validate([
-            'email' => ['required', 'email'],
+            'email' => ['required', 'email', 'exists:users,email'],
             'password' => ['required', 'string', 'min:8', 'max:30'],
         ]);
+
+        $user = User::where('email', $request->email)->first();
+
+        // Check if email is verified
+        if (is_null($user->email_verified_at)) {
+
+            return redirect()->route('verification.notice');
+            // return back()->withErrors(['email' => 'Please verify your email before logging in.']);
+        }
 
         if (!Auth::attempt($credentials)) {
 
             return back()->withErrors(['email' => 'Invalid credentials'])->withInput();
         }
 
-        $user = auth()->user();
-
         if ($user->role === 'super_admin') {
 
             $request->session()->regenerate();
 
             return redirect()->route('super-admin');
-        }   
+        }
 
         if ($user->role === 'blood_bank_admin') {
 

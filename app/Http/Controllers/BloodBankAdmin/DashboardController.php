@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Admin;
+namespace App\Http\Controllers\BloodBankAdmin;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
@@ -19,7 +19,7 @@ class DashboardController extends Controller
         $totalDonations = Donor::sum('donation_count');
         $numOfAvailable = $numOfDonors - $deferredDonors;
 
-        return view('admin.dashboard', [
+        return view('bloodBankAdmin.dashboard', [
             'numOfDonors' => $numOfDonors,
             'numOfPending' => $numOfPending,
             'numOfAvailable' => $numOfAvailable,

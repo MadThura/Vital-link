@@ -1,12 +1,12 @@
 <?php
 
-use App\Http\Controllers\Admin\BlogController;
-use App\Http\Controllers\Admin\DashboardController;
-use App\Http\Controllers\Admin\DonorController as AdminDonorController;
-use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\BloodBankAdmin\DashboardController as BloodBankAdminDashboardController;
+use App\Http\Controllers\BloodBankAdmin\DonorController as BloodBankAdminDonorController;
 use App\Http\Controllers\DonorController;
 use App\Http\Controllers\DonorFileController;
+use App\Http\Controllers\SuperAdmin\BlogController;
+use App\Http\Controllers\SuperAdmin\UserController;
 use Illuminate\Foundation\Auth\EmailVerificationRequest;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -42,6 +42,7 @@ Route::post('/email/verification-notification', function (Request $request) {
 Route::get('/donor-files/{path}', [DonorFileController::class, 'show'])->where('path', '.*')->name('donor.files.show');
 
 Route::middleware(['auth', 'verified'])->group(function () {
+
     Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 
     Route::prefix('/donor')->name('donor.')->group(function () {
@@ -49,7 +50,6 @@ Route::middleware(['auth', 'verified'])->group(function () {
         Route::post('/complete', [DonorController::class, 'storeCompletion'])->name('storeComplete');
         Route::put('/update', [DonorController::class, 'updateCompletion'])->name('updateComplete');
     });
-
 });
 
 Route::middleware(['auth', 'verified', 'role:donor'])->group(function () {
@@ -62,35 +62,35 @@ Route::middleware(['auth', 'verified', 'role:donor'])->group(function () {
 
 Route::middleware(['auth', 'role:blood_bank_admin'])->group(function () {
 
-    Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
-    Route::get('/donation-record', function() {
-        return view("admin.donation-record");
+    Route::get('/dashboard', [BloodBankAdminDashboardController::class, 'index'])->name('dashboard');
+    Route::get('/donation-record', function () {
+        return view('bloodBankAdmin.donation-record');
     })->name('donation-record');
-    Route::get('/blood-inventory', function() {
-        return view("admin.blood-inventory");
+    Route::get('/blood-inventory', function () {
+        return view('bloodBankAdmin.blood-inventory');
     })->name('blood-inventory');
 
     Route::prefix('/donors')->name('donors.')->group(function () {
-        Route::get('/', [AdminDonorController::class, 'index'])->name('index');
-        Route::patch('/{donor}/{action}', [AdminDonorController::class, 'updateStatus'])
+        Route::get('/', [BloodBankAdminDonorController::class, 'index'])->name('index');
+        Route::patch('/{donor}/{action}', [BloodBankAdminDonorController::class, 'updateStatus'])
             ->where('action', 'approve|reject|suspend')
             ->name('updateStatus');
-        Route::delete('/{donor}/destroy', [AdminDonorController::class, 'destroy'])->name('destroy');
+        Route::delete('/{donor}/destroy', [BloodBankAdminDonorController::class, 'destroy'])->name('destroy');
     });
 });
 
 Route::middleware(['auth', 'role:super_admin'])->group(function () {
 
-    Route::get('/superadmin-dashboard', function() {
+    Route::get('/superadmin-dashboard', function () {
         return view("superAdmin.dashboard");
     })->name('super-admin');
     Route::get('/blogboard', [BlogController::class, 'index'])->name('blog-board');
-    Route::get('/user-management', function() {
+    Route::get('/user-management', function () {
         return view("superAdmin.operator-admin-show");
     })->name('user-management');
 
     Route::prefix('/users')->name('users.')->group(function () {
-        Route::get('/', [UserController::class, 'xindex'])->name('index');
+        Route::get('/', [UserController::class, 'index'])->name('index');
         Route::post('/', [UserController::class, 'store'])->name('store');
         Route::post('/{user}/{action}', [UserController::class, 'updateStatus'])
             ->where('action', 'suspend|active')
