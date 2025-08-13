@@ -99,9 +99,12 @@
                             <h4 class="text-lg font-medium text-white mb-4 border-b border-gray-600 pb-2">
                                 <i class="fas fa-notes-medical mr-2 text-cyan-400"></i>Health Certificate
                             </h4>
-                            <div class="flex items-center justify-center">
-                                <img src="/donor-files/{{ $donor->health_certificate }}" alt="Health Certificate"
-                                    class="rounded-lg w-[250px] object-contain border border-cyan-400">
+                            <div>
+                                <p class="text-gray-400 text-sm mb-1">Back:</p>
+                                <img src="/donor-files/{{ $donor->nrc_back }}" alt="NRC Back"
+                                    class="rounded-lg w-[250px] object-contain border border-cyan-400 mx-auto cursor-pointer"
+                                    x-data @click="$dispatch('open-image-modal', { src: $el.src, alt: $el.alt })" />
+
                             </div>
                         </div>
                     </div>
@@ -116,12 +119,14 @@
                                 <div>
                                     <p class="text-gray-400 text-sm mb-1">Front:</p>
                                     <img src="/donor-files/{{ $donor->nrc_front }}" alt="NRC Front"
-                                        class="rounded-lg w-[250px] object-contain border border-cyan-400 mx-auto">
+                                        class="rounded-lg w-[250px] object-contain border border-cyan-400 mx-auto cursor-pointer"
+                                        x-data @click="$dispatch('open-image-modal', { src: $el.src, alt: $el.alt })" />
                                 </div>
                                 <div>
                                     <p class="text-gray-400 text-sm mb-1">Back:</p>
                                     <img src="/donor-files/{{ $donor->nrc_back }}" alt="NRC Back"
-                                        class="rounded-lg w-[250px] object-contain border border-cyan-400 mx-auto">
+                                        class="rounded-lg w-[250px] object-contain border border-cyan-400 mx-auto cursor-pointer"
+                                        x-data @click="$dispatch('open-image-modal', { src: $el.src, alt: $el.alt })" />
                                 </div>
                             </div>
                         </div>
@@ -130,6 +135,7 @@
                 </div>
             </div>
 
+            <x-image-model />
 
             <!-- Footer -->
             <div class="bg-gray-900 px-4 py-3 sm:px-6 sm:flex sm:flex-row-reverse border-t border-gray-700">

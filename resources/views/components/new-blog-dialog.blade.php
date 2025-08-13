@@ -61,8 +61,8 @@
             <!-- Content -->
             <div class="mb-6">
                 <label for="postContent" class="block text-sm font-medium text-gray-300 mb-2">Content</label>
-                <textarea id="postContent" rows="6" name="body"
-                    class="w-full px-4 py-3 bg-gray-700 border border-gray-600 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition-all"></textarea>
+                <textarea id="postContent" rows="3" name="body"
+                    class="w-full px-4 py-3 bg-gray-700 border border-gray-600 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition-all overflow-auto scrollbar-none"></textarea>
             </div>
 
             <!-- Tags -->

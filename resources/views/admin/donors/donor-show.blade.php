@@ -182,13 +182,13 @@
                             <x-tooltip-button peerClass="approve" tooltipText="Approve" icon="fa-check"
                                 hoverColor="emerald-400" />
                         </form>
-                        <form action="{{ route('donors.updateStatus', ['donor' => $donor, 'action' => 'reject']) }}"
-                            method="POST">
-                            @csrf
-                            @method('PATCH')
-                            <x-tooltip-button peerClass="reject" tooltipText="Approve" icon="fa-xmark"
-                                hoverColor="rose-500" />
-                        </form>
+                        <div x-data="{ showRejectModal: false }">
+                            <!-- Reject Button (Triggers modal) -->
+                            <x-tooltip-button peerClass="reject" tooltipText="Reject" icon="fa-xmark"
+                                hoverColor="red-400" @click="showRejectModal = true" />
+                            <!-- Modal -->
+                            <x-rejection-dialog :donor="$donor" />
+                        </div>
                     @endif
         </div>
         </td>
