@@ -63,6 +63,12 @@ Route::middleware(['auth', 'verified', 'role:donor'])->group(function () {
 Route::middleware(['auth', 'role:blood_bank_admin'])->group(function () {
 
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
+    Route::get('/donation-record', function() {
+        return view("admin.donation-record");
+    })->name('donation-record');
+    Route::get('/blood-inventory', function() {
+        return view("admin.blood-inventory");
+    })->name('blood-inventory');
 
     Route::prefix('/donors')->name('donors.')->group(function () {
         Route::get('/', [AdminDonorController::class, 'index'])->name('index');

@@ -15,41 +15,34 @@
             <div class="space-y-6">
                 <div>
                     <label for="title" class="block text-gray-300 mb-2">Title</label>
-                    <input type="text" id="title" name="title" value="2025 Summer Music Trends"
+                    <input type="text" id="title" name="title" value="{{ $blog->title }}"
                         class="w-full bg-gray-700 border border-gray-600 rounded-lg px-4 py-2 text-white focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500">
                 </div>
 
                 <div>
                     <label class="block text-gray-300 mb-2">Featured Image</label>
                     <div class="flex items-center space-x-4">
-                        <!-- Always show the current image (bg-3.jpg) -->
-                        <img src="/images/bg-3.jpg" alt="Current" class="w-32 h-20 object-cover rounded-lg">
-                        <!-- Preview div -->
-                        <div id="profile-preview"
-                            class="w-32 h-20 bg-gray-200 bg-center bg-cover rounded-lg flex items-center justify-center text-gray-500 text-center">
+                        <img src="{{ asset('storage/' . $blog->image) }}" alt="Current"
+                            class="w-32 h-20 object-cover rounded-lg">
+                        <div id="feature-preview"
+                            class="relative w-32 h-20 bg-gray-700 border-2 border-dashed border-gray-600 bg-center bg-cover bg-no-repeat rounded-lg flex items-center justify-center text-gray-400 text-sm">
                             No image selected
                         </div>
                         <div>
-                            <!-- Hidden file input -->
-                            <input type="file" id="featured-image" name="featured_image"
-                                class="hidden">
-                            <!-- Label styled as button -->
+                            <input type="file" id="featured-image" name="image" class="hidden" accept="image/*">
                             <label for="featured-image"
                                 class="cursor-pointer px-4 py-2 bg-gray-700 hover:bg-gray-600 text-white rounded-lg transition-colors">
                                 Change Image
+                            </label>
                         </div>
                     </div>
                 </div>
 
                 <div>
                     <label for="content" class="block text-gray-300 mb-2">Content</label>
-                    <textarea id="content" name="content" rows="8"
+                    <textarea id="content" name="content" rows="5"
                         class="w-full bg-gray-700 border border-gray-600 rounded-lg px-4 py-2 text-white focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 scrollbar-none">
-Explore the hottest music and event styles shaping this summer's festival season. From tropical house making a comeback to the rise of AI-generated performances, this year promises to be unforgettable.
-
-Festival organizers are incorporating more immersive experiences, with virtual reality stages and interactive art installations becoming standard features at major events.
-
-The trend towards sustainability continues, with more festivals implementing zero-waste policies and carbon offset programs.
+                        {{ $blog->body }}
                     </textarea>
                 </div>
 
@@ -68,22 +61,35 @@ The trend towards sustainability continues, with more festivals implementing zer
     </div>
 </div>
 <script>
-    const profilePreview = document.getElementById('profile-preview');
-    const profilePicInput = document.getElementById('featured-image');
+    const featurePreview = document.getElementById('feature-preview');
+    const featurePicInput = document.getElementById('featured-image');
 
-    profilePicInput.addEventListener('change', function(e) {
+    featurePicInput.addEventListener('change', function(e) {
         const file = e.target.files[0];
-        if (file) {
+        if (file && file.type.match('image.*')) {
             const reader = new FileReader();
             reader.onload = function(event) {
-                profilePreview.style.backgroundImage = `url(${event.target.result})`;
-                profilePreview.textContent = ''; // remove text when image is loaded
+                // Clear previous content
+                featurePreview.innerHTML = '';
+                featurePreview.style.backgroundImage = `url(${event.target.result})`;
+                
+                // Add overlay text
+                const overlay = document.createElement('div');
+                overlay.className = 'absolute inset-0 bg-black bg-opacity-30 flex items-center justify-center text-white text-xs';
+                overlay.textContent = 'New Image';
+                featurePreview.appendChild(overlay);
+                
+                // Update border styling
+                featurePreview.classList.remove('border-dashed');
+                featurePreview.classList.add('border-solid', 'border-indigo-500');
             }
             reader.readAsDataURL(file);
         } else {
-            // No file selected, reset preview
-            profilePreview.style.backgroundImage = '';
-            profilePreview.textContent = 'No image selected';
+            // Reset to default state
+            featurePreview.style.backgroundImage = '';
+            featurePreview.innerHTML = 'No image selected';
+            featurePreview.classList.add('border-dashed');
+            featurePreview.classList.remove('border-solid', 'border-indigo-500');
         }
     });
 </script>

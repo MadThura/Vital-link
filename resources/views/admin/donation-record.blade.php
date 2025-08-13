@@ -1,6 +1,6 @@
 <x-admin-layout>
     <!-- Main Content -->
-    <div class="h-full bg-gray-900 text-gray-200 p-6 overflow-auto">
+    <div class="h-full bg-gray-900 text-gray-200 p-6 overflow-auto scrollbar-none">
         <!-- Page Header -->
         <div class="flex flex-col md:flex-row justify-between items-start md:items-center mb-8 gap-4">
             <div>

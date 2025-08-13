@@ -16,26 +16,29 @@
             <p class="mt-3 text-base text-gray-300 sm:mt-5 sm:text-lg sm:max-w-xl sm:mx-auto md:mt-5 md:text-xl lg:mx-0">
                 Join our network of heroes. Every donation can save up to 3 lives. Become a life-saver today.
             </p>
-            <div class="mt-5 sm:mt-8 sm:flex sm:justify-center lg:justify-start space-y-3 sm:space-y-0 sm:space-x-4">
-                <div class="rounded-md shadow-lg shadow-red-900/30">
-                    <a href="/register"
-                        class="w-full flex items-center justify-center px-8 py-3 border border-transparent text-base font-medium rounded-md text-white bg-gradient-to-r from-red-500 to-red-700 hover:from-red-600 hover:to-red-800 md:py-4 md:text-lg md:px-10 transition duration-300">
-                        <i class="fas fa-heart mr-2"></i> Become a Donor
-                    </a>
-                </div>
-                <div class="rounded-md shadow">
-                    <div x-data="{ showContact: false }" class="relative">
-                        <!-- Contact Button -->
-                        <button @click="showContact = true"
-                            class="w-full flex items-center justify-center px-8 py-3 border border-red-800 text-base font-medium rounded-md text-red-300 bg-gray-800 hover:bg-red-900 md:py-4 md:text-lg md:px-10 transition duration-300">
-                            <i class="fas fa-droplet mr-2"></i> Request Acces for ward operator account
-                        </button>
-                        <!-- Modal Overlay -->
-                        <x-contact-dialog/>
+            @if (!auth()->user())
+                <div
+                    class="mt-5 sm:mt-8 sm:flex sm:justify-center lg:justify-start space-y-3 sm:space-y-0 sm:space-x-4">
+                    <div class="rounded-md shadow-lg shadow-red-900/30">
+                        <a href="/register"
+                            class="w-full flex items-center justify-center px-8 py-3 border border-transparent text-base font-medium rounded-md text-white bg-gradient-to-r from-red-500 to-red-700 hover:from-red-600 hover:to-red-800 md:py-4 md:text-lg md:px-10 transition duration-300">
+                            <i class="fas fa-heart mr-2"></i> Become a Donor
+                        </a>
                     </div>
-                    
+                    <div class="rounded-md shadow">
+                        <div x-data="{ showContact: false }" class="relative">
+                            <!-- Contact Button -->
+                            <button @click="showContact = true"
+                                class="w-full flex items-center justify-center px-8 py-3 border border-red-800 text-base font-medium rounded-md text-red-300 bg-gray-800 hover:bg-red-900 md:py-4 md:text-lg md:px-10 transition duration-300">
+                                <i class="fas fa-droplet mr-2"></i> Request Acces for ward operator account
+                            </button>
+                            <!-- Modal Overlay -->
+                            <x-contact-dialog />
+                        </div>
+
+                    </div>
                 </div>
-            </div>
+            @endif
 
             <!-- Stats -->
             <div class="mt-12 grid grid-cols-2 gap-8 sm:grid-cols-4">

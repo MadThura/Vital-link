@@ -1,9 +1,10 @@
-<x-layout title="Admin Dashboard">
+<x-layout title="{{ auth()->user()->role === 'blood_bank_admin' ? 'BloodBank Dashboard' : 'SuperAdmin Dashboard' }}">
+
     <div class="flex w-full h-screen text-black overflow-hidden">
-        <!-- Sidebar (fixed height, scroll-independent) -->
         <x-side-bar />
         <div class="flex flex-col w-[85%] h-full">
-            {{$slot}}
+            <x-header />
+            {{ $slot }}
         </div>
     </div>
 </x-layout>
