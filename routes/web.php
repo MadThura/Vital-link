@@ -25,7 +25,7 @@ Route::get('/blogs', function () {
     ]);
 });
 
-Route::get('/blogs-show/{blog}', function (Blog $blog) {
+Route::get('/blogs/{blog}', function (Blog $blog) {
     return view('blog', [
         'blog' => $blog,
         'randomBlogs' => Blog::inRandomOrder()->limit(3)->get()
@@ -112,7 +112,7 @@ Route::middleware(['auth', 'role:super_admin'])->group(function () {
             ->name('updateStatus');
     });
 
-    Route::prefix('/blogs')->name('blogs.')->group(function () {
+    Route::prefix('/superAdmin/blogs')->name('superAdmin.blogs.')->group(function () {
         Route::get('/', [BlogController::class, 'index'])->name('index');
         Route::post('/', [BlogController::class, 'store'])->name('store');
         Route::delete('/{blog}', [BlogController::class, 'destroy'])->name('destroy');

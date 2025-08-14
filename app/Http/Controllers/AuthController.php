@@ -46,17 +46,17 @@ class AuthController extends Controller
             'password' => ['required', 'string', 'min:8', 'max:30'],
         ]);
 
-        $user = User::where('email', $request->email)->first();
+        if (!Auth::attempt($credentials)) {
+
+            return back()->withErrors(['email' => 'Invalid credentials'])->withInput();
+        }
+
+        $user = User::where('email', $credentials['email'])->first();
 
         // Check if email is verified
         if (is_null($user->email_verified_at)) {
 
             return redirect()->route('verification.notice');
-        }
-
-        if (!Auth::attempt($credentials)) {
-
-            return back()->withErrors(['email' => 'Invalid credentials'])->withInput();
         }
 
         if ($user->role === 'super_admin') {

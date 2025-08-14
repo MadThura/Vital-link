@@ -18,7 +18,7 @@ class BlogController extends Controller
         $blogs = Blog::latest()->paginate(6);
         $randomBlogs = Blog::inRandomOrder()->limit(3)->get();
 
-        return view("superAdmin.blog-board", [
+        return view('superAdmin.blog-board', [
             'blogs' => $blogs,
             'randomBlogs' => $randomBlogs
         ]);
