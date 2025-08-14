@@ -66,7 +66,7 @@ class AuthController extends Controller
 
             $request->session()->regenerate();
 
-            return redirect()->route('super-admin');
+            return redirect()->route('superAdmin.dashboard');
         }
 
         if ($user->role === 'blood_bank_admin') {
