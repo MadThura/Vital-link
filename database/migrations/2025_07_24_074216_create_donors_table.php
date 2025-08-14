@@ -22,6 +22,7 @@ return new class extends Migration
 
             $table->string('donor_code')->unique()->nullable();
             // Personal info
+            $table->string('donor_code')->unique()->nullable();
             $table->string('profile_img')->nullable();
             $table->enum('gender', ['Male', 'Female']);
             $table->date('dob');

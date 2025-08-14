@@ -1,40 +1,6 @@
+
 <x-admin-layout>
     <div class="min-h-screen bg-gray-900 text-gray-200 overflow-auto scrollbar-none">
-        <!-- Header -->
-        {{-- <header class="bg-gray-800 border-b border-gray-700 px-6 py-4 flex justify-between items-center">
-            <div class="flex items-center space-x-4">
-                <h1 class="text-xl font-bold text-white">Vital<span class="text-red-500"> Link</span> </h1>
-            </div>
-            <div class="flex items-center space-x-4">
-                <div class="relative">
-                    <input type="text" placeholder="Search..."
-                        class="bg-gray-700 text-sm rounded-lg pl-10 pr-4 py-2 focus:outline-none focus:ring-2 focus:ring-red-500 w-64">
-                    <i class="fas fa-search absolute left-3 top-2.5 text-gray-400"></i>
-                </div>
-                <div class="flex items-center space-x-2">
-                    <div class="relative">
-                        <i class="fas fa-bell text-gray-400 hover:text-white cursor-pointer"></i>
-                        <span
-                            class="absolute -top-1 -right-1 bg-red-500 text-white text-xs rounded-full h-4 w-4 flex items-center justify-center">3</span>
-                    </div>
-                    <div class="flex items-center gap-6">
-                        <div class="flex items-center gap-3 group cursor-pointer">
-                            <div
-                                class="w-8 h-8 rounded-full border-2 border-transparent group-hover:border-cyan-400 transition-all overflow-hidden">
-                                <a href="/profile"><img src="/images/gojo-2.jpeg" alt="profile"
-                                        class="w-full h-full object-cover"></a>
-                            </div>
-                            <div>
-                                <p
-                                    class="text-sm font-medium text-gray-300 group-hover:text-cyan-400 transition-colors">
-                                    Violin Vibe</p>
-                                <p class="text-xs text-gray-500 group-hover:text-gray-400 transition-colors">Admin</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </header> --}}
 
         <!-- Main Content -->
         <div class="p-6">

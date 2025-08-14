@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Admin;
+namespace App\Http\Controllers\SuperAdmin;
 
 use App\Http\Controllers\Controller;
 use App\Models\Blog;
@@ -15,8 +15,13 @@ class BlogController extends Controller
 
     public function index()
     {
+        $blogs = Blog::latest()->paginate(6);
+        $randomBlogs = Blog::inRandomOrder()->limit(3)->get();
 
-        $blogs = Blog::latest()->paginate(10);
+        return view('superAdmin.blog-board', [
+            'blogs' => $blogs,
+            'randomBlogs' => $randomBlogs
+        ]);
     }
 
     public function store(Request $request)
@@ -42,7 +47,10 @@ class BlogController extends Controller
         //         Notification::send($users, new NewBlogUploaded($blog));
         //     });
 
-        $users = User::where('id', '!=', $user->id)->get();
+        $users = User::where('id', '!=', $user->id)
+            ->whereIn('role', ['donor', 'ward_operator', 'blood_bank_admin'])
+            ->whereNotNull('email_verified_at')
+            ->get();
 
         Notification::send($users, new NewBlogUploaded($blog));
 

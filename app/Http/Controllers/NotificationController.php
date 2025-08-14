@@ -2,20 +2,15 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Notification;
 use Illuminate\Http\Request;
-use Inertia\Inertia;
 
 class NotificationController extends Controller
 {
-    public function index(Request $request)
+    public function index()
     {
-        $notifications = $request->user()
-            ->notifications()
-            ->latest()
-            ->get();
+        $notifications = auth()->user()->notifications;
 
-        return Inertia::render('Notifications', [
-            'notifications' => $notifications
-        ]);
+        return response()->json($notifications);
     }
 }
