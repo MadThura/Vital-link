@@ -1,6 +1,6 @@
 <x-home-layout :donor="$donor ?? null">
     <!-- Main Content -->
-    <main class="pt-20 pb-12">
+    <main class="pt-20 pb-12 bg-gradient-to-br from-gray-900 to-gray-800">
         <!-- Hero Section -->
         <section class="relative overflow-hidden">
             <div class="absolute inset-0 z-0">
@@ -31,7 +31,7 @@
                                 class="bg-[#e11d48] hover:bg-[#e11d48]/80 text-white px-8 py-4 rounded-lg font-bold transition flex items-center drop-shadow-[0_0_8px_rgba(225,29,72,0.6)]">
                                 <i class="fas fa-heartbeat mr-3"></i> Make Donation
                             </button>
-                            <x-show-requests/>
+                            <x-show-requests />
                         </div>
 
                     </div>
@@ -76,97 +76,38 @@
             </div>
 
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                <!-- Event 1 -->
-                <div
-                    class="bg-[#171717] rounded-xl border border-[#262626] overflow-hidden transition-all duration-300 hover:translate-y-[-5px] hover:shadow-[0_10px_25px_-5px_rgba(225,29,72,0.3)]">
-                    <div class="relative h-48 overflow-hidden">
-                        <img src="https://images.unsplash.com/photo-1576091160550-2173dba999ef?ixlib=rb-1.2.1&auto=format&fit=crop&w=600&q=80"
-                            alt="Blood drive"
-                            class="w-full h-full object-cover transition duration-500 hover:scale-105">
-                        <div
-                            class="absolute top-4 left-4 bg-[#e11d48] text-white px-3 py-1 rounded-full text-xs font-bold">
-                            URGENT NEED
-                        </div>
-                    </div>
-                    <div class="p-6">
-                        <div class="flex justify-between items-start mb-3">
-                            <h3 class="text-xl font-bold">Summer Blood Drive</h3>
-                            <div class="bg-[#262626] text-xs px-2 py-1 rounded-lg flex items-center">
-                                <i class="fas fa-calendar-day mr-1"></i> Jun 15
+                <!-- Events -->
+                @foreach ($randomBlogs as $rdm)
+                    <div
+                        class="bg-[#171717] rounded-xl border border-[#262626] overflow-hidden transition-all duration-300 hover:translate-y-[-5px] hover:shadow-[0_10px_25px_-5px_rgba(225,29,72,0.3)]">
+                        <div class="relative h-48 overflow-hidden">
+                            <img src="https://images.unsplash.com/photo-1576091160550-2173dba999ef?ixlib=rb-1.2.1&auto=format&fit=crop&w=600&q=80"
+                                alt="Blood drive"
+                                class="w-full h-full object-cover transition duration-500 hover:scale-105">
+                            <div
+                                class="absolute top-4 left-4 bg-[#e11d48] text-white px-3 py-1 rounded-full text-xs font-bold">
+                                URGENT NEED
                             </div>
                         </div>
-                        <p class="text-gray-400 mb-4">Central Yangon • 10AM - 4PM</p>
-                        <p class="text-sm mb-5">Our largest annual blood donation event with free health screenings for
-                            all participants.</p>
-                        <div class="flex justify-between items-center">
-                            <span class="text-xs text-gray-500"><i class="fas fa-users mr-1"></i> 48 donors</span>
-                            <button class="text-[#e11d48] hover:text-[#e11d48]/80 text-sm font-bold transition">
-                                Register <i class="fas fa-arrow-right ml-1"></i>
-                            </button>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Event 2 -->
-                <div
-                    class="bg-[#171717] rounded-xl border border-[#262626] overflow-hidden transition-all duration-300 hover:translate-y-[-5px] hover:shadow-[0_10px_25px_-5px_rgba(225,29,72,0.3)]">
-                    <div class="relative h-48 overflow-hidden">
-                        <img src="https://images.unsplash.com/photo-1530026186672-2cd00ffc50fe?ixlib=rb-1.2.1&auto=format&fit=crop&w=600&q=80"
-                            alt="Workshop" class="w-full h-full object-cover transition duration-500 hover:scale-105">
-                        <div
-                            class="absolute top-4 left-4 bg-blue-500 text-white px-3 py-1 rounded-full text-xs font-bold">
-                            WORKSHOP
-                        </div>
-                    </div>
-                    <div class="p-6">
-                        <div class="flex justify-between items-start mb-3">
-                            <h3 class="text-xl font-bold">Donor Ambassador Training</h3>
-                            <div class="bg-[#262626] text-xs px-2 py-1 rounded-lg flex items-center">
-                                <i class="fas fa-calendar-day mr-1"></i> Jun 22
+                        <div class="p-6">
+                            <div class="flex justify-between items-start mb-3">
+                                <h3 class="text-xl font-bold">{{$rdm->title}}</h3>
+                                <div class="bg-[#262626] text-xs px-2 py-1 rounded-lg flex items-center">
+                                    <i class="fas fa-calendar-day mr-1"></i> Jun 15
+                                </div>
+                            </div>
+                             <p class="text-sm mb-5">Our largest annual blood donation event with free health screenings
+                                for
+                                all participants.</p>
+                            <div class="flex justify-between items-center">
+                                <span class="text-xs text-gray-500"><i class="fas fa-users mr-1"></i> 48 donors</span>
+                                <button class="text-[#e11d48] hover:text-[#e11d48]/80 text-sm font-bold transition">
+                                    Register <i class="fas fa-arrow-right ml-1"></i>
+                                </button>
                             </div>
                         </div>
-                        <p class="text-gray-400 mb-4">VitalLink HQ • 2PM - 5PM</p>
-                        <p class="text-sm mb-5">Learn how to organize blood drives and recruit donors in your
-                            community.</p>
-                        <div class="flex justify-between items-center">
-                            <span class="text-xs text-gray-500"><i class="fas fa-users mr-1"></i> 12 spots left</span>
-                            <button class="text-blue-400 hover:text-blue-300 text-sm font-bold transition">
-                                Learn More <i class="fas fa-arrow-right ml-1"></i>
-                            </button>
-                        </div>
                     </div>
-                </div>
-
-                <!-- Event 3 -->
-                <div
-                    class="bg-[#171717] rounded-xl border border-[#262626] overflow-hidden transition-all duration-300 hover:translate-y-[-5px] hover:shadow-[0_10px_25px_-5px_rgba(225,29,72,0.3)]">
-                    <div class="relative h-48 overflow-hidden">
-                        <img src="https://images.unsplash.com/photo-1501281668745-f7f57925c3b4?ixlib=rb-1.2.1&auto=format&fit=crop&w=600&q=80"
-                            alt="Appreciation event"
-                            class="w-full h-full object-cover transition duration-500 hover:scale-105">
-                        <div
-                            class="absolute top-4 left-4 bg-purple-500 text-white px-3 py-1 rounded-full text-xs font-bold">
-                            SOCIAL
-                        </div>
-                    </div>
-                    <div class="p-6">
-                        <div class="flex justify-between items-start mb-3">
-                            <h3 class="text-xl font-bold">Donor Appreciation Night</h3>
-                            <div class="bg-[#262626] text-xs px-2 py-1 rounded-lg flex items-center">
-                                <i class="fas fa-calendar-day mr-1"></i> Jun 28
-                            </div>
-                        </div>
-                        <p class="text-gray-400 mb-4">Grand Ballroom • 6PM - 9PM</p>
-                        <p class="text-sm mb-5">Celebrating our most dedicated donors with awards, food, and live
-                            music.</p>
-                        <div class="flex justify-between items-center">
-                            <span class="text-xs text-gray-500">VIP Invitation</span>
-                            <button class="text-purple-400 hover:text-purple-300 text-sm font-bold transition">
-                                RSVP <i class="fas fa-arrow-right ml-1"></i>
-                            </button>
-                        </div>
-                    </div>
-                </div>
+                @endforeach
             </div>
         </section>
     </main>
