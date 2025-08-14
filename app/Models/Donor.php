@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Str;
 
 class Donor extends Model
 {
@@ -23,6 +24,16 @@ class Donor extends Model
         'nrc_front',
         'nrc_back'
     ];
+
+    protected static function generateDonorCode()
+    {
+        do {
+            // Example: DNR-2025-ABC123
+            $code = 'DNR-' . date('Y') . '-' . strtoupper(Str::random(6));
+        } while (self::where('donor_code', $code)->exists());
+
+        return $code;
+    }
 
     public function user()
     {

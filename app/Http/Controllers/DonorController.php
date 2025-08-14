@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Blog;
 use App\Models\Donor;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -9,6 +10,15 @@ use Illuminate\Support\Facades\Storage;
 
 class DonorController extends Controller
 {
+
+    public function index()
+    {
+        return view('home-page', [
+            'donor' => auth()->user()->donor,
+            'blogs' => Blog::latest()->get()
+        ]);
+    }
+
     public function showCompletionForm()
     {
         $user = auth()->user();

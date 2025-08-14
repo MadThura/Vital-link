@@ -21,6 +21,7 @@ return new class extends Migration
             $table->foreignId('blood_bank_id')->nullable()->constrained()->onDelete('cascade');
 
             // Personal info
+            $table->string('donor_code')->unique()->nullable();
             $table->string('profile_img')->nullable();
             $table->enum('gender', ['Male', 'Female']);
             $table->date('dob');
@@ -49,7 +50,7 @@ return new class extends Migration
 
             // To store rejected fields and errors
             $table->json('rejection_errors')->nullable();
-            
+
             $table->timestamps();
         });
     }

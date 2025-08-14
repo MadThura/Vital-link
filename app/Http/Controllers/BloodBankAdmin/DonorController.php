@@ -5,6 +5,7 @@ namespace App\Http\Controllers\BloodBankAdmin;
 use App\Http\Controllers\Controller;
 use App\Models\Donor;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class DonorController extends Controller
 {
@@ -20,32 +21,46 @@ class DonorController extends Controller
 
     public function updateStatus(Request $request, Donor $donor, string $action)
     {
-        switch ($action) {
-            case 'approve':
-                $donor->status = 'approved';
-                $user = $donor->user;
-                $user->role = 'donor';
-                $user->update();
-                break;
-            case 'reject':
-                $donor->status = 'rejected';
-                $validated = $request->validate([
-                    'reasons' => ['nullable', 'array'],
-                    'reasons.*' => ['string'],
-                ]);
-                $donor->rejection_errors = $validated['reasons'];
-                break;
-            case 'suspend':
-                $donor->status = 'suspended';
-                break;
-            default:
-                return back()->with('fail', 'Invalid action');
+        DB::beginTransaction();
+
+        try {
+            switch ($action) {
+                case 'approve':
+                    $donor->status = 'approved';
+                    $user = $donor->user;
+                    $user->role = 'donor';
+                    $user->save();
+
+                    $donor->donor_code = Donor::generateDonorCode();
+                    break;
+
+                case 'reject':
+                    $donor->status = 'rejected';
+                    $validated = $request->validate([
+                        'reasons' => ['nullable', 'array'],
+                        'reasons.*' => ['string'],
+                    ]);
+                    $donor->rejection_errors = $validated['reasons'];
+                    break;
+
+                case 'suspend':
+                    $donor->status = 'suspended';
+                    break;
+
+                default:
+                    return back()->with('fail', 'Invalid action');
+            }
+
+            $donor->blood_bank_id = auth()->user()->bloodBank->id;
+            $donor->save();
+
+            DB::commit();
+
+            return back()->with('success', 'Donor ' . $donor->status . ' successfully.');
+        } catch (\Throwable $e) {
+            DB::rollBack();
+            return back()->with('fail', 'Something went wrong: ' . $e->getMessage());
         }
-
-        $donor->blood_bank_id = auth()->user()->bloodBank->id;
-        $donor->save();
-
-        return back()->with('success', 'Donor ' . $donor->status . ' successfully.');
     }
 
     public function destroy(Donor $donor)

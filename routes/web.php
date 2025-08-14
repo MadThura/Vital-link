@@ -43,8 +43,6 @@ Route::post('/email/verification-notification', function (Request $request) {
 })->middleware(['auth', 'throttle:6,1'])->name('verification.send');
 
 
-Route::get('/notifications', [NotificationController::class, 'index']);
-
 Route::get('/donor-files/{path}', [DonorFileController::class, 'show'])->where('path', '.*')->name('donor.files.show');
 
 Route::middleware(['auth', 'verified'])->group(function () {
@@ -56,15 +54,12 @@ Route::middleware(['auth', 'verified'])->group(function () {
         Route::post('/complete', [DonorController::class, 'storeCompletion'])->name('storeComplete');
         Route::put('/update', [DonorController::class, 'updateCompletion'])->name('updateComplete');
     });
+    Route::get('/notifications', [NotificationController::class, 'index']);
 });
 
 Route::middleware(['auth', 'verified', 'role:donor'])->group(function () {
-    Route::get('/home', function () {
-        return view('home-page', [
-            'donor' => auth()->user()->donor,
-            'blogs' => Blog::latest()->get()
-        ]);
-    })->name('home');
+
+    Route::get('/home', [DonorController::class, 'index'])->name('home');
 });
 
 Route::middleware(['auth', 'role:blood_bank_admin'])->group(function () {

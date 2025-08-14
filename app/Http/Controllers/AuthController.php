@@ -8,6 +8,8 @@ use Illuminate\Auth\Events\Registered;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
+use function PHPUnit\Framework\isEmpty;
+
 class AuthController extends Controller
 {
     public function register()
@@ -50,7 +52,6 @@ class AuthController extends Controller
         if (is_null($user->email_verified_at)) {
 
             return redirect()->route('verification.notice');
-            // return back()->withErrors(['email' => 'Please verify your email before logging in.']);
         }
 
         if (!Auth::attempt($credentials)) {
@@ -73,20 +74,20 @@ class AuthController extends Controller
         }
 
         $donor = Donor::where('user_id', $user->id)->first();
-        if ($donor->status === 'pending' || $donor->status === 'rejected' || $donor->status === 'resubmitted') {
 
+        if (!$donor) {
+            return redirect()->route('donor.complete');
+        }
+
+        if (in_array($donor->status, ['pending', 'rejected', 'resubmitted'], true)) {
             $request->session()->regenerate();
 
-            return view('welcome', [
-                'donor' => $donor
-            ]);
+            return redirect()->route('welcome');
         } elseif ($donor->status === 'approved') {
 
             $request->session()->regenerate();
 
-            return view('home-page', [
-                'donor' => $donor
-            ]);
+            return redirect()->route('home');
         }
     }
 
