@@ -3,7 +3,7 @@
     <div class="flex-grow"></div>
     <div class="flex items-center space-x-6 mr-5">
         <!-- Notification Icon -->
-        <div x-data="{
+        {{-- <div x-data="{
             open: false,
             notifications: [{
                     id: 1,
@@ -44,7 +44,7 @@
             </button>
 
             <x-superadmin-noti />
-        </div>
+        </div> --}}
         <!-- Profile Information -->
         <a href="/profile" class="flex items-center gap-3 px-4 py-3 hover:bg-gray-700/50 transition-all group   ">
             <!-- Shield Icon (Authority) -->

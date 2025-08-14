@@ -40,123 +40,140 @@
         <!-- Main Content Area (Scrollable) -->
         <div class="flex-1 overflow-y-auto pr-2 scrollbar-none scrollbar-thumb-gray-700 scrollbar-track-gray-800/50">
             <!-- Featured Blog Gallery (Auto-scrolling) -->
-            <div class="mb-10 relative group">
-                <h2
-                    class="text-xl font-semibold mb-4 bg-clip-text text-transparent bg-gradient-to-r from-indigo-300 to-purple-300">
-                    Featured Posts</h2>
-                <div class="relative h-64 overflow-hidden rounded-xl">
-                    <!-- Gallery Container -->
-                    <div id="blogGallery" class="flex h-full transition-transform duration-1000 ease-in-out">
-                        <!-- Slides -->
-                        @foreach ($randomBlogs as $blog)
-                            <div class="min-w-full h-full relative rounded-xl overflow-hidden shadow-lg">
-                                <!-- Dark overlay -->
-                                <div class="absolute inset-0 bg-gradient-to-r from-blue-900/70 to-purple-900/70 z-10">
-                                </div>
+            @if (isset($blogs) && $blogs->count() > 0)
+                <div class="mb-10 relative group">
+                    <h2
+                        class="text-xl font-semibold mb-4 bg-clip-text text-transparent bg-gradient-to-r from-indigo-300 to-purple-300">
+                        Featured Posts</h2>
+                    <div class="relative h-64 overflow-hidden rounded-xl">
+                        <!-- Gallery Container -->
+                        <div id="blogGallery" class="flex h-full transition-transform duration-1000 ease-in-out">
+                            <!-- Slides -->
+                            @foreach ($randomBlogs as $blog)
+                                <div class="min-w-full h-full relative rounded-xl overflow-hidden shadow-lg">
+                                    <!-- Dark overlay -->
+                                    <div
+                                        class="absolute inset-0 bg-gradient-to-r from-blue-900/70 to-purple-900/70 z-10">
+                                    </div>
 
-                                <!-- Event photo -->
-                                <img src="{{ asset('storage/' . $blog->image) }}" alt="Upcoming Event"
-                                    class="w-full h-full object-cover">
+                                    <!-- Event photo -->
+                                    <img src="{{ asset('storage/' . $blog->image) }}" alt="Upcoming Event"
+                                        class="w-full h-full object-cover">
 
-                                <!-- Content -->
-                                <div class="absolute bottom-0 left-0 z-20 p-6 w-full">
+                                    <!-- Content -->
+                                    <div class="absolute bottom-0 left-0 z-20 p-6 w-full">
 
-                                    <h3 class="text-2xl font-bold text-white mb-2">{{ $blog->title }}</h3>
-                                    <p class="text-gray-300 mb-4">{{ $blog->body }}</p>
-                                    <div x-data="{
-                                        showViewDialog: false,
-                                    }">
-                                        <button @click="showViewDialog = true"
-                                            class="px-4 py-2 bg-white/10 backdrop-blur-sm text-white rounded-lg border border-white/20 hover:bg-white/20 transition-all">
-                                            View Details
-                                        </button>
-                                        <x-view-blog-dialog :blog="$blog"/>
+                                        <h3 class="text-2xl font-bold text-white mb-2">{{ $blog->title }}</h3>
+                                        <p class="text-gray-300 mb-4">{{ $blog->body }}</p>
+                                        <div x-data="{
+                                            showViewDialog: false,
+                                        }">
+                                            <button @click="showViewDialog = true"
+                                                class="px-4 py-2 bg-white/10 backdrop-blur-sm text-white rounded-lg border border-white/20 hover:bg-white/20 transition-all">
+                                                View Details
+                                            </button>
+                                            <x-view-blog-dialog :blog="$blog" />
+                                        </div>
                                     </div>
                                 </div>
+                            @endforeach
+
+                        </div>
+
+                        <!-- Gallery Navigation -->
+                        <div class="absolute bottom-4 right-4 z-20 flex space-x-2" id="galleryNav">
+                            <button class="w-3 h-3 rounded-full bg-white/70 gallery-dot" data-index="0"></button>
+                            <button
+                                class="w-3 h-3 rounded-full bg-white/30 hover:bg-white/50 transition-all gallery-dot"
+                                data-index="1"></button>
+                            <button
+                                class="w-3 h-3 rounded-full bg-white/30 hover:bg-white/50 transition-all gallery-dot"
+                                data-index="2"></button>
+                        </div>
+                    </div>
+                </div>
+
+
+                <!-- Blog Posts Grid -->
+                <div class="mb-10">
+                    <h2
+                        class="text-xl font-semibold mb-6 bg-clip-text text-transparent bg-gradient-to-r from-indigo-300 to-purple-300">
+                        Recent Posts</h2>
+                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                        <!-- Blog Post Card 1 -->
+                        @foreach ($blogs as $blog)
+                            <div x-data="{
+                                showViewDialog: false,
+                                showEditDialog: false,
+                            }"
+                                class="relative group rounded-xl overflow-hidden shadow-lg hover:shadow-xl transition-all duration-300">
+                                <!-- Event photo -->
+                                <img src="{{ asset('storage/' . $blog->image) }}" alt="Event"
+                                    class="absolute inset-0 w-full h-full object-cover z-0">
+
+                                <!-- Dark overlay on hover -->
+                                <div
+                                    class="absolute inset-0 bg-gradient-to-br from-indigo-900/20 to-purple-900/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300 z-0">
+                                </div>
+
+                                <!-- Card content -->
+                                <div class="relative z-10 p-6 flex flex-col h-full bg-gray-800/40 backdrop-blur-sm">
+                                    <h3
+                                        class="text-xl font-bold text-white mb-3 group-hover:text-indigo-300 transition-colors duration-200">
+                                        {{ $blog->title }}
+                                    </h3>
+                                    <p class="text-gray-200 text-sm mb-6 flex-grow">
+                                        {{ $blog->body }}
+                                    </p>
+                                    <div class="flex justify-between items-center text-sm text-white">
+                                        <div class="flex items-center space-x-1">
+                                            <i class="fa-regular fa-clock"></i>
+                                            <span>{{ $blog->created_at->diffForHumans() }}</span>
+                                        </div>
+                                        <div class="flex space-x-2">
+                                            <button @click="showViewDialog = true"
+                                                class="text-white-400 hover:text-indigo-300 transition-colors">
+                                                <i class="fa-solid fa-eye"></i>
+                                            </button>
+                                            <button @click="showEditDialog = true"
+                                                class="text-white hover:text-indigo-300 transition-colors">
+                                                <i class="fa-regular fa-pen-to-square"></i>
+                                            </button>
+                                            <form action="{{ route('blogs.destroy', $blog) }}" method="POST">
+                                                @csrf
+                                                @method('DELETE')
+                                                <button type="submit"
+                                                    class="text-white hover:text-indigo-300 transition-colors">
+                                                    <i class="fa-solid fa-trash"></i>
+                                                </button>
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- View Blog Dialog -->
+                                <x-view-blog-dialog :blog="$blog" />
+                                <!-- Edit Blog Dialog -->
+                                <x-edit-blog-dialog :blog="$blog" />
                             </div>
                         @endforeach
-
-                    </div>
-
-                    <!-- Gallery Navigation -->
-                    <div class="absolute bottom-4 right-4 z-20 flex space-x-2" id="galleryNav">
-                        <button class="w-3 h-3 rounded-full bg-white/70 gallery-dot" data-index="0"></button>
-                        <button class="w-3 h-3 rounded-full bg-white/30 hover:bg-white/50 transition-all gallery-dot"
-                            data-index="1"></button>
-                        <button class="w-3 h-3 rounded-full bg-white/30 hover:bg-white/50 transition-all gallery-dot"
-                            data-index="2"></button>
                     </div>
                 </div>
-            </div>
-
-
-            <!-- Blog Posts Grid -->
-            <div class="mb-10">
-                <h2
-                    class="text-xl font-semibold mb-6 bg-clip-text text-transparent bg-gradient-to-r from-indigo-300 to-purple-300">
-                    Recent Posts</h2>
-                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                    <!-- Blog Post Card 1 -->
-                    @foreach ($blogs as $blog)
-                        <div x-data="{
-                            showViewDialog: false,
-                            showEditDialog: false,
-                        }"
-                            class="relative group rounded-xl overflow-hidden shadow-lg hover:shadow-xl transition-all duration-300">
-                            <!-- Event photo -->
-                            <img src="{{ asset('storage/' . $blog->image) }}" alt="Event"
-                                class="absolute inset-0 w-full h-full object-cover z-0">
-
-                            <!-- Dark overlay on hover -->
-                            <div
-                                class="absolute inset-0 bg-gradient-to-br from-indigo-900/20 to-purple-900/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300 z-0">
-                            </div>
-
-                            <!-- Card content -->
-                            <div class="relative z-10 p-6 flex flex-col h-full bg-gray-800/40 backdrop-blur-sm">
-                                <h3
-                                    class="text-xl font-bold text-white mb-3 group-hover:text-indigo-300 transition-colors duration-200">
-                                    {{ $blog->title }}
-                                </h3>
-                                <p class="text-gray-200 text-sm mb-6 flex-grow">
-                                    {{ $blog->body }}
-                                </p>
-                                <div class="flex justify-between items-center text-sm text-white">
-                                    <div class="flex items-center space-x-1">
-                                        <i class="fa-regular fa-clock"></i>
-                                        <span>{{ $blog->created_at->diffForHumans() }}</span>
-                                    </div>
-                                    <div class="flex space-x-2">
-                                        <button @click="showViewDialog = true"
-                                            class="text-white-400 hover:text-indigo-300 transition-colors">
-                                            <i class="fa-solid fa-eye"></i>
-                                        </button>
-                                        <button @click="showEditDialog = true"
-                                            class="text-white hover:text-indigo-300 transition-colors">
-                                            <i class="fa-regular fa-pen-to-square"></i>
-                                        </button>
-                                        <form action="{{ route('blogs.destroy', $blog) }}" method="POST">
-                                            @csrf
-                                            @method('DELETE')
-                                            <button type="submit"
-                                                class="text-white hover:text-indigo-300 transition-colors">
-                                                <i class="fa-solid fa-trash"></i>
-                                            </button>
-                                        </form>
-                                    </div>
-                                </div>
-                            </div>
-                            <!-- View Blog Dialog -->
-                            <x-view-blog-dialog :blog="$blog" />
-                            <!-- Edit Blog Dialog -->
-                            <x-edit-blog-dialog :blog="$blog"/>
-                        </div>
-                    @endforeach
+                <div class="mt-5">
+                    {{ $blogs->links() }}
                 </div>
-            </div>
-            <div class="mt-5">
-                {{ $blogs->links() }}
-            </div>
+            @else
+                <div
+                    class="w-full h-full flex flex-col items-center justify-center bg-gray-800/30 rounded-xl shadow-lg p-6 text-center">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="w-16 h-16 text-gray-400 mb-4" fill="none"
+                        viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">
+                        <path stroke-linecap="round" stroke-linejoin="round"
+                            d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+                    </svg>
+                    <h1 class="text-2xl font-semibold text-gray-300">No Blogs Published</h1>
+                    <p class="text-gray-400 mt-2">Check back later for new posts</p>
+                </div>
+
+            @endif
 
         </div>
     </div>
@@ -228,5 +245,4 @@
             }
         });
     </script>
-
 </x-admin-layout>

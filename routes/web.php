@@ -19,6 +19,19 @@ Route::get('/', function () {
     ]);
 })->name('welcome');
 
+Route::get('/blogs', function () {
+    return view('blog', [
+        'blog' => Blog::latest()->paginate(6)
+    ]);
+});
+
+Route::get('/blogs-show/{blog}', function (Blog $blog) {
+    return view('blog', [
+        'blog' => $blog,
+        'randomBlogs' => Blog::inRandomOrder()->limit(3)->get()
+    ]);
+});
+
 // User Register & Login
 Route::get('/register', [AuthController::class, 'register'])->name('register');
 Route::post('/register', [AuthController::class, 'registerStore'])->name('register');

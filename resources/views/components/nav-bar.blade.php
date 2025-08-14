@@ -1,19 +1,19 @@
-<nav class="fixed w-full top-0 left-0 z-50 border-b border-[#262626] backdrop-blur-xl bg-[#0a0a0a]/85">
-    <div class="mx-auto px-4 sm:px-6 lg:px-8">
-        <div class="flex items-center justify-between h-16">
+<nav class="fixed w-full top-0 left-0 z-50 backdrop-blur-lg bg-[#0a0a0a]/10">
+    <div class="">
+        <div class="flex items-center justify-between h-16 pl-5">
             <div class="flex items-center">
                 <div class="flex-shrink-0 flex items-center">
                     <i class="fas fa-heartbeat text-red-500 text-2xl mr-2"></i>
                     <span
-                        class="text-2xl font-bold bg-gradient-to-r from-red-400 to-red-600 bg-clip-text text-transparent">VitalLink</span>
+                        class="text-2xl font-bold bg-gradient-to-r from-red-500 to-blue-500 bg-clip-text text-transparent">VitalLink</span>
                 </div>
                 <div class="hidden md:block">
-                    <div class="ml-10 flex items-baseline space-x-4">
+                    <div class="ml-10 flex items-center space-x-4 gap-3">
                         <a href="/"
-                            class="text-red-400 hover:text-red-300 px-3 py-2 rounded-md text-sm font-medium">Welcome</a>
+                            class="text-red-400 hover:text-red-300 rounded-md text-sm font-medium">Welcome</a>
                         <a href="#"
-                            class="text-gray-300 hover:text-white px-3 py-2 rounded-md text-sm font-medium">About</a>
-                        <button class="text-gray-300 hover:text-white px-3 py-2 rounded-md text-sm font-medium">
+                            class="text-gray-300 hover:text-white rounded-md text-sm font-medium">About</a>
+                        <button class="text-gray-300 hover:text-white rounded-md text-sm font-medium">
                             Contact
                         </button>
 
@@ -25,55 +25,47 @@
                     $donor = auth()->user()->donor;
                     $user = auth()->user();
                 @endphp
-                <div class="flex items-center gap-10">
-                    {{-- Donor Home Link --}}
-                    @if ($donor?->status === 'approved')
-                        <a href="{{ route('home') }}"
-                            class="text-red-400 hover:text-red-300 px-3 py-2 rounded-md text-sm font-medium">
-                            Donor Home
-                            <i class="ml-2 fa-solid fa-home text-red-400 hover:text-red-300"></i>
-                        </a>
-                        <button id="openNotificationBtn" class="relative p-2 rounded-full hover:bg-gray-200">
+                <div class="flex items-center gap-5">
+                    @if ($donor?->status === 'approved' || $user->role === 'blood_bank_admin')
+                        <button id="openNotificationBtn"
+                            class="relative p-2.5 rounded-full hover:bg-gray-800 transition-all duration-200 ease-in-out group bg-gray-900/20">
                             <!-- Bell Icon -->
-                            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-gray-700" fill="none"
-                                viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                                <path stroke-linecap="round" stroke-linejoin="round" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002
-                                  6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67
-                                  6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595
-                                  1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9" />
-                            </svg>
-
-                            <!-- Red Dot -->
+                            <i
+                                class="fa-solid fa-bell text-gray-300 group-hover:text-white transition-colors duration-200"></i>
+                            <!-- Notification Badge -->
                             <span id="notificationCount"
-                                class="absolute top-0 right-0 inline-flex items-center justify-center
-                 px-1.5 py-0.5 text-xs font-bold leading-none text-white
-                 transform translate-x-1/2 -translate-y-1/2 bg-red-600 rounded-full">
-                                0
+                                class="absolute top-0 right-0 inline-flex items-center justify-center w-5 h-5 text-xs font-medium text-white bg-red-500 rounded-full transform translate-x-1/2 -translate-y-1/2 group-hover:bg-red-400 transition-colors duration-200 shadow-[0_0_0_1px_rgba(17,24,39,1)]">
                             </span>
                         </button>
-                        <div id="notification-box" class="relative">
-
-                        </div>
-                    @elseif($donor?->status === 'rejected')
-                        <a href="{{ route('donor.complete') }}"
-                            class="inline-flex items-center text-xs bg-[#e11d48] hover:bg-[#bf1a3e] text-white px-3 py-1.5 rounded-full transition">
-                            <i class="fas fa-redo mr-1.5"></i> Edit and Resubmit
-                        </a>
-                    @elseif ($user->role === 'blood_bank_admin')
+                        <div id="notification-box" class="relative"></div>
+                    @endif
+                    {{-- Donor Home Link --}}
+                    @if ($user->role === 'donor')
+                        @if ($donor?->status === 'approved')
+                            <a href="{{ route('home') }}"
+                                class="text-red-400 hover:text-red-300 rounded-md text-sm font-medium">
+                                Donor Home
+                                <i class="ml-2 fa-solid fa-home text-red-400 hover:text-red-300"></i>
+                            </a>
+                        @elseif ($donor?->status === 'rejected')
+                            <a href="{{ route('donor.complete') }}"
+                                class="inline-flex items-center text-xs bg-[#e11d48] hover:bg-[#bf1a3e] text-white px-3 py-1.5 rounded-full transition">
+                                <i class="fas fa-redo mr-1.5"></i> Edit and Resubmit
+                            </a>
+                        @endif
+                    @elseif($user->role === 'blood_bank_admin')
                         <a href="{{ route('dashboard') }}"
-                            class="text-red-400 hover:text-red-300 px-3 py-2 rounded-md text-sm font-medium">
+                            class="text-red-400 hover:text-red-300 rounded-md text-sm font-medium">
                             Dashboard
                             <i class="ml-2 fa-solid fa-square-poll-horizontal text-red-400 hover:text-red-300"></i>
                         </a>
-                    @elseif ($user->role === 'super_admin')
+                    @elseif($user->role === 'super_admin')
                         <a href="{{ route('super-admin') }}"
-                            class="text-red-400 hover:text-red-300 px-3 py-2 rounded-md text-sm font-medium">
+                            class="text-red-400 hover:text-red-300 rounded-md text-sm font-medium">
                             Dashboard
                             <i class="ml-2 fa-solid fa-square-poll-horizontal text-red-400 hover:text-red-300"></i>
                         </a>
                     @endif
-
-
                     {{-- Profile Dropdown --}}
                     <div class="group relative">
                         <button
@@ -185,13 +177,12 @@
                                 <i class="fas fa-sign-out-alt mr-2"></i> Logout
                             </a>
                         </div>
-                    </div>
-
+                    </div>            
                 </div>
             @else
                 {{-- Not Logged In --}}
                 <div class="hidden md:block">
-                    <div class="ml-4 flex items-end md:ml-6 space-x-3">
+                    <div class="mr-4 flex items-end md:ml-6 space-x-3">
                         <a href="{{ route('login') }}"
                             class="bg-gray-800 hover:bg-red-900 text-white px-4 py-2 rounded-md text-sm font-medium transition duration-300 border border-red-800">
                             Log In

@@ -1,3 +1,6 @@
+<?php
+$featureBlog = $blogs->last();
+?>
 <x-home-layout :donor="$donor ?? null">
     <!-- Blood droplet background elements -->
     <div class="fixed -z-10 inset-0 overflow-hidden opacity-20 ">
@@ -117,70 +120,85 @@
         </div>
     </section>
 
-    <!-- Testimonials -->
-    <section class="py-12 mt-20">
+    <!-- Blogs -->
+    <section class="py-16 bg-gray-900">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="lg:text-center">
-                <h2 class="text-base text-red-400 font-semibold tracking-wide uppercase">Testimonials</h2>
-                <p class="mt-2 text-3xl leading-8 font-extrabold tracking-tight text-white sm:text-4xl">
-                    Stories from Our Donors
-                </p>
+            <div class="text-center mb-16">
+
+                <h2 class="text-4xl font-bold text-white mb-4">News & Events</h2>
+                <div class="w-24 h-1 bg-gradient-to-r from-blue-500 to-purple-600 mx-auto"></div>
             </div>
 
-            <div class="mt-10 grid grid-cols-1 md:grid-cols-3 gap-8">
-                <!-- Testimonial 1 -->
-                <div class="bg-gray-800 p-6 rounded-lg border-t-4 border-red-500">
-                    <div class="flex items-center">
-                        <div
-                            class="flex-shrink-0 h-12 w-12 rounded-full bg-red-900 flex items-center justify-center text-red-400">
-                            <i class="fas fa-user text-xl"></i>
-                        </div>
-                        <div class="ml-4">
-                            <div class="text-lg font-medium text-white">Sarah Johnson</div>
-                            <div class="text-red-400">Regular Donor</div>
+            <div class="grid gap-10 md:grid-cols-2 lg:gap-12">
+                <!-- Featured Post (Left Side) -->
+                <div class="group relative overflow-hidden rounded-xl shadow-2xl" id="feature-post">
+                    <div class="absolute inset-0 bg-gradient-to-b from-transparent to-black/80 z-10"></div>
+                    <img src="{{ asset('storage/' . $featureBlog->image) }}" alt="event"
+                        class="w-full h-96 object-cover transform group-hover:scale-105 transition duration-500">
+                    <div class="absolute bottom-0 left-0 p-8 z-20">
+                        <span
+                            class="inline-block px-3 py-1 text-xs font-semibold text-white bg-red-500 rounded-full mb-3">Latest
+                            Event</span>
+                        <h3 class="text-2xl font-bold text-white mb-2">{{ $featureBlog->title }}</h3>
+                        <p class="text-gray-300 mb-4">{{ $featureBlog->body }}</p>
+                        <div class="flex items-center justify-between">
+                            <div class="flex items-center text-sm text-gray-300">
+                                <i class="fa-solid fa-clock mr-3"></i>
+                                {{ $featureBlog->created_at->diffForHumans() }}
+                            </div>
+                            <a href="/blogs-show/{{ $featureBlog->id }}"
+                                class="text-blue-400 hover:text-blue-300 font-medium text-sm inline-flex items-center">
+                                Read Article
+                                <i class="fa-solid fa-circle-arrow-right ml-3"></i>
+                            </a>
                         </div>
                     </div>
-                    <div class="mt-4 text-gray-300">
-                        "Donating blood is the easiest way to save lives. I've been donating every 3 months for 5 years
-                        and it's become a rewarding habit."
-                    </div>
+
                 </div>
 
-                <!-- Testimonial 2 -->
-                <div class="bg-gray-800 p-6 rounded-lg border-t-4 border-red-500">
-                    <div class="flex items-center">
+                <!-- Recent Posts (Right Side) -->
+                <div class="flex flex-col gap-6 max-h-[24rem] overflow-y-auto">
+                    <!-- Adjust max-h to match feature post -->
+                    @foreach ($blogs as $blog)
                         <div
-                            class="flex-shrink-0 h-12 w-12 rounded-full bg-red-900 flex items-center justify-center text-red-400">
-                            <i class="fas fa-user text-xl"></i>
-                        </div>
-                        <div class="ml-4">
-                            <div class="text-lg font-medium text-white">Michael Chen</div>
-                            <div class="text-red-400">First-Time Donor</div>
-                        </div>
-                    </div>
-                    <div class="mt-4 text-gray-300">
-                        "I was nervous at first, but the staff made the process so comfortable. Knowing my blood helped
-                        save a child's life made it all worthwhile."
-                    </div>
-                </div>
+                            class="flex flex-col sm:flex-row gap-6 p-5 bg-gray-800/50 hover:bg-gray-800 rounded-lg transition duration-300 border-l-4 border-blue-500">
+                            <div class="flex-shrink-0">
+                                <img class="w-32 h-24 object-cover rounded-lg"
+                                    src="{{ asset('storage/' . $blog->image) }}" alt="Blood donation tips">
+                            </div>
+                            <div>
+                                <div>
+                                    <span
+                                        class="inline-block px-2 py-1 text-xs font-semibold text-blue-400 bg-blue-900/30 rounded mb-2">Blog
+                                        Post</span>
+                                    <h4 class="text-lg font-semibold text-white mb-1">{{ $blog->title }}</h4>
+                                    <p class="ml-3 text-gray-400">{{ Str::limit($blog->body, 20, '...') }}</p>
+                                </div>
+                                <div class="flex items-center gap-40">
+                                    <div class="flex items-center text-xs text-gray-500">
+                                        <i class="fa-solid fa-clock mr-3"></i>
+                                        {{ $blog->created_at->diffForHumans() }}
+                                    </div>
 
-                <!-- Testimonial 3 -->
-                <div class="bg-gray-800 p-6 rounded-lg border-t-4 border-red-500">
-                    <div class="flex items-center">
-                        <div
-                            class="flex-shrink-0 h-12 w-12 rounded-full bg-red-900 flex items-center justify-center text-red-400">
-                            <i class="fas fa-user text-xl"></i>
+                                    <a href="/blogs-show/{{ $blog->id }}"
+                                        class="text-blue-400 hover:text-blue-300 font-medium text-sm items-center">
+                                        Read Article
+                                        <i class="fa-solid fa-circle-arrow-right ml-3"></i>
+                                    </a>
+                                </div>
+                            </div>
                         </div>
-                        <div class="ml-4">
-                            <div class="text-lg font-medium text-white">David Wilson</div>
-                            <div class="text-red-400">Recipient's Father</div>
-                        </div>
-                    </div>
-                    <div class="mt-4 text-gray-300">
-                        "When my daughter needed emergency surgery, blood donors saved her life. I'll be forever
-                        grateful to these anonymous heroes."
-                    </div>
+                    @endforeach
                 </div>
+            </div>
+
+
+            <div class="mt-16 text-center">
+                <a href="/blogs"
+                    class="inline-flex items-center justify-center px-6 py-3 border border-transparent text-base font-medium rounded-md text-white bg-gradient-to-r from-blue-500 to-purple-600 hover:from-blue-600 hover:to-purple-700 shadow-lg transition-all duration-300">
+                    View All Posts
+                    <i class="fa-solid fa-arrow-right ml-3"></i>
+                </a>
             </div>
         </div>
     </section>
