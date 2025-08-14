@@ -53,6 +53,9 @@ class AuthController extends Controller
 
         $user = User::where('email', $credentials['email'])->first();
 
+        if (!Auth::attempt($credentials)) {
+            return back()->withErrors(['email' => 'Invalid credentials'])->withInput();
+        }
         // Check if email is verified
         if (is_null($user->email_verified_at)) {
 
