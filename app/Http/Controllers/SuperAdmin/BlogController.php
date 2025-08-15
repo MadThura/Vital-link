@@ -52,6 +52,27 @@ class BlogController extends Controller
         return back()->with('success', 'New blog is uploaded successfully.');
     }
 
+    public function update(Request $request, Blog $blog)
+    {
+        $validated = $request->validate([
+            'title' => ['required', 'string'],
+            'body' => ['required', 'string'],
+            'image' => ['required', 'image', 'file']
+        ]);
+
+        if ($request->hasFile('image')) {
+            Storage::disk('public')->delete($blog->image);
+            $path = $request->file('image')->store('blogs', 'public');
+        }
+
+        $blog->title = $validated['title'];
+        $blog->body = $validated['body'];
+        $blog->image = $path;
+        $blog->update();
+
+        return back()->with('success', 'Blog is updated successfully.');
+    }
+
     public function destroy(Blog $blog)
     {
 

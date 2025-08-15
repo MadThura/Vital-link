@@ -7,6 +7,7 @@ use App\Http\Controllers\DonorController;
 use App\Http\Controllers\DonorFileController;
 use App\Http\Controllers\NotificationController;
 use App\Http\Controllers\SuperAdmin\BlogController;
+use App\Http\Controllers\SuperAdmin\DashboardController as SuperAdminDashboardController;
 use App\Http\Controllers\SuperAdmin\UserController;
 use App\Models\Blog;
 use Illuminate\Foundation\Auth\EmailVerificationRequest;
@@ -93,7 +94,7 @@ Route::middleware(['auth', 'verified', 'role:donor'])->group(function () {
     Route::get('/home', [DonorController::class, 'index'])->name('home');
 });
 
-Route::middleware(['auth', 'role:blood_bank_admin'])->group(function () {
+Route::middleware(['auth', 'role:blood_bank_admin'])->prefix('blood-bank-admin')->name('bba.')->group(function () {
 
     Route::get('/dashboard', [BloodBankAdminDashboardController::class, 'index'])->name('dashboard');
     Route::get('/donation-record', function () {
@@ -112,31 +113,28 @@ Route::middleware(['auth', 'role:blood_bank_admin'])->group(function () {
     });
 });
 
-Route::middleware(['auth', 'role:super_admin'])->group(function () {
+Route::middleware(['auth', 'role:super_admin'])
+    ->prefix('/super-admin')
+    ->name('superAdmin.')->group(function () {
 
-    Route::get('/superadmin-dashboard', function () {
-        return view("superAdmin.dashboard");
-    })->name('super-admin');
-    Route::get('/blogboard', [BlogController::class, 'index'])->name('blog-board');
-    Route::get('/user-management', function () {
-        return view("superAdmin.operator-admin-show");
-    })->name('user-management');
+        Route::get('/dashboard', [SuperAdminDashboardController::class, 'index'])->name('dashboard');
+        Route::get('/blogboard', [BlogController::class, 'index'])->name('blog-board');
+        Route::get('/user-management', function () {
+            return view("superAdmin.operator-admin-show");
+        })->name('user-management');
 
-    Route::prefix('/users')->name('users.')->group(function () {
-        Route::get('/', [UserController::class, 'index'])->name('index');
-        Route::post('/', [UserController::class, 'store'])->name('store');
-        Route::post('/{user}/{action}', [UserController::class, 'updateStatus'])
-            ->where('action', 'suspend|active')
-            ->name('updateStatus');
+        Route::prefix('/users')->name('users.')->group(function () {
+            Route::get('/', [UserController::class, 'index'])->name('index');
+            Route::post('/', [UserController::class, 'store'])->name('store');
+            Route::post('/{user}/{action}', [UserController::class, 'updateStatus'])
+                ->where('action', 'suspend|active')
+                ->name('updateStatus');
+        });
+
+        Route::prefix('/blogs')->name('superAdmin.blogs.')->group(function () {
+            Route::get('/', [BlogController::class, 'index'])->name('index');
+            Route::post('/', [BlogController::class, 'store'])->name('store');
+            Route::put('/{blog}/update', [BlogController::class, 'store'])->name('update');
+            Route::delete('/{blog}', [BlogController::class, 'destroy'])->name('destroy');
+        });
     });
-
-    Route::prefix('/blogs')->name('blogs.')->group(function () {
-        Route::get('/', [BlogController::class, 'index'])->name('index');
-        Route::post('/', [BlogController::class, 'store'])->name('store');
-        Route::delete('/{blog}', [BlogController::class, 'destroy'])->name('destroy');
-    });
-});
-
-Route::get('/profile', function(){
-    return view('profile');
-});
