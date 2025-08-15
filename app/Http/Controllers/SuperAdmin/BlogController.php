@@ -42,11 +42,6 @@ class BlogController extends Controller
 
         $blog = Blog::create($validated);
 
-        // User::where('id', '!=', $user->id)
-        //     ->chunk(5, function ($users) use ($blog) {
-        //         Notification::send($users, new NewBlogUploaded($blog));
-        //     });
-
         $users = User::where('id', '!=', $user->id)
             ->whereIn('role', ['donor', 'ward_operator', 'blood_bank_admin'])
             ->whereNotNull('email_verified_at')

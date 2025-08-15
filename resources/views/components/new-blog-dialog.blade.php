@@ -40,7 +40,7 @@
                                 class="fa-solid fa-cloud-arrow-up text-3xl text-gray-500 group-hover:text-indigo-400 transition-colors"></i>
                             <p class="text-sm text-gray-400">Click to upload or drag and drop
                             </p>
-                            <p class="text-xs text-gray-500">PNG, JPG, GIF up to 5MB</p>
+                            <p class="text-xs text-gray-500">PNG, JPG, GIF up to 2MB</p>
                         </div>
                     </template>
                     <template x-if="previewImage">

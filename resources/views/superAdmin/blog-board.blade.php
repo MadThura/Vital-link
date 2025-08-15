@@ -1,7 +1,7 @@
 <x-admin-layout title="SuperAdmin Dashboard">
     <!-- Blog Dashboard Container -->
     <div
-        class="flex flex-col w-full h-full bg-gradient-to-br from-gray-900 to-gray-800 text-gray-100  p-8 backdrop-blur-sm border border-gray-700/50 overflow-hidden">
+        class="flex flex-col w-full h-full bg-gradient-to-br from-gray-900 to-gray-800 text-gray-100  p-8 backdrop-blur-sm  overflow-hidden">
         <!-- Header Section -->
         <div class="flex justify-between items-center mb-6 pb-6 border-b border-gray-700/50">
             <div>
@@ -36,7 +36,7 @@
             </div>
 
         </div>
-
+        <x-alert-box />
         <!-- Main Content Area (Scrollable) -->
         <div class="flex-1 overflow-y-auto pr-2 scrollbar-none scrollbar-thumb-gray-700 scrollbar-track-gray-800/50">
             <!-- Featured Blog Gallery (Auto-scrolling) -->
@@ -65,15 +65,7 @@
 
                                         <h3 class="text-2xl font-bold text-white mb-2">{{ $blog->title }}</h3>
                                         <p class="text-gray-300 mb-4">{{ $blog->body }}</p>
-                                        <div x-data="{
-                                            showViewDialog: false,
-                                        }">
-                                            <button @click="showViewDialog = true"
-                                                class="px-4 py-2 bg-white/10 backdrop-blur-sm text-white rounded-lg border border-white/20 hover:bg-white/20 transition-all">
-                                                View Details
-                                            </button>
-                                            <x-view-blog-dialog :blog="$blog" />
-                                        </div>
+                                        
                                     </div>
                                 </div>
                             @endforeach
@@ -210,7 +202,7 @@
 
             // Start auto-scrolling
             function startAutoScroll() {
-                autoScrollInterval = setInterval(nextSlide, 5000); // Change slide every 5 seconds
+                autoScrollInterval = setInterval(nextSlide, 3000); // Change slide every 5 seconds
             }
 
             // Initialize gallery

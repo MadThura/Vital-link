@@ -4,7 +4,7 @@
     x-transition:leave-end="opacity-0 scale-95"
     class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black bg-opacity-50">
     <div class="bg-gray-800 rounded-xl max-w-2xl w-full max-h-[90vh] overflow-y-auto">
-        <form class="p-6" @submit.prevent="submitForm">
+        <form class="p-6" @submit.prevent="submitForm" action="{{ route('blogs.store') }}" method="POST" enctype="multipart/form-data">
             <div class="flex justify-between items-start mb-6">
                 <h3 class="text-2xl font-bold text-white">Edit Blog Post</h3>
                 <button @click="showEditDialog = false" type="button" class="text-gray-400 hover:text-white">

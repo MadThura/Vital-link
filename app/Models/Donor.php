@@ -49,8 +49,9 @@ class Donor extends Model
     {
 
         if ($search = $filters['search'] ?? null) {
-            $query->whereHas('user', function ($q) use ($search) {
-                $q->where('name', 'LIKE', '%' . $search . '%');
+            $query->whereHas('user.donor', function ($q) use ($search) {
+                $q->where('name', 'LIKE', '%' . $search . '%')
+                    ->orWhere('donor_code', '=', $search);
             });
         }
 

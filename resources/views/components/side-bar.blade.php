@@ -1,4 +1,4 @@
-<aside class="w-[15%] bg-gradient-to-b from-gray-900 to-gray-800 border-r border-gray-700 flex flex-col justify-between">
+<aside class="w-[15%] bg-gradient-to-b from-gray-900 to-gray-800 flex flex-col justify-between">
     <div>
         <!-- Logo -->
         <div class="text-center mb-8">

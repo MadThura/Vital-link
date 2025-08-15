@@ -1,6 +1,7 @@
 <?php
 $featureBlog = $blogs->last();
 ?>
+
 <x-home-layout :donor="$donor ?? null">
     <!-- Blood droplet background elements -->
     <div class="fixed -z-10 inset-0 overflow-hidden opacity-20 ">
@@ -28,7 +29,7 @@ $featureBlog = $blogs->last();
                             <i class="fas fa-heart mr-2"></i> Become a Donor
                         </a>
                     </div>
-                    <div class="rounded-md shadow">
+                    {{-- <div class="rounded-md shadow">
                         <div x-data="{ showContact: false }" class="relative">
                             <!-- Contact Button -->
                             <button @click="showContact = true"
@@ -39,7 +40,7 @@ $featureBlog = $blogs->last();
                             <x-contact-dialog />
                         </div>
 
-                    </div>
+                    </div> --}}
                 </div>
             @endif
 
@@ -157,7 +158,7 @@ $featureBlog = $blogs->last();
                 </div>
 
                 <!-- Recent Posts (Right Side) -->
-                <div class="flex flex-col gap-6 max-h-[24rem] overflow-y-auto">
+                <div class="flex flex-col gap-6 max-h-[24rem] overflow-y-auto scrollbar-none">
                     <!-- Adjust max-h to match feature post -->
                     @foreach ($blogs as $blog)
                         <div
@@ -194,7 +195,7 @@ $featureBlog = $blogs->last();
 
 
             <div class="mt-16 text-center">
-                <a href="/blogs"
+                <a href="/blogs-show"
                     class="inline-flex items-center justify-center px-6 py-3 border border-transparent text-base font-medium rounded-md text-white bg-gradient-to-r from-blue-500 to-purple-600 hover:from-blue-600 hover:to-purple-700 shadow-lg transition-all duration-300">
                     View All Posts
                     <i class="fa-solid fa-arrow-right ml-3"></i>

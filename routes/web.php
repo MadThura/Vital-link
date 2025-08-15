@@ -14,23 +14,41 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
+    $donor = null;
+
+    if (auth()->check() && auth()->user()->donor) {
+        $donor = auth()->user()->donor;
+    }
     return view('welcome', [
-        'blogs' => Blog::latest()->get()
+        'blogs' => Blog::latest()->get(),
+        'donor' => $donor
     ]);
 })->name('welcome');
 
-Route::get('/blogs', function () {
-    return view('blog', [
-        'blog' => Blog::latest()->paginate(6)
-    ]);
-});
+Route::get('/blogs-show', function () {
+    $donor = null;
 
-Route::get('/blogs/{blog}', function (Blog $blog) {
+    if (auth()->check() && auth()->user()->donor) {
+        $donor = auth()->user()->donor;
+    }
+    return view('blogs', [
+        'blogs' => Blog::latest()->paginate(6),
+        'donor' => $donor
+    ]);
+})->name('blogs-show');
+
+Route::get('/blogs-show/{blog}', function (Blog $blog) {
+    $donor = null;
+
+    if (auth()->check() && auth()->user()->donor) {
+        $donor = auth()->user()->donor;
+    }
     return view('blog', [
         'blog' => $blog,
-        'randomBlogs' => Blog::inRandomOrder()->limit(3)->get()
+        'randomBlogs' => Blog::inRandomOrder()->limit(3)->get(),
+        'donor' => $donor
     ]);
-});
+})->name('blog-show');
 
 // User Register & Login
 Route::get('/register', [AuthController::class, 'register'])->name('register');
@@ -112,9 +130,13 @@ Route::middleware(['auth', 'role:super_admin'])->group(function () {
             ->name('updateStatus');
     });
 
-    Route::prefix('/superAdmin/blogs')->name('superAdmin.blogs.')->group(function () {
+    Route::prefix('/blogs')->name('blogs.')->group(function () {
         Route::get('/', [BlogController::class, 'index'])->name('index');
         Route::post('/', [BlogController::class, 'store'])->name('store');
         Route::delete('/{blog}', [BlogController::class, 'destroy'])->name('destroy');
     });
+});
+
+Route::get('/profile', function(){
+    return view('profile');
 });

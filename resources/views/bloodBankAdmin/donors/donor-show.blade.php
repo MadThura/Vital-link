@@ -1,7 +1,7 @@
 <x-admin-layout>
 
     <form action="" method="GET"
-        class="h-[10%] p-2 bg-gray-800/90 backdrop-blur-sm flex flex-col md:flex-row items-center gap-4 justify-center border-b border-gray-700 shadow-lg">
+        class="h-[10%] p-2 bg-gray-800/90 backdrop-blur-sm flex flex-col md:flex-row items-center gap-4 justify-center shadow-lg">
         <!-- Search Input - Enhanced with glass morphism effect -->
         <div class="w-full md:w-[700px] relative">
             <input type="text" name="search" placeholder="Search..." value="{{ request('search') }}"

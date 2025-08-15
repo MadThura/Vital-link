@@ -12,7 +12,7 @@
     
 </head>
 
-<body class="bg-[#0a0a0a] text-gray-200 font-sans min-h-screen overflow-auto scrollbar-none">
+<body class="bg-[#0a0a0a] text-gray-200 font-sans min-h-screen overflow-y-auto scrollbar-none">
     <x-nav-bar :donor="$donor ?? null" />
     {{ $slot }}
     <x-footer />

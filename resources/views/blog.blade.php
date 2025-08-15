@@ -7,7 +7,7 @@
 
         <div class="max-w-4xl mx-auto text-center relative z-10">
             <span
-                class="inline-block px-4 py-1 text-sm font-medium bg-red-900/50 text-red-400 rounded-full mb-6">Innovation</span>
+                class="inline-block px-4 py-1 text-sm font-medium bg-blue-900/50 text-blue-400 rounded-full mb-6">Event</span>
             <h1 class="text-4xl md:text-5xl font-bold mb-6">{{ $blog->title }}</h1>
             <div class="flex items-center justify-center space-x-6">
                 <div class="text-sm text-gray-400 mt-2 mb-3">
@@ -21,14 +21,21 @@
 
     <div class="bg-gradient-to-br from-gray-900 to-gray-800">
         <!-- Article Content -->
-        <article class="max-w-3xl mx-auto px-4 sm:px-8 py-16">
+        <article class="max-w-7xl mx-auto px-4 sm:px-8 py-16">
+            <div class="flex flex-col md:flex-row gap-40">
+                <!-- Image on left (on larger screens) -->
+                <div class="md:w-1/2">
+                    <img src="{{ asset('storage/' . $blog->image) }}" alt="Blood donation technology"
+                        class="w-full h-auto rounded-lg shadow-lg">
+                </div>
 
-            <div
-                class="[&>p]:mb-6 [&>p]:leading-[1.8] [&>h2]:text-[1.75rem] [&>h2]:font-bold [&>h2]:my-10 [&>h2]:bg-gradient-to-r [&>h2]:from-[#ff4d4d] [&>h2]:to-[#f9cb28] [&>h2]:bg-clip-text [&>h2]:text-transparent [&>img]:rounded-xl [&>img]:my-8 [&>img]:shadow-lg">
-                <p class="text-xl text-gray-400">{{ $blog->body }}</p>
+                <!-- Article content on right (on larger screens) -->
+                <div
+                    class="md:w-1/2 [&>p]:mb-6 [&>p]:leading-[1.8] [&>h2]:text-[1.75rem] [&>h2]:font-bold [&>h2]:my-10 [&>h2]:bg-gradient-to-r [&>h2]:from-[#ff4d4d] [&>h2]:to-[#f9cb28] [&>h2]:bg-clip-text [&>h2]:text-transparent [&>img]:rounded-xl [&>img]:my-8 [&>img]:shadow-lg">
+                    <h1 class="text-3xl font-bold mb-6">{{ $blog->title }}</h1>
+                    <p class="text-xl text-gray-400">{{ $blog->body }}</p>
+                </div>
             </div>
-            <img src="{{ asset('storage/' . $blog->image) }}" alt="Blood donation technology" class="w-full">
-            <div class="article-content">
         </article>
 
         <!-- Related Articles -->
@@ -49,9 +56,9 @@
                             <div class="flex items-center justify-between">
                                 <div class="text-sm text-gray-600 mt-2 mb-3">
                                     <i class="fa-solid fa-clock mr-3"></i>
-                                    <span>{{ $blog->created_at->diffForHumans() }}</span>
+                                    <span>{{ $rdm->created_at->diffForHumans() }}</span>
                                 </div>
-                                <a href="/blogs-show/{{ $blog->id }}"
+                                <a href="/blogs-show/{{ $rdm->id }}"
                                     class="inline-flex items-center text-blue-400 hover:text-blue-300 font-medium">
                                     Read More
                                     <i class="fa-solid fa-circle-arrow-right ml-3"></i>

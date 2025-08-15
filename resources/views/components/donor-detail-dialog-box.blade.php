@@ -22,7 +22,7 @@
             <div
                 class="bg-gray-900 px-4 py-3 sm:px-6 sm:flex sm:items-center sm:justify-between border-b border-gray-700">
                 <h3 class="text-lg leading-6 font-medium text-white" id="modal-title">
-                    <span>{{ $donor->user->name }}</span>
+                    <span>{{ $donor->donor_code }}</span>
                 </h3>
                 <button @click="showDonorDetail = false" class="text-gray-400 hover:text-white">
                     <i class="fas fa-times"></i>
@@ -49,13 +49,16 @@
                                 {{-- unique id --}}
                                 <div class="flex justify-between">
                                     <div class="text-gray-400">Unique ID</div>
-                                    <div x-data="{ text: 'DNR-2025-hello', copied: false }" class="flex items-center gap-2 ">
-                                        <p class="font-bold text-cyan-300 text-xs" x-text="text"></p>
-                                        <button
-                                            @click="navigator.clipboard.writeText(text).then(() => { copied = true; setTimeout(() => copied = false, 1000) })">
-                                            <i class="fa-solid fa-copy text-cyan-200 text-sm"></i>
-                                        </button>
-                                        <span x-show="copied" x-transition class="text-green-400 text-xs">Copied!</span>
+                                    <div x-data="{ text: '{{ $donor->donor_code }}', copied: false }" class="flex items-center gap-2 ">
+                                        @if ($donor->donor_code)
+                                            <p class="font-bold text-cyan-300 text-xs" x-text="text"></p>
+                                            <button
+                                                @click="navigator.clipboard.writeText(text).then(() => { copied = true; setTimeout(() => copied = false, 1000) })">
+                                                <i class="fa-solid fa-copy text-cyan-200 text-sm"></i>
+                                            </button>
+                                            <span x-show="copied" x-transition
+                                                class="text-green-400 text-xs">Copied!</span>
+                                        @endif
                                     </div>
                                 </div>
                                 <div class="flex justify-between">
@@ -253,6 +256,5 @@
                 @endif
             </div>
         </div>
-
     </div>
 </div>

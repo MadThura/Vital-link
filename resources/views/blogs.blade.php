@@ -1,3 +1,4 @@
+
 <x-home-layout>
     <!-- Main Content -->
     <main class="min-h-screen w-full">
