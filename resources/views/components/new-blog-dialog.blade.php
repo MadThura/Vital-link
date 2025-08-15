@@ -24,10 +24,10 @@
         </div>
 
         <!-- Body (scrollable) -->
-        <form action="{{ route('blogs.store') }}" class="p-6 overflow-y-auto flex-grow scrollbar-none"
+        <form action="{{ route('superAdmin.blogs.store') }}" class="p-6 overflow-y-auto flex-grow scrollbar-none"
             enctype="multipart/form-data" method="POST">
             @csrf
-            @method('post')
+            @method('POST')
             <!-- Featured Image Upload -->
             <div class="mb-6">
                 <label class="block text-sm font-medium text-gray-300 mb-2">Featured

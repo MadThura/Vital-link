@@ -57,14 +57,13 @@ class BlogController extends Controller
         $validated = $request->validate([
             'title' => ['required', 'string'],
             'body' => ['required', 'string'],
-            'image' => ['required', 'image', 'file']
+            'image' => ['nullable', 'image', 'file']
         ]);
-
         if ($request->hasFile('image')) {
             Storage::disk('public')->delete($blog->image);
             $path = $request->file('image')->store('blogs', 'public');
         }
-
+        
         $blog->title = $validated['title'];
         $blog->body = $validated['body'];
         $blog->image = $path;

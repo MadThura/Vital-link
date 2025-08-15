@@ -67,7 +67,7 @@
                             <i class="ml-2 fa-solid fa-square-poll-horizontal text-red-400 hover:text-red-300"></i>
                         </a>
                     @elseif($user->role === 'super_admin')
-                        <a href="{{ route('super-admin') }}"
+                        <a href="{{ route('superAdmin.dashboard') }}"
                             class="text-red-400 hover:text-red-300 rounded-md text-sm font-medium">
                             Dashboard
                             <i class="ml-2 fa-solid fa-square-poll-horizontal text-red-400 hover:text-red-300"></i>

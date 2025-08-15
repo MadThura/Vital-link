@@ -10,6 +10,7 @@ use App\Http\Controllers\SuperAdmin\BlogController;
 use App\Http\Controllers\SuperAdmin\DashboardController as SuperAdminDashboardController;
 use App\Http\Controllers\SuperAdmin\UserController;
 use App\Models\Blog;
+use App\Models\User;
 use Illuminate\Foundation\Auth\EmailVerificationRequest;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -120,21 +121,23 @@ Route::middleware(['auth', 'role:super_admin'])
         Route::get('/dashboard', [SuperAdminDashboardController::class, 'index'])->name('dashboard');
         Route::get('/blogboard', [BlogController::class, 'index'])->name('blog-board');
         Route::get('/user-management', function () {
-            return view("superAdmin.operator-admin-show");
+            return view('superAdmin.operator-admin-show', [
+                'users' => User::whereIn('role', ['blood_bank_admin', 'ward_operator'])->get()
+            ]);
         })->name('user-management');
 
         Route::prefix('/users')->name('users.')->group(function () {
             Route::get('/', [UserController::class, 'index'])->name('index');
             Route::post('/', [UserController::class, 'store'])->name('store');
-            Route::post('/{user}/{action}', [UserController::class, 'updateStatus'])
+            Route::patch('/{user}/{action}', [UserController::class, 'updateStatus'])
                 ->where('action', 'suspend|active')
                 ->name('updateStatus');
         });
 
-        Route::prefix('/blogs')->name('superAdmin.blogs.')->group(function () {
+        Route::prefix('/blogs')->name('blogs.')->group(function () {
             Route::get('/', [BlogController::class, 'index'])->name('index');
             Route::post('/', [BlogController::class, 'store'])->name('store');
-            Route::put('/{blog}/update', [BlogController::class, 'store'])->name('update');
+            Route::put('/{blog}/update', [BlogController::class, 'update'])->name('update');
             Route::delete('/{blog}', [BlogController::class, 'destroy'])->name('destroy');
         });
     });

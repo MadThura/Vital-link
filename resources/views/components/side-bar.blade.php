@@ -68,43 +68,43 @@
                     </a>
                 @elseif(auth()->user()->role === 'super_admin')
                     <!-- Dashboard (Cyan) -->
-                    <a href="{{ route('super-admin') }}"
-                        class="no-underline text-sm py-3 px-4 rounded-lg flex items-center gap-3 transition-all group border-l-4 {{ request()->routeIs('super-admin') ? 'border-cyan-400 bg-gray-700/50 text-cyan-400' : 'border-transparent text-gray-300 hover:bg-gray-700/50 hover:text-cyan-400' }}">
+                    <a href="{{ route('superAdmin.dashboard') }}"
+                        class="no-underline text-sm py-3 px-4 rounded-lg flex items-center gap-3 transition-all group border-l-4 {{ request()->routeIs('superAdmin.dashboard') ? 'border-cyan-400 bg-gray-700/50 text-cyan-400' : 'border-transparent text-gray-300 hover:bg-gray-700/50 hover:text-cyan-400' }}">
 
                         <i
-                            class="fa-solid fa-house text-base transition-colors {{ request()->routeIs('super-admin') ? 'text-cyan-400' : 'text-gray-400 group-hover:text-cyan-400' }}">
+                            class="fa-solid fa-house text-base transition-colors {{ request()->routeIs('superAdmin.dashboard') ? 'text-cyan-400' : 'text-gray-400 group-hover:text-cyan-400' }}">
                         </i>
 
                         <span
-                            class="transition-transform {{ request()->routeIs('super-admin') ? 'text-cyan-400 translate-x-1' : 'group-hover:translate-x-1' }}">
+                            class="transition-transform {{ request()->routeIs('superAdmin.dashboard') ? 'text-cyan-400 translate-x-1' : 'group-hover:translate-x-1' }}">
                             Dashboard
                         </span>
                     </a>
 
                     <!-- Blog Board (Emerald) -->
-                    <a href="{{ route('blog-board') }}"
-                        class="no-underline text-sm py-3 px-4 rounded-lg flex items-center gap-3 transition-all group border-l-4 {{ request()->routeIs('blog-board') ? 'border-emerald-400 bg-gray-700/50 text-emerald-400' : 'border-transparent text-gray-300 hover:bg-gray-700/50 hover:text-emerald-400' }}">
+                    <a href="{{ route('superAdmin.blog-board') }}"
+                        class="no-underline text-sm py-3 px-4 rounded-lg flex items-center gap-3 transition-all group border-l-4 {{ request()->routeIs('superAdmin.blog-board') ? 'border-emerald-400 bg-gray-700/50 text-emerald-400' : 'border-transparent text-gray-300 hover:bg-gray-700/50 hover:text-emerald-400' }}">
 
                         <i
-                            class="fa-solid fa-blog text-base transition-colors {{ request()->routeIs('blog-board') ? 'text-emerald-400' : 'text-gray-400 group-hover:text-emerald-400' }}">
+                            class="fa-solid fa-blog text-base transition-colors {{ request()->routeIs('superAdmin.blog-board') ? 'text-emerald-400' : 'text-gray-400 group-hover:text-emerald-400' }}">
                         </i>
 
                         <span
-                            class="transition-transform {{ request()->routeIs('blog-board') ? 'text-emerald-400 translate-x-1' : 'group-hover:translate-x-1' }}">
+                            class="transition-transform {{ request()->routeIs('superAdmin.blog-board') ? 'text-emerald-400 translate-x-1' : 'group-hover:translate-x-1' }}">
                             Blog Board
                         </span>
                     </a>
 
                     <!-- User Management (Amber) -->
-                    <a href="{{ route('user-management') }}"
-                        class="no-underline text-sm py-3 px-4 rounded-lg flex items-center gap-3 transition-all group border-l-4 {{ request()->routeIs('user-management') ? 'border-amber-400 bg-gray-700/50 text-amber-400' : 'border-transparent text-gray-300 hover:bg-gray-700/50 hover:text-amber-400' }}">
+                    <a href="{{ route('superAdmin.user-management') }}"
+                        class="no-underline text-sm py-3 px-4 rounded-lg flex items-center gap-3 transition-all group border-l-4 {{ request()->routeIs('superAdmin.user-management') ? 'border-amber-400 bg-gray-700/50 text-amber-400' : 'border-transparent text-gray-300 hover:bg-gray-700/50 hover:text-amber-400' }}">
 
                         <i
-                            class="fa-solid fa-square-poll-horizontal text-base transition-colors {{ request()->routeIs('user-management') ? 'text-amber-400' : 'text-gray-400 group-hover:text-amber-400' }}">
+                            class="fa-solid fa-square-poll-horizontal text-base transition-colors {{ request()->routeIs('superAdmin.user-management') ? 'text-amber-400' : 'text-gray-400 group-hover:text-amber-400' }}">
                         </i>
 
                         <span
-                            class="transition-transform {{ request()->routeIs('user-management') ? 'text-amber-400 translate-x-1' : 'group-hover:translate-x-1' }}">
+                            class="transition-transform {{ request()->routeIs('superAdmin.user-management') ? 'text-amber-400 translate-x-1' : 'group-hover:translate-x-1' }}">
                             User Management
                         </span>
                     </a>
