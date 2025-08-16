@@ -10,6 +10,8 @@ class BloodBank extends Model
     /** @use HasFactory<\Database\Factories\BloodBankFactory> */
     use HasFactory;
 
+    protected $fillable = ['user_id', 'name', 'address'];
+
     public function user()
     {
         return $this->belongsTo(User::class)->where('role', 'blood_bank_admin');

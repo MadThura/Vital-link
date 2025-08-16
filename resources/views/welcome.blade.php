@@ -1,6 +1,7 @@
 <?php
 $featureBlog = $blogs->last();
 ?>
+
 <x-home-layout :donor="$donor ?? null">
     <!-- Blood droplet background elements -->
     <div class="fixed -z-10 inset-0 overflow-hidden opacity-20 ">
@@ -28,7 +29,7 @@ $featureBlog = $blogs->last();
                             <i class="fas fa-heart mr-2"></i> Become a Donor
                         </a>
                     </div>
-                    <div class="rounded-md shadow">
+                    {{-- <div class="rounded-md shadow">
                         <div x-data="{ showContact: false }" class="relative">
                             <!-- Contact Button -->
                             <button @click="showContact = true"
@@ -39,7 +40,7 @@ $featureBlog = $blogs->last();
                             <x-contact-dialog />
                         </div>
 
-                    </div>
+                    </div> --}}
                 </div>
             @endif
 
@@ -146,7 +147,7 @@ $featureBlog = $blogs->last();
                                 <i class="fa-solid fa-clock mr-3"></i>
                                 {{ $featureBlog->created_at->diffForHumans() }}
                             </div>
-                            <a href="/blogs-show/{{ $featureBlog->id }}"
+                            <a href="{{ route('blogs.show', $featureBlog) }}"
                                 class="text-blue-400 hover:text-blue-300 font-medium text-sm inline-flex items-center">
                                 Read Article
                                 <i class="fa-solid fa-circle-arrow-right ml-3"></i>
@@ -157,7 +158,7 @@ $featureBlog = $blogs->last();
                 </div>
 
                 <!-- Recent Posts (Right Side) -->
-                <div class="flex flex-col gap-6 max-h-[24rem] overflow-y-auto">
+                <div class="flex flex-col gap-6 max-h-[24rem] overflow-y-auto scrollbar-none">
                     <!-- Adjust max-h to match feature post -->
                     @foreach ($blogs as $blog)
                         <div
@@ -180,7 +181,7 @@ $featureBlog = $blogs->last();
                                         {{ $blog->created_at->diffForHumans() }}
                                     </div>
 
-                                    <a href="/blogs-show/{{ $blog->id }}"
+                                    <a href="{{ route('blogs.show', $blog) }}"
                                         class="text-blue-400 hover:text-blue-300 font-medium text-sm items-center">
                                         Read Article
                                         <i class="fa-solid fa-circle-arrow-right ml-3"></i>

@@ -42,11 +42,6 @@ class BlogController extends Controller
 
         $blog = Blog::create($validated);
 
-        // User::where('id', '!=', $user->id)
-        //     ->chunk(5, function ($users) use ($blog) {
-        //         Notification::send($users, new NewBlogUploaded($blog));
-        //     });
-
         $users = User::where('id', '!=', $user->id)
             ->whereIn('role', ['donor', 'ward_operator', 'blood_bank_admin'])
             ->whereNotNull('email_verified_at')
@@ -55,6 +50,26 @@ class BlogController extends Controller
         Notification::send($users, new NewBlogUploaded($blog));
 
         return back()->with('success', 'New blog is uploaded successfully.');
+    }
+
+    public function update(Request $request, Blog $blog)
+    {
+        $validated = $request->validate([
+            'title' => ['required', 'string'],
+            'body' => ['required', 'string'],
+            'image' => ['nullable', 'image', 'file']
+        ]);
+        if ($request->hasFile('image')) {
+            Storage::disk('public')->delete($blog->image);
+            $path = $request->file('image')->store('blogs', 'public');
+        }
+        
+        $blog->title = $validated['title'];
+        $blog->body = $validated['body'];
+        $blog->image = $path;
+        $blog->update();
+
+        return back()->with('success', 'Blog is updated successfully.');
     }
 
     public function destroy(Blog $blog)

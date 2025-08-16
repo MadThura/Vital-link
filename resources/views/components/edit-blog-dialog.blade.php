@@ -4,7 +4,9 @@
     x-transition:leave-end="opacity-0 scale-95"
     class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black bg-opacity-50">
     <div class="bg-gray-800 rounded-xl max-w-2xl w-full max-h-[90vh] overflow-y-auto">
-        <form class="p-6" @submit.prevent="submitForm">
+        <form class="p-6"  action="{{route('superAdmin.blogs.update', $blog)}}" method="POST" enctype="multipart/form-data">
+            @csrf
+            @method('PUT')
             <div class="flex justify-between items-start mb-6">
                 <h3 class="text-2xl font-bold text-white">Edit Blog Post</h3>
                 <button @click="showEditDialog = false" type="button" class="text-gray-400 hover:text-white">
@@ -39,8 +41,8 @@
                 </div>
 
                 <div>
-                    <label for="content" class="block text-gray-300 mb-2">Content</label>
-                    <textarea id="content" name="content" rows="5"
+                    <label for="body" class="block text-gray-300 mb-2">Content</label>
+                    <textarea id="body" name="body" rows="5"
                         class="w-full bg-gray-700 border border-gray-600 rounded-lg px-4 py-2 text-white focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 scrollbar-none">
                         {{ $blog->body }}
                     </textarea>

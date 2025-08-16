@@ -1,5 +1,6 @@
 <x-layout title="Verify Email">
-    <div class="w-full max-w-md px-6 py-8 bg-gray-900 bg-opacity-80 rounded-lg shadow-xl backdrop-blur-sm">
+    <div class="w-full h-full flex items-center justify-center">
+        <div class="w-full max-w-md px-6 py-8 bg-gray-900 bg-opacity-80 rounded-lg shadow-xl backdrop-blur-sm">
         <!-- Header with icon -->
         <div class="text-center mb-6">
             <div class="mx-auto flex items-center justify-center h-12 w-12 rounded-full bg-blue-100 mb-4">
@@ -50,6 +51,7 @@
             </div>
             <p class="mt-2 text-sm text-gray-400">Waiting for verification...</p>
         </div>
+    </div>
     </div>
 
     <script>

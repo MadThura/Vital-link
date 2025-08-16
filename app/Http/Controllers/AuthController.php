@@ -56,6 +56,7 @@ class AuthController extends Controller
         if (!Auth::attempt($credentials)) {
             return back()->withErrors(['email' => 'Invalid credentials'])->withInput();
         }
+
         // Check if email is verified
         if (is_null($user->email_verified_at)) {
 
@@ -66,14 +67,14 @@ class AuthController extends Controller
 
             $request->session()->regenerate();
 
-            return redirect()->route('super-admin');
+            return redirect()->route('superAdmin.dashboard');
         }
 
         if ($user->role === 'blood_bank_admin') {
 
             $request->session()->regenerate();
 
-            return redirect()->route('dashboard');
+            return redirect()->route('bba.dashboard');
         }
 
         $donor = Donor::where('user_id', $user->id)->first();
