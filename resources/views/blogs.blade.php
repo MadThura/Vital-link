@@ -41,7 +41,7 @@
                                         <i class="fa-solid fa-clock mr-3"></i>
                                         <span>{{ $blog->created_at->diffForHumans() }}</span>
                                     </div>
-                                    <a href="/blogs-show/{{ $blog->id }}"
+                                    <a href="{{ route('blogs.show', $blog) }}"
                                         class="inline-flex items-center text-blue-400 hover:text-blue-300 font-medium">
                                         Read More
                                         <i class="fa-solid fa-circle-arrow-right ml-3"></i>

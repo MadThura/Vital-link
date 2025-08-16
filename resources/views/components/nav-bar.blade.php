@@ -61,7 +61,7 @@
                     @endif
 
                     @if ($user->role === 'blood_bank_admin')
-                        <a href="{{ route('dashboard') }}"
+                        <a href="{{ route('bba.dashboard') }}"
                             class="text-red-400 hover:text-red-300 rounded-md text-sm font-medium">
                             Dashboard
                             <i class="ml-2 fa-solid fa-square-poll-horizontal text-red-400 hover:text-red-300"></i>
@@ -132,8 +132,8 @@
                                 <a href="#"
                                     class="px-4 py-3 hover:bg-[#404040] transition border-b flex items-center justify-between">
                                     <div>
-                                        <i class="fas {{ request()->routeIs('home', 'blogs-show', 'blog-show') ? 'fa-user' : 'fa-s' }} mr-2"></i>
-                                        {{ request()->routeIs('home', 'blogs-show', 'blog-show') ? 'Profile' : 'Status' }}
+                                        <i class="fas {{ request()->routeIs('home', 'blogs.show', 'blog-show') ? 'fa-user' : 'fa-s' }} mr-2"></i>
+                                        {{ request()->routeIs('home', 'blogs.show', 'blog-show') ? 'Profile' : 'Status' }}
                                     </div>
                                     @switch($donor?->status)
                                         @case('pending')
@@ -166,7 +166,7 @@
                                 </a>
 
                                 {{-- History --}}
-                                @if ($donor?->status === 'approved' && request()->routeIs('home', 'blogs-show', 'blog-show'))
+                                @if ($donor?->status === 'approved' && request()->routeIs('home', 'blogs.show', 'blog-show'))
                                     <a href="#" class="block px-4 py-3 hover:bg-[#404040] transition border-b">
                                         <i class="fas fa-history mr-2"></i> History
                                     </a>

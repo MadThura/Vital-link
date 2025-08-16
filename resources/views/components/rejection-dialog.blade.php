@@ -11,7 +11,7 @@
         <p class="mb-4 text-gray-300">Are you sure you want to reject {{ $donor->user->name }}</p>
 
         <!-- Form inside Modal -->
-        <form action="{{ route('donors.updateStatus', ['donor' => $donor, 'action' => 'reject']) }}" method="POST">
+        <form action="{{ route('bba.donors.updateStatus', ['donor' => $donor, 'action' => 'reject']) }}" method="POST">
             @csrf
             @method('PATCH')
 

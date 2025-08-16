@@ -58,7 +58,7 @@
                                     <i class="fa-solid fa-clock mr-3"></i>
                                     <span>{{ $rdm->created_at->diffForHumans() }}</span>
                                 </div>
-                                <a href="/blogs-show/{{ $rdm->id }}"
+                                <a href="{{ route('blogs.show', $rdm) }}"
                                     class="inline-flex items-center text-blue-400 hover:text-blue-300 font-medium">
                                     Read More
                                     <i class="fa-solid fa-circle-arrow-right ml-3"></i>

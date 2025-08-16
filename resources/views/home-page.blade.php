@@ -83,7 +83,7 @@
                                     <i class="fa-solid fa-clock mr-3"></i>
                                     <span>{{ $rdm->created_at->diffForHumans() }}</span>
                                 </div>
-                                <a href="/blogs-show/{{ $rdm->id }}"
+                                <a href="{{ route('blogs.show', $rdm) }}"
                                     class="inline-flex items-center text-blue-400 hover:text-blue-300 font-medium">
                                     Read More
                                     <i class="fa-solid fa-circle-arrow-right ml-3"></i>
@@ -95,7 +95,7 @@
             </div>
         </section>
         <div class="text-center">
-            <a href="/blogs-show"
+            <a href="/blogs"
                 class="inline-flex items-center justify-center px-6 py-3 border border-transparent text-base font-medium rounded-md text-white bg-gradient-to-r from-blue-500 to-purple-600 hover:from-blue-600 hover:to-purple-700 shadow-lg transition-all duration-300">
                 View All Posts
                 <i class="fa-solid fa-arrow-right ml-3"></i>

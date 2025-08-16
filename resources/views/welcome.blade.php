@@ -147,7 +147,7 @@ $featureBlog = $blogs->last();
                                 <i class="fa-solid fa-clock mr-3"></i>
                                 {{ $featureBlog->created_at->diffForHumans() }}
                             </div>
-                            <a href="/blogs-show/{{ $featureBlog->id }}"
+                            <a href="{{ route('blogs.show', $featureBlog) }}"
                                 class="text-blue-400 hover:text-blue-300 font-medium text-sm inline-flex items-center">
                                 Read Article
                                 <i class="fa-solid fa-circle-arrow-right ml-3"></i>
@@ -181,7 +181,7 @@ $featureBlog = $blogs->last();
                                         {{ $blog->created_at->diffForHumans() }}
                                     </div>
 
-                                    <a href="/blogs-show/{{ $blog->id }}"
+                                    <a href="{{ route('blogs.show', $blog) }}"
                                         class="text-blue-400 hover:text-blue-300 font-medium text-sm items-center">
                                         Read Article
                                         <i class="fa-solid fa-circle-arrow-right ml-3"></i>
@@ -195,7 +195,7 @@ $featureBlog = $blogs->last();
 
 
             <div class="mt-16 text-center">
-                <a href="/blogs-show"
+                <a href="/blogs"
                     class="inline-flex items-center justify-center px-6 py-3 border border-transparent text-base font-medium rounded-md text-white bg-gradient-to-r from-blue-500 to-purple-600 hover:from-blue-600 hover:to-purple-700 shadow-lg transition-all duration-300">
                     View All Posts
                     <i class="fa-solid fa-arrow-right ml-3"></i>

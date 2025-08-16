@@ -17,7 +17,7 @@
             @auth
                 @if (auth()->user()->role === 'blood_bank_admin')
                     <!-- Dashboard (Cyan) -->
-                    <a href="{{ route('dashboard') }}"
+                    <a href="{{ route('bba.dashboard') }}"
                         class="no-underline text-sm py-3 px-4 rounded-lg flex items-center gap-3 transition-all group border-l-4 {{ request()->routeIs('dashboard') ? 'border-cyan-400 bg-gray-700/50 text-cyan-400' : 'border-transparent text-gray-300 hover:bg-gray-700/50 hover:text-cyan-400' }}">
                         <i
                             class="fa-solid fa-house text-base transition-colors {{ request()->routeIs('dashboard') ? 'text-cyan-400' : 'text-gray-400 group-hover:text-cyan-400' }}">
@@ -29,7 +29,7 @@
                     </a>
 
                     <!-- Donor Management (Purple) -->
-                    <a href="{{ route('donors.index') }}"
+                    <a href="{{ route('bba.donors.index') }}"
                         class="no-underline text-sm py-3 px-4 rounded-lg flex items-center gap-3 transition-all group border-l-4 {{ request()->routeIs('donors.*') ? 'border-purple-400 bg-gray-700/50 text-purple-400' : 'border-transparent text-gray-300 hover:bg-gray-700/50 hover:text-purple-400' }}">
 
                         <i
@@ -42,7 +42,7 @@
                     </a>
 
                     <!-- Donation Records (Emerald) -->
-                    <a href="{{ route('donation-record') }}"
+                    <a href="{{ route('bba.donation-record') }}"
                         class="no-underline text-sm py-3 px-4 rounded-lg flex items-center gap-3 transition-all group border-l-4 {{ request()->routeIs('donation-record') ? 'border-emerald-400 bg-gray-700/50 text-emerald-400' : 'border-transparent text-gray-300 hover:bg-gray-700/50 hover:text-emerald-400' }}">
 
                         <i
@@ -55,7 +55,7 @@
                     </a>
 
                     <!-- Blood Inventory (Amber) -->
-                    <a href="{{ route('blood-inventory') }}"
+                    <a href="{{ route('bba.blood-inventory') }}"
                         class="no-underline text-sm py-3 px-4 rounded-lg flex items-center gap-3 transition-all group border-l-4 {{ request()->routeIs('blood-inventory') ? 'border-amber-400 bg-gray-700/50 text-amber-400' : 'border-transparent text-gray-300 hover:bg-gray-700/50 hover:text-amber-400' }}">
 
                         <i

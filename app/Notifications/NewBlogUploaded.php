@@ -56,7 +56,7 @@ class NewBlogUploaded extends Notification
             'title' => $this->blog->title,
             'intro' => Str::limit($this->blog->body, 20, '...'),
             'id' => $this->blog->id,
-            'url' => url("/blogs-show/{$this->blog->id}")
+            'url' => route('blogs.show', $this->blog->id),
         ];
     }
 }

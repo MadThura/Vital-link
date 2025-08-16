@@ -148,7 +148,7 @@
                     <span class="pt-0.5">Close</span>
                 </button>
                 @if ($donor->status === 'pending')
-                    <form action="{{ route('donors.updateStatus', ['donor' => $donor, 'action' => 'approve']) }}"
+                    <form action="{{ route('bba.donors.updateStatus', ['donor' => $donor, 'action' => 'approve']) }}"
                         method="POST">
                         @csrf
                         @method('PATCH')
@@ -170,7 +170,7 @@
                     </div>
                 @endif
                 @if ($donor->status === 'approved')
-                    <form action="{{ route('donors.updateStatus', ['donor' => $donor, 'action' => 'suspend']) }}"
+                    <form action="{{ route('bba.donors.updateStatus', ['donor' => $donor, 'action' => 'suspend']) }}"
                         method="POST">
                         @csrf
                         @method('PATCH')
@@ -180,7 +180,7 @@
                             <span class="pt-0.5">Suspend</span>
                         </button>
                     </form>
-                    <form action="{{ route('donors.destroy', $donor) }}" method="POST">
+                    <form action="{{ route('bba.donors.destroy', $donor) }}" method="POST">
                         @csrf
                         @method('DELETE')
                         <button type="submit" @click="showDonorDetail = false"
@@ -191,7 +191,7 @@
                     </form>
                 @endif
                 @if ($donor->status === 'suspended')
-                    <form action="{{ route('donors.updateStatus', ['donor' => $donor, 'action' => 'approve']) }}"
+                    <form action="{{ route('bba.donors.updateStatus', ['donor' => $donor, 'action' => 'approve']) }}"
                         method="POST">
                         @csrf
                         @method('PATCH')
@@ -201,7 +201,7 @@
                             <span class="pt-0.5">Approve</span>
                         </button>
                     </form>
-                    <form action="{{ route('donors.destroy', $donor) }}" method="POST">
+                    <form action="{{ route('bba.donors.destroy', $donor) }}" method="POST">
                         @csrf
                         @method('DELETE')
                         <button type="submit" @click="showDonorDetail = false"
@@ -212,7 +212,7 @@
                     </form>
                 @endif
                 @if ($donor->status === 'rejected')
-                    <form action="{{ route('donors.updateStatus', ['donor' => $donor, 'action' => 'approve']) }}"
+                    <form action="{{ route('bba.donors.updateStatus', ['donor' => $donor, 'action' => 'approve']) }}"
                         method="POST">
                         @csrf
                         @method('PATCH')
@@ -222,7 +222,7 @@
                             <span class="pt-0.5">Approve</span>
                         </button>
                     </form>
-                    <form action="{{ route('donors.destroy', $donor) }}" method="POST">
+                    <form action="{{ route('bba.donors.destroy', $donor) }}" method="POST">
                         @csrf
                         @method('DELETE')
                         <button type="submit" @click="showDonorDetail = false"
@@ -233,7 +233,7 @@
                     </form>
                 @endif
                 @if ($donor->status === 'resubmitted')
-                    <form action="{{ route('donors.updateStatus', ['donor' => $donor, 'action' => 'approve']) }}"
+                    <form action="{{ route('bba.donors.updateStatus', ['donor' => $donor, 'action' => 'approve']) }}"
                         method="POST">
                         @csrf
                         @method('PATCH')

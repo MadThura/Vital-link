@@ -32,7 +32,7 @@
         </div>
 
         <!-- Clear Button - More prominent -->
-        <a href="{{ route('donors.index') }}"
+        <a href="{{ route('bba.donors.index') }}"
             class="text-gray-300 hover:text-white transition-colors duration-300 flex items-center gap-1
               px-4 py-2 rounded-full hover:bg-gray-700/50">
             <i class="fa-solid fa-rotate-left"></i>
@@ -113,7 +113,7 @@
                                     </div>
                                     @if ($donor->status === 'pending')
                                         <form
-                                            action="{{ route('donors.updateStatus', ['donor' => $donor, 'action' => 'approve']) }}"
+                                            action="{{ route('bba.donors.updateStatus', ['donor' => $donor, 'action' => 'approve']) }}"
                                             method="POST">
                                             @csrf
                                             @method('PATCH')
@@ -131,13 +131,14 @@
                                 </div>
                     @endif
                     @if ($donor->status === 'approved')
-                        <form action="{{ route('donors.updateStatus', ['donor' => $donor, 'action' => 'suspend']) }}"
+                        <form
+                            action="{{ route('bba.donors.updateStatus', ['donor' => $donor, 'action' => 'suspend']) }}"
                             method="POST">
                             @csrf
                             @method('PATCH')
                             <x-tooltip-button peerClass="ban" tooltipText="Ban" icon="fa-ban" hoverColor="rose-500" />
                         </form>
-                        <form action="{{ route('donors.destroy', $donor) }}" method="POST">
+                        <form action="{{ route('bba.donors.destroy', $donor) }}" method="POST">
                             @csrf
                             @method('DELETE')
                             <x-tooltip-button peerClass="delete" tooltipText="Delete" icon="fa-trash"
@@ -145,14 +146,15 @@
                         </form>
                     @endif
                     @if ($donor->status === 'suspended')
-                        <form action="{{ route('donors.updateStatus', ['donor' => $donor, 'action' => 'approve']) }}"
+                        <form
+                            action="{{ route('bba.donors.updateStatus', ['donor' => $donor, 'action' => 'approve']) }}"
                             method="POST">
                             @csrf
                             @method('PATCH')
                             <x-tooltip-button peerClass="approve" tooltipText="Approve" icon="fa-check"
                                 hoverColor="emerald-400" />
                         </form>
-                        <form action="{{ route('donors.destroy', $donor) }}" method="POST">
+                        <form action="{{ route('bba.donors.destroy', $donor) }}" method="POST">
                             @csrf
                             @method('DELETE')
                             <x-tooltip-button peerClass="delete" tooltipText="Delete" icon="fa-trash"
@@ -160,14 +162,15 @@
                         </form>
                     @endif
                     @if ($donor->status === 'rejected')
-                        <form action="{{ route('donors.updateStatus', ['donor' => $donor, 'action' => 'approve']) }}"
+                        <form
+                            action="{{ route('bba.donors.updateStatus', ['donor' => $donor, 'action' => 'approve']) }}"
                             method="POST">
                             @csrf
                             @method('PATCH')
                             <x-tooltip-button peerClass="approve" tooltipText="Approve" icon="fa-check"
                                 hoverColor="emerald-400" />
                         </form>
-                        <form action="{{ route('donors.destroy', $donor) }}" method="POST">
+                        <form action="{{ route('bba.donors.destroy', $donor) }}" method="POST">
                             @csrf
                             @method('DELETE')
                             <x-tooltip-button peerClass="delete" tooltipText="Delete" icon="fa-trash"
@@ -175,7 +178,8 @@
                         </form>
                     @endif
                     @if ($donor->status === 'resubmitted')
-                        <form action="{{ route('donors.updateStatus', ['donor' => $donor, 'action' => 'approve']) }}"
+                        <form
+                            action="{{ route('bba.donors.updateStatus', ['donor' => $donor, 'action' => 'approve']) }}"
                             method="POST">
                             @csrf
                             @method('PATCH')
