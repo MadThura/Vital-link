@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Blog;
 use App\Models\Donor;
 use App\Models\User;
 use Illuminate\Auth\Events\Registered;
@@ -85,7 +86,8 @@ class AuthController extends Controller
             $request->session()->regenerate();
 
             return view('home-page', [
-                'donor' => $donor
+                'donor' => $donor,
+                'randomBlogs' => Blog::inRandomOrder()->limit(3)->get()
             ]);
         }
     }

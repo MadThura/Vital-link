@@ -110,3 +110,22 @@ Route::middleware(['auth', 'role:super_admin'])->group(function () {
         Route::delete('/{blog}', [BlogController::class, 'destroy'])->name('destroy');
     });
 });
+
+Route::get('/blogs-show/{blog}', function (Blog $blog) {
+    return view('blog', [
+        'blog' => $blog,
+        'randomBlogs' => Blog::inRandomOrder()->limit(3)->get()
+    ]);
+});
+
+Route::get('/blogs', function() {
+    return view('blogs',[
+        'blogs' => Blog::latest()->paginate(6)
+    ]);
+});
+
+Route::get('/home-test', function() {
+    return view('home-page',[
+        'blogs' => Blog::latest()->paginate(6)
+    ]);
+});

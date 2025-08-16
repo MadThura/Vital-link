@@ -32,9 +32,10 @@ export default {
                     dark: "#dc2626",
                 },
                 background: "#f9fafb",
-
             },
         },
     },
-    plugins: [],
+    plugins: [
+        require("tailwind-scrollbar-hide"), // ✅ hides scrollbars
+    ],
 };
