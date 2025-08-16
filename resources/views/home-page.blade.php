@@ -64,118 +64,45 @@
 
 
         <!-- Events Section -->
-        <section class="container mx-auto px-4 py-12">
-            <div class="flex justify-between items-center mb-8">
-                <h2 class="text-2xl md:text-3xl font-bold flex items-center">
-                    <i class="fas fa-calendar-star text-[#a5f3fc] mr-3"></i>
-                    Upcoming Events
-                </h2>
-                <a href="#" class="text-[#a5f3fc] hover:text-white transition flex items-center">
-                    View All <i class="fas fa-arrow-right ml-2"></i>
-                </a>
-            </div>
-
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                <!-- Events -->
+        <section class="max-w-7xl mx-auto px-4 sm:px-8 py-20">
+            <h3 class="text-2xl font-bold text-white mb-10">Events</h3>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <!-- Related 1 -->
                 @foreach ($randomBlogs as $rdm)
-                    <div
-                        class="bg-[#171717] rounded-xl border border-[#262626] overflow-hidden transition-all duration-300 hover:translate-y-[-5px] hover:shadow-[0_10px_25px_-5px_rgba(225,29,72,0.3)]">
-                        <div class="relative h-48 overflow-hidden">
-                            <img src="https://images.unsplash.com/photo-1576091160550-2173dba999ef?ixlib=rb-1.2.1&auto=format&fit=crop&w=600&q=80"
-                                alt="Blood drive"
-                                class="w-full h-full object-cover transition duration-500 hover:scale-105">
-                            <div
-                                class="absolute top-4 left-4 bg-[#e11d48] text-white px-3 py-1 rounded-full text-xs font-bold">
-                                URGENT NEED
-                            </div>
-                        </div>
+                    <article
+                        class="bg-gray-800/50 rounded-xl overflow-hidden hover:shadow-xl transition-all duration-300 hover:-translate-y-1 border border-gray-700">
+                        <img src="{{ asset('storage/' . $rdm->image) }}" alt="Blockchain blood"
+                            class="w-full h-48 object-cover">
                         <div class="p-6">
-                            <div class="flex justify-between items-start mb-3">
-                                <h3 class="text-xl font-bold">{{$rdm->title}}</h3>
-                                <div class="bg-[#262626] text-xs px-2 py-1 rounded-lg flex items-center">
-                                    <i class="fas fa-calendar-day mr-1"></i> Jun 15
+                            <span
+                                class="text-xs font-semibold px-3 py-1 bg-blue-900/50 text-blue-400 rounded-full">Event</span>
+                            <h4 class="text-xl font-bold text-white mt-4 mb-3">{{ $rdm->title }}</h4>
+                            <p class="text-gray-400 mb-4">{{ Str::limit($rdm->body, 100, '...') }}</p>
+                            <div class="flex items-center justify-between">
+                                <div class="text-sm text-gray-600 mt-2 mb-3">
+                                    <i class="fa-solid fa-clock mr-3"></i>
+                                    <span>{{ $rdm->created_at->diffForHumans() }}</span>
                                 </div>
-                            </div>
-                             <p class="text-sm mb-5">Our largest annual blood donation event with free health screenings
-                                for
-                                all participants.</p>
-                            <div class="flex justify-between items-center">
-                                <span class="text-xs text-gray-500"><i class="fas fa-users mr-1"></i> 48 donors</span>
-                                <button class="text-[#e11d48] hover:text-[#e11d48]/80 text-sm font-bold transition">
-                                    Register <i class="fas fa-arrow-right ml-1"></i>
-                                </button>
+                                <a href="{{ route('blogs.show', $rdm) }}"
+                                    class="inline-flex items-center text-blue-400 hover:text-blue-300 font-medium">
+                                    Read More
+                                    <i class="fa-solid fa-circle-arrow-right ml-3"></i>
+                                </a>
                             </div>
                         </div>
-                    </div>
+                    </article>
                 @endforeach
             </div>
         </section>
+        <div class="text-center">
+            <a href="/blogs"
+                class="inline-flex items-center justify-center px-6 py-3 border border-transparent text-base font-medium rounded-md text-white bg-gradient-to-r from-blue-500 to-purple-600 hover:from-blue-600 hover:to-purple-700 shadow-lg transition-all duration-300">
+                View All Posts
+                <i class="fa-solid fa-arrow-right ml-3"></i>
+            </a>
+        </div>
     </main>
     </body>
 
     </html>
 </x-home-layout>
-
-{{-- <nav class="fixed w-full top-0 left-0 z-50 border-b border-[#262626] backdrop-blur-xl bg-[#0a0a0a]/85">
-        <div class="container mx-auto px-4">
-            <div class="flex justify-between items-center h-16">
-
-                <!-- Desktop Nav -->
-                <div class="hidden md:flex items-center space-x-1">
-                 
-
-                    
-
-                    <a href="#"
-                        class="px-4 py-2 rounded-lg hover:bg-[#262626] transition flex items-center space-x-2 text-[#a5f3fc] hover:text-white">
-                        <i class="fas fa-calendar-star"></i>
-                        <span>Events</span>
-                    </a>
-
-                    <a href="#"
-                        class="px-4 py-2 rounded-lg hover:bg-[#262626] transition flex items-center space-x-2 text-[#a5f3fc] hover:text-white">
-                        <i class="fas fa-newspaper"></i>
-                        <span>Blog</span>
-                    </a>
-
-                    <div class="group relative">
-                        <button
-                            class="px-4 py-2 rounded-lg hover:bg-[#262626] transition flex items-center space-x-2 text-[#a5f3fc] hover:text-white">
-                            <img src="https://randomuser.me/api/portraits/men/32.jpg" alt="Profile"
-                                class="w-6 h-6 rounded-full border border-[#a5f3fc]">
-                            <span>John</span>
-                            <i class="fas fa-chevron-down text-xs transition transform group-hover:rotate-180"></i>
-                        </button>
-                        <div
-                            class="absolute right-0 mt-2 w-56 bg-[#262626] rounded-lg shadow-xl border border-[#404040] opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200">
-                            <div class="px-4 py-3 border-b border-[#404040]">
-                                <p class="text-xs">Blood Type: <span class="font-bold text-[#e11d48]">O+</span></p>
-                                <p class="text-xs mt-1">Next eligible: <span
-                                        class="font-bold text-green-400">Ready</span></p>
-                            </div>
-                            <a href="#"
-                                class="block px-4 py-3 hover:bg-[#404040] transition border-b border-[#404040]">
-                                <i class="fas fa-user mr-2"></i> Profile
-                            </a>
-                            <a href="#"
-                                class="block px-4 py-3 hover:bg-[#404040] transition border-b border-[#404040]">
-                                <i class="fas fa-history mr-2"></i> History
-                            </a>
-                            <a href="#" class="block px-4 py-3 hover:bg-[#404040] transition">
-                                <i class="fas fa-sign-out-alt mr-2"></i> Logout
-                            </a>
-                        </div>
-                    </div>
-
-                    
-                    @if ($donor->status === 'rejected')
-                        <a href="{{ route('donor.complete') }}"
-                            class="inline-flex items-center text-xs bg-blood hover:bg-blood-700 text-white px-3 py-1.5 rounded-full transition">
-                            <i class="fas fa-redo mr-1.5"></i>
-                            Edit and Resubmit
-                        </a>
-                    @endif
-                </div>
-            </div>
-        </div>
-    </nav> --}}

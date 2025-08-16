@@ -1,3 +1,5 @@
+
+@props(['donor' => null])
 <nav class="fixed w-full top-0 left-0 z-50 backdrop-blur-lg bg-[#0a0a0a]/10">
     <div class="">
         <div class="flex items-center justify-between h-16 pl-5">
@@ -28,39 +30,44 @@
                 <div class="flex items-center gap-5">
                     @if ($donor?->status === 'approved' || $user->role === 'blood_bank_admin')
                         <button id="openNotificationBtn"
-                            class="relative p-2.5 rounded-full hover:bg-gray-800 transition-all duration-200 ease-in-out group bg-gray-900/20">
-                            <!-- Bell Icon -->
+                            class="relative p-3 rounded-full transition-all duration-300 ease-out group bg-gray-900/30 hover:bg-gray-800/70 backdrop-blur-sm  shadow-lg hover:shadow-xl">
+                            <!-- Bell Icon with gradient and subtle animation -->
                             <i
-                                class="fa-solid fa-bell text-gray-300 group-hover:text-white transition-colors duration-200"></i>
-                            <!-- Notification Badge -->
+                                class="fa-solid fa-bell text-transparent bg-clip-text bg-gradient-to-br from-gray-200 to-gray-400 group-hover:from-white group-hover:to-gray-300 transition-all duration-300 text-lg"></i>
+
+                            <!-- Elegant Notification Indicator -->
                             <span id="notificationCount"
-                                class="absolute top-0 right-0 inline-flex items-center justify-center w-5 h-5 text-xs font-medium text-white bg-red-500 rounded-full transform translate-x-1/2 -translate-y-1/2 group-hover:bg-red-400 transition-colors duration-200 shadow-[0_0_0_1px_rgba(17,24,39,1)]">
+                                class="absolute top-0 right-0 inline-flex items-center justify-center w-5 h-5 text-xs font-medium text-white bg-gradient-to-br from-red-400 to-red-500 rounded-full transform translate-x-1 -translate-y-1 group-hover:from-red-300 group-hover:to-red-400 transition-all duration-300 shadow-[0_0_8px_0_rgba(101,117,255,0.3)] group-hover:shadow-[0_0_12px_0_rgba(101,117,255,0.4)] animate-pulse hover:animate-none">
                             </span>
+
+                            <!-- Subtle glow effect -->
+                            <span
+                                class="absolute inset-0 rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-300 bg-gradient-to-br from-indigo-500/10 to-blue-400/10"></span>
                         </button>
                         <div id="notification-box" class="relative"></div>
                     @endif
                     {{-- Donor Home Link --}}
-                    @if ($user->role === 'donor')
-                        @if ($donor?->status === 'approved')
-                            <a href="{{ route('home') }}"
-                                class="text-red-400 hover:text-red-300 rounded-md text-sm font-medium">
-                                Donor Home
-                                <i class="ml-2 fa-solid fa-home text-red-400 hover:text-red-300"></i>
-                            </a>
-                        @elseif ($donor?->status === 'rejected')
-                            <a href="{{ route('donor.complete') }}"
-                                class="inline-flex items-center text-xs bg-[#e11d48] hover:bg-[#bf1a3e] text-white px-3 py-1.5 rounded-full transition">
-                                <i class="fas fa-redo mr-1.5"></i> Edit and Resubmit
-                            </a>
-                        @endif
-                    @elseif($user->role === 'blood_bank_admin')
-                        <a href="{{ route('dashboard') }}"
+                    @if ($donor?->status === 'approved')
+                        <a href="{{ route('home') }}"
+                            class="text-red-400 hover:text-red-300 rounded-md text-sm font-medium">
+                            Donor Home
+                            <i class="ml-2 fa-solid fa-home text-red-400 hover:text-red-300"></i>
+                        </a>
+                    @elseif ($donor?->status === 'rejected')
+                        <a href="{{ route('donor.complete') }}"
+                            class="inline-flex items-center text-xs bg-[#e11d48] hover:bg-[#bf1a3e] text-white px-3 py-1.5 rounded-full transition">
+                            <i class="fas fa-redo mr-1.5"></i> Edit and Resubmit
+                        </a>
+                    @endif
+
+                    @if ($user->role === 'blood_bank_admin')
+                        <a href="{{ route('bba.dashboard') }}"
                             class="text-red-400 hover:text-red-300 rounded-md text-sm font-medium">
                             Dashboard
                             <i class="ml-2 fa-solid fa-square-poll-horizontal text-red-400 hover:text-red-300"></i>
                         </a>
                     @elseif($user->role === 'super_admin')
-                        <a href="{{ route('super-admin') }}"
+                        <a href="{{ route('superAdmin.dashboard') }}"
                             class="text-red-400 hover:text-red-300 rounded-md text-sm font-medium">
                             Dashboard
                             <i class="ml-2 fa-solid fa-square-poll-horizontal text-red-400 hover:text-red-300"></i>
@@ -125,8 +132,8 @@
                                 <a href="#"
                                     class="px-4 py-3 hover:bg-[#404040] transition border-b flex items-center justify-between">
                                     <div>
-                                        <i class="fas {{ request()->routeIs('home') ? 'fa-user' : 'fa-s' }} mr-2"></i>
-                                        {{ request()->routeIs('home') ? 'Profile' : 'Status' }}
+                                        <i class="fas {{ request()->routeIs('home', 'blogs.show', 'blog-show') ? 'fa-user' : 'fa-s' }} mr-2"></i>
+                                        {{ request()->routeIs('home', 'blogs.show', 'blog-show') ? 'Profile' : 'Status' }}
                                     </div>
                                     @switch($donor?->status)
                                         @case('pending')
@@ -159,7 +166,7 @@
                                 </a>
 
                                 {{-- History --}}
-                                @if ($donor?->status === 'approved' && request()->routeIs('home'))
+                                @if ($donor?->status === 'approved' && request()->routeIs('home', 'blogs.show', 'blog-show'))
                                     <a href="#" class="block px-4 py-3 hover:bg-[#404040] transition border-b">
                                         <i class="fas fa-history mr-2"></i> History
                                     </a>
@@ -177,7 +184,7 @@
                                 <i class="fas fa-sign-out-alt mr-2"></i> Logout
                             </a>
                         </div>
-                    </div>            
+                    </div>
                 </div>
             @else
                 {{-- Not Logged In --}}

@@ -22,7 +22,7 @@
             <div
                 class="bg-gray-900 px-4 py-3 sm:px-6 sm:flex sm:items-center sm:justify-between border-b border-gray-700">
                 <h3 class="text-lg leading-6 font-medium text-white" id="modal-title">
-                    <span>{{ $donor->user->name }}</span>
+                    <span>{{ $donor->donor_code }}</span>
                 </h3>
                 <button @click="showDonorDetail = false" class="text-gray-400 hover:text-white">
                     <i class="fas fa-times"></i>
@@ -49,13 +49,16 @@
                                 {{-- unique id --}}
                                 <div class="flex justify-between">
                                     <div class="text-gray-400">Unique ID</div>
-                                    <div x-data="{ text: 'DNR-2025-hello', copied: false }" class="flex items-center gap-2 ">
-                                        <p class="font-bold text-cyan-300 text-xs" x-text="text"></p>
-                                        <button
-                                            @click="navigator.clipboard.writeText(text).then(() => { copied = true; setTimeout(() => copied = false, 1000) })">
-                                            <i class="fa-solid fa-copy text-cyan-200 text-sm"></i>
-                                        </button>
-                                        <span x-show="copied" x-transition class="text-green-400 text-xs">Copied!</span>
+                                    <div x-data="{ text: '{{ $donor->donor_code }}', copied: false }" class="flex items-center gap-2 ">
+                                        @if ($donor->donor_code)
+                                            <p class="font-bold text-cyan-300 text-xs" x-text="text"></p>
+                                            <button
+                                                @click="navigator.clipboard.writeText(text).then(() => { copied = true; setTimeout(() => copied = false, 1000) })">
+                                                <i class="fa-solid fa-copy text-cyan-200 text-sm"></i>
+                                            </button>
+                                            <span x-show="copied" x-transition
+                                                class="text-green-400 text-xs">Copied!</span>
+                                        @endif
                                     </div>
                                 </div>
                                 <div class="flex justify-between">
@@ -145,7 +148,7 @@
                     <span class="pt-0.5">Close</span>
                 </button>
                 @if ($donor->status === 'pending')
-                    <form action="{{ route('donors.updateStatus', ['donor' => $donor, 'action' => 'approve']) }}"
+                    <form action="{{ route('bba.donors.updateStatus', ['donor' => $donor, 'action' => 'approve']) }}"
                         method="POST">
                         @csrf
                         @method('PATCH')
@@ -167,7 +170,7 @@
                     </div>
                 @endif
                 @if ($donor->status === 'approved')
-                    <form action="{{ route('donors.updateStatus', ['donor' => $donor, 'action' => 'suspend']) }}"
+                    <form action="{{ route('bba.donors.updateStatus', ['donor' => $donor, 'action' => 'suspend']) }}"
                         method="POST">
                         @csrf
                         @method('PATCH')
@@ -177,7 +180,7 @@
                             <span class="pt-0.5">Suspend</span>
                         </button>
                     </form>
-                    <form action="{{ route('donors.destroy', $donor) }}" method="POST">
+                    <form action="{{ route('bba.donors.destroy', $donor) }}" method="POST">
                         @csrf
                         @method('DELETE')
                         <button type="submit" @click="showDonorDetail = false"
@@ -188,7 +191,7 @@
                     </form>
                 @endif
                 @if ($donor->status === 'suspended')
-                    <form action="{{ route('donors.updateStatus', ['donor' => $donor, 'action' => 'approve']) }}"
+                    <form action="{{ route('bba.donors.updateStatus', ['donor' => $donor, 'action' => 'approve']) }}"
                         method="POST">
                         @csrf
                         @method('PATCH')
@@ -198,7 +201,7 @@
                             <span class="pt-0.5">Approve</span>
                         </button>
                     </form>
-                    <form action="{{ route('donors.destroy', $donor) }}" method="POST">
+                    <form action="{{ route('bba.donors.destroy', $donor) }}" method="POST">
                         @csrf
                         @method('DELETE')
                         <button type="submit" @click="showDonorDetail = false"
@@ -209,7 +212,7 @@
                     </form>
                 @endif
                 @if ($donor->status === 'rejected')
-                    <form action="{{ route('donors.updateStatus', ['donor' => $donor, 'action' => 'approve']) }}"
+                    <form action="{{ route('bba.donors.updateStatus', ['donor' => $donor, 'action' => 'approve']) }}"
                         method="POST">
                         @csrf
                         @method('PATCH')
@@ -219,7 +222,7 @@
                             <span class="pt-0.5">Approve</span>
                         </button>
                     </form>
-                    <form action="{{ route('donors.destroy', $donor) }}" method="POST">
+                    <form action="{{ route('bba.donors.destroy', $donor) }}" method="POST">
                         @csrf
                         @method('DELETE')
                         <button type="submit" @click="showDonorDetail = false"
@@ -230,7 +233,7 @@
                     </form>
                 @endif
                 @if ($donor->status === 'resubmitted')
-                    <form action="{{ route('donors.updateStatus', ['donor' => $donor, 'action' => 'approve']) }}"
+                    <form action="{{ route('bba.donors.updateStatus', ['donor' => $donor, 'action' => 'approve']) }}"
                         method="POST">
                         @csrf
                         @method('PATCH')
@@ -253,6 +256,5 @@
                 @endif
             </div>
         </div>
-
     </div>
 </div>

@@ -11,7 +11,7 @@
         <p class="mb-4 text-gray-300">Are you sure you want to reject {{ $donor->user->name }}</p>
 
         <!-- Form inside Modal -->
-        <form action="{{ route('donors.updateStatus', ['donor' => $donor, 'action' => 'reject']) }}" method="POST">
+        <form action="{{ route('bba.donors.updateStatus', ['donor' => $donor, 'action' => 'reject']) }}" method="POST">
             @csrf
             @method('PATCH')
 
@@ -39,7 +39,7 @@
                         <span class="text-gray-200">Invalid Profile Picture</span>
                     </label>
                     <textarea name="reasons[note]" rows="3" placeholder="Additional notes..."
-                        class="w-full bg-gray-800 text-gray-200 rounded-md border border-gray-700 px-3 py-2 resize-y focus:outline-none focus:ring-2 focus:ring-rose-500 focus:border-rose-500 transition"></textarea>
+                        class="w-full bg-gray-800 text-gray-200 rounded-md border border-gray-700 px-3 py-2 resize-y focus:outline-none focus:ring-2 focus:ring-rose-500 focus:border-rose-500 transition" required></textarea>
 
                 </div>
             </div>

@@ -1,29 +1,42 @@
 <?php
 
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\BlogController;
 use App\Http\Controllers\BloodBankAdmin\DashboardController as BloodBankAdminDashboardController;
 use App\Http\Controllers\BloodBankAdmin\DonorController as BloodBankAdminDonorController;
 use App\Http\Controllers\DonorController;
 use App\Http\Controllers\DonorFileController;
 use App\Http\Controllers\NotificationController;
-use App\Http\Controllers\SuperAdmin\BlogController;
+use App\Http\Controllers\SuperAdmin\BlogController as SuperAdminBlogController;
+use App\Http\Controllers\SuperAdmin\DashboardController as SuperAdminDashboardController;
 use App\Http\Controllers\SuperAdmin\UserController;
 use App\Models\Blog;
+use App\Models\User;
 use Illuminate\Foundation\Auth\EmailVerificationRequest;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
+    $donor = null;
+
+    if (auth()->check() && auth()->user()->donor) {
+        $donor = auth()->user()->donor;
+    }
     return view('welcome', [
-        'blogs' => Blog::latest()->get()
+        'blogs' => Blog::latest()->get(),
+        'donor' => $donor
     ]);
 })->name('welcome');
 
+Route::get('/blogs', [BlogController::class, 'index'])->name('blogs');
+Route::get('/blogs/{blog}', [BlogController::class, 'show'])->name('blogs.show');
+
+
 // User Register & Login
 Route::get('/register', [AuthController::class, 'register'])->name('register');
-Route::post('/register', [AuthController::class, 'registerStore'])->name('register');
+Route::post('/register', [AuthController::class, 'registerStore'])->name('register.store');
 Route::get('/login', [AuthController::class, 'login'])->name('login');
-Route::post('/login', [AuthController::class, 'loginStore'])->name('login');
+Route::post('/login', [AuthController::class, 'loginStore'])->name('login.store');
 
 // Verification Notice
 Route::get('/email/verify', function () {
@@ -43,8 +56,6 @@ Route::post('/email/verification-notification', function (Request $request) {
 })->middleware(['auth', 'throttle:6,1'])->name('verification.send');
 
 
-Route::get('/notifications', [NotificationController::class, 'index']);
-
 Route::get('/donor-files/{path}', [DonorFileController::class, 'show'])->where('path', '.*')->name('donor.files.show');
 
 Route::middleware(['auth', 'verified'])->group(function () {
@@ -56,18 +67,15 @@ Route::middleware(['auth', 'verified'])->group(function () {
         Route::post('/complete', [DonorController::class, 'storeCompletion'])->name('storeComplete');
         Route::put('/update', [DonorController::class, 'updateCompletion'])->name('updateComplete');
     });
+    Route::get('/notifications', [NotificationController::class, 'index']);
 });
 
 Route::middleware(['auth', 'verified', 'role:donor'])->group(function () {
-    Route::get('/home', function () {
-        return view('home-page', [
-            'donor' => auth()->user()->donor,
-            'blogs' => Blog::latest()->get()
-        ]);
-    })->name('home');
+
+    Route::get('/home', [DonorController::class, 'index'])->name('home');
 });
 
-Route::middleware(['auth', 'role:blood_bank_admin'])->group(function () {
+Route::middleware(['auth', 'role:blood_bank_admin'])->prefix('blood-bank-admin')->name('bba.')->group(function () {
 
     Route::get('/dashboard', [BloodBankAdminDashboardController::class, 'index'])->name('dashboard');
     Route::get('/donation-record', function () {
@@ -86,46 +94,30 @@ Route::middleware(['auth', 'role:blood_bank_admin'])->group(function () {
     });
 });
 
-Route::middleware(['auth', 'role:super_admin'])->group(function () {
+Route::middleware(['auth', 'role:super_admin'])
+    ->prefix('/super-admin')
+    ->name('superAdmin.')->group(function () {
 
-    Route::get('/superadmin-dashboard', function () {
-        return view("superAdmin.dashboard");
-    })->name('super-admin');
-    Route::get('/blogboard', [BlogController::class, 'index'])->name('blog-board');
-    Route::get('/user-management', function () {
-        return view("superAdmin.operator-admin-show");
-    })->name('user-management');
+        Route::get('/dashboard', [SuperAdminDashboardController::class, 'index'])->name('dashboard');
+        Route::get('/blogboard', [SuperAdminBlogController::class, 'index'])->name('blog-board');
+        Route::get('/user-management', function () {
+            return view('superAdmin.operator-admin-show', [
+                'users' => User::whereIn('role', ['blood_bank_admin', 'ward_operator'])->get()
+            ]);
+        })->name('user-management');
 
-    Route::prefix('/users')->name('users.')->group(function () {
-        Route::get('/', [UserController::class, 'index'])->name('index');
-        Route::post('/', [UserController::class, 'store'])->name('store');
-        Route::post('/{user}/{action}', [UserController::class, 'updateStatus'])
-            ->where('action', 'suspend|active')
-            ->name('updateStatus');
+        Route::prefix('/users')->name('users.')->group(function () {
+            Route::get('/', [UserController::class, 'index'])->name('index');
+            Route::post('/', [UserController::class, 'store'])->name('store');
+            Route::patch('/{user}/{action}', [UserController::class, 'updateStatus'])
+                ->where('action', 'suspend|active')
+                ->name('updateStatus');
+        });
+
+        Route::prefix('/blogs')->name('blogs.')->group(function () {
+            Route::get('/', [SuperAdminBlogController::class, 'index'])->name('index');
+            Route::post('/', [SuperAdminBlogController::class, 'store'])->name('store');
+            Route::put('/{blog}/update', [SuperAdminBlogController::class, 'update'])->name('update');
+            Route::delete('/{blog}', [SuperAdminBlogController::class, 'destroy'])->name('destroy');
+        });
     });
-
-    Route::prefix('/blogs')->name('blogs.')->group(function () {
-        Route::get('/', [BlogController::class, 'index'])->name('index');
-        Route::post('/', [BlogController::class, 'store'])->name('store');
-        Route::delete('/{blog}', [BlogController::class, 'destroy'])->name('destroy');
-    });
-});
-
-Route::get('/blogs-show/{blog}', function (Blog $blog) {
-    return view('blog', [
-        'blog' => $blog,
-        'randomBlogs' => Blog::inRandomOrder()->limit(3)->get()
-    ]);
-});
-
-Route::get('/blogs', function() {
-    return view('blogs',[
-        'blogs' => Blog::latest()->paginate(6)
-    ]);
-});
-
-Route::get('/home-test', function() {
-    return view('home-page',[
-        'blogs' => Blog::latest()->paginate(6)
-    ]);
-});

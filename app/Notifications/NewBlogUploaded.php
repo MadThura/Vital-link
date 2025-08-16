@@ -7,6 +7,7 @@ use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
+use Illuminate\Support\Str;
 
 class NewBlogUploaded extends Notification
 {
@@ -29,7 +30,7 @@ class NewBlogUploaded extends Notification
      */
     public function via(object $notifiable): array
     {
-        return ['database'];    
+        return ['database'];
     }
 
     /**
@@ -53,8 +54,9 @@ class NewBlogUploaded extends Notification
     {
         return [
             'title' => $this->blog->title,
+            'intro' => Str::limit($this->blog->body, 20, '...'),
             'id' => $this->blog->id,
-            'url' => url("/blogs/{$this->blog->id}")
+            'url' => route('blogs.show', $this->blog->id),
         ];
     }
 }

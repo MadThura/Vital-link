@@ -1,7 +1,7 @@
 <x-admin-layout title="SuperAdmin Dashboard">
     <!-- Blog Dashboard Container -->
     <div
-        class="flex flex-col w-full h-full bg-gradient-to-br from-gray-900 to-gray-800 text-gray-100  p-8 backdrop-blur-sm border border-gray-700/50 overflow-hidden">
+        class="flex flex-col w-full h-full bg-gradient-to-br from-gray-900 to-gray-800 text-gray-100  p-8 backdrop-blur-sm  overflow-hidden">
         <!-- Header Section -->
         <div class="flex justify-between items-center mb-6 pb-6 border-b border-gray-700/50">
             <div>
@@ -36,7 +36,7 @@
             </div>
 
         </div>
-
+        <x-alert-box />
         <!-- Main Content Area (Scrollable) -->
         <div class="flex-1 overflow-y-auto pr-2 scrollbar-none scrollbar-thumb-gray-700 scrollbar-track-gray-800/50">
             <!-- Featured Blog Gallery (Auto-scrolling) -->
@@ -65,15 +65,7 @@
 
                                         <h3 class="text-2xl font-bold text-white mb-2">{{ $blog->title }}</h3>
                                         <p class="text-gray-300 mb-4">{{ $blog->body }}</p>
-                                        <div x-data="{
-                                            showViewDialog: false,
-                                        }">
-                                            <button @click="showViewDialog = true"
-                                                class="px-4 py-2 bg-white/10 backdrop-blur-sm text-white rounded-lg border border-white/20 hover:bg-white/20 transition-all">
-                                                View Details
-                                            </button>
-                                            <x-view-blog-dialog :blog="$blog" />
-                                        </div>
+
                                     </div>
                                 </div>
                             @endforeach
@@ -102,11 +94,9 @@
                     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                         <!-- Blog Post Card 1 -->
                         @foreach ($blogs as $blog)
-                            <div x-data="{
-                                showViewDialog: false,
-                                showEditDialog: false,
-                            }"
+                            <div x-data="{ showViewDialog: false, showEditDialog: false }"
                                 class="relative group rounded-xl overflow-hidden shadow-lg hover:shadow-xl transition-all duration-300">
+
                                 <!-- Event photo -->
                                 <img src="{{ asset('storage/' . $blog->image) }}" alt="Event"
                                     class="absolute inset-0 w-full h-full object-cover z-0">
@@ -117,19 +107,14 @@
                                 </div>
 
                                 <!-- Card content -->
-                                <div class="relative z-10 p-6 flex flex-col h-full bg-gray-800/40 backdrop-blur-sm">
-                                    <h3
+                                <div class="relative z-10 p-5 flex flex-col h-full bg-gray-800/40 backdrop-blur-sm">
+                                    <div class="flex items-center justify-between">
+                                        <h3
                                         class="text-xl font-bold text-white mb-3 group-hover:text-indigo-300 transition-colors duration-200">
                                         {{ $blog->title }}
                                     </h3>
-                                    <p class="text-gray-200 text-sm mb-6 flex-grow">
-                                        {{ $blog->body }}
-                                    </p>
                                     <div class="flex justify-between items-center text-sm text-white">
-                                        <div class="flex items-center space-x-1">
-                                            <i class="fa-regular fa-clock"></i>
-                                            <span>{{ $blog->created_at->diffForHumans() }}</span>
-                                        </div>
+                                        
                                         <div class="flex space-x-2">
                                             <button @click="showViewDialog = true"
                                                 class="text-white-400 hover:text-indigo-300 transition-colors">
@@ -139,7 +124,8 @@
                                                 class="text-white hover:text-indigo-300 transition-colors">
                                                 <i class="fa-regular fa-pen-to-square"></i>
                                             </button>
-                                            <form action="{{ route('blogs.destroy', $blog) }}" method="POST">
+                                            <form action="{{ route('superAdmin.blogs.destroy', $blog) }}"
+                                                method="POST">
                                                 @csrf
                                                 @method('DELETE')
                                                 <button type="submit"
@@ -149,13 +135,32 @@
                                             </form>
                                         </div>
                                     </div>
+                                    </div>
+                                    <p class="text-gray-200 text-sm mb-6 flex-grow">
+                                        {{ $blog->body }}
+                                    </p>
+                                    
+                                    <div class="flex items-center justify-between">
+                                        <div class="flex items-center space-x-1">
+                                            <i class="text-sm fa-regular fa-clock"></i>
+                                            <span class="text-sm">{{ $blog->created_at->diffForHumans() }}</span>
+                                        </div>
+                                    @if ($blog->updated_at && $blog->updated_at->ne($blog->created_at))
+                                        <div class="flex items-center justify-end space-x-1 ">
+                                            <i class="text-xs fa-regular fa-pen-to-square"></i>
+                                            <span class="text-xs">{{ $blog->updated_at->diffForHumans() }}</span>
+                                        </div>
+                                    @endif
+                                    </div>
                                 </div>
+
                                 <!-- View Blog Dialog -->
                                 <x-view-blog-dialog :blog="$blog" />
                                 <!-- Edit Blog Dialog -->
                                 <x-edit-blog-dialog :blog="$blog" />
                             </div>
                         @endforeach
+
                     </div>
                 </div>
                 <div class="mt-5">
@@ -210,7 +215,7 @@
 
             // Start auto-scrolling
             function startAutoScroll() {
-                autoScrollInterval = setInterval(nextSlide, 5000); // Change slide every 5 seconds
+                autoScrollInterval = setInterval(nextSlide, 3000); // Change slide every 5 seconds
             }
 
             // Initialize gallery

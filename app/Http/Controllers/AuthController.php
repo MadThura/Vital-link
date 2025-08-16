@@ -9,6 +9,8 @@ use Illuminate\Auth\Events\Registered;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
+use function PHPUnit\Framework\isEmpty;
+
 class AuthController extends Controller
 {
     public function register()
@@ -45,50 +47,52 @@ class AuthController extends Controller
             'password' => ['required', 'string', 'min:8', 'max:30'],
         ]);
 
-        $user = User::where('email', $request->email)->first();
+        if (!Auth::attempt($credentials)) {
+
+            return back()->withErrors(['email' => 'Invalid credentials'])->withInput();
+        }
+
+        $user = User::where('email', $credentials['email'])->first();
+
+        if (!Auth::attempt($credentials)) {
+            return back()->withErrors(['email' => 'Invalid credentials'])->withInput();
+        }
 
         // Check if email is verified
         if (is_null($user->email_verified_at)) {
 
             return redirect()->route('verification.notice');
-            // return back()->withErrors(['email' => 'Please verify your email before logging in.']);
-        }
-
-        if (!Auth::attempt($credentials)) {
-
-            return back()->withErrors(['email' => 'Invalid credentials'])->withInput();
         }
 
         if ($user->role === 'super_admin') {
 
             $request->session()->regenerate();
 
-            return redirect()->route('super-admin');
+            return redirect()->route('superAdmin.dashboard');
         }
 
         if ($user->role === 'blood_bank_admin') {
 
             $request->session()->regenerate();
 
-            return redirect()->route('dashboard');
+            return redirect()->route('bba.dashboard');
         }
 
         $donor = Donor::where('user_id', $user->id)->first();
-        if ($donor->status === 'pending' || $donor->status === 'rejected' || $donor->status === 'resubmitted') {
 
+        if (!$donor) {
+            return redirect()->route('donor.complete');
+        }
+
+        if (in_array($donor->status, ['pending', 'rejected', 'resubmitted'], true)) {
             $request->session()->regenerate();
 
-            return view('welcome', [
-                'donor' => $donor
-            ]);
+            return redirect()->route('welcome');
         } elseif ($donor->status === 'approved') {
 
             $request->session()->regenerate();
 
-            return view('home-page', [
-                'donor' => $donor,
-                'randomBlogs' => Blog::inRandomOrder()->limit(3)->get()
-            ]);
+            return redirect()->route('home');
         }
     }
 

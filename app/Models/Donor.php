@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Str;
 
 class Donor extends Model
 {
@@ -24,6 +25,16 @@ class Donor extends Model
         'nrc_back'
     ];
 
+    protected static function generateDonorCode()
+    {
+        do {
+            // Example: DNR-2025-ABC123
+            $code = 'DNR-' . date('Y') . '-' . strtoupper(Str::random(6));
+        } while (self::where('donor_code', $code)->exists());
+
+        return $code;
+    }
+
     public function user()
     {
         return $this->belongsTo(User::class);
@@ -38,8 +49,9 @@ class Donor extends Model
     {
 
         if ($search = $filters['search'] ?? null) {
-            $query->whereHas('user', function ($q) use ($search) {
-                $q->where('name', 'LIKE', '%' . $search . '%');
+            $query->whereHas('user.donor', function ($q) use ($search) {
+                $q->where('name', 'LIKE', '%' . $search . '%')
+                    ->orWhere('donor_code', '=', $search);
             });
         }
 
