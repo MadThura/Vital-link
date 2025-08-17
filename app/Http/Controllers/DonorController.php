@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Blog;
+use App\Models\BloodBank;
 use App\Models\Donor;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -16,7 +17,8 @@ class DonorController extends Controller
         return view('home-page', [
             'donor' => auth()->user()->donor,
             'blogs' => Blog::latest()->paginate(6),
-            'randomBlogs' => Blog::inRandomOrder()->limit(3)->get()
+            'randomBlogs' => Blog::inRandomOrder()->limit(3)->get(),
+            'bloodBanks' => BloodBank::with('user')->latest()->get()
         ]);
     }
 

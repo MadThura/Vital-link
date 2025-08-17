@@ -11,7 +11,7 @@ class BlogController extends Controller
     public function index()
     {
         return view('blogs', [
-            'blogs' => Blog::latest()->paginate(),
+            'blogs' => Blog::latest()->paginate(6),
             'randomBlogs' => Blog::inRandomOrder()->limit(3)->get(),
         ]);
     }

@@ -31,7 +31,7 @@
                                 class="bg-[#e11d48] hover:bg-[#e11d48]/80 text-white px-8 py-4 rounded-lg font-bold transition flex items-center drop-shadow-[0_0_8px_rgba(225,29,72,0.6)]">
                                 <i class="fas fa-heartbeat mr-3"></i> Make Donation
                             </button>
-                            <x-show-requests />
+                            <x-show-requests :bloodBanks="$bloodBanks ?? null" />
                         </div>
 
                     </div>

@@ -11,6 +11,7 @@ use App\Http\Controllers\SuperAdmin\BlogController as SuperAdminBlogController;
 use App\Http\Controllers\SuperAdmin\DashboardController as SuperAdminDashboardController;
 use App\Http\Controllers\SuperAdmin\UserController;
 use App\Models\Blog;
+use App\Models\Donor;
 use App\Models\User;
 use Illuminate\Foundation\Auth\EmailVerificationRequest;
 use Illuminate\Http\Request;
@@ -79,7 +80,12 @@ Route::middleware(['auth', 'role:blood_bank_admin'])->prefix('blood-bank-admin')
 
     Route::get('/dashboard', [BloodBankAdminDashboardController::class, 'index'])->name('dashboard');
     Route::get('/donation-record', function () {
-        return view('bloodBankAdmin.donation-record');
+        return view('bloodBankAdmin.donation-record',[
+             'donors' => Donor::with(['user', 'bloodBank'])
+                ->where('status', 'approved') // only active donors
+                ->latest()
+                ->paginate(10)
+        ]);
     })->name('donation-record');
     Route::get('/blood-inventory', function () {
         return view('bloodBankAdmin.blood-inventory');
@@ -112,6 +118,7 @@ Route::middleware(['auth', 'role:super_admin'])
             Route::patch('/{user}/{action}', [UserController::class, 'updateStatus'])
                 ->where('action', 'suspend|active')
                 ->name('updateStatus');
+            Route::delete('/{user}', [UserController::class, 'destroy'])->name('destroy');
         });
 
         Route::prefix('/blogs')->name('blogs.')->group(function () {

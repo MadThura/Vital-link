@@ -18,51 +18,51 @@
                 @if (auth()->user()->role === 'blood_bank_admin')
                     <!-- Dashboard (Cyan) -->
                     <a href="{{ route('bba.dashboard') }}"
-                        class="no-underline text-sm py-3 px-4 rounded-lg flex items-center gap-3 transition-all group border-l-4 {{ request()->routeIs('dashboard') ? 'border-cyan-400 bg-gray-700/50 text-cyan-400' : 'border-transparent text-gray-300 hover:bg-gray-700/50 hover:text-cyan-400' }}">
+                        class="no-underline text-sm py-3 px-4 rounded-lg flex items-center gap-3 transition-all group border-l-4 {{ request()->routeIs('bba.dashboard') ? 'border-cyan-400 bg-gray-700/50 text-cyan-400' : 'border-transparent text-gray-300 hover:bg-gray-700/50 hover:text-cyan-400' }}">
                         <i
-                            class="fa-solid fa-house text-base transition-colors {{ request()->routeIs('dashboard') ? 'text-cyan-400' : 'text-gray-400 group-hover:text-cyan-400' }}">
+                            class="fa-solid fa-house text-base transition-colors {{ request()->routeIs('bba.dashboard') ? 'text-cyan-400' : 'text-gray-400 group-hover:text-cyan-400' }}">
                         </i>
                         <span
-                            class="transition-transform {{ request()->routeIs('dashboard') ? 'translate-x-1' : 'group-hover:translate-x-1' }}">
+                            class="transition-transform {{ request()->routeIs('bba.dashboard') ? 'translate-x-1' : 'group-hover:translate-x-1' }}">
                             Dashboard
                         </span>
                     </a>
 
                     <!-- Donor Management (Purple) -->
                     <a href="{{ route('bba.donors.index') }}"
-                        class="no-underline text-sm py-3 px-4 rounded-lg flex items-center gap-3 transition-all group border-l-4 {{ request()->routeIs('donors.*') ? 'border-purple-400 bg-gray-700/50 text-purple-400' : 'border-transparent text-gray-300 hover:bg-gray-700/50 hover:text-purple-400' }}">
+                        class="no-underline text-sm py-3 px-4 rounded-lg flex items-center gap-3 transition-all group border-l-4 {{ request()->routeIs('bba.donors.index') ? 'border-purple-400 bg-gray-700/50 text-purple-400' : 'border-transparent text-gray-300 hover:bg-gray-700/50 hover:text-purple-400' }}">
 
                         <i
-                            class="fa-solid fa-user-check text-base transition-colors {{ request()->routeIs('donors.*') ? 'text-purple-400' : 'text-gray-400 group-hover:text-purple-400' }}">
+                            class="fa-solid fa-user-check text-base transition-colors {{ request()->routeIs('bba.donors.index') ? 'text-purple-400' : 'text-gray-400 group-hover:text-purple-400' }}">
                         </i>
                         <span
-                            class="transition-transform {{ request()->routeIs('donors.*') ? 'translate-x-1' : 'group-hover:translate-x-1' }}">
+                            class="transition-transform {{ request()->routeIs('bba.donors.index') ? 'translate-x-1' : 'group-hover:translate-x-1' }}">
                             Donor Management
                         </span>
                     </a>
 
                     <!-- Donation Records (Emerald) -->
                     <a href="{{ route('bba.donation-record') }}"
-                        class="no-underline text-sm py-3 px-4 rounded-lg flex items-center gap-3 transition-all group border-l-4 {{ request()->routeIs('donation-record') ? 'border-emerald-400 bg-gray-700/50 text-emerald-400' : 'border-transparent text-gray-300 hover:bg-gray-700/50 hover:text-emerald-400' }}">
+                        class="no-underline text-sm py-3 px-4 rounded-lg flex items-center gap-3 transition-all group border-l-4 {{ request()->routeIs('bba.donation-record') ? 'border-emerald-400 bg-gray-700/50 text-emerald-400' : 'border-transparent text-gray-300 hover:bg-gray-700/50 hover:text-emerald-400' }}">
 
                         <i
-                            class="fa-solid fa-file-medical text-base transition-colors {{ request()->routeIs('donation-record') ? 'text-emerald-400' : 'text-gray-400 group-hover:text-emerald-400' }}">
+                            class="fa-solid fa-file-medical text-base transition-colors {{ request()->routeIs('bba.donation-record') ? 'text-emerald-400' : 'text-gray-400 group-hover:text-emerald-400' }}">
                         </i>
                         <span
-                            class="transition-transform {{ request()->routeIs('donation-record') ? 'translate-x-1' : 'group-hover:translate-x-1' }}">
+                            class="transition-transform {{ request()->routeIs('bba.donation-record') ? 'translate-x-1' : 'group-hover:translate-x-1' }}">
                             Donation Records
                         </span>
                     </a>
 
                     <!-- Blood Inventory (Amber) -->
                     <a href="{{ route('bba.blood-inventory') }}"
-                        class="no-underline text-sm py-3 px-4 rounded-lg flex items-center gap-3 transition-all group border-l-4 {{ request()->routeIs('blood-inventory') ? 'border-amber-400 bg-gray-700/50 text-amber-400' : 'border-transparent text-gray-300 hover:bg-gray-700/50 hover:text-amber-400' }}">
+                        class="no-underline text-sm py-3 px-4 rounded-lg flex items-center gap-3 transition-all group border-l-4 {{ request()->routeIs('bba.blood-inventory') ? 'border-amber-400 bg-gray-700/50 text-amber-400' : 'border-transparent text-gray-300 hover:bg-gray-700/50 hover:text-amber-400' }}">
 
                         <i
-                            class="fa-solid fa-file-export text-base transition-colors {{ request()->routeIs('blood-inventory') ? 'text-amber-400' : 'text-gray-400 group-hover:text-amber-400' }}">
+                            class="fa-solid fa-file-export text-base transition-colors {{ request()->routeIs('bba.blood-inventory') ? 'text-amber-400' : 'text-gray-400 group-hover:text-amber-400' }}">
                         </i>
                         <span
-                            class="transition-transform {{ request()->routeIs('blood-inventory') ? 'translate-x-1' : 'group-hover:translate-x-1' }}">
+                            class="transition-transform {{ request()->routeIs('bba.blood-inventory') ? 'translate-x-1' : 'group-hover:translate-x-1' }}">
                             Blood Inventory
                         </span>
                     </a>

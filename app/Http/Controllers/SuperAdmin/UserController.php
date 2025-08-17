@@ -65,9 +65,10 @@ class UserController extends Controller
         return back()->with('success', 'User ' . $user->status . ' successfully.');
     }
 
-    // public function destroy(User $user)
-    // {
+    public function destroy(User $user)
+    {
 
-    //     $user->delete();
-    // }
+        $user->delete();
+        return back()->with('success', 'User deleted successfully.');
+    }
 }

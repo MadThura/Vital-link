@@ -1,4 +1,5 @@
 <x-admin-layout title="SuperAdmin Dashboard">
+    <x-alert-box/>
     <div class="h-full bg-gray-900 p-6 font-sans text-gray-100 overflow-y-auto scrollbar-none">
         <!-- Header -->
         <div class="flex justify-between items-center mb-6 text-cyan-400">
@@ -8,7 +9,7 @@
                 User Management
             </h1>
         </div>
-
+        
         <!-- Users Table -->
         <div class="bg-gray-800 rounded-lg border border-gray-700 overflow-hidden mb-8">
             <div class="p-4 border-b border-gray-700 flex justify-between items-center">
@@ -61,27 +62,54 @@
 
                                 <td class="py-3 px-4 text-center">
                                     <span
-                                        class="px-2 py-1 bg-green-900/20 text-green-400 rounded-full text-xs">Active</span>
+                                        class="px-2 py-1 rounded-full text-xs {{ $user->status === 'active' ? 'bg-green-900/20 text-green-400' : 'bg-gray-900/20 text-gray-400' }}">
+                                        {{ $user->status }}
+                                    </span>
+
                                 </td>
 
                                 <td class="py-3 px-4 text-center">
                                     <div class="flex justify-center gap-3">
                                         <div class="flex justify-center gap-3">
-                                            <!-- Approve / Update Status Form -->
+                                            <!-- Approve Form -->
+                                            <form
+                                                action="{{ route('superAdmin.users.updateStatus', ['user' => $user, 'action' => 'active']) }}"
+                                                method="POST">
+                                                @csrf
+                                                @method('PATCH')
+                                                <button type="submit"
+                                                    class="text-gray-400 hover:text-green-300 transition-colors">
+                                                    <i class="text-sm fa-solid fa-check"></i>
+                                                </button>
+                                            </form>
+                                        </div>
+                                        <div class="flex justify-center gap-3">
+                                            <!-- Ban Form -->
                                             <form
                                                 action="{{ route('superAdmin.users.updateStatus', ['user' => $user, 'action' => 'suspend']) }}"
                                                 method="POST">
                                                 @csrf
                                                 @method('PATCH')
-                                                <button  type="submit" class="text-gray-400 hover:text-gray-300 transition-colors" title="Delete">
-                                                    <i class="fa-solid fa-ban"></i>
+                                                <button type="submit"
+                                                    class="text-gray-400 hover:text-amber-300 transition-color">
+                                                    <i class="text-sm fa-solid fa-ban"></i>
                                                 </button>
                                             </form>
                                         </div>
-                                        <button class="text-red-400 hover:text-red-300 transition-colors"
-                                            title="Delete">
-                                            <i class="fa-solid fa-trash"></i>
-                                        </button>
+                                        <div class="flex justify-center gap-3">
+                                            <!-- Ban Form -->
+                                            <form
+                                                action="{{ route('superAdmin.users.destroy', $user) }}"
+                                                method="POST">
+                                                @csrf
+                                                @method('DELETE')
+                                                <button type="submit"
+                                                    class="text-gray-400 hover:text-red-300 transition-color">
+                                                    <i class="text-sm fa-solid fa-trash"></i>
+                                                </button>
+                                            </form>
+                                        </div>
+                                        
                                     </div>
                                 </td>
                             </tr>
