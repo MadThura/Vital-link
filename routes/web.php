@@ -11,8 +11,10 @@ use App\Http\Controllers\SuperAdmin\BlogController as SuperAdminBlogController;
 use App\Http\Controllers\SuperAdmin\DashboardController as SuperAdminDashboardController;
 use App\Http\Controllers\SuperAdmin\UserController;
 use App\Models\Blog;
+use App\Models\BloodBank;
 use App\Models\Donor;
 use App\Models\User;
+use Illuminate\Container\Attributes\Auth;
 use Illuminate\Foundation\Auth\EmailVerificationRequest;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -78,15 +80,27 @@ Route::middleware(['auth', 'verified', 'role:donor'])->group(function () {
 
 Route::middleware(['auth', 'role:blood_bank_admin'])->prefix('blood-bank-admin')->name('bba.')->group(function () {
 
+    Route::get('/profile', function () {
+        $bloodBank = auth()->user()->bloodBank()->with('user')->firstOrFail();
+        return view('bloodBankAdmin.profile', compact('bloodBank'));
+    })->name('profile');
     Route::get('/dashboard', [BloodBankAdminDashboardController::class, 'index'])->name('dashboard');
     Route::get('/donation-record', function () {
-        return view('bloodBankAdmin.donation-record',[
-             'donors' => Donor::with(['user', 'bloodBank'])
+        return view('bloodBankAdmin.donation-record', [
+            'donors' => Donor::with(['user', 'bloodBank'])
                 ->where('status', 'approved') // only active donors
                 ->latest()
                 ->paginate(10)
         ]);
     })->name('donation-record');
+    Route::get('/donation-request', function () {
+        return view('bloodBankAdmin.donation-request', [
+            'donors' => Donor::with(['user', 'bloodBank'])
+                ->where('status', 'approved') // only active donors
+                ->latest()
+                ->paginate(10)
+        ]);
+    })->name('donation-request');
     Route::get('/blood-inventory', function () {
         return view('bloodBankAdmin.blood-inventory');
     })->name('blood-inventory');
@@ -104,6 +118,11 @@ Route::middleware(['auth', 'role:super_admin'])
     ->prefix('/super-admin')
     ->name('superAdmin.')->group(function () {
 
+        Route::get('/profile', function () {
+            return view('superAdmin.profile', [
+                'user' => auth()->user()
+            ]);
+        })->name('profile');
         Route::get('/dashboard', [SuperAdminDashboardController::class, 'index'])->name('dashboard');
         Route::get('/blogboard', [SuperAdminBlogController::class, 'index'])->name('blog-board');
         Route::get('/user-management', function () {

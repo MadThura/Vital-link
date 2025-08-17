@@ -2,16 +2,19 @@
         <!-- Main Content -->
         <div class="h-full bg-gray-900 text-gray-200 p-6 overflow-auto scrollbar-none">
             <!-- Page Header -->
-            <div class="flex flex-col md:flex-row justify-between items-start md:items-center mb-8 gap-4">
-                <div>
-                    <h1 class="text-2xl font-bold text-white flex items-center gap-3">
-                        <i class="fas fa-tint text-cyan-400"></i>
-                        Donation Records
-                    </h1>
-                    <p class="text-gray-400 mt-1">Track and manage all blood donation activities</p>
+            <div class="flex flex-col mb-8 gap-4">
+                <!-- Page Header -->
+                <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
+                    <div>
+                        <h1 class="text-2xl font-bold text-white flex items-center gap-3">
+                            <i class="fas fa-tint text-cyan-400"></i>
+                            Donation Records
+                        </h1>
+                        <p class="text-gray-400 mt-1">Track and manage all blood donation activities</p>
+                    </div>
                 </div>
-
             </div>
+
 
             <!-- Stats Summary -->
             <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5 mb-8">
@@ -71,24 +74,7 @@
                     <p class="text-gray-400 text-sm mt-2">38% of total</p>
                 </div>
             </div>
-            <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
-                <!-- Schedule Appointment Card -->
-                <div class="bg-gray-800 rounded-lg border border-gray-700 p-6">
-                    <div class="flex justify-between items-center mb-4">
-                        <h3 class="text-lg font-medium text-white flex items-center gap-2">
-                            <i class="fas fa-calendar-plus text-purple-400"></i>
-                            Set Schedule
-                        </h3>
-                        <!-- Submit -->
-                        <div class="flex justify-end">
-                            <button type="submit"
-                                class="bg-purple-600 hover:bg-purple-700 text-white px-6 py-2 rounded-lg flex items-center gap-2 transition-colors">
-                                <i class="fas fa-calendar-check"></i> Confirm Appointment
-                            </button>
-                        </div>
-                    </div>
-                </div>
-            </div>
+
             <!-- Donor List Section -->
             <div class="bg-gray-800 rounded-lg border border-gray-700 overflow-hidden mb-8">
                 <div class="p-4 border-b border-gray-700 flex justify-between">
@@ -159,7 +145,7 @@
                 </div>
 
             </div>
-
+            
             <!-- Records Table Section -->
             <div class="bg-gray-800 rounded-lg border border-gray-700 overflow-hidden">
                 <!-- Table Header -->

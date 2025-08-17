@@ -16,6 +16,17 @@
         <nav aria-label="Main navigation" class="flex flex-col gap-2 mt-5">
             @auth
                 @if (auth()->user()->role === 'blood_bank_admin')
+                    <!-- Dashboard (emerald) -->
+                    <a href="{{ route('bba.profile') }}"
+                        class="no-underline text-sm py-3 px-4 rounded-lg flex items-center gap-3 transition-all group border-l-4 {{ request()->routeIs('bba.profile') ? 'border-emerald-400 bg-gray-700/50 text-emerald-400' : 'border-transparent text-gray-300 hover:bg-gray-700/50 hover:text-emerald-400' }}">
+                        <i
+                            class="fa-solid fa-house text-base transition-colors {{ request()->routeIs('bba.profile') ? 'text-emerald-400' : 'text-gray-400 group-hover:text-emerald-400' }}">
+                        </i>
+                        <span
+                            class="transition-transform {{ request()->routeIs('bba.profile') ? 'translate-x-1' : 'group-hover:translate-x-1' }}">
+                            Profile
+                        </span>
+                    </a>
                     <!-- Dashboard (Cyan) -->
                     <a href="{{ route('bba.dashboard') }}"
                         class="no-underline text-sm py-3 px-4 rounded-lg flex items-center gap-3 transition-all group border-l-4 {{ request()->routeIs('bba.dashboard') ? 'border-cyan-400 bg-gray-700/50 text-cyan-400' : 'border-transparent text-gray-300 hover:bg-gray-700/50 hover:text-cyan-400' }}">
@@ -40,7 +51,18 @@
                             Donor Management
                         </span>
                     </a>
+                    <!-- Donation Records (Emerald) -->
+                    <a href="{{ route('bba.donation-request') }}"
+                        class="no-underline text-sm py-3 px-4 rounded-lg flex items-center gap-3 transition-all group border-l-4 {{ request()->routeIs('bba.donation-request') ? 'border-rose-400 bg-gray-700/50 text-rose-400' : 'border-transparent text-gray-300 hover:bg-gray-700/50 hover:text-rose-400' }}">
 
+                        <i
+                            class="fa-solid fa-file-medical text-base transition-colors {{ request()->routeIs('bba.donation-request') ? 'text-rose-400' : 'text-gray-400 group-hover:text-rose-400' }}">
+                        </i>
+                        <span
+                            class="transition-transform {{ request()->routeIs('bba.donation-record') ? 'translate-x-1' : 'group-hover:translate-x-1' }}">
+                            Donation Requests
+                        </span>
+                    </a>
                     <!-- Donation Records (Emerald) -->
                     <a href="{{ route('bba.donation-record') }}"
                         class="no-underline text-sm py-3 px-4 rounded-lg flex items-center gap-3 transition-all group border-l-4 {{ request()->routeIs('bba.donation-record') ? 'border-emerald-400 bg-gray-700/50 text-emerald-400' : 'border-transparent text-gray-300 hover:bg-gray-700/50 hover:text-emerald-400' }}">
@@ -67,6 +89,16 @@
                         </span>
                     </a>
                 @elseif(auth()->user()->role === 'super_admin')
+                    <a href="{{ route('superAdmin.profile') }}"
+                        class="no-underline text-sm py-3 px-4 rounded-lg flex items-center gap-3 transition-all group border-l-4 {{ request()->routeIs('bba.profile') ? 'border-emerald-400 bg-gray-700/50 text-emerald-400' : 'border-transparent text-gray-300 hover:bg-gray-700/50 hover:text-emerald-400' }}">
+                        <i
+                            class="fa-solid fa-house text-base transition-colors {{ request()->routeIs('bba.profile') ? 'text-emerald-400' : 'text-gray-400 group-hover:text-emerald-400' }}">
+                        </i>
+                        <span
+                            class="transition-transform {{ request()->routeIs('bba.profile') ? 'translate-x-1' : 'group-hover:translate-x-1' }}">
+                            Profile
+                        </span>
+                    </a>
                     <!-- Dashboard (Cyan) -->
                     <a href="{{ route('superAdmin.dashboard') }}"
                         class="no-underline text-sm py-3 px-4 rounded-lg flex items-center gap-3 transition-all group border-l-4 {{ request()->routeIs('superAdmin.dashboard') ? 'border-cyan-400 bg-gray-700/50 text-cyan-400' : 'border-transparent text-gray-300 hover:bg-gray-700/50 hover:text-cyan-400' }}">
