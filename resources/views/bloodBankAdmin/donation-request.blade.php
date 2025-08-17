@@ -16,19 +16,41 @@
         </div>
         <div class="bg-gray-800 rounded-lg border border-gray-700 overflow-hidden mb-8">
             <!-- Header with Search -->
-            <div class="p-4 border-b border-gray-700 flex justify-between items-center">
+            <div class="p-4 border-b border-gray-700 flex flex-col md:flex-row justify-between items-center gap-3">
                 <h3 class="text-lg font-medium text-gray-200 flex items-center gap-2">
                     <i class="far fa-calendar-plus text-rose-400"></i>
                     <span>Request Appointments</span>
                 </h3>
-                <div class="flex gap-3">
-                    <div class="relative">
-                        <input type="text" placeholder="Search requests... (name or blood bank)"
-                            class="bg-gray-700 border border-gray-600 text-white px-4 py-2 rounded-lg pl-10 focus:outline-none focus:ring-1 focus:ring-rose-500 w-72">
+
+                <!-- Form for Search and Filter -->
+                <form class="flex flex-col md:flex-row items-center gap-3 w-full md:w-auto" action="/search-requests"
+                    method="GET">
+                    <!-- Search Input -->
+                    <div class="relative w-full md:w-72">
+                        <input type="text" name="query" placeholder="Search requests... (name or blood bank)"
+                            class="bg-gray-700 border border-gray-600 text-white px-4 py-2 rounded-lg pl-10 focus:outline-none focus:ring-1 focus:ring-rose-500 w-full">
                         <i class="fas fa-search absolute left-3 top-3 text-gray-400"></i>
                     </div>
-                </div>
+
+                    <!-- Filter Select Box -->
+                    <select name="status"
+                        class="bg-gray-700 border border-gray-600 text-white px-4 py-2 rounded-lg focus:outline-none focus:ring-1 focus:ring-rose-500">
+                        <option value="">All Status</option>
+                        <option value="pending">Pending</option>
+                        <option value="approved">Approved</option>
+                        <option value="completed">Completed</option>
+                        <option value="cancelled">Cancelled</option>
+                    </select>
+
+                    <!-- Search Button -->
+                    <button type="submit"
+                        class="bg-rose-500 hover:bg-rose-600 text-white px-4 py-2 rounded-lg transition-colors font-semibold">
+                        Search
+                    </button>
+                </form>
             </div>
+
+
 
             <!-- Scrollable Table Wrapper -->
             <div class="overflow-x-auto max-h-[400px] relative rounded-lg">
@@ -37,6 +59,7 @@
                         <tr>
                             <th class="py-3 px-4 text-left text-gray-300 font-semibold w-[60%]">Donor</th>
                             <th class="py-3 px-4 text-center text-gray-300 font-semibold w-[20%]">Appointment</th>
+                            <th class="py-3 px-4 text-center text-gray-300 font-semibold w-[20%]">Status</th>
                             <th class="py-3 px-4 text-center text-gray-300 font-semibold w-[20%]">Actions</th>
                         </tr>
                     </thead>
@@ -47,7 +70,8 @@
                             <td class="py-3 px-3 text-gray-300">
                                 <div class="flex items-center gap-3">
                                     <span class="font-medium group-hover:text-rose-400 transition-colors">
-                                        Donor Name
+                                        Donor Name<br>
+                                        <span class="text-sm text-gray-500">Unique Id</span>
                                     </span>
                                 </div>
                             </td>
@@ -55,6 +79,9 @@
                             <!-- Appointment Column -->
                             <td class="py-3 px-4 text-center">
                                 <span class="text-gray-400 text-sm">2025-08-18</span>
+                            </td>
+                            <td class="py-3 px-4 text-center">
+                                <span class="status-badge completed">Completed</span>
                             </td>
 
                             <!-- Actions Column -->
