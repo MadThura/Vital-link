@@ -1,5 +1,5 @@
 <x-admin-layout>
-    <div class=" bg-gray-900 text-gray-100 overflow-auto scrollbar-hide">
+    <div class="bg-gray-900 text-gray-100 overflow-auto scrollbar-hide">
         <!-- Header -->
         <header class="sticky top-0 z-20 bg-gradient-to-r from-gray-800 to-gray-900">
             <div class="container mx-auto p-3">
@@ -19,54 +19,169 @@
             <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
                 <!-- Left Column -->
                 <div class="lg:col-span-2 space-y-6">
-                    <div class="bg-gray-900 p-6 rounded-2xl shadow-lg">
-                        <h2 class="text-xl font-bold text-white mb-4">Set Blood Bank Availability</h2>
+                    <!-- Calendar Section - Full Width and Height -->
+                    <div x-data="multiDatePicker()" class="w-full bg-gray-800 rounded-xl p-6 border border-gray-700">
+                        <form method="POST" action="/testdata">
+                            @csrf
 
-                        <form method="POST" action="/availability/save" class="space-y-4">
-                            <!-- Weekly table -->
-                            <div class="overflow-x-auto">
-                                <table class="w-full text-sm text-left text-gray-300 border border-gray-700 rounded-lg">
-                                    <thead class="bg-gray-800 text-gray-400">
-                                        <tr>
-                                            <th class="px-4 py-2">Day</th>
-                                            <th class="px-4 py-2">Closed</th>
-                                            <th class="px-4 py-2">Open Time</th>
-                                            <th class="px-4 py-2">Close Time</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <!-- Loop over all days -->
-                                        @foreach (['monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday', 'sunday'] as $day)
-                                            <tr class="border-t border-gray-700 hover:bg-gray-800/60">
-                                                <td class="px-4 py-2 font-medium text-white capitalize">
-                                                    {{ $day }}</td>
-                                                <td class="px-4 py-2">
-                                                    <input type="checkbox" name="days[{{ $day }}][closed]"
-                                                        class="h-4 w-4 text-rose-500" onchange="toggleTimeInputs(this)">
-                                                </td>
-                                                <td class="px-4 py-2">
-                                                    <input type="time" name="days[{{ $day }}][open_time]"
-                                                        class="p-2 rounded bg-gray-700 text-white w-full">
-                                                </td>
-                                                <td class="px-4 py-2">
-                                                    <input type="time" name="days[{{ $day }}][close_time]"
-                                                        class="p-2 rounded bg-gray-700 text-white w-full">
-                                                </td>
-                                            </tr>
-                                        @endforeach
-                                    </tbody>
-                                </table>
+                            <h2 class="text-xl font-bold text-white mb-4">Set Closed Dates</h2>
+
+                            <!-- Hidden inputs for selected dates -->
+                            <template x-for="(date, index) in selectedDates" :key="index">
+                                <div>
+                                    <input type="hidden" :name="'days[' + index + '][blood_bank_id]'"
+                                        value="{{ $bloodBank->id }}" />
+                                    <input type="hidden" :name="'days[' + index + '][closed_date]'"
+                                        :value="getLocalDateString(date)" />
+                                    <input type="hidden" :name="'days[' + index + '][reason]'"
+                                        :value="dateNotes[getLocalDateString(date)] || ''" />
+                                </div>
+                            </template>
+
+                            <!-- Calendar -->
+                            <div class="bg-gray-900 border border-gray-700 rounded-xl shadow-xl p-3">
+                                <!-- Header -->
+                                <div class="flex items-center justify-between mb-2">
+                                    <button type="button" @click="prevMonth"
+                                        class="px-2 py-1 rounded hover:bg-gray-800 text-gray-300">&laquo;</button>
+                                    <div class="text-gray-100 font-semibold" x-text="monthYear"></div>
+                                    <button type="button" @click="nextMonth"
+                                        class="px-2 py-1 rounded hover:bg-gray-800 text-gray-300">&raquo;</button>
+                                </div>
+
+                                <!-- Weekdays -->
+                                <div class="grid grid-cols-7 gap-1 text-xs text-gray-400 mb-1">
+                                    <div class="text-center">Sun</div>
+                                    <div class="text-center">Mon</div>
+                                    <div class="text-center">Tue</div>
+                                    <div class="text-center">Wed</div>
+                                    <div class="text-center">Thu</div>
+                                    <div class="text-center">Fri</div>
+                                    <div class="text-center">Sat</div>
+                                </div>
+
+                                <!-- Days -->
+                                <div class="grid grid-cols-7 gap-1 relative">
+                                    <template x-for="n in leadingBlanks" :key="'b' + n">
+                                        <div class="h-16"></div>
+                                    </template>
+
+                                    <template x-for="d in daysInMonth" :key="'d' + d">
+                                        <div class="relative">
+                                            <button type="button" @click="selectDate(d)"
+                                                class="h-16 rounded-lg w-full transition flex flex-col items-center justify-center"
+                                                :disabled="isPast(d) || isApmFull(d)"
+                                                :class="{
+                                                    // ✅ Selected valid day
+                                                    'bg-cyan-600 text-white': isSelected(d) && activeDay !== d && !
+                                                        isClosed(d),
+                                                
+                                                    // 🟢 Normal hoverable day
+                                                    'hover:bg-gray-800 text-gray-100': !isSelected(d) && !isPast(d) && !
+                                                        isClosed(d) && !isApmFull(d),
+                                                
+                                                    // ⬜ Past day (disabled)
+                                                    'line-through text-gray-500 cursor-not-allowed': isPast(d),
+                                                
+                                                    // 🟧 Appointment full day (not editable)
+                                                    'bg-orange-100 text-orange-600 cursor-not-allowed': isApmFull(d) &&
+                                                        !isPast(d),
+                                                
+                                                    // 🔴 Closed day (editable by admin)
+                                                    'bg-red-600 text-white cursor-pointer': isClosed(d) && !isPast(d),
+                                                
+                                                    // 🔵 Selected fallback (closed or normal)
+                                                    'bg-gray-700 text-gray-300': isSelected(d) && (isClosed(d) || !
+                                                        isPast(d))
+                                                }">
+                                                <!-- Date number -->
+                                                <span x-text="d" class="text-sm font-medium"></span>
+
+                                                <!-- Label for past -->
+                                                <span x-show="isPast(d)"
+                                                    class="text-xs text-gray-500 mt-0.5">Past</span>
+
+                                                <!-- Label for appointment full -->
+                                                <span x-show="isApmFull(d)"
+                                                    class="text-xs text-orange-600 mt-0.5">Full</span>
+
+                                                <!-- Label + reason for closed -->
+                                                <template x-if="isClosed(d)">
+                                                    <div class="flex flex-col items-center mt-0.5">
+                                                        <span class="text-xs text-white">Closed</span>
+                                                        <span
+                                                            x-show="dateNotes[getLocalDateString(new Date(year, month, d))]"
+                                                            class="text-xs text-white/80 truncate w-full px-1 text-center"
+                                                            x-text="dateNotes[getLocalDateString(new Date(year, month, d))]">
+                                                        </span>
+                                                    </div>
+                                                </template>
+
+                                                <!-- Custom notes for normal days (only when selected) -->
+                                                <span
+                                                    x-show="!isClosed(d) && isSelected(d) && activeDay !== d && dateNotes[getLocalDateString(new Date(year, month, d))]"
+                                                    class="text-xs text-white/80 mt-0.5 truncate w-full px-1"
+                                                    x-text="dateNotes[getLocalDateString(new Date(year, month, d))]">
+                                                </span>
+                                            </button>
+
+
+                                            <!-- Note box that appears to the left of the selected day -->
+                                            <div x-show="activeDay === d && (isSelected(d) || !isClosed(d))"
+                                                class="absolute z-10 right-full mr-2 top-0 w-48 bg-gray-800 border border-gray-700 rounded-lg p-2 shadow-lg">
+                                                <input type="text"
+                                                    x-model="dateNotes[getLocalDateString(new Date(year, month, d))]"
+                                                    @click.stop
+                                                    class="w-full bg-gray-700 text-white text-sm px-2 py-1 rounded border border-gray-600"
+                                                    placeholder="Add note...">
+
+                                                <div class="flex justify-end gap-2 mt-2">
+                                                    <button type="button" @click="skipNote(d)"
+                                                        class="text-xs px-2 py-1 bg-gray-600 rounded hover:bg-gray-500">
+                                                        Skip
+                                                    </button>
+                                                    <button type="button" @click="saveNote(d)"
+                                                        class="text-xs px-2 py-1 bg-cyan-600 rounded hover:bg-cyan-500">
+                                                        Save
+                                                    </button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </template>
+                                </div>
                             </div>
 
-                            <!-- Save button -->
-                            <div class="flex justify-end">
+                            <!-- Selected dates list -->
+                            <div class="mt-4 space-y-2" x-show="selectedDates.length > 0">
+                                <h4 class="text-sm font-medium text-gray-300">Selected Dates:</h4>
+                                <template x-for="(date, index) in selectedDates" :key="index">
+                                    <div class="flex items-center justify-between bg-gray-800 p-2 rounded">
+                                        <span x-text="formatDate(date)"></span>
+                                        <span x-show="dateNotes[getLocalDateString(date)]"
+                                            x-text="dateNotes[getLocalDateString(date)]"
+                                            class="text-sm text-gray-400 ml-2"></span>
+
+                                        <button type="button" @click="removeDate(index)"
+                                            class="text-gray-400 hover:text-red-400 ml-2">
+                                            <i class="fas fa-times"></i>
+                                        </button>
+                                    </div>
+                                </template>
+                            </div>
+
+                            <div class="flex justify-end gap-2 mt-4">
+                                <button type="button" @click="clearSelection"
+                                    class="px-4 py-2 rounded bg-gray-700 text-gray-200 hover:bg-gray-600">
+                                    Clear Selection
+                                </button>
                                 <button type="submit"
-                                    class="px-6 py-2 bg-rose-600 hover:bg-rose-700 text-white font-semibold rounded-xl shadow-md">
-                                    Save Availability
+                                    class="px-4 py-2 rounded bg-rose-600 text-white hover:bg-rose-500">
+                                    Save Closed Dates
                                 </button>
                             </div>
                         </form>
                     </div>
+
                     <!-- Blood Inventory -->
                     <section class="bg-gray-800 rounded-xl p-6 border border-gray-700">
                         <div class="flex justify-between items-center mb-4">
@@ -115,9 +230,7 @@
                             </div>
                         </div>
                     </section>
-
                 </div>
-
                 <!-- Right Column -->
                 <div class="space-y-6">
                     <!-- Contact Card -->
@@ -239,9 +352,158 @@
                             </form>
                         </div>
                     </div>
-
                 </div>
             </div>
         </main>
     </div>
+
+    <script>
+        function multiDatePicker() {
+            return {
+                open: true, // Calendar always open
+                cursor: new Date(),
+                selectedDates: [],
+                dateNotes: {},
+                activeDay: null,
+
+                // Backend-provided data
+                closed_date: [
+                    '2025-08-01',
+                    '2025-08-25',
+                    '2025-08-23',
+                ],
+                appointment_full_date: [
+                    '2025-08-24',
+                    '2025-08-21',
+                ],
+
+                // Getter functions
+                get year() {
+                    return this.cursor.getFullYear();
+                },
+                get month() {
+                    return this.cursor.getMonth();
+                },
+                get monthYear() {
+                    return this.cursor.toLocaleDateString(undefined, {
+                        month: 'long',
+                        year: 'numeric'
+                    });
+                },
+                get firstDayOfMonth() {
+                    return new Date(this.year, this.month, 1);
+                },
+                get daysInMonth() {
+                    return new Date(this.year, this.month + 1, 0).getDate();
+                },
+                get leadingBlanks() {
+                    return this.firstDayOfMonth.getDay();
+                },
+                get displayDates() {
+                    if (this.selectedDates.length === 0) return '';
+                    return this.selectedDates.length + ' date(s) selected';
+                },
+
+                // Date manipulation
+                prevMonth() {
+                    this.cursor = new Date(this.year, this.month - 1, 1);
+                    this.activeDay = null;
+                },
+                nextMonth() {
+                    this.cursor = new Date(this.year, this.month + 1, 1);
+                    this.activeDay = null;
+                },
+
+                // Date selection
+                selectDate(day) {
+                    if (this.isPast(day) || this.isApmFull(day)) return; // not editable
+
+                    const date = new Date(this.year, this.month, day);
+                    const dateStr = this.getLocalDateString(date);
+
+                    if (this.isSelected(day)) {
+                        this.activateNote(day);
+                    } else {
+                        this.selectedDates.push(date);
+                        if (!this.dateNotes[dateStr]) {
+                            this.dateNotes[dateStr] = ''; // make sure key exists
+                        }
+                        this.activeDay = day;
+                    }
+                },
+
+                activateNote(day) {
+                    this.activeDay = day;
+                },
+
+                saveNote(day) {
+                    this.activeDay = null; // Close the note box after saving
+                },
+
+                skipNote(day) {
+                    const date = new Date(this.year, this.month, day);
+                    const dateStr = this.getLocalDateString(date);
+                    this.dateNotes[dateStr] = ''; // Clear any existing note
+                    this.activeDay = null; // Close the note box
+                },
+
+                removeDate(index) {
+                    const dateStr = this.getLocalDateString(this.selectedDates[index]);
+                    this.selectedDates.splice(index, 1);
+                    delete this.dateNotes[dateStr];
+                    if (this.activeDay === this.selectedDates[index]?.getDate()) {
+                        this.activeDay = null;
+                    }
+                },
+
+                clearSelection() {
+                    this.selectedDates = [];
+                    this.dateNotes = {};
+                    this.activeDay = null;
+                },
+
+                // --- Helper functions ---
+                isSelected(day) {
+                    const date = new Date(this.year, this.month, day);
+                    const dateStr = this.getLocalDateString(date);
+                    return this.selectedDates.some(d =>
+                        this.getLocalDateString(d) === dateStr
+                    );
+                },
+
+                isPast(day) {
+                    const date = new Date(this.year, this.month, day);
+                    const today = new Date();
+                    today.setHours(0, 0, 0, 0);
+                    return date < today;
+                },
+
+                isClosed(day) {
+                    const date = new Date(this.year, this.month, day);
+                    return this.closed_date.includes(this.getLocalDateString(date));
+                },
+
+                isApmFull(day) {
+                    const date = new Date(this.year, this.month, day);
+                    return this.appointment_full_date.includes(this.getLocalDateString(date));
+                },
+
+                getLocalDateString(date) {
+                    return date.getFullYear() + '-' +
+                        String(date.getMonth() + 1).padStart(2, '0') + '-' +
+                        String(date.getDate()).padStart(2, '0');
+                },
+
+                formatDate(date) {
+                    return date.toLocaleDateString(undefined, {
+                        weekday: 'short',
+                        month: 'short',
+                        day: 'numeric',
+                        year: 'numeric'
+                    });
+                }
+            }
+        }
+    </script>
+
 </x-admin-layout>

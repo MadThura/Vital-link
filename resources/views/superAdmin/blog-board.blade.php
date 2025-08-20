@@ -137,7 +137,7 @@
                                     </div>
                                     </div>
                                     <p class="text-gray-200 text-sm mb-6 flex-grow">
-                                        {{ $blog->body }}
+                                        {{ Str::limit($blog->body, 100, '...') }}
                                     </p>
                                     
                                     <div class="flex items-center justify-between">
