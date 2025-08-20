@@ -16,6 +16,7 @@ class DonorController extends Controller
     {
         return view('home-page', [
             'donor' => auth()->user()->donor,
+            'bloodBanks' => BloodBank::with('user')->get(),
             'blogs' => Blog::latest()->paginate(6),
             'randomBlogs' => Blog::inRandomOrder()->limit(3)->get(),
             'bloodBanks' => BloodBank::with('user')->latest()->get()

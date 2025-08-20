@@ -11,14 +11,14 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('donations', function (Blueprint $table) {
+        Schema::create('blood_bank_closed_days', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('donor_id')->constrained('donors')->onDelete('cascade');
             $table->foreignId('blood_bank_id')->constrained()->onDelete('cascade');
-            $table->timestamp('donation_date');
-            $table->integer('units')->default(0);
-            $table->text('note')->nullable();
+            $table->date('date');
+            $table->enum('type', ['closedDay', 'apmFullDay'])->default('closedDay');
+            $table->string('reason')->nullable();
             $table->timestamps();
+            $table->unique(['blood_bank_id', 'date']);
         });
     }
 
@@ -27,6 +27,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('donations');
+        Schema::dropIfExists('blood_bank_closed_days');
     }
 };

@@ -13,12 +13,13 @@ return new class extends Migration
     {
         Schema::create('hospitals', function (Blueprint $table) {
             $table->id();
-            $table->unsignedInteger('user_id');
+            $table->foreignId('user_id')->constrained()->onDelete('cascade');
             $table->string('name');
+            $table->string('phone', 20);
             $table->string('address');
             $table->timestamps();
         });
-    }
+    }   
 
     /**
      * Reverse the migrations.

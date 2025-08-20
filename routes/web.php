@@ -4,6 +4,9 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\BlogController;
 use App\Http\Controllers\BloodBankAdmin\DashboardController as BloodBankAdminDashboardController;
 use App\Http\Controllers\BloodBankAdmin\DonorController as BloodBankAdminDonorController;
+use App\Http\Controllers\BloodBankAdmin\DonationRequestController as BloodBankAdminDonationRequestController;
+use App\Http\Controllers\BloodBankAdmin\ProfileController as BloodBankAdminProfileController;
+use App\Http\Controllers\DonationRequestController;
 use App\Http\Controllers\DonorController;
 use App\Http\Controllers\DonorFileController;
 use App\Http\Controllers\NotificationController;
@@ -34,7 +37,6 @@ Route::get('/', function () {
 Route::get('/blogs', [BlogController::class, 'index'])->name('blogs');
 Route::get('/blogs/{blog}', [BlogController::class, 'show'])->name('blogs.show');
 
-
 // User Register & Login
 Route::get('/register', [AuthController::class, 'register'])->name('register');
 Route::post('/register', [AuthController::class, 'registerStore'])->name('register.store');
@@ -58,7 +60,6 @@ Route::post('/email/verification-notification', function (Request $request) {
     return back()->with('message', 'Verification link sent!');
 })->middleware(['auth', 'throttle:6,1'])->name('verification.send');
 
-
 Route::get('/donor-files/{path}', [DonorFileController::class, 'show'])->where('path', '.*')->name('donor.files.show');
 
 Route::middleware(['auth', 'verified'])->group(function () {
@@ -76,6 +77,9 @@ Route::middleware(['auth', 'verified'])->group(function () {
 Route::middleware(['auth', 'verified', 'role:donor'])->group(function () {
 
     Route::get('/home', [DonorController::class, 'index'])->name('home');
+
+    Route::post('/donation-requests', [DonationRequestController::class, 'store'])
+        ->name('donation-requests.store');
 });
 
 Route::middleware(['auth', 'role:blood_bank_admin'])->prefix('blood-bank-admin')->name('bba.')->group(function () {
@@ -85,25 +89,16 @@ Route::middleware(['auth', 'role:blood_bank_admin'])->prefix('blood-bank-admin')
         return view('bloodBankAdmin.profile', compact('bloodBank'));
     })->name('profile');
     Route::get('/dashboard', [BloodBankAdminDashboardController::class, 'index'])->name('dashboard');
-    Route::get('/donation-record', function () {
-        return view('bloodBankAdmin.donation-record', [
-            'donors' => Donor::with(['user', 'bloodBank'])
-                ->where('status', 'approved') // only active donors
-                ->latest()
-                ->paginate(10)
-        ]);
-    })->name('donation-record');
-    Route::get('/donation-request', function () {
-        return view('bloodBankAdmin.donation-request', [
-            'donors' => Donor::with(['user', 'bloodBank'])
-                ->where('status', 'approved') // only active donors
-                ->latest()
-                ->paginate(10)
-        ]);
-    })->name('donation-request');
+    Route::get('/donation-requests', [BloodBankAdminDonationRequestController::class, 'index'])->name('donation-requests.index');
+    Route::put('/donation-requests/{donationRequest}/{action}', [BloodBankAdminDonationRequestController::class, 'updateStatus'])->name('donation-requests.updateStatus');
+
+    Route::get('/donation-records')->name('donation-record');
     Route::get('/blood-inventory', function () {
         return view('bloodBankAdmin.blood-inventory');
     })->name('blood-inventory');
+
+    Route::get('/profile', [BloodBankAdminProfileController::class, 'index'])->name('profile');
+    Route::post('/set-closed-days', [BloodBankAdminProfileController::class, 'storeClosedDays'])->name('setClosedDays');
 
     Route::prefix('/donors')->name('donors.')->group(function () {
         Route::get('/', [BloodBankAdminDonorController::class, 'index'])->name('index');
@@ -118,11 +113,7 @@ Route::middleware(['auth', 'role:super_admin'])
     ->prefix('/super-admin')
     ->name('superAdmin.')->group(function () {
 
-        Route::get('/profile', function () {
-            return view('superAdmin.profile', [
-                'user' => auth()->user()
-            ]);
-        })->name('profile');
+        Route::get('/profile',)->name('profile');
         Route::get('/dashboard', [SuperAdminDashboardController::class, 'index'])->name('dashboard');
         Route::get('/blogboard', [SuperAdminBlogController::class, 'index'])->name('blog-board');
         Route::get('/user-management', function () {

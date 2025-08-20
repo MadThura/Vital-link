@@ -11,13 +11,14 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('donations', function (Blueprint $table) {
+        Schema::create('donation_requests', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('donor_id')->constrained('donors')->onDelete('cascade');
+            $table->string('appointment_id')->unique()->nullable();
+            $table->foreignId('donor_id')->constrained()->onDelete('cascade');
             $table->foreignId('blood_bank_id')->constrained()->onDelete('cascade');
-            $table->timestamp('donation_date');
-            $table->integer('units')->default(0);
-            $table->text('note')->nullable();
+            $table->date('appointment_date');
+            // $table->time('appointment_time');
+            $table->enum('status', ['pending', 'approved', 'rejected'])->default('pending');
             $table->timestamps();
         });
     }
@@ -27,6 +28,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('donations');
+        Schema::dropIfExists('donation_requests');
     }
 };

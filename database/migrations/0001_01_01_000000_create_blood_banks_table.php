@@ -15,7 +15,9 @@ return new class extends Migration
             $table->id();
             $table->unsignedInteger('user_id');
             $table->string('name');
+            $table->string('phone', 20);
             $table->string('address');
+            $table->integer('maxPersonsPerDay');
             $table->timestamps();
         });
     }
