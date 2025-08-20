@@ -9,9 +9,7 @@
         $nrc_type = $matches[3]; // e.g., "E"
         $nrc_number = $matches[4]; // e.g., "575777"
     }
-
 @endphp
-
 
 <!DOCTYPE html>
 <html lang="en">
@@ -30,18 +28,15 @@
 
         body {
             font-family: 'Montserrat', sans-serif;
+            background-color: #f8f9fa;
         }
 
         .form-shadow {
             box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
         }
 
-        .input-focus {
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-        }
-
         .input-focus:focus {
-            box-shadow: 0 0 0 3px rgba(239, 68, 68, 0.2);
+            box-shadow: 0 0 0 3px rgba(233, 24, 21, 0.2);
         }
 
         .preview-container {
@@ -71,7 +66,7 @@
             bottom: 0;
             left: 0;
             right: 0;
-            background: rgba(0, 0, 0, 0.7);
+            background: rgba(105, 13, 11, 0.9);
             color: white;
             text-align: center;
             padding: 2px 0;
@@ -82,12 +77,12 @@
     </style>
 </head>
 
-<body class="min-h-screen flex items-center justify-center p-4 bg-gradient-to-br from-gray-900 to-gray-800">
+<body class="min-h-screen flex items-center justify-center p-4 bg-[#F3F0F0]">
     <div class="w-full max-w-2xl">
         @if (isset($errorMsg) && !$errorMsg->isEmpty())
             <div class="w-full space-y-2 bg-red-100 border border-red-400 rounded-md p-3 mb-5">
                 @if (!empty($errorMsg['profile_img']))
-                    <p class="flex items-center text-red-700 text-sm">
+                    <p class="flex items-center text-[#E91815] text-sm">
                         <svg class="w-4 h-4 mr-1.5 flex-shrink-0" fill="none" stroke="currentColor" stroke-width="2"
                             viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
                             <path stroke-linecap="round" stroke-linejoin="round"
@@ -98,7 +93,7 @@
                 @endif
 
                 @if (!empty($errorMsg['health_certificate']))
-                    <p class="flex items-center text-red-700 text-sm">
+                    <p class="flex items-center text-[#E91815] text-sm">
                         <svg class="w-4 h-4 mr-1.5 flex-shrink-0" fill="none" stroke="currentColor" stroke-width="2"
                             viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
                             <path stroke-linecap="round" stroke-linejoin="round"
@@ -109,7 +104,7 @@
                 @endif
 
                 @if (!empty($errorMsg['nrc']))
-                    <p class="flex items-center text-red-700 text-sm">
+                    <p class="flex items-center text-[#E91815] text-sm">
                         <svg class="w-4 h-4 mr-1.5 flex-shrink-0" fill="none" stroke="currentColor" stroke-width="2"
                             viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
                             <path stroke-linecap="round" stroke-linejoin="round"
@@ -130,14 +125,13 @@
                         <span class="font-semibold">Note:</span>{{ $errorMsg['note'] }}
                     </p>
                 @endif
-
             </div>
         @endif
-        <div class="bg-gray-900 rounded-xl form-shadow overflow-hidden">
+        <div class="bg-white rounded-xl form-shadow overflow-hidden border border-[#DAD0D0]">
             <!-- Header -->
-            <div class="bg-gradient-to-r from-primary-dark to-primary p-8 text-white">
+            <div class="bg-gradient-to-r from-[#E91815] to-[#690D0B] p-8 text-white">
                 <div class="flex items-center justify-center space-x-4">
-                    <div class="bg-accent p-3 rounded-full">
+                    <div class="bg-[#690D0B] p-3 rounded-full">
                         <i class="fas fa-tint text-xl text-white"></i>
                     </div>
                     <div>
@@ -148,7 +142,7 @@
                                 Blood Donor Registration
                             @endif
                         </h1>
-                        <p class="text-gray-200-light mt-1">Your generosity saves lives</p>
+                        <p class="text-[#F3F0F0] mt-1">Your generosity saves lives</p>
                     </div>
                 </div>
             </div>
@@ -171,17 +165,17 @@
                                 <div class="profile-preview"
                                     style="background-image: url('/donor-files/{{ $donor->profile_img }}')"></div>
                                 <div
-                                    class="absolute bottom-0 right-0 bg-primary text-white text-xs px-2 py-1 rounded-full">
+                                    class="absolute bottom-0 right-0 bg-[#690D0B] text-white text-xs px-2 py-1 rounded-full">
                                     Existing</div>
                             </div>
                         @endif
                         <div class="relative">
                             <div id="profile-preview"
-                                class="profile-preview bg-secondary-light flex items-center justify-center">
-                                <i class="fas fa-user text-4xl text-white"></i>
+                                class="profile-preview bg-[#F3F0F0] flex items-center justify-center border border-[#DAD0D0]">
+                                <i class="fas fa-user text-4xl text-[#690D0B]"></i>
                             </div>
                             <label for="profile_img"
-                                class="absolute bottom-0 right-0 bg-accent text-white p-2 rounded-full cursor-pointer hover:bg-accent-dark transition">
+                                class="absolute bottom-0 right-0 bg-[#690D0B] text-white p-2 rounded-full cursor-pointer hover:bg-[#E91815] transition">
                                 <i class="fas fa-camera"></i>
                                 <input id="profile_img" type="file" name="profile_img" class="hidden"
                                     accept="image/png, image/jpeg" />
@@ -189,55 +183,55 @@
                         </div>
                     </div>
                     @if (isset($donor->profile_img))
-                        <p class="text-sm text-gray-200 mt-4">Left: Existing profile | Right: New upload</p>
+                        <p class="text-sm text-[#690D0B]/80 mt-4">Left: Existing profile | Right: New upload</p>
                     @endif
                     @error('profile_img')
-                        <p class="text-red-500 text-sm">{{ $message }}</p>
+                        <p class="text-[#E91815] text-sm">{{ $message }}</p>
                     @enderror
                     @if ($errorMsg['profile_img'] ?? null)
-                        <p class="text-red-500 text-sm">{{ $errorMsg['profile_img'] }}</p>
+                        <p class="text-[#E91815] text-sm">{{ $errorMsg['profile_img'] }}</p>
                     @endif
                 </div>
 
                 <!-- Personal Information Section -->
                 <div class="space-y-6">
-                    <h2 class="text-xl font-medium text-gray-200 border-b border-secondary-light pb-2">
-                        <i class="fas fa-user-circle mr-2 text-accent"></i>Personal Information
+                    <h2 class="text-xl font-medium text-[#180705] border-b border-[#DAD0D0] pb-2">
+                        <i class="fas fa-user-circle mr-2 text-[#E91815]"></i>Personal Information
                     </h2>
 
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                         <!-- Name Input -->
                         <div class="space-y-2">
-                            <label class="block text-sm font-medium text-gray-200" for="name">
+                            <label class="block text-sm font-medium text-[#690D0B]" for="name">
                                 Full Name
                             </label>
                             <div class="relative">
-                                <span class="absolute inset-y-0 left-0 flex items-center pl-3 text-secondary">
+                                <span class="absolute inset-y-0 left-0 flex items-center pl-3 text-[#690D0B]">
                                     <i class="fas fa-user"></i>
                                 </span>
                                 <input id="name" type="text" name="fullname"
-                                    class="w-full pl-10 pr-3 py-3 border border-secondary-light rounded-lg outline-none bg-gray-300"
+                                    class="w-full pl-10 pr-3 py-3 border border-[#DAD0D0] rounded-lg outline-none bg-[#F3F0F0] text-[#180705]"
                                     value="{{ auth()->user()->name }}" disabled>
                             </div>
                         </div>
                         @error('fullname')
-                            <p class="text-red-500 text-sm">{{ $message }}</p>
+                            <p class="text-[#E91815] text-sm">{{ $message }}</p>
                         @enderror
 
                         <!-- Phone Number -->
                         <div class="space-y-2">
-                            <label class="block text-sm font-medium text-gray-200" for="phone">
+                            <label class="block text-sm font-medium text-[#690D0B]" for="phone">
                                 Phone Number
                             </label>
                             <div class="relative">
-                                <span class="absolute inset-y-0 left-0 flex items-center pl-3 text-secondary">
+                                <span class="absolute inset-y-0 left-0 flex items-center pl-3 text-[#690D0B]">
                                     <i class="fas fa-phone"></i>
                                 </span>
                                 <input id="phone" type="tel" name="phone" placeholder="09XXXXXXXX"
-                                    class="w-full pl-10 pr-3 py-3 border border-secondary-light rounded-lg input-focus focus:ring-2 focus:ring-accent focus:border-accent outline-none bg-gray-300"
+                                    class="w-full pl-10 pr-3 py-3 border border-[#DAD0D0] rounded-lg input-focus focus:ring-2 focus:ring-[#E91815]/40 focus:border-[#E91815] outline-none bg-[#F3F0F0] text-[#180705]"
                                     value="{{ $donor ? $donor->phone : old('phone') }}">
                                 @error('phone')
-                                    <p class="text-red-500 text-sm">{{ $message }}</p>
+                                    <p class="text-[#E91815] text-sm">{{ $message }}</p>
                                 @enderror
                             </div>
                         </div>
@@ -245,18 +239,18 @@
 
                         <!-- Date of Birth -->
                         <div class="space-y-2">
-                            <label class="block text-sm font-medium text-gray-200" for="dob">
+                            <label class="block text-sm font-medium text-[#690D0B]" for="dob">
                                 Date of Birth
                             </label>
                             <div class="relative">
-                                <span class="absolute inset-y-0 left-0 flex items-center pl-3 text-secondary">
+                                <span class="absolute inset-y-0 left-0 flex items-center pl-3 text-[#690D0B]">
                                     <i class="fas fa-calendar-alt"></i>
                                 </span>
                                 <input id="dob" type="date" name="dob"
-                                    class="w-full pl-10 pr-3 py-3 border border-secondary-light rounded-lg input-focus focus:ring-2 focus:ring-accent focus:border-accent outline-none bg-gray-300 appearance-none"
+                                    class="w-full pl-10 pr-3 py-3 border border-[#DAD0D0] rounded-lg input-focus focus:ring-2 focus:ring-[#E91815]/40 focus:border-[#E91815] outline-none bg-[#F3F0F0] text-[#180705] appearance-none"
                                     value="{{ $donor ? $donor->dob : old('dob') }}">
                                 @error('dob')
-                                    <p class="text-red-500 text-sm">Must be over 18</p>
+                                    <p class="text-[#E91815] text-sm">Must be over 18</p>
                                 @enderror
                             </div>
                         </div>
@@ -264,40 +258,40 @@
 
                         <!-- Gender -->
                         <div class="space-y-2">
-                            <label class="block text-sm font-medium text-gray-200">
+                            <label class="block text-sm font-medium text-[#690D0B]">
                                 Gender
                             </label>
                             <div class="flex space-x-6 pt-2">
                                 <label class="inline-flex items-center">
                                     <input type="radio" name="gender" value="Male"
-                                        class="h-4 w-4 text-accent focus:ring-accent"
+                                        class="h-4 w-4 text-[#E91815] focus:ring-[#E91815]"
                                         {{ old('gender', optional($donor)->gender) === 'Male' ? 'checked' : '' }}>
-                                    <span class="ml-2 text-gray-200">Male</span>
+                                    <span class="ml-2 text-[#180705]">Male</span>
                                 </label>
                                 <label class="inline-flex items-center">
                                     <input type="radio" name="gender" value="Female"
-                                        class="h-4 w-4 text-accent focus:ring-accent"
+                                        class="h-4 w-4 text-[#E91815] focus:ring-[#E91815]"
                                         {{ old('gender', optional($donor)->gender) === 'Female' ? 'checked' : '' }}>
-                                    <span class="ml-2 text-gray-200">Female</span>
+                                    <span class="ml-2 text-[#180705]">Female</span>
                                 </label>
                             </div>
                             @error('gender')
-                                <p class="text-red-500 text-sm">{{ $message }}</p>
+                                <p class="text-[#E91815] text-sm">{{ $message }}</p>
                             @enderror
                         </div>
 
 
                         <!-- Blood Type -->
                         <div class="space-y-2">
-                            <label class="block text-sm font-medium text-gray-200" for="blood_type">
+                            <label class="block text-sm font-medium text-[#690D0B]" for="blood_type">
                                 Blood Type
                             </label>
                             <div class="relative">
-                                <span class="absolute inset-y-0 left-0 flex items-center pl-3 text-accent">
+                                <span class="absolute inset-y-0 left-0 flex items-center pl-3 text-[#E91815]">
                                     <i class="fas fa-tint"></i>
                                 </span>
                                 <select id="blood_type" name="blood_type"
-                                    class="w-full pl-10 pr-3 py-3 border border-secondary-light rounded-lg input-focus focus:ring-2 focus:ring-accent focus:border-accent outline-none bg-gray-300 appearance-none">
+                                    class="w-full pl-10 pr-3 py-3 border border-[#DAD0D0] rounded-lg input-focus focus:ring-2 focus:ring-[#E91815]/40 focus:border-[#E91815] outline-none bg-[#F3F0F0] text-[#180705] appearance-none">
 
                                     <option value="" disabled
                                         {{ old('blood_type', $donor->blood_type ?? '') == '' ? 'selected' : '' }}>
@@ -314,25 +308,25 @@
 
                             </div>
                             @error('blood_type')
-                                <p class="text-red-500 text-sm">{{ $message }}</p>
+                                <p class="text-[#E91815] text-sm">{{ $message }}</p>
                             @enderror
                         </div>
 
 
                         <!-- Address -->
                         <div class="md:col-span-2 space-y-2">
-                            <label class="block text-sm font-medium text-gray-200" for="address">
+                            <label class="block text-sm font-medium text-[#690D0B]" for="address">
                                 Address
                             </label>
                             <div class="relative">
-                                <span class="absolute inset-y-0 left-0 flex items-center pl-3 text-secondary pt-3">
+                                <span class="absolute inset-y-0 left-0 flex items-center pl-3 text-[#690D0B] pt-3">
                                     <i class="fas fa-map-marker-alt"></i>
                                 </span>
                                 <textarea id="address" rows="3" name ="address" placeholder="Your full address"
-                                    class="w-full pl-10 pr-3 py-3 border border-secondary-light rounded-lg input-focus focus:ring-2 focus:ring-accent focus:border-accent outline-none bg-gray-300">{{ $donor ? $donor->address : old('address') }}</textarea>
+                                    class="w-full pl-10 pr-3 py-3 border border-[#DAD0D0] rounded-lg input-focus focus:ring-2 focus:ring-[#E91815]/40 focus:border-[#E91815] outline-none bg-[#F3F0F0] text-[#180705]">{{ $donor ? $donor->address : old('address') }}</textarea>
                             </div>
                             @error('address')
-                                <p class="text-red-500 text-sm">{{ $message }}</p>
+                                <p class="text-[#E91815] text-sm">{{ $message }}</p>
                             @enderror
                         </div>
 
@@ -340,19 +334,19 @@
                 </div>
                 <!-- NRC Information Section -->
                 <div class="space-y-6">
-                    <h2 class="text-xl font-medium text-gray-200 border-b border-secondary-light pb-2">
-                        <i class="fas fa-id-card mr-2 text-accent"></i>NRC Information
+                    <h2 class="text-xl font-medium text-[#180705] border-b border-[#DAD0D0] pb-2">
+                        <i class="fas fa-id-card mr-2 text-[#E91815]"></i>NRC Information
                     </h2>
 
                     <!-- NRC Number with Select Boxes -->
                     <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
                         <!-- State/Region -->
                         <div class="space-y-2">
-                            <label class="block text-sm font-medium text-gray-200" for="nrc-state">
+                            <label class="block text-sm font-medium text-[#690D0B]" for="nrc-state">
                                 State/Region
                             </label>
                             <select id="nrc-state" name="nrc-state"
-                                class="w-full px-3 py-3 border border-secondary-light rounded-lg input-focus focus:ring-2 focus:ring-accent focus:border-accent outline-none bg-gray-300">
+                                class="w-full px-3 py-3 border border-[#DAD0D0] rounded-lg input-focus focus:ring-2 focus:ring-[#E91815]/40 focus:border-[#E91815] outline-none bg-[#F3F0F0] text-[#180705]">
                                 <option value="" disabled
                                     {{ old('nrc-state', $nrc_state ?? '') == '' ? 'selected' : '' }}>Select</option>
 
@@ -365,32 +359,32 @@
                                 @endfor
                             </select>
                             @error('nrc-state')
-                                <p class="text-red-500 text-[10px]">{{ $message }}</p>
+                                <p class="text-[#E91815] text-[10px]">{{ $message }}</p>
                             @enderror
                         </div>
 
 
                         <!-- Township -->
                         <div class="space-y-2">
-                            <label class="block text-sm font-medium text-gray-200" for="nrc-township">
+                            <label class="block text-sm font-medium text-[#690D0B]" for="nrc-township">
                                 Township
                             </label>
                             <select id="nrc-township" name="nrc-township"
-                                class="w-full px-3 py-3 border border-secondary-light rounded-lg input-focus focus:ring-2 focus:ring-accent focus:border-accent outline-none bg-gray-300">
+                                class="w-full px-3 py-3 border border-[#DAD0D0] rounded-lg input-focus focus:ring-2 focus:ring-[#E91815]/40 focus:border-[#E91815] outline-none bg-[#F3F0F0] text-[#180705]">
                                 <option value="" disabled>Select</option>
                             </select>
                             @error('nrc-township')
-                                <p class="text-red-500 text-[10px]">{{ $message }}</p>
+                                <p class="text-[#E91815] text-[10px]">{{ $message }}</p>
                             @enderror
                         </div>
 
                         <!-- NRC Type -->
                         <div class="space-y-2">
-                            <label class="block text-sm font-medium text-gray-200" for="nrc-type">
+                            <label class="block text-sm font-medium text-[#690D0B]" for="nrc-type">
                                 Type
                             </label>
                             <select id="nrc-type" name="nrc-type"
-                                class="w-full px-3 py-3 border border-secondary-light rounded-lg input-focus focus:ring-2 focus:ring-accent focus:border-accent outline-none bg-gray-300">
+                                class="w-full px-3 py-3 border border-[#DAD0D0] rounded-lg input-focus focus:ring-2 focus:ring-[#E91815]/40 focus:border-[#E91815] outline-none bg-[#F3F0F0] text-[#180705]">
                                 <option value="" disabled
                                     {{ empty(old('nrc-type', $nrc_type ?? '')) ? 'selected' : '' }}>Select</option>
                                 <option value="N"
@@ -405,21 +399,21 @@
                                     {{ old('nrc-type', $nrc_type ?? '') === 'F' ? 'selected' : '' }}>F</option>
                             </select>
                             @error('nrc-type')
-                                <p class="text-red-500 text-[10px]">{{ $message }}</p>
+                                <p class="text-[#E91815] text-[10px]">{{ $message }}</p>
                             @enderror
 
                         </div>
 
                         <!-- NRC Number -->
                         <div class="space-y-2">
-                            <label class="block text-sm font-medium text-gray-200" for="nrc-number">
+                            <label class="block text-sm font-medium text-[#690D0B]" for="nrc-number">
                                 Number
                             </label>
                             <input id="nrc-number" name="nrc-number" type="text" placeholder="123456"
-                                class="w-full px-3 py-3 border border-secondary-light rounded-lg input-focus focus:ring-2 focus:ring-accent focus:border-accent outline-none bg-gray-300"
+                                class="w-full px-3 py-3 border border-[#DAD0D0] rounded-lg input-focus focus:ring-2 focus:ring-[#E91815]/40 focus:border-[#E91815] outline-none bg-[#F3F0F0] text-[#180705]"
                                 maxlength="6" minlength="6" value="{{ old('nrc-number', $nrc_number ?? '') }}">
                             @error('nrc-number')
-                                <p class="text-red-500 text-[10px]">{{ $message }}</p>
+                                <p class="text-[#E91815] text-[10px]">{{ $message }}</p>
                             @enderror
                         </div>
                     </div>
@@ -431,16 +425,16 @@
                             <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                                 @if (isset($donor->nrc_front))
                                     <div class="space-y-2">
-                                        <label class="block text-sm font-medium text-gray-200">NRC Front</label>
-                                        <div class="h-40 border border-secondary-light rounded-lg overflow-hidden existing-file"
+                                        <label class="block text-sm font-medium text-[#690D0B]">NRC Front</label>
+                                        <div class="h-40 border border-[#DAD0D0] rounded-lg overflow-hidden existing-file"
                                             style="background: url('/donor-files/{{ $donor->nrc_front }}') center/cover no-repeat;">
                                         </div>
                                     </div>
                                 @endif
                                 @if (isset($donor->nrc_back))
                                     <div class="space-y-2">
-                                        <label class="block text-sm font-medium text-gray-200">NRC Back</label>
-                                        <div class="h-40 border border-secondary-light rounded-lg overflow-hidden existing-file"
+                                        <label class="block text-sm font-medium text-[#690D0B]">NRC Back</label>
+                                        <div class="h-40 border border-[#DAD0D0] rounded-lg overflow-hidden existing-file"
                                             style="background: url('/donor-files/{{ $donor->nrc_back }}') center/cover no-repeat;">
                                         </div>
                                     </div>
@@ -451,7 +445,7 @@
                         <!-- New NRC Photos Upload (side by side) -->
                         <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                             <div class="space-y-2">
-                                <label class="block text-sm font-medium text-gray-200" for="nrc-front">
+                                <label class="block text-sm font-medium text-[#690D0B]" for="nrc-front">
                                     @if (isset($donor->nrc_front))
                                         New NRC Front
                                     @else
@@ -460,31 +454,31 @@
                                 </label>
                                 <div class="flex items-center justify-center w-full">
                                     <label for="nrc-front"
-                                        class="flex flex-col items-center justify-center w-full h-40 border-2 border-dashed border-secondary-light rounded-xl cursor-pointer bg-gray-300 hover:border-accent transition-all duration-300 overflow-hidden">
+                                        class="flex flex-col items-center justify-center w-full h-40 border-2 border-dashed border-[#DAD0D0] rounded-xl cursor-pointer bg-[#F3F0F0] hover:border-[#E91815] transition-all duration-300 overflow-hidden">
                                         <div id="nrc-front-preview" class="preview-container hidden"></div>
                                         <div id="nrc-front-placeholder"
                                             class="flex flex-col items-center justify-center pt-8 pb-6 px-4 text-center w-full h-full">
-                                            <i class="fas fa-camera text-3xl text-secondary mb-3"></i>
-                                            <p class="mb-1 text-sm font-medium text-gray-400">
+                                            <i class="fas fa-camera text-3xl text-[#690D0B] mb-3"></i>
+                                            <p class="mb-1 text-sm font-medium text-[#690D0B]/70">
                                                 @if (isset($donor->nrc_front))
                                                     Upload new front
                                                 @else
                                                     Upload front
                                                 @endif
                                             </p>
-                                            <p class="text-xs text-secondary">JPG or PNG (MAX. 2MB)</p>
+                                            <p class="text-xs text-[#690D0B]/70">JPG or PNG (MAX. 2MB)</p>
                                         </div>
                                         <input id="nrc-front" type="file" name="nrc_front" class="hidden" />
                                     </label>
                                 </div>
                                 @error('nrc_front')
-                                    <p class="text-red-500 text-sm">{{ $message }}</p>
+                                    <p class="text-[#E91815] text-sm">{{ $message }}</p>
                                 @enderror
                             </div>
 
 
                             <div class="space-y-2">
-                                <label class="block text-sm font-medium text-gray-200" for="nrc-back">
+                                <label class="block text-sm font-medium text-[#690D0B]" for="nrc-back">
                                     @if (isset($donor->nrc_back))
                                         New NRC Back
                                     @else
@@ -493,29 +487,29 @@
                                 </label>
                                 <div class="flex items-center justify-center w-full">
                                     <label for="nrc-back"
-                                        class="flex flex-col items-center justify-center w-full h-40 border-2 border-dashed border-secondary-light rounded-xl cursor-pointer bg-gray-300 hover:border-accent transition-all duration-300 overflow-hidden">
+                                        class="flex flex-col items-center justify-center w-full h-40 border-2 border-dashed border-[#DAD0D0] rounded-xl cursor-pointer bg-[#F3F0F0] hover:border-[#E91815] transition-all duration-300 overflow-hidden">
                                         <div id="nrc-back-preview" class="preview-container hidden"></div>
                                         <div id="nrc-back-placeholder"
                                             class="flex flex-col items-center justify-center pt-8 pb-6 px-4 text-center w-full h-full">
-                                            <i class="fas fa-camera text-3xl text-secondary mb-3"></i>
-                                            <p class="mb-1 text-sm font-medium text-gray-400">
+                                            <i class="fas fa-camera text-3xl text-[#690D0B] mb-3"></i>
+                                            <p class="mb-1 text-sm font-medium text-[#690D0B]/70">
                                                 @if (isset($donor->nrc_back))
                                                     Upload new back
                                                 @else
                                                     Upload back
                                                 @endif
                                             </p>
-                                            <p class="text-xs text-secondary">JPG or PNG (MAX. 2MB)</p>
+                                            <p class="text-xs text-[#690D0B]/70">JPG or PNG (MAX. 2MB)</p>
                                         </div>
 
                                     </label>
                                 </div>
                                 <input id="nrc-back" type="file" name="nrc_back" class="hidden" />
                                 @error('nrc_back')
-                                    <p class="text-red-500 text-sm">{{ $message }}</p>
+                                    <p class="text-[#E91815] text-sm">{{ $message }}</p>
                                 @enderror
                                 @if ($errorMsg['nrc'] ?? null)
-                                    <p class="text-red-500 text-sm">{{ $errorMsg['nrc'] }}</p>
+                                    <p class="text-[#E91815] text-sm">{{ $errorMsg['nrc'] }}</p>
                                 @endif
                             </div>
                         </div>
@@ -524,22 +518,22 @@
 
                 <!-- Health Certificate Section -->
                 <div class="space-y-6">
-                    <h2 class="text-xl font-medium text-gray-200 border-b border-secondary-light pb-2">
-                        <i class="fas fa-file-medical mr-2 text-accent"></i>Health Information
+                    <h2 class="text-xl font-medium text-[#180705] border-b border-[#DAD0D0] pb-2">
+                        <i class="fas fa-file-medical mr-2 text-[#E91815]"></i>Health Information
                     </h2>
 
                     <div class="space-y-4">
                         @if (isset($donor->health_certificate))
                             <div class="space-y-2">
-                                <label class="block text-sm font-medium text-gray-200">Health Certificate</label>
-                                <div class="h-40 border border-secondary-light rounded-lg overflow-hidden existing-file"
+                                <label class="block text-sm font-medium text-[#690D0B]">Health Certificate</label>
+                                <div class="h-40 border border-[#DAD0D0] rounded-lg overflow-hidden existing-file"
                                     style="background: url('/donor-files/{{ $donor->health_certificate }}') center/cover no-repeat;">
                                 </div>
                             </div>
                         @endif
 
                         <div class="space-y-2">
-                            <label class="block text-sm font-medium text-gray-200" for="health-certificate">
+                            <label class="block text-sm font-medium text-[#690D0B]" for="health-certificate">
                                 @if (isset($donor->health_certificate))
                                     New Health Certificate
                                 @else
@@ -548,19 +542,19 @@
                             </label>
                             <div class="flex items-center justify-center w-full">
                                 <label for="health-certificate"
-                                    class="flex flex-col items-center justify-center w-full h-40 border-2 border-dashed border-secondary-light rounded-xl cursor-pointer bg-gray-300 hover:border-accent transition-all duration-300 overflow-hidden">
+                                    class="flex flex-col items-center justify-center w-full h-40 border-2 border-dashed border-[#DAD0D0] rounded-xl cursor-pointer bg-[#F3F0F0] hover:border-[#E91815] transition-all duration-300 overflow-hidden">
                                     <div id="health-cert-preview" class="preview-container hidden"></div>
                                     <div id="health-cert-placeholder"
                                         class="flex flex-col items-center justify-center pt-8 pb-6 px-4 text-center w-full h-full">
-                                        <i class="fas fa-file-medical text-3xl text-secondary mb-3"></i>
-                                        <p class="mb-1 text-sm font-medium text-gray-400">
+                                        <i class="fas fa-file-medical text-3xl text-[#690D0B] mb-3"></i>
+                                        <p class="mb-1 text-sm font-medium text-[#690D0B]/70">
                                             @if (isset($donor->health_certificate))
                                                 Upload new certificate
                                             @else
                                                 Upload certificate
                                             @endif
                                         </p>
-                                        <p class="text-xs text-secondary">PDF, JPG or PNG (MAX. 2MB)</p>
+                                        <p class="text-xs text-[#690D0B]/70">PDF, JPG or PNG (MAX. 2MB)</p>
                                     </div>
                                     <input id="health-certificate" name="health_certificate" type="file"
                                         class="hidden" />
@@ -568,20 +562,20 @@
                                 </label>
                             </div>
                             @error('health_certificate')
-                                <p class="text-red-500 text-sm">{{ $message }}</p>
+                                <p class="text-[#E91815] text-sm">{{ $message }}</p>
                             @enderror
                             @if ($errorMsg['health_certificate'] ?? null)
-                                <p class="text-red-500 text-sm">{{ $errorMsg['health_certificate'] }}</p>
+                                <p class="text-[#E91815] text-sm">{{ $errorMsg['health_certificate'] }}</p>
                             @endif
                         </div>
-                        <p class="text-xs text-secondary mt-2">Upload your official health certificate issued within
+                        <p class="text-xs text-[#690D0B]/70 mt-2">Upload your official health certificate issued within
                             the last 6 months</p>
                     </div>
                 </div>
 
                 <!-- Submit Button -->
                 <button type="submit"
-                    class="w-full bg-gradient-to-r from-accent-dark to-accent hover:from-accent hover:to-accent-dark text-white font-medium py-4 px-6 rounded-lg transition-all duration-300 transform hover:scale-[1.02] shadow-md">
+                    class="w-full bg-gradient-to-r from-[#690D0B] to-[#E91815] hover:from-[#E91815] hover:to-[#690D0B] text-white font-medium py-4 px-6 rounded-lg transition-all duration-300 transform hover:scale-[1.02] shadow-md hover:shadow-[#E91815]/30">
                     <i class="fas fa-heartbeat mr-2"></i>
                     @if (isset($donor))
                         Resubmit Donor Information

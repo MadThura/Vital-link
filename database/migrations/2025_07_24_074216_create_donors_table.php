@@ -20,7 +20,6 @@ return new class extends Migration
             // Link to blood bank
             $table->foreignId('blood_bank_id')->nullable()->constrained()->onDelete('cascade');
 
-            $table->string('donor_code')->unique()->nullable();
             // Personal info
             $table->string('donor_code')->unique()->nullable();
             $table->string('profile_img')->nullable();

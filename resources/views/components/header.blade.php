@@ -2,51 +2,7 @@
     <!-- Notification and Profile Section -->
     <div class="flex-grow"></div>
     <div class="flex items-center space-x-6 mr-5">
-        <!-- Notification Icon -->
-        {{-- <div x-data="{
-            open: false,
-            notifications: [{
-                    id: 1,
-                    name: 'Dr. Marcus Wright',
-                    email: 'm.wright@neonmed.org',
-                    hospital: 'Neon Medical Center',
-                    ward: 'Neuro Ward 7X',
-                    position: 'Lead Neuro Operator',
-                    requestTime: 'Today, 22:47',
-                    avatar: 'MW'
-                },
-                {
-                    id: 2,
-                    name: 'Dr. Elena Kurosawa',
-                    email: 'e.kurosawa@neonmed.org',
-                    hospital: 'Neon Surgical Unit',
-                    ward: 'OR 5 - Robotics',
-                    position: 'Senior Surgical Operator',
-                    requestTime: 'Today, 20:15',
-                    avatar: 'EK'
-                }
-            ],
-            unreadCount: 2,
-            togglePane() {
-                this.open = !this.open;
-                if (this.open) this.unreadCount = 0;
-            }
-        }" class="relative inline-block">
-            <!-- Notification Bell -->
-            <button @click="togglePane()"
-                class="relative p-2 text-gray-300 hover:text-cyan-400 focus:outline-none transition-colors duration-200 group">
-                <div class="text-xl transform group-hover:scale-110 transition-transform">
-                    <i class="fa-solid fa-bell"></i>
-                </div>
-                <span x-show="unreadCount > 0" x-text="unreadCount"
-                    class="absolute top-0 right-0 inline-flex items-center justify-center w-5 h-5 text-xs font-bold text-black bg-cyan-400 rounded-full transform translate-x-1/2 -translate-y-1/2 ring-2 ring-gray-900">
-                </span>
-            </button>
-
-            <x-superadmin-noti />
-        </div> --}}
-        <!-- Profile Information -->
-        <form method="POST" action="{{ route('logout') }}">
+        <form method="GET" action="{{ route('bba.profile') }}">
             @csrf
             <button type="submit">
                 <div

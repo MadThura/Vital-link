@@ -50,7 +50,6 @@
             </button>
         </div>
     </form>
-
     <x-alert-box />
     <!-- Donor Table Area (scrollable) -->
     <div class="flex-grow overflow-y-auto p-5 bg-gray-800 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
@@ -129,7 +128,7 @@
                                             <x-rejection-dialog :donor="$donor" />
                                         </div>
                                 </div>
-                    @endif
+                            @endif
                     @if ($donor->status === 'approved')
                         <form
                             action="{{ route('bba.donors.updateStatus', ['donor' => $donor, 'action' => 'suspend']) }}"

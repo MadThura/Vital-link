@@ -45,6 +45,11 @@ class Donor extends Model
         return $this->belongsTo(BloodBank::class);
     }
 
+    public function donationRequest()
+    {
+        return $this->hasOne(DonationRequest::class);
+    }
+
     public function donations()
     {
         return $this->hasMany(Donation::class);

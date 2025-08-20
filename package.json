@@ -17,6 +17,7 @@
     },
     "dependencies": {
         "@inertiajs/vue3": "^2.0.17",
+        "tailwind-scrollbar-hide": "^4.0.0",
         "vue": "^3.5.18"
     }
 }

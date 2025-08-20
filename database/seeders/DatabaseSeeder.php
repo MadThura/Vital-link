@@ -42,7 +42,9 @@ class DatabaseSeeder extends Seeder
         BloodBank::factory()->create([
             'user_id' => 2,
             'name' => 'National Blood Center',
-            'address' => 'No. 97, Corner of Bogyoke Aung San Road and Shwedagon Pagoda Road, Latha Township, Yangon 11131, Myanmar'
+            'phone' => '09250052532',
+            'address' => 'No. 97, Corner of Bogyoke Aung San Road and Shwedagon Pagoda Road, Latha Township, Yangon 11131, Myanmar',
+            'maxPersonsPerDay' => 20,
         ]);
 
         // BloodBank::factory()->create([

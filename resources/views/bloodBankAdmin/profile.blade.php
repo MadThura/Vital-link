@@ -1,275 +1,509 @@
 <x-admin-layout>
-<div class="min-h-screen bg-gray-900 text-gray-100 overflow-auto">
-
-  <!-- Main Content -->
-  <main class="container mx-auto px-4 py-8">
-    <div class="flex flex-col lg:flex-row gap-8">
-      <!-- Profile Card -->
-      <div class="w-full lg:w-1/3">
-        <div class="bg-gray-800 rounded-xl shadow-lg overflow-hidden border border-gray-700">
-          <!-- Profile Header -->
-          <div class="bg-gradient-to-r from-red-900 to-red-800 p-6 text-center">
-            <div class="relative mx-auto w-24 h-24">
-              <img src="https://randomuser.me/api/portraits/women/45.jpg" 
-                   class="w-full h-full rounded-full border-4 border-white/20">
-              <div class="absolute -bottom-1 right-1 bg-green-500 rounded-full p-1 border-2 border-gray-800">
-                <i class="fas fa-check text-xs text-white"></i>
-              </div>
-            </div>
-            <h2 class="text-xl font-bold mt-4">Dr. Sarah Johnson</h2>
-            <p class="text-red-300">Blood Bank Administrator</p>
-            <div class="mt-3 flex justify-center space-x-2">
-              <span class="bg-red-900/50 text-red-300 px-2 py-1 rounded-full text-xs">Verified</span>
-              <span class="bg-gray-700 text-gray-300 px-2 py-1 rounded-full text-xs">Level 4 Access</span>
-            </div>
-          </div>
-          
-          <!-- Profile Details -->
-          <div class="p-6">
-            <div class="space-y-5">
-              <div class="flex items-start">
-                <div class="bg-gray-700 p-2 rounded-lg mr-3">
-                  <i class="fas fa-id-card text-red-400"></i>
-                </div>
-                <div>
-                  <p class="text-sm text-gray-400">Staff ID</p>
-                  <p class="font-medium">BB-ADM-0428</p>
-                </div>
-              </div>
-              
-              <div class="flex items-start">
-                <div class="bg-gray-700 p-2 rounded-lg mr-3">
-                  <i class="fas fa-envelope text-red-400"></i>
-                </div>
-                <div>
-                  <p class="text-sm text-gray-400">Email</p>
-                  <p class="font-medium">s.johnson@bloodbank.org</p>
-                </div>
-              </div>
-              
-              <div class="flex items-start">
-                <div class="bg-gray-700 p-2 rounded-lg mr-3">
-                  <i class="fas fa-phone text-red-400"></i>
-                </div>
-                <div>
-                  <p class="text-sm text-gray-400">Phone</p>
-                  <p class="font-medium">+1 (555) 123-4567</p>
-                </div>
-              </div>
-              
-              <div class="flex items-start">
-                <div class="bg-gray-700 p-2 rounded-lg mr-3">
-                  <i class="fas fa-hospital text-red-400"></i>
-                </div>
-                <div>
-                  <p class="text-sm text-gray-400">Blood Center</p>
-                  <p class="font-medium">City Central Blood Bank</p>
-                  <p class="text-sm text-gray-400">123 Medical Center Dr</p>
-                </div>
-              </div>
-              
-              <div class="pt-4 border-t border-gray-700">
-                <h3 class="text-sm font-semibold text-gray-400 mb-3">ACCESS PERMISSIONS</h3>
-                <div class="flex flex-wrap gap-2">
-                  <span class="bg-gray-700 text-green-400 px-3 py-1 rounded-full text-xs flex items-center">
-                    <i class="fas fa-check-circle mr-1"></i> Donor Management
-                  </span>
-                  <span class="bg-gray-700 text-green-400 px-3 py-1 rounded-full text-xs flex items-center">
-                    <i class="fas fa-check-circle mr-1"></i> Inventory Control
-                  </span>
-                  <span class="bg-gray-700 text-green-400 px-3 py-1 rounded-full text-xs flex items-center">
-                    <i class="fas fa-check-circle mr-1"></i> Staff Administration
-                  </span>
-                  <span class="bg-gray-700 text-green-400 px-3 py-1 rounded-full text-xs flex items-center">
-                    <i class="fas fa-check-circle mr-1"></i> Reports
-                  </span>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-        
-        <!-- Quick Stats -->
-        <div class="mt-6 bg-gray-800 rounded-xl shadow-lg p-6 border border-gray-700">
-          <h3 class="font-semibold text-lg mb-4 flex items-center">
-            <i class="fas fa-chart-line text-red-400 mr-2"></i>
-            Quick Stats
-          </h3>
-          <div class="grid grid-cols-2 gap-4">
-            <div class="bg-gray-700/50 p-3 rounded-lg">
-              <p class="text-sm text-gray-400">Donations Managed</p>
-              <p class="text-2xl font-bold">1,842</p>
-            </div>
-            <div class="bg-gray-700/50 p-3 rounded-lg">
-              <p class="text-sm text-gray-400">Staff Supervised</p>
-              <p class="text-2xl font-bold">24</p>
-            </div>
-            <div class="bg-gray-700/50 p-3 rounded-lg">
-              <p class="text-sm text-gray-400">Current Inventory</p>
-              <p class="text-2xl font-bold">586</p>
-            </div>
-            <div class="bg-gray-700/50 p-3 rounded-lg">
-              <p class="text-sm text-gray-400">Active Campaigns</p>
-              <p class="text-2xl font-bold">3</p>
-            </div>
-          </div>
-        </div>
-      </div>
-      
-      <!-- Main Content Area -->
-      <div class="w-full lg:w-2/3">
-        <!-- Activity Section -->
-        <div class="bg-gray-800 rounded-xl shadow-lg p-6 mb-6 border border-gray-700">
-          <div class="flex justify-between items-center mb-6">
-            <h2 class="text-xl font-bold flex items-center">
-              <i class="fas fa-history text-red-400 mr-2"></i>
-              Recent Activity
-            </h2>
-            <button class="text-red-400 hover:text-red-300 text-sm font-medium">
-              View All <i class="fas fa-arrow-right ml-1"></i>
-            </button>
-          </div>
-          
-          <div class="space-y-4">
-            <div class="flex items-start p-3 hover:bg-gray-700/50 rounded-lg transition">
-              <div class="bg-red-900/30 p-2 rounded-lg mr-3 mt-1">
-                <i class="fas fa-user-plus text-red-400"></i>
-              </div>
-              <div class="flex-1">
-                <p class="font-medium">Added new staff member</p>
-                <p class="text-sm text-gray-400">Dr. Michael Chen was added to the system with phlebotomist privileges</p>
-                <p class="text-xs text-gray-500 mt-1">Today, 10:45 AM</p>
-              </div>
-            </div>
-            
-            <div class="flex items-start p-3 hover:bg-gray-700/50 rounded-lg transition">
-              <div class="bg-green-900/30 p-2 rounded-lg mr-3 mt-1">
-                <i class="fas fa-tint text-green-400"></i>
-              </div>
-              <div class="flex-1">
-                <p class="font-medium">Updated blood inventory</p>
-                <p class="text-sm text-gray-400">Added 15 units of O+ blood from community drive</p>
-                <p class="text-xs text-gray-500 mt-1">Yesterday, 3:22 PM</p>
-              </div>
-            </div>
-            
-            <div class="flex items-start p-3 hover:bg-gray-700/50 rounded-lg transition">
-              <div class="bg-blue-900/30 p-2 rounded-lg mr-3 mt-1">
-                <i class="fas fa-calendar-check text-blue-400"></i>
-              </div>
-              <div class="flex-1">
-                <p class="font-medium">Scheduled blood drive</p>
-                <p class="text-sm text-gray-400">Community blood drive at City Hall on June 15th</p>
-                <p class="text-xs text-gray-500 mt-1">2 days ago</p>
-              </div>
-            </div>
-          </div>
-        </div>
-        
-        <!-- Blood Inventory -->
-        <div class="bg-gray-800 rounded-xl shadow-lg p-6 mb-6 border border-gray-700">
-          <h2 class="text-xl font-bold mb-6 flex items-center">
-            <i class="fas fa-warehouse text-red-400 mr-2"></i>
-            Blood Inventory Summary
-          </h2>
-          
-          <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6">
-            <div class="bg-gray-700/50 p-3 rounded-lg border-l-4 border-red-500">
-              <p class="text-sm text-gray-400">O+</p>
-              <p class="text-2xl font-bold">42 <span class="text-sm font-normal text-gray-400">units</span></p>
-            </div>
-            <div class="bg-gray-700/50 p-3 rounded-lg border-l-4 border-blue-500">
-              <p class="text-sm text-gray-400">A+</p>
-              <p class="text-2xl font-bold">35 <span class="text-sm font-normal text-gray-400">units</span></p>
-            </div>
-            <div class="bg-gray-700/50 p-3 rounded-lg border-l-4 border-purple-500">
-              <p class="text-sm text-gray-400">B+</p>
-              <p class="text-2xl font-bold">28 <span class="text-sm font-normal text-gray-400">units</span></p>
-            </div>
-            <div class="bg-gray-700/50 p-3 rounded-lg border-l-4 border-green-500">
-              <p class="text-sm text-gray-400">AB+</p>
-              <p class="text-2xl font-bold">15 <span class="text-sm font-normal text-gray-400">units</span></p>
-            </div>
-            <div class="bg-gray-700/50 p-3 rounded-lg border-l-4 border-red-500">
-              <p class="text-sm text-gray-400">O-</p>
-              <p class="text-2xl font-bold">42 <span class="text-sm font-normal text-gray-400">units</span></p>
-            </div>
-            <div class="bg-gray-700/50 p-3 rounded-lg border-l-4 border-blue-500">
-              <p class="text-sm text-gray-400">A-</p>
-              <p class="text-2xl font-bold">35 <span class="text-sm font-normal text-gray-400">units</span></p>
-            </div>
-            <div class="bg-gray-700/50 p-3 rounded-lg border-l-4 border-purple-500">
-              <p class="text-sm text-gray-400">B-</p>
-              <p class="text-2xl font-bold">28 <span class="text-sm font-normal text-gray-400">units</span></p>
-            </div>
-            <div class="bg-gray-700/50 p-3 rounded-lg border-l-4 border-green-500">
-              <p class="text-sm text-gray-400">AB-</p>
-              <p class="text-2xl font-bold">15 <span class="text-sm font-normal text-gray-400">units</span></p>
-            </div>
-          </div>
-          
-          <div class="flex justify-between items-center">
-            <p class="text-sm text-gray-500">Last updated: Today, 11:30 AM</p>
-            <button class="text-red-400 hover:text-red-300 text-sm font-medium flex items-center">
-              <i class="fas fa-sync-alt mr-1"></i> Refresh
-            </button>
-          </div>
-        </div>
-        
-        <!-- Upcoming Appointments -->
-        <div class="bg-gray-800 rounded-xl shadow-lg p-6 border border-gray-700">
-          <h2 class="text-xl font-bold mb-6 flex items-center">
-            <i class="fas fa-calendar-alt text-red-400 mr-2"></i>
-            Today's Appointments
-          </h2>
-          
-          <div class="overflow-x-auto">
-            <table class="min-w-full divide-y divide-gray-700">
-              <thead>
-                <tr>
-                  <th class="px-4 py-3 text-left text-xs font-medium text-gray-400 uppercase tracking-wider">Donor</th>
-                  <th class="px-4 py-3 text-left text-xs font-medium text-gray-400 uppercase tracking-wider">Time</th>
-                  <th class="px-4 py-3 text-left text-xs font-medium text-gray-400 uppercase tracking-wider">Type</th>
-                  <th class="px-4 py-3 text-left text-xs font-medium text-gray-400 uppercase tracking-wider">Status</th>
-                  <th class="px-4 py-3 text-left text-xs font-medium text-gray-400 uppercase tracking-wider">Actions</th>
-                </tr>
-              </thead>
-              <tbody class="divide-y divide-gray-700">
-                <tr class="hover:bg-gray-700/50">
-                  <td class="px-4 py-3 whitespace-nowrap">
-                    <div class="flex items-center">
-                      <img class="w-8 h-8 rounded-full mr-2" src="https://randomuser.me/api/portraits/men/32.jpg">
-                      <div>
-                        <p class="font-medium">John Smith</p>
-                        <p class="text-xs text-gray-400">DNR-8472</p>
-                      </div>
+    <div class="bg-gray-900 text-gray-100 overflow-auto scrollbar-hide">
+        <!-- Header -->
+        <header class="sticky top-0 z-20 bg-gradient-to-r from-gray-800 to-gray-900">
+            <div class="container mx-auto p-3">
+                <div class="flex items-center justify-between">
+                    <div class="flex items-center space-x-4">
+                        <div class="p-3 bg-rose-600/20 rounded-xl">
+                            <i class="fas fa-hospital text-rose-400 text-2xl"></i>
+                        </div>
+                        <h1 class="text-2xl font-bold">{{ $bloodBank->name }}</h1>
                     </div>
-                  </td>
-                  <td class="px-4 py-3 whitespace-nowrap">
-                    <p>10:30 AM</p>
-                  </td>
-                  <td class="px-4 py-3 whitespace-nowrap">
-                    <span class="px-2 py-1 text-xs rounded-full bg-red-900/30 text-red-400">O+</span>
-                  </td>
-                  <td class="px-4 py-3 whitespace-nowrap">
-                    <span class="px-2 py-1 text-xs rounded-full bg-green-900/30 text-green-400">Confirmed</span>
-                  </td>
-                  <td class="px-4 py-3 whitespace-nowrap">
-                    <button class="text-blue-400 hover:text-blue-300 mr-2">
-                      <i class="fas fa-eye"></i>
-                    </button>
-                    <button class="text-red-400 hover:text-red-300">
-                      <i class="fas fa-times"></i>
-                    </button>
-                  </td>
-                </tr>
-                <!-- More rows would go here -->
-              </tbody>
-            </table>
-          </div>
-        </div>
-      </div>
+                </div>
+            </div>
+        </header>
+
+        <!-- Main Content -->
+        <main class="container mx-auto px-4 py-8">
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+                <!-- Left Column -->
+                <div class="lg:col-span-2 space-y-6">
+                    <!-- Calendar Section - Full Width and Height -->
+                    <div x-data="multiDatePicker()" class="w-full bg-gray-800 rounded-xl p-6 border border-gray-700">
+                        <form method="POST" action="/testdata">
+                            @csrf
+
+                            <h2 class="text-xl font-bold text-white mb-4">Set Closed Dates</h2>
+
+                            <!-- Hidden inputs for selected dates -->
+                            <template x-for="(date, index) in selectedDates" :key="index">
+                                <div>
+                                    <input type="hidden" :name="'days[' + index + '][blood_bank_id]'"
+                                        value="{{ $bloodBank->id }}" />
+                                    <input type="hidden" :name="'days[' + index + '][closed_date]'"
+                                        :value="getLocalDateString(date)" />
+                                    <input type="hidden" :name="'days[' + index + '][reason]'"
+                                        :value="dateNotes[getLocalDateString(date)] || ''" />
+                                </div>
+                            </template>
+
+                            <!-- Calendar -->
+                            <div class="bg-gray-900 border border-gray-700 rounded-xl shadow-xl p-3">
+                                <!-- Header -->
+                                <div class="flex items-center justify-between mb-2">
+                                    <button type="button" @click="prevMonth"
+                                        class="px-2 py-1 rounded hover:bg-gray-800 text-gray-300">&laquo;</button>
+                                    <div class="text-gray-100 font-semibold" x-text="monthYear"></div>
+                                    <button type="button" @click="nextMonth"
+                                        class="px-2 py-1 rounded hover:bg-gray-800 text-gray-300">&raquo;</button>
+                                </div>
+
+                                <!-- Weekdays -->
+                                <div class="grid grid-cols-7 gap-1 text-xs text-gray-400 mb-1">
+                                    <div class="text-center">Sun</div>
+                                    <div class="text-center">Mon</div>
+                                    <div class="text-center">Tue</div>
+                                    <div class="text-center">Wed</div>
+                                    <div class="text-center">Thu</div>
+                                    <div class="text-center">Fri</div>
+                                    <div class="text-center">Sat</div>
+                                </div>
+
+                                <!-- Days -->
+                                <div class="grid grid-cols-7 gap-1 relative">
+                                    <template x-for="n in leadingBlanks" :key="'b' + n">
+                                        <div class="h-16"></div>
+                                    </template>
+
+                                    <template x-for="d in daysInMonth" :key="'d' + d">
+                                        <div class="relative">
+                                            <button type="button" @click="selectDate(d)"
+                                                class="h-16 rounded-lg w-full transition flex flex-col items-center justify-center"
+                                                :disabled="isPast(d) || isApmFull(d)"
+                                                :class="{
+                                                    // ✅ Selected valid day
+                                                    'bg-cyan-600 text-white': isSelected(d) && activeDay !== d && !
+                                                        isClosed(d),
+                                                
+                                                    // 🟢 Normal hoverable day
+                                                    'hover:bg-gray-800 text-gray-100': !isSelected(d) && !isPast(d) && !
+                                                        isClosed(d) && !isApmFull(d),
+                                                
+                                                    // ⬜ Past day (disabled)
+                                                    'line-through text-gray-500 cursor-not-allowed': isPast(d),
+                                                
+                                                    // 🟧 Appointment full day (not editable)
+                                                    'bg-orange-100 text-orange-600 cursor-not-allowed': isApmFull(d) &&
+                                                        !isPast(d),
+                                                
+                                                    // 🔴 Closed day (editable by admin)
+                                                    'bg-red-600 text-white cursor-pointer': isClosed(d) && !isPast(d),
+                                                
+                                                    // 🔵 Selected fallback (closed or normal)
+                                                    'bg-gray-700 text-gray-300': isSelected(d) && (isClosed(d) || !
+                                                        isPast(d))
+                                                }">
+                                                <!-- Date number -->
+                                                <span x-text="d" class="text-sm font-medium"></span>
+
+                                                <!-- Label for past -->
+                                                <span x-show="isPast(d)"
+                                                    class="text-xs text-gray-500 mt-0.5">Past</span>
+
+                                                <!-- Label for appointment full -->
+                                                <span x-show="isApmFull(d)"
+                                                    class="text-xs text-orange-600 mt-0.5">Full</span>
+
+                                                <!-- Label + reason for closed -->
+                                                <template x-if="isClosed(d)">
+                                                    <div class="flex flex-col items-center mt-0.5">
+                                                        <span class="text-xs text-white">Closed</span>
+                                                        <span
+                                                            x-show="dateNotes[getLocalDateString(new Date(year, month, d))]"
+                                                            class="text-xs text-white/80 truncate w-full px-1 text-center"
+                                                            x-text="dateNotes[getLocalDateString(new Date(year, month, d))]">
+                                                        </span>
+                                                    </div>
+                                                </template>
+
+                                                <!-- Custom notes for normal days (only when selected) -->
+                                                <span
+                                                    x-show="!isClosed(d) && isSelected(d) && activeDay !== d && dateNotes[getLocalDateString(new Date(year, month, d))]"
+                                                    class="text-xs text-white/80 mt-0.5 truncate w-full px-1"
+                                                    x-text="dateNotes[getLocalDateString(new Date(year, month, d))]">
+                                                </span>
+                                            </button>
+
+
+                                            <!-- Note box that appears to the left of the selected day -->
+                                            <div x-show="activeDay === d && (isSelected(d) || !isClosed(d))"
+                                                class="absolute z-10 right-full mr-2 top-0 w-48 bg-gray-800 border border-gray-700 rounded-lg p-2 shadow-lg">
+                                                <input type="text"
+                                                    x-model="dateNotes[getLocalDateString(new Date(year, month, d))]"
+                                                    @click.stop
+                                                    class="w-full bg-gray-700 text-white text-sm px-2 py-1 rounded border border-gray-600"
+                                                    placeholder="Add note...">
+
+                                                <div class="flex justify-end gap-2 mt-2">
+                                                    <button type="button" @click="skipNote(d)"
+                                                        class="text-xs px-2 py-1 bg-gray-600 rounded hover:bg-gray-500">
+                                                        Skip
+                                                    </button>
+                                                    <button type="button" @click="saveNote(d)"
+                                                        class="text-xs px-2 py-1 bg-cyan-600 rounded hover:bg-cyan-500">
+                                                        Save
+                                                    </button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </template>
+                                </div>
+                            </div>
+
+                            <!-- Selected dates list -->
+                            <div class="mt-4 space-y-2" x-show="selectedDates.length > 0">
+                                <h4 class="text-sm font-medium text-gray-300">Selected Dates:</h4>
+                                <template x-for="(date, index) in selectedDates" :key="index">
+                                    <div class="flex items-center justify-between bg-gray-800 p-2 rounded">
+                                        <span x-text="formatDate(date)"></span>
+                                        <span x-show="dateNotes[getLocalDateString(date)]"
+                                            x-text="dateNotes[getLocalDateString(date)]"
+                                            class="text-sm text-gray-400 ml-2"></span>
+
+                                        <button type="button" @click="removeDate(index)"
+                                            class="text-gray-400 hover:text-red-400 ml-2">
+                                            <i class="fas fa-times"></i>
+                                        </button>
+                                    </div>
+                                </template>
+                            </div>
+
+                            <div class="flex justify-end gap-2 mt-4">
+                                <button type="button" @click="clearSelection"
+                                    class="px-4 py-2 rounded bg-gray-700 text-gray-200 hover:bg-gray-600">
+                                    Clear Selection
+                                </button>
+                                <button type="submit"
+                                    class="px-4 py-2 rounded bg-rose-600 text-white hover:bg-rose-500">
+                                    Save Closed Dates
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+
+                    <!-- Blood Inventory -->
+                    <section class="bg-gray-800 rounded-xl p-6 border border-gray-700">
+                        <div class="flex justify-between items-center mb-4">
+                            <h2 class="text-xl font-bold flex items-center">
+                                <i class="fas fa-flask text-rose-400 mr-2"></i> Blood Inventory
+                            </h2>
+                            <span class="text-xs bg-gray-700 px-2 py-1 rounded">Updated 2 hours ago</span>
+                        </div>
+
+                        <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+                            <!-- Blood Type Card -->
+                            <div
+                                class="bg-gray-700/50 p-4 rounded-lg border border-gray-600 hover:border-rose-500/50 transition">
+                                <div class="text-center">
+                                    <div class="text-2xl font-bold text-rose-400">A+</div>
+                                    <div class="text-green-400 font-medium mt-1">Good</div>
+                                    <div class="text-xs text-gray-400 mt-2">42 Units</div>
+                                </div>
+                            </div>
+
+                            <div
+                                class="bg-gray-700/50 p-4 rounded-lg border border-gray-600 hover:border-rose-500/50 transition">
+                                <div class="text-center">
+                                    <div class="text-2xl font-bold text-rose-400">B+</div>
+                                    <div class="text-yellow-400 font-medium mt-1">Low</div>
+                                    <div class="text-xs text-gray-400 mt-2">12 Units</div>
+                                </div>
+                            </div>
+
+                            <div
+                                class="bg-gray-700/50 p-4 rounded-lg border border-gray-600 hover:border-rose-500/50 transition">
+                                <div class="text-center">
+                                    <div class="text-2xl font-bold text-rose-400">O-</div>
+                                    <div class="text-red-400 font-medium mt-1">Critical</div>
+                                    <div class="text-xs text-gray-400 mt-2">5 Units</div>
+                                </div>
+                            </div>
+
+                            <div
+                                class="bg-gray-700/50 p-4 rounded-lg border border-gray-600 hover:border-rose-500/50 transition">
+                                <div class="text-center">
+                                    <div class="text-2xl font-bold text-rose-400">AB+</div>
+                                    <div class="text-green-400 font-medium mt-1">Good</div>
+                                    <div class="text-xs text-gray-400 mt-2">28 Units</div>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+                </div>
+                <!-- Right Column -->
+                <div class="space-y-6">
+                    <!-- Contact Card -->
+                    <div x-data="{ showForm: false }" class="bg-gray-800 rounded-xl p-6 border border-gray-700">
+                        <!-- Header -->
+                        <div class="flex justify-between items-center mb-4">
+                            <h2 class="text-xl font-bold flex items-center text-white">
+                                <i class="fas fa-map-marker-alt text-rose-400 mr-2"></i> Contact Info
+                            </h2>
+                            <button @click="showForm = !showForm"
+                                class="text-sm px-3 py-1 bg-rose-600 hover:bg-rose-700 text-white rounded-lg shadow">
+                                <span x-show="!showForm">Edit</span>
+                                <span x-show="showForm">Cancel</span>
+                            </button>
+                        </div>
+
+                        <!-- Display Info -->
+                        <div class="space-y-3" x-show="!showForm" x-transition>
+                            <div class="flex items-start">
+                                <i class="fas fa-map-pin text-rose-400 mt-1 mr-3"></i>
+                                <p class="text-gray-300">{{ $bloodBank->address }}</p>
+                            </div>
+                            <div class="flex items-center">
+                                <i class="fas fa-phone-alt text-rose-400 mr-3"></i>
+                                <p class="text-gray-300">{{ $bloodBank->phone ?? '(555) 123-4567' }}</p>
+                            </div>
+                            <div class="flex items-center">
+                                <i class="fas fa-envelope text-rose-400 mr-3"></i>
+                                <p class="text-gray-300">{{ $bloodBank->user->email }}</p>
+                            </div>
+                        </div>
+
+                        <!-- Edit Form -->
+                        <form x-show="showForm" x-transition method="POST" action="}}" class="space-y-3 mt-3">
+                            @csrf
+                            @method('PUT')
+
+                            <div>
+                                <label class="block text-gray-400 mb-1">Address</label>
+                                <textarea name="address" rows="3"
+                                    class="w-full p-2 rounded bg-gray-700 text-white focus:ring-2 focus:ring-rose-500 resize-none">{{ $bloodBank->address }}</textarea>
+                            </div>
+
+
+                            <div>
+                                <label class="block text-gray-400 mb-1">Phone</label>
+                                <input type="text" name="phone" value="{{ $bloodBank->phone ?? '' }}"
+                                    class="w-full p-2 rounded bg-gray-700 text-white focus:ring-2 focus:ring-rose-500">
+                            </div>
+
+                            <div>
+                                <label class="block text-gray-400 mb-1">Email</label>
+                                <input type="email" name="email" value="{{ $bloodBank->user->email }}"
+                                    class="w-full p-2 rounded bg-gray-700 text-white focus:ring-2 focus:ring-rose-500">
+                            </div>
+
+                            <div class="flex justify-end">
+                                <button type="submit"
+                                    class="px-4 py-2 bg-rose-600 hover:bg-rose-700 text-white rounded-lg shadow">
+                                    Save
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                    <!-- Operating Hours Card (existing) -->
+                    <div class="bg-gray-800 rounded-xl p-6 border border-gray-700">
+                        <h2 class="text-xl font-bold mb-4 flex items-center">
+                            <i class="fas fa-clock text-rose-400 mr-2"></i> Operating Hours
+                        </h2>
+                        <div class="space-y-3">
+                            <div class="flex justify-between">
+                                <span class="text-gray-300">Monday - Friday</span>
+                                <span class="font-medium">8:00 AM - 6:00 PM</span>
+                            </div>
+                            <div class="flex justify-between">
+                                <span class="text-gray-300">Saturday</span>
+                                <span class="font-medium">9:00 AM - 4:00 PM</span>
+                            </div>
+                            <div class="flex justify-between">
+                                <span class="text-gray-300">Sunday</span>
+                                <span class="font-medium">9:00 AM - 2:00 PM</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Update Password Card (new) -->
+                    <div class="bg-gray-800 rounded-xl p-6 border border-gray-700 mt-6" x-data="{ showPasswordForm: false }">
+                        <button @click="showPasswordForm = !showPasswordForm"
+                            class="w-full py-2 px-4 bg-rose-600 hover:bg-rose-700 text-white font-semibold rounded-lg shadow transition flex items-center justify-center gap-2">
+                            <i class="fas fa-key"></i> Update Password
+                        </button>
+
+                        <!-- Password Form -->
+                        <div x-show="showPasswordForm" x-transition class="mt-4 space-y-3">
+                            <form method="POST" action="">
+                                @csrf
+                                @method('PUT')
+
+                                <input type="password" name="current_password" placeholder="Current Password"
+                                    class="w-full px-3 py-2 rounded-lg bg-gray-700 text-white border border-gray-600 focus:border-rose-500 focus:ring focus:ring-rose-500/30 mb-3">
+
+                                <input type="password" name="new_password" placeholder="New Password"
+                                    class="w-full px-3 py-2 rounded-lg bg-gray-700 text-white border border-gray-600 focus:border-rose-500 focus:ring focus:ring-rose-500/30 mb-3">
+
+                                <input type="password" name="new_password_confirmation"
+                                    placeholder="Confirm New Password"
+                                    class="w-full px-3 py-2 rounded-lg bg-gray-700 text-white border border-gray-600 focus:border-rose-500 focus:ring focus:ring-rose-500/30 mb-3">
+
+                                <div class="flex gap-2 mt-2">
+                                    <button type="submit"
+                                        class="flex-1 py-2 px-4 bg-rose-600 hover:bg-rose-700 text-white font-semibold rounded-lg shadow">
+                                        Save
+                                    </button>
+                                    <button type="button" @click="showPasswordForm = false"
+                                        class="flex-1 py-2 px-4 bg-gray-600 hover:bg-gray-700 text-white font-semibold rounded-lg shadow">
+                                        Cancel
+                                    </button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
     </div>
-  </main>
-</div>
+
+    <script>
+        function multiDatePicker() {
+            return {
+                open: true, // Calendar always open
+                cursor: new Date(),
+                selectedDates: [],
+                dateNotes: {},
+                activeDay: null,
+
+                // Backend-provided data
+                closed_date: [
+                    '2025-08-01',
+                    '2025-08-25',
+                    '2025-08-23',
+                ],
+                appointment_full_date: [
+                    '2025-08-24',
+                    '2025-08-21',
+                ],
+
+                // Getter functions
+                get year() {
+                    return this.cursor.getFullYear();
+                },
+                get month() {
+                    return this.cursor.getMonth();
+                },
+                get monthYear() {
+                    return this.cursor.toLocaleDateString(undefined, {
+                        month: 'long',
+                        year: 'numeric'
+                    });
+                },
+                get firstDayOfMonth() {
+                    return new Date(this.year, this.month, 1);
+                },
+                get daysInMonth() {
+                    return new Date(this.year, this.month + 1, 0).getDate();
+                },
+                get leadingBlanks() {
+                    return this.firstDayOfMonth.getDay();
+                },
+                get displayDates() {
+                    if (this.selectedDates.length === 0) return '';
+                    return this.selectedDates.length + ' date(s) selected';
+                },
+
+                // Date manipulation
+                prevMonth() {
+                    this.cursor = new Date(this.year, this.month - 1, 1);
+                    this.activeDay = null;
+                },
+                nextMonth() {
+                    this.cursor = new Date(this.year, this.month + 1, 1);
+                    this.activeDay = null;
+                },
+
+                // Date selection
+                selectDate(day) {
+                    if (this.isPast(day) || this.isApmFull(day)) return; // not editable
+
+                    const date = new Date(this.year, this.month, day);
+                    const dateStr = this.getLocalDateString(date);
+
+                    if (this.isSelected(day)) {
+                        this.activateNote(day);
+                    } else {
+                        this.selectedDates.push(date);
+                        if (!this.dateNotes[dateStr]) {
+                            this.dateNotes[dateStr] = ''; // make sure key exists
+                        }
+                        this.activeDay = day;
+                    }
+                },
+
+                activateNote(day) {
+                    this.activeDay = day;
+                },
+
+                saveNote(day) {
+                    this.activeDay = null; // Close the note box after saving
+                },
+
+                skipNote(day) {
+                    const date = new Date(this.year, this.month, day);
+                    const dateStr = this.getLocalDateString(date);
+                    this.dateNotes[dateStr] = ''; // Clear any existing note
+                    this.activeDay = null; // Close the note box
+                },
+
+                removeDate(index) {
+                    const dateStr = this.getLocalDateString(this.selectedDates[index]);
+                    this.selectedDates.splice(index, 1);
+                    delete this.dateNotes[dateStr];
+                    if (this.activeDay === this.selectedDates[index]?.getDate()) {
+                        this.activeDay = null;
+                    }
+                },
+
+                clearSelection() {
+                    this.selectedDates = [];
+                    this.dateNotes = {};
+                    this.activeDay = null;
+                },
+
+                // --- Helper functions ---
+                isSelected(day) {
+                    const date = new Date(this.year, this.month, day);
+                    const dateStr = this.getLocalDateString(date);
+                    return this.selectedDates.some(d =>
+                        this.getLocalDateString(d) === dateStr
+                    );
+                },
+
+                isPast(day) {
+                    const date = new Date(this.year, this.month, day);
+                    const today = new Date();
+                    today.setHours(0, 0, 0, 0);
+                    return date < today;
+                },
+
+                isClosed(day) {
+                    const date = new Date(this.year, this.month, day);
+                    return this.closed_date.includes(this.getLocalDateString(date));
+                },
+
+                isApmFull(day) {
+                    const date = new Date(this.year, this.month, day);
+                    return this.appointment_full_date.includes(this.getLocalDateString(date));
+                },
+
+                getLocalDateString(date) {
+                    return date.getFullYear() + '-' +
+                        String(date.getMonth() + 1).padStart(2, '0') + '-' +
+                        String(date.getDate()).padStart(2, '0');
+                },
+
+                formatDate(date) {
+                    return date.toLocaleDateString(undefined, {
+                        weekday: 'short',
+                        month: 'short',
+                        day: 'numeric',
+                        year: 'numeric'
+                    });
+                }
+            }
+        }
+    </script>
+
 </x-admin-layout>

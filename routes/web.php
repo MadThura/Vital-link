@@ -4,6 +4,9 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\BlogController;
 use App\Http\Controllers\BloodBankAdmin\DashboardController as BloodBankAdminDashboardController;
 use App\Http\Controllers\BloodBankAdmin\DonorController as BloodBankAdminDonorController;
+use App\Http\Controllers\BloodBankAdmin\DonationRequestController as BloodBankAdminDonationRequestController;
+use App\Http\Controllers\BloodBankAdmin\ProfileController as BloodBankAdminProfileController;
+use App\Http\Controllers\DonationRequestController;
 use App\Http\Controllers\DonorController;
 use App\Http\Controllers\DonorFileController;
 use App\Http\Controllers\NotificationController;
@@ -30,7 +33,6 @@ Route::get('/', function () {
 
 Route::get('/blogs', [BlogController::class, 'index'])->name('blogs');
 Route::get('/blogs/{blog}', [BlogController::class, 'show'])->name('blogs.show');
-
 
 // User Register & Login
 Route::get('/register', [AuthController::class, 'register'])->name('register');
@@ -72,17 +74,24 @@ Route::middleware(['auth', 'verified'])->group(function () {
 Route::middleware(['auth', 'verified', 'role:donor'])->group(function () {
 
     Route::get('/home', [DonorController::class, 'index'])->name('home');
+
+    Route::post('/donation-requests', [DonationRequestController::class, 'store'])
+        ->name('donation-requests.store');
 });
 
 Route::middleware(['auth', 'role:blood_bank_admin'])->prefix('blood-bank-admin')->name('bba.')->group(function () {
 
     Route::get('/dashboard', [BloodBankAdminDashboardController::class, 'index'])->name('dashboard');
-    Route::get('/donation-record', function () {
-        return view('bloodBankAdmin.donation-record');
-    })->name('donation-record');
+    Route::get('/donation-requests', [BloodBankAdminDonationRequestController::class, 'index'])->name('donation-requests.index');
+    Route::put('/donation-requests/{donationRequest}/{action}', [BloodBankAdminDonationRequestController::class, 'updateStatus'])->name('donation-requests.updateStatus');
+
+    Route::get('/donation-records')->name('donation-record');
     Route::get('/blood-inventory', function () {
         return view('bloodBankAdmin.blood-inventory');
     })->name('blood-inventory');
+
+    Route::get('/profile', [BloodBankAdminProfileController::class, 'index'])->name('profile');
+    Route::post('/set-closed-days', [BloodBankAdminProfileController::class, 'storeClosedDays'])->name('setClosedDays');
 
     Route::prefix('/donors')->name('donors.')->group(function () {
         Route::get('/', [BloodBankAdminDonorController::class, 'index'])->name('index');
@@ -97,6 +106,7 @@ Route::middleware(['auth', 'role:super_admin'])
     ->prefix('/super-admin')
     ->name('superAdmin.')->group(function () {
 
+        Route::get('/profile',)->name('profile');
         Route::get('/dashboard', [SuperAdminDashboardController::class, 'index'])->name('dashboard');
         Route::get('/blogboard', [SuperAdminBlogController::class, 'index'])->name('blog-board');
         Route::get('/user-management', function () {
