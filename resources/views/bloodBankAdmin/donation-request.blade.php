@@ -23,23 +23,22 @@
                 </h3>
 
                 <!-- Form for Search and Filter -->
-                <form class="flex flex-col md:flex-row items-center gap-3 w-full md:w-auto" action="/search-requests"
+                <form class="flex flex-col md:flex-row items-center gap-3 w-full md:w-auto" action=""
                     method="GET">
                     <!-- Search Input -->
                     <div class="relative w-full md:w-72">
-                        <input type="text" name="query" placeholder="Search requests... (name or blood bank)"
+                        <input type="text" name="search" placeholder="Search requests... (name or blood bank)"
                             class="bg-gray-700 border border-gray-600 text-white px-4 py-2 rounded-lg pl-10 focus:outline-none focus:ring-1 focus:ring-rose-500 w-full">
                         <i class="fas fa-search absolute left-3 top-3 text-gray-400"></i>
                     </div>
 
                     <!-- Filter Select Box -->
-                    <select name="status"
+                    <select name="status" onchange="this.form.submit()"
                         class="bg-gray-700 border border-gray-600 text-white px-4 py-2 rounded-lg focus:outline-none focus:ring-1 focus:ring-rose-500">
                         <option value="">All Status</option>
                         <option value="pending">Pending</option>
                         <option value="approved">Approved</option>
-                        <option value="completed">Completed</option>
-                        <option value="cancelled">Cancelled</option>
+                        <option value="rejected">Rejected</option>
                     </select>
 
                     <!-- Search Button -->
@@ -65,47 +64,68 @@
                     </thead>
                     <tbody class="divide-y divide-gray-700">
                         <!-- Example row, repeat dynamically -->
-                        <tr class="hover:bg-gray-700/50 transition-colors group">
-                            <!-- Donor / Request Column -->
-                            <td class="py-3 px-3 text-gray-300">
-                                <div class="flex items-center gap-3">
-                                    <span class="font-medium group-hover:text-rose-400 transition-colors">
-                                        Donor Name<br>
-                                        <span class="text-sm text-gray-500">Unique Id</span>
-                                    </span>
-                                </div>
-                            </td>
+                        @forelse ($donationRequests as $request)
+                            <tr class="hover:bg-gray-700/50 transition-colors group">
+                                <!-- Donor / Request Column -->
+                                <td class="py-3 px-3 text-gray-300">
+                                    <div class="flex items-center gap-3">
+                                        <span class="font-medium group-hover:text-rose-400 transition-colors">
+                                            {{ $request->donor->user->name }}<br>
+                                            <span class="text-sm text-gray-500">{{ $request->donor->donor_code }}</span>
+                                        </span>
+                                    </div>
+                                </td>
 
-                            <!-- Appointment Column -->
-                            <td class="py-3 px-4 text-center">
-                                <span class="text-gray-400 text-sm">2025-08-18</span>
-                            </td>
-                            <td class="py-3 px-4 text-center">
-                                <span class="status-badge completed">Completed</span>
-                            </td>
+                                <!-- Appointment Column -->
+                                <td class="py-3 px-4 text-center">
+                                    <span class="text-gray-400 text-sm">{{ $request->appointment_date }}</span>
+                                </td>
+                                <td class="py-3 px-4 text-center">
+                                    <span class="status-badge completed">{{ $request->status }}</span>
+                                </td>
 
-                            <!-- Actions Column -->
-                            <td class="py-3 px-4 text-center">
-                                <div class="flex justify-center gap-2">
-                                    <!-- Approve Icon -->
-                                    <button type="button" class="text-gray-400 hover:text-gray-300 transition-colors">
-                                        <i class="fas fa-check"></i>
-                                    </button>
+                                <!-- Actions Column -->
+                                <td class="py-3 px-4 text-center">
+                                    <div class="flex justify-center gap-2">
 
-                                    <!-- Reject Icon -->
-                                    <button type="button" class="text-rose-400 hover:text-rose-300 transition-colors">
-                                        <i class="fas fa-xmark"></i>
-                                    </button>
+                                        {{-- Approve Form --}}
+                                        <form action="{{ route('bba.donation-requests.updateStatus', ['donationRequest' => $request, 'action' => 'approve']) }}"
+                                            method="POST">
+                                            @csrf
+                                            @method('PUT')
+                                            <input type="hidden" name="status" value="approved">
+                                            <button type="submit"
+                                                class="text-gray-400 hover:text-gray-300 transition-colors"
+                                                title="Approve">
+                                                <i class="fas fa-check"></i>
+                                            </button>
+                                        </form>
 
-                                </div>
-                            </td>
-                        </tr>
+                                        {{-- Reject Form --}}
+                                        <form action="{{ route('bba.donation-requests.updateStatus', ['donationRequest' => $request, 'action' => 'reject']) }}"
+                                            method="POST">
+                                            @csrf
+                                            @method('PUT')
+                                            <input type="hidden" name="status" value="rejected">
+                                            <button type="submit"
+                                                class="text-rose-400 hover:text-rose-300 transition-colors"
+                                                title="Reject">
+                                                <i class="fas fa-xmark"></i>
+                                            </button>
+                                        </form>
 
-                        <!-- Show only if no data -->
-                        <tr>
-                            <td colspan="3" class="text-center text-gray-400 py-4">No appointment requests found
-                            </td>
-                        </tr>
+                                    </div>
+                                </td>
+                            </tr>
+                        @empty
+                            <!-- Show only if no data -->
+                            <tr>
+                                <td colspan="3" class="text-center text-gray-400 py-4">No appointment requests found
+                                </td>
+                            </tr>
+                        @endforelse
+
+
                     </tbody>
                 </table>
             </div>

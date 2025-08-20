@@ -21,7 +21,7 @@
                 <div class="lg:col-span-2 space-y-6">
                     <!-- Calendar Section - Full Width and Height -->
                     <div x-data="multiDatePicker()" class="w-full bg-gray-800 rounded-xl p-6 border border-gray-700">
-                        <form method="POST" action="/testdata">
+                        <form method="POST" action="{{route('bba.setClosedDays')}}">
                             @csrf
 
                             <h2 class="text-xl font-bold text-white mb-4">Set Closed Dates</h2>
@@ -31,7 +31,7 @@
                                 <div>
                                     <input type="hidden" :name="'days[' + index + '][blood_bank_id]'"
                                         value="{{ $bloodBank->id }}" />
-                                    <input type="hidden" :name="'days[' + index + '][closed_date]'"
+                                    <input type="hidden" :name="'days[' + index + '][date]'"
                                         :value="getLocalDateString(date)" />
                                     <input type="hidden" :name="'days[' + index + '][reason]'"
                                         :value="dateNotes[getLocalDateString(date)] || ''" />
@@ -363,19 +363,12 @@
                 open: true, // Calendar always open
                 cursor: new Date(),
                 selectedDates: [],
-                dateNotes: {},
+                dateNotes: @json($bloodBank->closedDays()->pluck('reason', 'date')),
                 activeDay: null,
 
                 // Backend-provided data
-                closed_date: [
-                    '2025-08-01',
-                    '2025-08-25',
-                    '2025-08-23',
-                ],
-                appointment_full_date: [
-                    '2025-08-24',
-                    '2025-08-21',
-                ],
+                closed_date: @json($bloodBank->closedDays()->where('type', 'closedDay')->pluck('date')),
+                appointment_full_date: @json($bloodBank->closedDays()->where('type', 'apmFullDay')->pluck('date')),
 
                 // Getter functions
                 get year() {

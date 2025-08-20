@@ -59,9 +59,11 @@
                                     </button>
 
                                     <!-- Appointment Form -->
-                                    <form x-show="showForm" x-transition action="#" method=""
+                                    <form x-show="showForm" x-transition action="{{ route('donation-requests.store') }}"
+                                        method="POST"
                                         class="mt-4 space-y-3 bg-[#111111] p-4 rounded-md border border-gray-800">
                                         @csrf
+                                        @method('POST')
                                         <div x-data="datePicker({
                                             min: new Date(),
                                             disabledWeekdays: [],
@@ -78,7 +80,7 @@
                                                     class="w-full bg-[#0a0a0a] text-gray-300 border border-gray-700 rounded-md px-3 py-2 cursor-pointer text-sm"
                                                     @click="open = !open" placeholder="Select a date" />
                                                 <input type="hidden" :name="valueField" :value="valueIso" />
-
+                                                <input type="hidden" name="blood_bank_id" value="{{ $bloodBank->id }}">
                                                 <!-- Calendar popover -->
                                                 <div x-show="open" @click.outside="open=false" x-transition
                                                     class="absolute top-20 right-[50%] z-50 w-[100%] bg-[#0a0a0a] border border-gray-800 rounded-lg shadow-xl p-3 transform -translate-x-1/2 -translate-y-1/2">
@@ -196,7 +198,9 @@
                 return this.firstDayOfMonth.getDay();
             },
             get valueIso() {
-                return this.selected ? this.selected.toISOString().slice(0, 10) : '';
+                return this.selected ? this.selected.toLocaleDateString('en-CA', {
+                    timeZone: 'Asia/Yangon'
+                }) : '';
             },
             get display() {
                 return this.selected ? this.selected.toLocaleDateString() : '';

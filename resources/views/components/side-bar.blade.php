@@ -52,14 +52,14 @@
                         </span>
                     </a>
                     <!-- Donation Records (Emerald) -->
-                    <a href="{{ route('bba.donation-request') }}"
-                        class="no-underline text-sm py-3 px-4 rounded-lg flex items-center gap-3 transition-all group border-l-4 {{ request()->routeIs('bba.donation-request') ? 'border-rose-400 bg-gray-700/50 text-rose-400' : 'border-transparent text-gray-300 hover:bg-gray-700/50 hover:text-rose-400' }}">
+                    <a href="{{ route('bba.donation-requests.index') }}"
+                        class="no-underline text-sm py-3 px-4 rounded-lg flex items-center gap-3 transition-all group border-l-4 {{ request()->routeIs('bba.donation-requests.index') ? 'border-rose-400 bg-gray-700/50 text-rose-400' : 'border-transparent text-gray-300 hover:bg-gray-700/50 hover:text-rose-400' }}">
 
                         <i
-                            class="fa-solid fa-file-medical text-base transition-colors {{ request()->routeIs('bba.donation-request') ? 'text-rose-400' : 'text-gray-400 group-hover:text-rose-400' }}">
+                            class="fa-solid fa-file-medical text-base transition-colors {{ request()->routeIs('bba.donation-requests.index') ? 'text-rose-400' : 'text-gray-400 group-hover:text-rose-400' }}">
                         </i>
                         <span
-                            class="transition-transform {{ request()->routeIs('bba.donation-record') ? 'translate-x-1' : 'group-hover:translate-x-1' }}">
+                            class="transition-transform {{ request()->routeIs('bba.donation-requests.index') ? 'translate-x-1' : 'group-hover:translate-x-1' }}">
                             Donation Requests
                         </span>
                     </a>
