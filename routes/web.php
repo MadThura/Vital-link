@@ -16,6 +16,7 @@ use App\Http\Controllers\SuperAdmin\UserController;
 use App\Models\Blog;
 use App\Models\BloodBank;
 use App\Models\Donor;
+use App\Models\Notification;
 use App\Models\User;
 use Illuminate\Container\Attributes\Auth;
 use Illuminate\Foundation\Auth\EmailVerificationRequest;
@@ -80,6 +81,25 @@ Route::middleware(['auth', 'verified', 'role:donor'])->group(function () {
 
     Route::post('/donation-requests', [DonationRequestController::class, 'store'])
         ->name('donation-requests.store');
+    Route::get('/notifications/{notification}/approve', function (Notification $notification) {
+        $user = auth()->user()->donor;
+        $qr = $user->donationRequest->appointment_id;
+        $name = $user->user->name;
+        $code = $user->donor_code;
+        $nrc = $user->nrc;
+        $dob = $user->dob;
+        $qrText = sprintf(
+            "Appointment ID:      %s\nDonor Name:           %s\nDonor Code:            %s\nNRC Number:           %s\nDOB:                        %s",
+            $qr,
+            $name,
+            $code,
+            $nrc,
+            $dob
+        );
+        $qrCodeUrl = "https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=" . urlencode($qrText);
+
+        return view('approved-notification', compact('notification', 'qrCodeUrl'));
+    });
 });
 
 Route::middleware(['auth', 'role:blood_bank_admin'])->prefix('blood-bank-admin')->name('bba.')->group(function () {
@@ -91,8 +111,26 @@ Route::middleware(['auth', 'role:blood_bank_admin'])->prefix('blood-bank-admin')
     Route::get('/dashboard', [BloodBankAdminDashboardController::class, 'index'])->name('dashboard');
     Route::get('/donation-requests', [BloodBankAdminDonationRequestController::class, 'index'])->name('donation-requests.index');
     Route::put('/donation-requests/{donationRequest}/{action}', [BloodBankAdminDonationRequestController::class, 'updateStatus'])->name('donation-requests.updateStatus');
-
-    Route::get('/donation-records')->name('donation-record');
+    // my route
+    Route::get('/donation-record', function () {
+        return view('bloodBankAdmin.donation-record', [
+            'donors' => Donor::with(['user', 'bloodBank'])
+                ->where('status', 'approved') // only active donors
+                ->latest()
+                ->paginate(10)
+        ]);
+    })->name('donation-record');
+    Route::get('/donation-request', function () {
+        return view('bloodBankAdmin.donation-request', [
+            'donors' => Donor::with(['user', 'bloodBank'])
+                ->where('status', 'approved') // only active donors
+                ->latest()
+                ->paginate(10)
+        ]);
+    })->name('donation-request');
+    Route::get('/blood-inventory', function () {
+        return view('bloodBankAdmin.blood-inventory');
+    })->name('blood-inventory');
     Route::get('/blood-inventory', function () {
         return view('bloodBankAdmin.blood-inventory');
     })->name('blood-inventory');

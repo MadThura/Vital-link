@@ -12,85 +12,85 @@
                                 <path d="M12 1L3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V5l-9-4z" />
                             </svg>
                         </div>
-                        <h1 class="text-2xl font-bold flex items-center">{{$user->name}}</h1>
+                        <h1 class="text-2xl font-bold flex items-center">{{ $user->name }}</h1>
                     </div>
                 </div>
                 <!-- Profile Card -->
                 <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
                     <!-- Left Column -->
                     <div class="lg:col-span-1" x-data="{ showPasswordForm: false }">
-    <div class="bg-gray-800 rounded-xl p-6 border border-gray-700">
-        <div class="flex flex-col items-center">
-            <div class="relative mb-4">
-                <div
-                    class="w-32 h-32 rounded-full bg-gray-700 flex items-center justify-center border-2 border-rose-500/50">
-                    <i class="fas fa-user-cog text-5xl text-rose-400"></i>
-                </div>
-                <button
-                    class="absolute bottom-0 right-0 bg-gray-700 p-2 rounded-full border border-gray-600 hover:bg-gray-600">
-                    <i class="fas fa-camera text-sm"></i>
-                </button>
-            </div>
-            <h2 class="text-xl font-bold">{{ $user->name }}</h2>
-            <p class="text-rose-400 text-sm mt-1">{{ $user->role }}</p>
-        </div>
+                        <div class="bg-gray-800 rounded-xl p-6 border border-gray-700">
+                            <div class="flex flex-col items-center">
+                                <div class="relative mb-4">
+                                    <div
+                                        class="w-32 h-32 rounded-full bg-gray-700 flex items-center justify-center border-2 border-rose-500/50">
+                                        <i class="fas fa-user-cog text-5xl text-rose-400"></i>
+                                    </div>
+                                    <button
+                                        class="absolute bottom-0 right-0 bg-gray-700 p-2 rounded-full border border-gray-600 hover:bg-gray-600">
+                                        <i class="fas fa-camera text-sm"></i>
+                                    </button>
+                                </div>
+                                <h2 class="text-xl font-bold">{{ $user->name }}</h2>
+                                <p class="text-rose-400 text-sm mt-1">{{ $user->role }}</p>
+                            </div>
 
-        <div class="mt-6 space-y-4">
-            <div class="flex items-center">
-                <i class="fas fa-envelope text-rose-400 mr-3"></i>
-                <span>{{ $user->email }}</span>
-            </div>
-            <div class="flex items-center">
-                <i class="fas fa-phone text-rose-400 mr-3"></i>
-                <span>ph number</span>
-            </div>
-        </div>
+                            <div class="mt-6 space-y-4">
+                                <div class="flex items-center">
+                                    <i class="fas fa-envelope text-rose-400 mr-3"></i>
+                                    <span>{{ $user->email }}</span>
+                                </div>
+                                <div class="flex items-center">
+                                    <i class="fas fa-phone text-rose-400 mr-3"></i>
+                                    <span>ph number</span>
+                                </div>
+                            </div>
 
-        <!-- 🔘 Button to show password form -->
-        <div class="mt-8">
-            <button 
-                @click="showPasswordForm = !showPasswordForm" 
-                class="w-full py-2 px-4 bg-rose-600 hover:bg-rose-700 text-white font-semibold rounded-lg shadow transition">
-                <i class="fas fa-key mr-2"></i> Update Password
-            </button>
-        </div>
+                            <!-- 🔘 Button to show password form -->
+                            <div class="mt-8">
+                                <button @click="showPasswordForm = !showPasswordForm"
+                                    class="w-full py-2 px-4 bg-rose-600 hover:bg-rose-700 text-white font-semibold rounded-lg shadow transition">
+                                    <i class="fas fa-key mr-2"></i> Update Password
+                                </button>
+                            </div>
 
-        <!-- 🔑 Update Password Form (hidden until clicked) -->
-        <div x-show="showPasswordForm" x-transition class="mt-6 border-t border-gray-700 pt-6">
-            <h3 class="text-lg font-semibold text-white mb-4 flex items-center gap-2">
-                <i class="fas fa-lock text-rose-400"></i> Change Your Password
-            </h3>
-            <form method="POST" action="" class="space-y-3">
-                @csrf
-                @method('PUT')
+                            <!-- 🔑 Update Password Form (hidden until clicked) -->
+                            <div x-show="showPasswordForm" x-transition class="mt-6 border-t border-gray-700 pt-6">
+                                <h3 class="text-lg font-semibold text-white mb-4 flex items-center gap-2">
+                                    <i class="fas fa-lock text-rose-400"></i> Change Your Password
+                                </h3>
+                                <form method="POST" action="" class="space-y-3">
+                                    @csrf
+                                    @method('PUT')
 
-                <div>
-                    <input type="password" name="current_password" placeholder="Current Password"
-                        class="w-full px-3 py-2 rounded-lg bg-gray-700 text-white border border-gray-600 focus:border-rose-500 focus:ring focus:ring-rose-500/30">
-                </div>
-                <div>
-                    <input type="password" name="new_password" placeholder="New Password"
-                        class="w-full px-3 py-2 rounded-lg bg-gray-700 text-white border border-gray-600 focus:border-rose-500 focus:ring focus:ring-rose-500/30">
-                </div>
-                <div>
-                    <input type="password" name="new_password_confirmation" placeholder="Confirm New Password"
-                        class="w-full px-3 py-2 rounded-lg bg-gray-700 text-white border border-gray-600 focus:border-rose-500 focus:ring focus:ring-rose-500/30">
-                </div>
+                                    <div>
+                                        <input type="password" name="current_password" placeholder="Current Password"
+                                            class="w-full px-3 py-2 rounded-lg bg-gray-700 text-white border border-gray-600 focus:border-rose-500 focus:ring focus:ring-rose-500/30">
+                                    </div>
+                                    <div>
+                                        <input type="password" name="new_password" placeholder="New Password"
+                                            class="w-full px-3 py-2 rounded-lg bg-gray-700 text-white border border-gray-600 focus:border-rose-500 focus:ring focus:ring-rose-500/30">
+                                    </div>
+                                    <div>
+                                        <input type="password" name="new_password_confirmation"
+                                            placeholder="Confirm New Password"
+                                            class="w-full px-3 py-2 rounded-lg bg-gray-700 text-white border border-gray-600 focus:border-rose-500 focus:ring focus:ring-rose-500/30">
+                                    </div>
 
-                <div class="flex gap-2">
-                    <button type="submit"
-                        class="flex-1 py-2 px-4 bg-rose-600 hover:bg-rose-700 text-white font-semibold rounded-lg shadow">
-                        Save
-                    </button>
-                    <button type="button" @click="showPasswordForm = false"
-                        class="flex-1 py-2 px-4 bg-gray-600 hover:bg-gray-700 text-white font-semibold rounded-lg shadow">
-                        Cancel
-                    </button>
-                </div>
-            </form>
-        </div>
-    </div>
-</div>
+                                    <div class="flex gap-2">
+                                        <button type="submit"
+                                            class="flex-1 py-2 px-4 bg-rose-600 hover:bg-rose-700 text-white font-semibold rounded-lg shadow">
+                                            Save
+                                        </button>
+                                        <button type="button" @click="showPasswordForm = false"
+                                            class="flex-1 py-2 px-4 bg-gray-600 hover:bg-gray-700 text-white font-semibold rounded-lg shadow">
+                                            Cancel
+                                        </button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
 
                     <!-- Right Column -->
                     <div class="lg:col-span-2">

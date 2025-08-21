@@ -19,9 +19,49 @@
             <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
                 <!-- Left Column -->
                 <div class="lg:col-span-2 space-y-6">
+                    {{-- operating hours --}}
+                    <form method="POST" action=""
+                        class="bg-gray-800/50 backdrop-blur-md border border-gray-700 p-6 rounded-2xl shadow-xl space-y-4">
+                        @csrf
+
+                        <h2 class="text-lg font-semibold text-cyan-400 flex items-center gap-2">
+                            <i class="fa-regular fa-clock text-cyan-300"></i>
+                            Operating Hours
+                        </h2>
+
+                        <div class="flex flex-col md:flex-row items-center gap-6">
+                            <!-- Start Time -->
+                            <div class="w-full">
+                                <label for="start_time" class="block text-sm text-gray-400 mb-2">Start Time</label>
+                                <input type="time" name="start_time" id="start_time"
+                                    value="{{ old('start_time', $hours->start_time ?? '') }}"
+                                    class="w-full bg-gray-900 border border-gray-700 text-white px-4 py-2 rounded-lg 
+                                   focus:outline-none focus:ring-2 focus:ring-cyan-500 transition shadow-sm">
+                            </div>
+
+                            <!-- End Time -->
+                            <div class="w-full">
+                                <label for="end_time" class="block text-sm text-gray-400 mb-2">End Time</label>
+                                <input type="time" name="end_time" id="end_time"
+                                    value="{{ old('end_time', $hours->end_time ?? '') }}"
+                                    class="w-full bg-gray-900 border border-gray-700 text-white px-4 py-2 rounded-lg 
+                                   focus:outline-none focus:ring-2 focus:ring-cyan-500 transition shadow-sm">
+                            </div>
+                        </div>
+
+                        <!-- Save Button -->
+                        <div class="flex justify-end">
+                            <button type="submit"
+                                class="bg-gradient-to-r from-cyan-500 to-blue-500 hover:from-cyan-600 hover:to-blue-600 
+                               text-white px-6 py-2 rounded-xl shadow-lg transition-transform transform hover:scale-105 font-semibold">
+                                <i class="fa-solid fa-save mr-2"></i> Save Hours
+                            </button>
+                        </div>
+                    </form>
+
                     <!-- Calendar Section - Full Width and Height -->
                     <div x-data="multiDatePicker()" class="w-full bg-gray-800 rounded-xl p-6 border border-gray-700">
-                        <form method="POST" action="{{route('bba.setClosedDays')}}">
+                        <form method="POST" action="{{ route('bba.setClosedDays') }}">
                             @csrf
 
                             <h2 class="text-xl font-bold text-white mb-4">Set Closed Dates</h2>
@@ -365,7 +405,6 @@
                 selectedDates: [],
                 dateNotes: @json($bloodBank->closedDays()->pluck('reason', 'date')),
                 activeDay: null,
-
                 // Backend-provided data
                 closed_date: @json($bloodBank->closedDays()->where('type', 'closedDay')->pluck('date')),
                 appointment_full_date: @json($bloodBank->closedDays()->where('type', 'apmFullDay')->pluck('date')),
