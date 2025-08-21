@@ -8,21 +8,21 @@
                 <p class="text-3xl font-bold">1,248</p>
                 <p class="text-green-400 text-sm mt-2">+12% from last month</p>
             </div>
-            
+
             <!-- Critical Levels Card -->
             <div class="flex-1 min-w-[200px] bg-gray-800 p-6 rounded-xl border-l-4 border-yellow-500">
                 <h3 class="text-gray-400 mb-2">Critical Levels</h3>
                 <p class="text-3xl font-bold">4</p>
                 <p class="text-yellow-400 text-sm mt-2">Needs attention</p>
             </div>
-            
+
             <!-- Expiring Soon Card -->
             <div class="flex-1 min-w-[200px] bg-gray-800 p-6 rounded-xl border-l-4 border-blue-500">
                 <h3 class="text-gray-400 mb-2">Expiring Soon</h3>
                 <p class="text-3xl font-bold">23</p>
                 <p class="text-blue-400 text-sm mt-2">Within 7 days</p>
             </div>
-            
+
             <!-- Recent Donations Card -->
             <div class="flex-1 min-w-[200px] bg-gray-800 p-6 rounded-xl border-l-4 border-purple-500">
                 <h3 class="text-gray-400 mb-2">Recent Donations</h3>
@@ -54,26 +54,30 @@
                     <div class="flex-1 text-right">Status</div>
                     <div class="flex-1 text-right">Actions</div>
                 </div>
-                
+
                 <!-- Table Rows -->
                 <div class="flex flex-col divide-y divide-gray-700">
                     <!-- Row 1 -->
-                    <div class="flex py-4 items-center">
-                        <div class="flex-1 font-medium">O+</div>
-                        <div class="flex-1 text-right">342</div>
-                        <div class="flex-1 text-right">
-                            <span class="px-2 py-1 bg-green-900/50 text-green-400 rounded-full text-xs">Safe</span>
+                    @foreach ($bloods as $blood)
+                        <div class="flex py-4 items-center">
+                            <div class="flex-1 font-medium">{{ $blood->blood_type }}</div>
+                            <div class="flex-1 text-right">{{ $blood->units }}</div>
+                            <div class="flex-1 text-right">
+                                <span class="px-2 py-1 bg-green-900/50 text-green-400 rounded-full text-xs">Safe</span>
+                            </div>
+                            <div class="flex-1 text-right">
+                                <button class="text-red-600 hover:text-red-500">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20"
+                                        fill="currentColor">
+                                        <path
+                                            d="M13.586 3.586a2 2 0 112.828 2.828l-.793.793-2.828-2.828.793-.793zM11.379 5.793L3 14.172V17h2.828l8.38-8.379-2.83-2.828z" />
+                                    </svg>
+                                </button>
+                            </div>
                         </div>
-                        <div class="flex-1 text-right">
-                            <button class="text-red-600 hover:text-red-500">
-                                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
-                                    <path d="M13.586 3.586a2 2 0 112.828 2.828l-.793.793-2.828-2.828.793-.793zM11.379 5.793L3 14.172V17h2.828l8.38-8.379-2.83-2.828z" />
-                                </svg>
-                            </button>
-                        </div>
-                    </div>
-                    
-                    <!-- Row 2 -->
+                    @endforeach
+
+                    {{-- <!-- Row 2 -->
                     <div class="flex py-4 items-center">
                         <div class="flex-1 font-medium">A-</div>
                         <div class="flex-1 text-right">28</div>
@@ -135,7 +139,7 @@
                                 </svg>
                             </button>
                         </div>
-                    </div>
+                    </div> --}}
                 </div>
             </div>
         </div>

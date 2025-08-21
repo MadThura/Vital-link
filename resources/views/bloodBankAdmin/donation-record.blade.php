@@ -80,15 +80,36 @@
                 <div class="p-4 border-b border-gray-700 flex justify-between">
                     <h3 class="text-lg font-medium text-gray-200 flex items-center gap-2">
                         <i class="fa-solid fa-people-arrows text-emerald-400"></i>
-                        <span>Donor List</span>
+                        <span>Appointment Approved Donor List</span>
                     </h3>
-                    <div class="flex gap-3">
+                    <form method="GET" action="" class="flex flex-col md:flex-row items-center gap-3">
+                        <!-- Search Input -->
                         <div class="relative">
-                            <input type="text" placeholder="Search donors... (id or name)"
+                            <input type="text" name="search" value="{{ request('search') }}"
+                                placeholder="Search donors... (id or name or appointment id)"
                                 class="bg-gray-700 border border-gray-600 text-white px-4 py-2 rounded-lg pl-10 focus:outline-none focus:ring-1 focus:ring-cyan-500 w-72">
                             <i class="fas fa-search absolute left-3 top-3 text-gray-400"></i>
                         </div>
-                    </div>
+
+                        <!-- Date Filter -->
+                        <div>
+                            <input type="date" name="date" value="{{ request('date') }}"
+                                class="bg-gray-700 border border-gray-600 text-white px-4 py-2 rounded-lg focus:outline-none focus:ring-1 focus:ring-cyan-500">
+                        </div>
+
+                        <!-- Search Button -->
+                        <button type="submit"
+                            class="bg-cyan-500 hover:bg-cyan-600 text-white px-4 py-2 rounded-lg transition-colors font-semibold">
+                            Search
+                        </button>
+
+                        <!-- Clear Button -->
+                        <a href="{{ route('bba.donation-record') }}"
+                            class="bg-gray-500 hover:bg-gray-600 text-white px-4 py-2 rounded-lg transition-colors font-semibold">
+                            Clear
+                        </a>
+                    </form>
+
                 </div>
 
                 <!-- Scrollable table wrapper -->
@@ -96,26 +117,57 @@
                     <table class="w-full">
                         <thead class="bg-gray-800 sticky top-0 z-10">
                             <tr>
-                                <th class="py-3 px-4 text-left text-gray-300 font-semibold w-[80%]">Name</th>
+                                <th class="py-3 px-4 text-left text-gray-300 font-semibold w-[20%]">Name</th>
+                                <th class="py-3 px-4 text-center text-gray-300 font-semibold w-[60%]">Donor Code</th>
+                                <th class="py-3 px-4 text-center text-gray-300 font-semibold w-[60%]">Appointment Id
+                                </th>
                                 <th class="py-3 px-4 text-center text-gray-300 font-semibold w-[20%]">Actions</th>
                             </tr>
                         </thead>
                         <tbody class="divide-y divide-gray-700">
-                            @forelse ($donors as $donor)
+                            @forelse ($approvedAppointments as $appointment)
                                 <!-- Approved Donor -->
                                 <tr class="hover:bg-gray-700/50 transition-colors group">
                                     <!-- Name Column -->
                                     <td class="py-3 px-3 text-gray-300">
                                         <div class="flex items-center gap-3">
                                             <div class="relative">
-                                                <img src="/donor-files/{{ $donor->profile_img }}" alt="user"
+                                                <img src="/donor-files/{{ $appointment->donor->profile_img }}"
+                                                    alt="user"
                                                     class="w-8 h-8 rounded-full group-hover:border-cyan-400 object-cover transition-colors" />
                                             </div>
                                             <span
-                                                class="group-hover:text-cyan-400 transition-colors">{{ $donor->user->name }}</span>
+                                                class="group-hover:text-cyan-400 transition-colors">{{ $appointment->donor->user->name }}</span>
                                         </div>
                                     </td>
-
+                                    <td class="py-3 px-3 text-gray-300 text-center">
+                                        <div x-data="{ text: '{{ $appointment->donor->donor_code }}', copied: false }" class="flex items-center justify-center gap-2">
+                                            @if ($appointment->donor->donor_code)
+                                                <p class="font-bold text-cyan-200 text-sm" x-text="text"></p>
+                                                <button
+                                                    @click="navigator.clipboard.writeText(text).then(() => { copied = true; setTimeout(() => copied = false, 1000) })"
+                                                    class="hover:text-cyan-400">
+                                                    <i class="fa-solid fa-copy text-cyan-200 text-sm"></i>
+                                                </button>
+                                                <span x-show="copied" x-transition
+                                                    class="text-green-400 text-xs">Copied!</span>
+                                            @endif
+                                        </div>
+                                    </td>
+                                    <td class="py-3 px-3 text-gray-300 text-center">
+                                        <div x-data="{ text: '{{ $appointment->appointment_id }}', copied: false }" class="flex items-center justify-center gap-2">
+                                            @if ($appointment->appointment_id)
+                                                <p class="font-bold text-cyan-200 text-sm" x-text="text"></p>
+                                                <button
+                                                    @click="navigator.clipboard.writeText(text).then(() => { copied = true; setTimeout(() => copied = false, 1000) })"
+                                                    class="hover:text-cyan-400">
+                                                    <i class="fa-solid fa-copy text-cyan-200 text-sm"></i>
+                                                </button>
+                                                <span x-show="copied" x-transition
+                                                    class="text-green-400 text-xs">Copied!</span>
+                                            @endif
+                                        </div>
+                                    </td>
                                     <td class="py-3 px-4 text-center">
                                         <div class="flex justify-center gap-2">
                                             <div x-data="{ updateDialog: false }">
@@ -132,7 +184,8 @@
                                 </tr>
                             @empty
                                 <tr>
-                                    <td colspan="2" class="text-center text-gray-400 py-4">No donor found</td>
+                                    <td colspan="2" class="text-center text-gray-400 py-4">No appointment found.
+                                    </td>
                                 </tr>
                             @endforelse
                         </tbody>
@@ -141,11 +194,11 @@
 
                 <!-- Pagination (outside the scroll) -->
                 <div class="m-3 px-5">
-                    {{ $donors->links() }}
+                    {{ $approvedAppointments->links() }}
                 </div>
 
             </div>
-            
+
             <!-- Records Table Section -->
             <div class="bg-gray-800 rounded-lg border border-gray-700 overflow-hidden">
                 <!-- Table Header -->
@@ -165,11 +218,12 @@
                     <table class="w-full">
                         <thead class="bg-gray-700 text-gray-300 sticky top-0"> <!-- Made header sticky -->
                             <tr>
-                                <th class="py-3 px-4 text-left font-medium">Donor</th>
-                                <th class="py-3 px-4 text-center font-medium">Blood Type</th>
-                                <th class="py-3 px-4 text-center font-medium">Unit(s)</th>
-                                <th class="py-3 px-4 text-center font-medium">Date</th>
-                                <th class="py-3 px-4 text-center font-medium">Actions</th>
+                                <th class="py-3 px-4 text-center font-medium w-[20%]">Donor</th>
+                                <th class="py-3 px-4 text-left font-medium w-[20%]">Donation ID</th>
+                                <th class="py-3 px-4 text-center font-medium w-[10%]">Blood Type</th>
+                                <th class="py-3 px-4 text-center font-medium w-[10%]">Unit(s)</th>
+                                <th class="py-3 px-4 text-center font-medium w-[20%]">Date</th>
+                                <th class="py-3 px-4 text-center font-medium w-[20%]">Actions</th>
                             </tr>
                         </thead>
                         <tbody class="divide-y divide-gray-700">
@@ -184,6 +238,9 @@
                                             <p class="text-sm text-gray-400">ID: DNR-2847</p>
                                         </div>
                                     </div>
+                                </td>
+                                <td>
+                                    <p class="">Donation ID</p>
                                 </td>
                                 <td class="py-4 px-4 text-center">
                                     <span

@@ -2,10 +2,12 @@
 
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\BlogController;
-use App\Http\Controllers\BloodBankAdmin\DashboardController as BloodBankAdminDashboardController;
-use App\Http\Controllers\BloodBankAdmin\DonorController as BloodBankAdminDonorController;
-use App\Http\Controllers\BloodBankAdmin\DonationRequestController as BloodBankAdminDonationRequestController;
-use App\Http\Controllers\BloodBankAdmin\ProfileController as BloodBankAdminProfileController;
+use App\Http\Controllers\BloodBankAdmin\BloodInventoryController;
+use App\Http\Controllers\BloodBankAdmin\DashboardController as BBADashboardController;
+use App\Http\Controllers\BloodBankAdmin\DonorController as BBADonorController;
+use App\Http\Controllers\BloodBankAdmin\DonationRequestController as BBADonationRequestController;
+use App\Http\Controllers\BloodBankAdmin\ProfileController as BBAProfileController;
+use App\Http\Controllers\BloodBankAdmin\DonationRecordController as BBADonationRecordController;
 use App\Http\Controllers\DonationRequestController;
 use App\Http\Controllers\DonorController;
 use App\Http\Controllers\DonorFileController;
@@ -14,10 +16,7 @@ use App\Http\Controllers\SuperAdmin\BlogController as SuperAdminBlogController;
 use App\Http\Controllers\SuperAdmin\DashboardController as SuperAdminDashboardController;
 use App\Http\Controllers\SuperAdmin\UserController;
 use App\Models\Blog;
-use App\Models\BloodBank;
-use App\Models\Donor;
 use App\Models\User;
-use Illuminate\Container\Attributes\Auth;
 use Illuminate\Foundation\Auth\EmailVerificationRequest;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -88,24 +87,23 @@ Route::middleware(['auth', 'role:blood_bank_admin'])->prefix('blood-bank-admin')
         $bloodBank = auth()->user()->bloodBank()->with('user')->firstOrFail();
         return view('bloodBankAdmin.profile', compact('bloodBank'));
     })->name('profile');
-    Route::get('/dashboard', [BloodBankAdminDashboardController::class, 'index'])->name('dashboard');
-    Route::get('/donation-requests', [BloodBankAdminDonationRequestController::class, 'index'])->name('donation-requests.index');
-    Route::put('/donation-requests/{donationRequest}/{action}', [BloodBankAdminDonationRequestController::class, 'updateStatus'])->name('donation-requests.updateStatus');
+    Route::get('/dashboard', [BBADashboardController::class, 'index'])->name('dashboard');
+    Route::get('/donation-requests', [BBADonationRequestController::class, 'index'])->name('donation-requests.index');
+    Route::put('/donation-requests/{donationRequest}/{action}', [BBADonationRequestController::class, 'updateStatus'])->name('donation-requests.updateStatus');
 
-    Route::get('/donation-records')->name('donation-record');
-    Route::get('/blood-inventory', function () {
-        return view('bloodBankAdmin.blood-inventory');
-    })->name('blood-inventory');
+    Route::get('/donation-records', [BBADonationRecordController::class, 'index'])->name('donation-record');
+    Route::post('/donation-records/{donor}', [BBADonationRecordController::class, 'store'])->name('donation-records.store');
+    Route::get('/blood-inventory', [BloodInventoryController::class, 'index'])->name('blood-inventory');
 
-    Route::get('/profile', [BloodBankAdminProfileController::class, 'index'])->name('profile');
-    Route::post('/set-closed-days', [BloodBankAdminProfileController::class, 'storeClosedDays'])->name('setClosedDays');
+    Route::get('/profile', [BBAProfileController::class, 'index'])->name('profile');
+    Route::post('/set-closed-days', [BBAProfileController::class, 'storeClosedDays'])->name('setClosedDays');
 
     Route::prefix('/donors')->name('donors.')->group(function () {
-        Route::get('/', [BloodBankAdminDonorController::class, 'index'])->name('index');
-        Route::patch('/{donor}/{action}', [BloodBankAdminDonorController::class, 'updateStatus'])
+        Route::get('/', [BBADonorController::class, 'index'])->name('index');
+        Route::patch('/{donor}/{action}', [BBADonorController::class, 'updateStatus'])
             ->where('action', 'approve|reject|suspend')
             ->name('updateStatus');
-        Route::delete('/{donor}/destroy', [BloodBankAdminDonorController::class, 'destroy'])->name('destroy');
+        Route::delete('/{donor}/destroy', [BBADonorController::class, 'destroy'])->name('destroy');
     });
 });
 
