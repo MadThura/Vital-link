@@ -54,6 +54,12 @@ class DonationRequest extends Model
             $query->where('status', '=', $status);
         }
 
+        if ($filters['date'] ?? null) {
+            if ($date = $filters['date'] ?? today()) {
+                $query->where('appointment_date', $date);
+            }
+        }
+
         return $query;
     }
 }

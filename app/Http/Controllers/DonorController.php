@@ -14,7 +14,7 @@ class DonorController extends Controller
 
     public function index()
     {
-        return view('home-page', [
+        return view('donor.home-page', [
             'donor' => auth()->user()->donor,
             'bloodBanks' => BloodBank::with('user')->get(),
             'blogs' => Blog::latest()->paginate(6),

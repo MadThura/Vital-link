@@ -17,9 +17,9 @@
                             <i class="fa-solid fa-hand-holding-medical"></i>
                         </div>
                     </div>
-                    <div class="mt-3 flex items-center text-sm text-green-400">
-                        <i class="fas fa-arrow-up mr-1"></i>
-                        <span>12.5% from last month</span>
+                    <div class="mt-3 flex items-center text-sm text-red-400">
+                        <i class="fas fa-calendar-alt mr-2"></i>
+                        <span>{{ $numOfDonorsThisWeek }} this week</span>
                     </div>
                 </div>
 
@@ -36,7 +36,7 @@
                     </div>
                     <div class="mt-3 flex items-center text-sm text-yellow-400">
                         <i class="fas fa-calendar-alt mr-2"></i>
-                        <span>1 this week</span>
+                        <span>{{ $numOfDonationsThisWeek }} this week</span>
                     </div>
                 </div>
 
@@ -51,10 +51,6 @@
                             <i class="fas fa-user-check text-xl"></i>
                         </div>
                     </div>
-                    <div class="mt-3 flex items-center text-sm text-blue-400">
-                        <i class="fas fa-calendar-alt mr-2"></i>
-                        <span>56 this week</span>
-                    </div>
                 </div>
 
                 <div
@@ -67,6 +63,10 @@
                         <div class="p-3 rounded-full bg-gray-700 text-purple-400">
                             <i class="fa-solid fa-user-slash"></i>
                         </div>
+                    </div>
+                    <div class="mt-3 flex items-center text-sm text-purple-400">
+                        <i class="fas fa-calendar-alt mr-2"></i>
+                        <span>{{ $numOfDeferredThisWeek }} this week</span>
                     </div>
                 </div>
             </div>

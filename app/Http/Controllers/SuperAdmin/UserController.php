@@ -19,12 +19,14 @@ class UserController extends Controller
 
     public function store(Request $request)
     {
+      
         $validated = $request->validate([
             'name' => ['required', 'string'],
             'email' => ['required', 'email', 'unique:users,email'],
             'password' => ['required', 'min:8', 'confirmed'],
             'role' => ['required', 'in:ward_operator,blood_bank_admin'],
-            'address' => ['required', 'string']
+            'address' => ['required', 'string'],
+            'phone' => ['string']  
         ]);
         
         $user = User::create($validated);
@@ -32,7 +34,8 @@ class UserController extends Controller
             BloodBank::create([
                 'user_id' => $user->id,
                 'name' => $user->name,
-                'address' => $validated['address']
+                'address' => $validated['address'],
+                'phone' => $validated['phone'],
             ]);
         }
 
@@ -40,7 +43,8 @@ class UserController extends Controller
             Hospital::create([
                 'user_id' => $user->id,
                 'name' => $user->name,
-                'address' => $validated['address']
+                'address' => $validated['address'],
+                'phone' => $validated['phone'],
             ]);
         }
 

@@ -38,7 +38,7 @@
                                 Information
                             </h4>
                             <div class="flex items-center mb-4">
-                                <img x-bind:src="selectedDonation.donor.photo"
+                                <img src="/donor-files/{{ $donation->donor->profile_img }}"v
                                     class="w-16 h-16 rounded-full border-2 border-cyan-400 object-cover mr-3">
                                 <div>
                                     <p x-text="selectedDonation.donor.name" class="text-xl font-bold text-white">
@@ -48,21 +48,34 @@
                             </div>
                             <div class="space-y-3">
                                 <div class="flex justify-between">
-                                    <span class="text-gray-400">Age/Gender:</span>
-                                    <span x-text="selectedDonation.donor.age + ' / ' + selectedDonation.donor.gender"
-                                        class="text-white"></span>
+                                    <span class="text-gray-400">DOB: </span>
+                                    <span class="text-white">
+                                        {{ $donation->donor->dob }}
+                                    </span>
                                 </div>
                                 <div class="flex justify-between">
-                                    <span class="text-gray-400">Contact:</span>
-                                    <span x-text="selectedDonation.donor.contact" class="text-white"></span>
+                                    <span class="text-gray-400">Gender: </span>
+                                    <span class="text-white">
+                                        {{ $donation->donor->gender }}
+                                    </span>
                                 </div>
                                 <div class="flex justify-between">
-                                    <span class="text-gray-400">Email:</span>
-                                    <span x-text="selectedDonation.donor.email" class="text-white"></span>
+                                    <span class="text-gray-400">Contact: </span>
+                                    <span class="text-white">
+                                        {{ $donation->donor->phone }}
+                                    </span>
                                 </div>
-                                <div>
-                                    <span class="text-gray-400">Address:</span>
-                                    <p x-text="selectedDonation.donor.address" class="text-white text-sm mt-1"></p>
+                                <div class="flex justify-between">
+                                    <span class="text-gray-400">Email: </span>
+                                    <span class="text-white">
+                                        {{ $donation->donor->user->email }}
+                                    </span>
+                                </div>
+                                <div class="flex justify-between">
+                                    <span class="text-gray-400">DOB: </span>
+                                    <span class="text-white">
+                                        {{ $donation->donor->address }}
+                                    </span>
                                 </div>
                             </div>
                         </div>
@@ -77,55 +90,29 @@
                             </h4>
                             <div class="space-y-3">
                                 <div class="flex justify-between">
-                                    <span class="text-gray-400">Date/Time:</span>
-                                    <span
-                                        x-text="selectedDonation.donation.date + ' at ' + selectedDonation.donation.time"
-                                        class="text-white"></span>
+                                    <span class="text-gray-400">Date/Time </span>
+                                    <span class="text-white">
+                                        {{ $donation->donation_date }}
+                                    </span>
                                 </div>
                                 <div class="flex justify-between">
-                                    <span class="text-gray-400">Blood
-                                        Type:</span>
-                                    <span x-text="selectedDonation.donation.bloodType"
-                                        class="text-white font-bold"></span>
+                                    <span class="text-gray-400">Blood Type </span>
+                                    <span class="text-white">
+                                        {{ $donation->donor->blood_type }}
+                                    </span>
                                 </div>
                                 <div class="flex justify-between">
-                                    <span class="text-gray-400">Amount:</span>
-                                    <span x-text="selectedDonation.donation.amount" class="text-white font-bold"></span>
+                                    <span class="text-gray-400">Unit(s): </span>
+                                    <span class="text-white">
+                                        {{ $donation->units }}
+                                    </span>
                                 </div>
-                                <div class="flex justify-between">
-                                    <span class="text-gray-400">Status:</span>
-                                    <span x-text="selectedDonation.donation.status"
-                                        :class="{
-                                            'text-green-400': selectedDonation
-                                                .donation
-                                                .status === 'Processed',
-                                            'text-yellow-400': selectedDonation
-                                                .donation
-                                                .status === 'In Testing',
-                                            'text-red-400': selectedDonation
-                                                .donation.status === 'Rejected'
-                                        }"
-                                        class="font-bold"></span>
-                                </div>
-                                <div class="flex justify-between">
-                                    <span class="text-gray-400">Processed
-                                        Date:</span>
-                                    <span x-text="selectedDonation.donation.processedDate" class="text-white"></span>
-                                </div>
-                                <div class="flex justify-between">
-                                    <span class="text-gray-400">Expires:</span>
-                                    <span x-text="selectedDonation.donation.expirationDate" class="text-white"></span>
-                                </div>
-                                <div class="mt-4">
-                                    <h5 class="text-gray-400 mb-2">Staff:</h5>
+                                <div class="flex items-center justify-between">
+                                    <h5 class="text-gray-400 mb-2">Blood Bank:</h5>
                                     <div class="flex items-center">
-                                        <i class="fas fa-user-md mr-2 text-amber-400"></i>
                                         <div>
-                                            <p x-text="selectedDonation.staff.name" class="text-white font-medium">
-                                            </p>
-                                            <p x-text="selectedDonation.staff.role + ' (ID: ' + selectedDonation.staff.id + ')'"
-                                                class="text-gray-400 text-sm">
-                                            </p>
+                                            <p class="text-white font-medium">{{ $donation->bloodBank->name }}</p>
+                                            
                                         </div>
                                     </div>
                                 </div>
@@ -139,7 +126,7 @@
                             <h4 class="text-lg font-medium text-white mb-2 border-b border-gray-600 pb-2">
                                 <i class="fas fa-notes-medical mr-2 text-emerald-400"></i>Notes
                             </h4>
-                            <p x-text="selectedDonation.donation.notes" class="text-white"></p>
+                            <p class="text-white">{{ $donation->note }}</p>
                         </div>
                     </div>
                 </div>

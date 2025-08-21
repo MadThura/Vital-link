@@ -13,6 +13,7 @@ return new class extends Migration
     {
         Schema::create('donations', function (Blueprint $table) {
             $table->id();
+            $table->string('donation_id')->unique()->nullable();
             $table->foreignId('donor_id')->constrained('donors')->onDelete('cascade');
             $table->foreignId('blood_bank_id')->constrained()->onDelete('cascade');
             $table->timestamp('donation_date');

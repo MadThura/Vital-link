@@ -17,7 +17,7 @@ return new class extends Migration
             $table->string('name');
             $table->string('phone', 20);
             $table->string('address');
-            $table->integer('maxPersonsPerDay');
+            $table->integer('maxPersonsPerDay')->default(1);
             $table->timestamps();
         });
     }

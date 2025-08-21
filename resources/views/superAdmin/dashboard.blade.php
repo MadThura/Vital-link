@@ -151,6 +151,13 @@
                         class="w-full bg-slate-800 border border-slate-600 rounded-lg px-3 py-2 text-sm text-cyan-100 placeholder-cyan-400/70 focus:outline-none focus:ring-1 focus:ring-cyan-400"
                         placeholder="Enter email">
                 </div>
+                <!-- Phone -->
+                <div>
+                    <label class="block text-xs text-cyan-300 mb-1">Email</label>
+                    <input type="text" name="phone" required
+                        class="w-full bg-slate-800 border border-slate-600 rounded-lg px-3 py-2 text-sm text-cyan-100 placeholder-cyan-400/70 focus:outline-none focus:ring-1 focus:ring-cyan-400"
+                        placeholder="Enter phone number">
+                </div>
 
                 <!-- Password -->
                 <div>

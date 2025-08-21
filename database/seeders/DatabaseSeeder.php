@@ -9,6 +9,7 @@ use App\Models\User;
 use App\Notifications\NewBlogUploaded;
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\Notification;
 
 class DatabaseSeeder extends Seeder
 {
@@ -126,11 +127,8 @@ class DatabaseSeeder extends Seeder
                 'body' => $blogData['body'],
                 'image' => 'blog_seed_images/poster-' . ($index + 1) . '.jpeg',
             ]);
-
-            // Notify donors and blood bank admins
-            foreach ($usersToNotify as $user) {
-                $user->notify(new NewBlogUploaded($blog));
-            }
+            app()['url']->forceRootUrl('http://localhost:8000');
+            Notification::send($usersToNotify, new NewBlogUploaded($blog));
         }
     }
 }

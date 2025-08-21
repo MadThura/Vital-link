@@ -19,7 +19,7 @@ class BloodBank extends Model
 
     public function closedDays()
     {
-        return $this->hasMany(BloodBankClosedDay::class);
+        return $this->hasMany(BloodBankClosedDay::class, 'blood_bank_id');
     }
 
     public function donationRequests()

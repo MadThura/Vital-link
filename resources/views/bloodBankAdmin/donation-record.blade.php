@@ -104,7 +104,7 @@
                         </button>
 
                         <!-- Clear Button -->
-                        <a href=""
+                        <a href="{{ route('bba.donation-record') }}"
                             class="bg-gray-500 hover:bg-gray-600 text-white px-4 py-2 rounded-lg transition-colors font-semibold">
                             Clear
                         </a>
@@ -119,27 +119,44 @@
                             <tr>
                                 <th class="py-3 px-4 text-left text-gray-300 font-semibold w-[20%]">Name</th>
                                 <th class="py-3 px-4 text-center text-gray-300 font-semibold w-[60%]">Donor Code</th>
+                                <th class="py-3 px-4 text-center text-gray-300 font-semibold w-[60%]">Appointment Id
+                                </th>
                                 <th class="py-3 px-4 text-center text-gray-300 font-semibold w-[20%]">Actions</th>
                             </tr>
                         </thead>
                         <tbody class="divide-y divide-gray-700">
-                            @forelse ($donors as $donor)
+                            @forelse ($approvedAppointments as $appointment)
                                 <!-- Approved Donor -->
                                 <tr class="hover:bg-gray-700/50 transition-colors group">
                                     <!-- Name Column -->
                                     <td class="py-3 px-3 text-gray-300">
                                         <div class="flex items-center gap-3">
                                             <div class="relative">
-                                                <img src="/donor-files/{{ $donor->profile_img }}" alt="user"
+                                                <img src="/donor-files/{{ $appointment->donor->profile_img }}"
+                                                    alt="user"
                                                     class="w-8 h-8 rounded-full group-hover:border-cyan-400 object-cover transition-colors" />
                                             </div>
                                             <span
-                                                class="group-hover:text-cyan-400 transition-colors">{{ $donor->user->name }}</span>
+                                                class="group-hover:text-cyan-400 transition-colors">{{ $appointment->donor->user->name }}</span>
                                         </div>
                                     </td>
                                     <td class="py-3 px-3 text-gray-300 text-center">
-                                        <div x-data="{ text: '{{ $donor->donor_code }}', copied: false }" class="flex items-center justify-center gap-2">
-                                            @if ($donor->donor_code)
+                                        <div x-data="{ text: '{{ $appointment->donor->donor_code }}', copied: false }" class="flex items-center justify-center gap-2">
+                                            @if ($appointment->donor->donor_code)
+                                                <p class="font-bold text-cyan-200 text-sm" x-text="text"></p>
+                                                <button
+                                                    @click="navigator.clipboard.writeText(text).then(() => { copied = true; setTimeout(() => copied = false, 1000) })"
+                                                    class="hover:text-cyan-400">
+                                                    <i class="fa-solid fa-copy text-cyan-200 text-sm"></i>
+                                                </button>
+                                                <span x-show="copied" x-transition
+                                                    class="text-green-400 text-xs">Copied!</span>
+                                            @endif
+                                        </div>
+                                    </td>
+                                    <td class="py-3 px-3 text-gray-300 text-center">
+                                        <div x-data="{ text: '{{ $appointment->appointment_id }}', copied: false }" class="flex items-center justify-center gap-2">
+                                            @if ($appointment->appointment_id)
                                                 <p class="font-bold text-cyan-200 text-sm" x-text="text"></p>
                                                 <button
                                                     @click="navigator.clipboard.writeText(text).then(() => { copied = true; setTimeout(() => copied = false, 1000) })"
@@ -160,14 +177,15 @@
                                                     <span
                                                         class="absolute -bottom-1 left-0 w-0 h-0.5 bg-cyan-400 transition-all group-hover:w-full"></span>
                                                 </button>
-                                                <x-update-dialog />
+                                                <x-update-dialog :appointment="$appointment" />
                                             </div>
                                         </div>
                                     </td>
                                 </tr>
                             @empty
                                 <tr>
-                                    <td colspan="2" class="text-center text-gray-400 py-4">No donor found</td>
+                                    <td colspan="2" class="text-center text-gray-400 py-4">No appointment found.
+                                    </td>
                                 </tr>
                             @endforelse
                         </tbody>
@@ -176,7 +194,7 @@
 
                 <!-- Pagination (outside the scroll) -->
                 <div class="m-3 px-5">
-                    {{ $donors->links() }}
+                    {{ $approvedAppointments->links() }}
                 </div>
 
             </div>
@@ -186,13 +204,55 @@
                 <!-- Table Header -->
                 <div class="flex justify-between items-center p-4 border-b border-gray-700">
                     <h3 class="text-lg font-semibold">Recent Donations</h3>
-                    <div class="flex gap-3">
+                    <form method="GET" action="" class="flex flex-col md:flex-row items-center gap-3">
+                        <!-- Search Input -->
                         <div class="relative">
-                            <input type="text" placeholder="Search records...   "
+                            <input type="text" name="search" value="{{ request('search') }}"
+                                placeholder="Search donors... (id or name or appointment id)"
                                 class="bg-gray-700 border border-gray-600 text-white px-4 py-2 rounded-lg pl-10 focus:outline-none focus:ring-1 focus:ring-cyan-500 w-72">
                             <i class="fas fa-search absolute left-3 top-3 text-gray-400"></i>
                         </div>
-                    </div>
+
+                        <!-- Date Filter -->
+                        <div>
+                            <input type="date" name="date" value="{{ request('date') }}"
+                                class="bg-gray-700 border border-gray-600 text-white px-4 py-2 rounded-lg focus:outline-none focus:ring-1 focus:ring-cyan-500">
+                        </div>
+                        <div>
+                            <select name="blood_type"
+                                class="bg-gray-700 border border-gray-600 text-white px-4 py-2 rounded-lg focus:outline-none focus:ring-1 focus:ring-cyan-500">
+                                <option value="">All Blood Types</option>
+                                <option value="A+" {{ request('blood_type') == 'A+' ? 'selected' : '' }}>A+
+                                </option>
+                                <option value="A-" {{ request('blood_type') == 'A-' ? 'selected' : '' }}>A-
+                                </option>
+                                <option value="B+" {{ request('blood_type') == 'B+' ? 'selected' : '' }}>B+
+                                </option>
+                                <option value="B-" {{ request('blood_type') == 'B-' ? 'selected' : '' }}>B-
+                                </option>
+                                <option value="AB+" {{ request('blood_type') == 'AB+' ? 'selected' : '' }}>AB+
+                                </option>
+                                <option value="AB-" {{ request('blood_type') == 'AB-' ? 'selected' : '' }}>AB-
+                                </option>
+                                <option value="O+" {{ request('blood_type') == 'O+' ? 'selected' : '' }}>O+
+                                </option>
+                                <option value="O-" {{ request('blood_type') == 'O-' ? 'selected' : '' }}>O-
+                                </option>
+                            </select>
+                        </div>
+
+                        <!-- Search Button -->
+                        <button type="submit"
+                            class="bg-cyan-500 hover:bg-cyan-600 text-white px-4 py-2 rounded-lg transition-colors font-semibold">
+                            Search
+                        </button>
+
+                        <!-- Clear Button -->
+                        <a href=""
+                            class="bg-gray-500 hover:bg-gray-600 text-white px-4 py-2 rounded-lg transition-colors font-semibold">
+                            Clear
+                        </a>
+                    </form>
                 </div>
 
                 <!-- Table Content -->
@@ -210,58 +270,68 @@
                         </thead>
                         <tbody class="divide-y divide-gray-700">
                             <!-- Record 1 -->
-                            <tr class="hover:bg-gray-750 transition">
-                                <td class="py-4 px-4">
-                                    <div class="flex items-center gap-3">
-                                        <img src="/images/profile-1.jpg" alt="Donor"
-                                            class="w-10 h-10 rounded-full border border-gray-600 object-cover">
-                                        <div>
-                                            <p class="font-medium text-white">Sarah Johnson</p>
-                                            <p class="text-sm text-gray-400">ID: DNR-2847</p>
+                            @forelse($donations as $donation)
+                                <tr class="hover:bg-gray-750 transition">
+                                    <td class="py-4 px-4">
+                                        <div class="flex items-center gap-3">
+                                            <img src="/donor-files/{{ $donation->donor->profile_img }}"
+                                                alt="Donor"
+                                                class="w-10 h-10 rounded-full border border-gray-600 object-cover">
+                                            <div>
+                                                <p class="font-medium text-white">{{ $donation->donor->user->name }}
+                                                </p>
+                                                <p class="text-sm text-gray-400">{{ $donation->donor->donor_code }}
+                                                </p>
+                                            </div>
                                         </div>
-                                    </div>
-                                </td>
-                                <td>
-                                    <p class="">Donation ID</p>
-                                </td>
-                                <td class="py-4 px-4 text-center">
-                                    <span
-                                        class="bg-red-900/30 text-red-400 px-3 py-1 rounded-full text-sm font-medium">O+</span>
-                                </td>
-                                <td class="py-4 px-4 text-center text-white font-medium">10</td>
-                                <td class="py-4 px-4 text-center text-gray-400">2025-07-15</td>
-                                <td class="py-4 px-4 text-center">
-                                    <div class="flex justify-center gap-4">
-                                        <div x-data="{ showDonationDetail: false, selectedDonation: null }">
-                                            <!-- View Button -->
-                                            <button @click="showDonationDetail = true"
-                                                class="relative text-cyan-400 hover:text-cyan-300 transition-all group"
-                                                title="View">
-                                                <i class="fas fa-eye"></i>
-                                                <span
-                                                    class="absolute -bottom-1 left-0 w-0 h-0.5 bg-cyan-400 transition-all group-hover:w-full"></span>
+                                    </td>
+                                    <td>
+                                        <p class="">{{ $donation->donation_id }}</p>
+                                    </td>
+                                    <td class="py-4 px-4 text-center">
+                                        <span
+                                            class="bg-red-900/30 text-red-400 px-3 py-1 rounded-full text-sm font-medium">{{ $donation->donor->blood_type }}</span>
+                                    </td>
+                                    <td class="py-4 px-4 text-center text-white font-medium">{{ $donation->units }}
+                                    </td>
+                                    <td class="py-4 px-4 text-center text-gray-400">
+                                        {{ \Carbon\Carbon::parse($donation->donation_date)->format('F j, Y g:i A') }}
+                                    </td>
+                                    <td class="py-4 px-4 text-center">
+                                        <div class="flex justify-center gap-4">
+                                            <div x-data="{ showDonationDetail: false, selectedDonation: null }">
+                                                <!-- View Button -->
+                                                <button @click="showDonationDetail = true"
+                                                    class="relative text-cyan-400 hover:text-cyan-300 transition-all group"
+                                                    title="View">
+                                                    <i class="fas fa-eye"></i>
+                                                    <span
+                                                        class="absolute -bottom-1 left-0 w-0 h-0.5 bg-cyan-400 transition-all group-hover:w-full"></span>
 
-                                            </button>
-                                            <!-- Donation Detail Dialog -->
-                                            <x-donation-record-dialog-box />
+                                                </button>
+                                                <!-- Donation Detail Dialog -->
+                                                <x-donation-record-dialog-box :donation="$donation" />
+                                            </div>
+
+                                            <!-- Print Button -->
+                                            <div x-data="{ showPrintDonation: false, selectedDonation: null }">
+                                                <button @click="showPrintDonation = true"
+                                                    class="relative text-amber-400 hover:text-amber-300 transition-all group"
+                                                    title="Print">
+                                                    <i class="fas fa-print"></i>
+                                                    <span
+                                                        class="absolute -bottom-1 left-0 w-0 h-0.5 bg-[#fbbf24] transition-all group-hover:w-full"></span>
+                                                </button>
+
+                                                <!-- Print Certificate Dialog -->
+                                                <x-print-dialog-box :donation="$donation" />
+                                            </div>
                                         </div>
-
-                                        <!-- Print Button -->
-                                        <div x-data="{ showPrintDonation: false, selectedDonation: null }">
-                                            <button @click="showPrintDonation = true"
-                                                class="relative text-amber-400 hover:text-amber-300 transition-all group"
-                                                title="Print">
-                                                <i class="fas fa-print"></i>
-                                                <span
-                                                    class="absolute -bottom-1 left-0 w-0 h-0.5 bg-[#fbbf24] transition-all group-hover:w-full"></span>
-                                            </button>
-
-                                            <!-- Print Certificate Dialog -->
-                                            <x-print-dialog-box />
-                                        </div>
-                                    </div>
-                                </td>
-                            </tr>
+                                    </td>
+                                </tr>
+                            @empty
+                                <p>No donation Record</p>
+                            @endforelse
                         </tbody>
                     </table>
                 </div>
