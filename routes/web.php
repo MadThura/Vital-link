@@ -73,6 +73,8 @@ Route::middleware(['auth', 'verified'])->group(function () {
         Route::put('/update', [DonorController::class, 'updateCompletion'])->name('updateComplete');
     });
     Route::get('/notifications', [NotificationController::class, 'index']);
+    Route::post('/notifications/{id}/read', [NotificationController::class, 'markAsRead']);
+    Route::post('/notifications/read-all', [NotificationController::class, 'markAllAsRead']);
 });
 
 Route::middleware(['auth', 'verified', 'role:donor'])->group(function () {
