@@ -95,13 +95,15 @@ Route::middleware(['auth', 'verified', 'role:donor'])->group(function () {
         $code = $user->donor_code;
         $nrc = $user->nrc;
         $dob = $user->dob;
+        $date = $user->donationRequest->appointment_date;
         $qrText = sprintf(
-            "Appointment ID:      %s\nDonor Name:           %s\nDonor Code:            %s\nNRC Number:           %s\nDOB:                        %s",
+            "Appointment ID:      %s\nDonor Name:           %s\nDonor Code:            %s\nNRC Number:           %s\nDOB:                        %s\nAppointment Date:  %s",
             $qr,
             $name,
             $code,
             $nrc,
-            $dob
+            $dob,
+            $date
         );
         $qrCodeUrl = "https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=" . urlencode($qrText);
 
@@ -190,3 +192,8 @@ Route::middleware(['auth', 'role:super_admin'])
             Route::delete('/{blog}', [SuperAdminBlogController::class, 'destroy'])->name('destroy');
         });
     });
+
+
+// test
+Route::get('/donation/{id}/certificate', [BBADonationRecordController::class, 'downloadCertificate'])
+    ->name('downloadCertificate');

@@ -20,7 +20,7 @@
                     <a href="{{ route('bba.profile') }}"
                         class="no-underline text-sm py-3 px-4 rounded-lg flex items-center gap-3 transition-all group border-l-4 {{ request()->routeIs('bba.profile') ? 'border-emerald-400 bg-gray-700/50 text-emerald-400' : 'border-transparent text-gray-300 hover:bg-gray-700/50 hover:text-emerald-400' }}">
                         <i
-                            class="fa-solid fa-house text-base transition-colors {{ request()->routeIs('bba.profile') ? 'text-emerald-400' : 'text-gray-400 group-hover:text-emerald-400' }}">
+                            class="fa-solid fa-user-gear text-base transition-colors {{ request()->routeIs('bba.profile') ? 'text-emerald-400' : 'text-gray-400 group-hover:text-emerald-400' }}">
                         </i>
                         <span
                             class="transition-transform {{ request()->routeIs('bba.profile') ? 'translate-x-1' : 'group-hover:translate-x-1' }}">
@@ -90,12 +90,12 @@
                     </a>
                 @elseif(auth()->user()->role === 'super_admin')
                     <a href="{{ route('superAdmin.profile') }}"
-                        class="no-underline text-sm py-3 px-4 rounded-lg flex items-center gap-3 transition-all group border-l-4 {{ request()->routeIs('bba.profile') ? 'border-emerald-400 bg-gray-700/50 text-emerald-400' : 'border-transparent text-gray-300 hover:bg-gray-700/50 hover:text-emerald-400' }}">
+                        class="no-underline text-sm py-3 px-4 rounded-lg flex items-center gap-3 transition-all group border-l-4 {{ request()->routeIs('superAdmin.profile') ? 'border-emerald-400 bg-gray-700/50 text-emerald-400' : 'border-transparent text-gray-300 hover:bg-gray-700/50 hover:text-emerald-400' }}">
                         <i
-                            class="fa-solid fa-house text-base transition-colors {{ request()->routeIs('bba.profile') ? 'text-emerald-400' : 'text-gray-400 group-hover:text-emerald-400' }}">
+                            class="fa-solid fa-house text-base transition-colors {{ request()->routeIs('superAdmin.profile') ? 'text-emerald-400' : 'text-gray-400 group-hover:text-emerald-400' }}">
                         </i>
                         <span
-                            class="transition-transform {{ request()->routeIs('bba.profile') ? 'translate-x-1' : 'group-hover:translate-x-1' }}">
+                            class="transition-transform {{ request()->routeIs('superAdmin.profile') ? 'translate-x-1' : 'group-hover:translate-x-1' }}">
                             Profile
                         </span>
                     </a>

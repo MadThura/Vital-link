@@ -1,4 +1,5 @@
     <x-admin-layout>
+
         <!-- Main Content -->
         <div class="h-full bg-gray-900 text-gray-200 p-6 overflow-auto scrollbar-none">
             <!-- Page Header -->
@@ -169,6 +170,7 @@
                                         </div>
                                     </td>
                                     <td class="py-3 px-4 text-center">
+
                                         <div class="flex justify-center gap-2">
                                             <div x-data="{ updateDialog: false }">
                                                 <button @click="updateDialog = true"
@@ -180,11 +182,12 @@
                                                 <x-update-dialog :appointment="$appointment" />
                                             </div>
                                         </div>
+
                                     </td>
                                 </tr>
                             @empty
                                 <tr>
-                                    <td colspan="2" class="text-center text-gray-400 py-4">No appointment found.
+                                    <td colspan="4" class="text-center text-gray-400 py-4">No appointment found.
                                     </td>
                                 </tr>
                             @endforelse
@@ -203,7 +206,10 @@
             <div class="bg-gray-800 rounded-lg border border-gray-700 overflow-hidden">
                 <!-- Table Header -->
                 <div class="flex justify-between items-center p-4 border-b border-gray-700">
-                    <h3 class="text-lg font-semibold">Recent Donations</h3>
+                    <div class="flex items-center gap-3">
+                        <i class="fa-regular fa-clock text-2xl text-rose-400"></i>
+                        <h3 class="text-lg font-semibold">Recent Donations</h3>
+                    </div>
                     <form method="GET" action="" class="flex flex-col md:flex-row items-center gap-3">
                         <!-- Search Input -->
                         <div class="relative">
@@ -260,12 +266,12 @@
                     <table class="w-full">
                         <thead class="bg-gray-700 text-gray-300 sticky top-0"> <!-- Made header sticky -->
                             <tr>
-                                <th class="py-3 px-4 text-center font-medium w-[20%]">Donor</th>
-                                <th class="py-3 px-4 text-left font-medium w-[20%]">Donation ID</th>
+                                <th class="py-3 px-4 text-left font-medium w-[20%]">Donor</th>
+                                <th class="py-3 px-4 text-center font-medium w-[20%]">Donation ID</th>
                                 <th class="py-3 px-4 text-center font-medium w-[10%]">Blood Type</th>
                                 <th class="py-3 px-4 text-center font-medium w-[10%]">Unit(s)</th>
-                                <th class="py-3 px-4 text-center font-medium w-[20%]">Date</th>
-                                <th class="py-3 px-4 text-center font-medium w-[20%]">Actions</th>
+                                <th class="py-3 px-4 text-center font-medium w-[30%]">Date</th>
+                                <th class="py-3 px-4 text-center font-medium w-[10%]">Actions</th>
                             </tr>
                         </thead>
                         <tbody class="divide-y divide-gray-700">
@@ -280,13 +286,22 @@
                                             <div>
                                                 <p class="font-medium text-white">{{ $donation->donor->user->name }}
                                                 </p>
-                                                <p class="text-sm text-gray-400">{{ $donation->donor->donor_code }}
-                                                </p>
                                             </div>
                                         </div>
                                     </td>
                                     <td>
-                                        <p class="">{{ $donation->donation_id }}</p>
+                                        <div x-data="{ text: '{{ $donation->donation_id }}', copied: false }" class="flex items-center justify-center gap-2">
+                                            @if ($donation->donation_id)
+                                                <p class="font-bold text-cyan-200 text-sm" x-text="text"></p>
+                                                <button
+                                                    @click="navigator.clipboard.writeText(text).then(() => { copied = true; setTimeout(() => copied = false, 1000) })"
+                                                    class="hover:text-cyan-400">
+                                                    <i class="fa-solid fa-copy text-cyan-200 text-sm"></i>
+                                                </button>
+                                                <span x-show="copied" x-transition
+                                                    class="text-green-400 text-xs">Copied!</span>
+                                            @endif
+                                        </div>
                                     </td>
                                     <td class="py-4 px-4 text-center">
                                         <span
@@ -315,22 +330,32 @@
 
                                             <!-- Print Button -->
                                             <div x-data="{ showPrintDonation: false, selectedDonation: null }">
-                                                <button @click="showPrintDonation = true"
+                                                {{-- <button @click="showPrintDonation = true"
                                                     class="relative text-amber-400 hover:text-amber-300 transition-all group"
                                                     title="Print">
                                                     <i class="fas fa-print"></i>
                                                     <span
                                                         class="absolute -bottom-1 left-0 w-0 h-0.5 bg-[#fbbf24] transition-all group-hover:w-full"></span>
-                                                </button>
-
+                                                </button> --}}
+                                                <a href="{{ route('downloadCertificate', $donation->donation_id) }}"><button
+                                                        class="relative text-amber-400 hover:text-amber-300 transition-all group"
+                                                        title="Download">
+                                                        <i class="fas fa-download"></i>
+                                                        <span
+                                                            class="absolute -bottom-1 left-0 w-0 h-0.5 bg-[#fbbf24] transition-all group-hover:w-full"></span>
+                                                    </button></a>
                                                 <!-- Print Certificate Dialog -->
-                                                <x-print-dialog-box :donation="$donation" />
+                                                {{-- <x-print-dialog-box :donation="$donation" /> --}}
                                             </div>
                                         </div>
                                     </td>
                                 </tr>
                             @empty
-                                <p>No donation Record</p>
+                                <tr>
+                                    <td colspan="6" class="text-center text-gray-400 py-4">No Donation Record
+                                        found.
+                                    </td>
+                                </tr>
                             @endforelse
                         </tbody>
                     </table>

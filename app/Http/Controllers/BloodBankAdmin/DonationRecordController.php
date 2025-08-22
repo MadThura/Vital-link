@@ -8,6 +8,7 @@ use App\Models\Donation;
 use App\Models\DonationRequest;
 use App\Models\Donor;
 use App\Notifications\DonationCompleted;
+use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\DB;
@@ -81,5 +82,17 @@ class DonationRecordController extends Controller
         });
 
         return redirect()->back()->with('success', 'Donation recorded successfully.');
+    }
+
+    // test
+    public function downloadCertificate($donationId)
+    {
+
+        $donation = Donation::where('donation_id', $donationId)->first();
+
+        $donor = $donation->donor;
+        $pdf = Pdf::loadView('pdf.donation-certificate', compact('donation', 'donor'));
+
+        return $pdf->download('Donation_Certificate_' . $donation->id . '.pdf');
     }
 }

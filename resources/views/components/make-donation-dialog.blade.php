@@ -60,7 +60,7 @@
                             </div>
 
                             <!-- Appointment Section -->
-                            <div x-data="{ showForm: false }" class="px-5 pb-5 relative">
+                            <div x-data="{ showForm: false }" class="px-5 pb-5">
                                 <button @click="showForm = !showForm"
                                     class="w-full bg-red-600 hover:bg-red-700 text-white font-medium py-2 px-4 rounded-md transition-colors flex items-center justify-center gap-2 text-sm">
                                     <i class="far fa-calendar-plus"></i>
@@ -94,7 +94,7 @@
 
                                             <!-- Calendar popover -->
                                             <div x-show="open" @click.outside="open=false" x-transition
-                                                class="absolute top-20 right-[50%] z-50 w-[100%] bg-white dark:bg-[#0a0a0a] border border-gray-300 dark:border-gray-800 rounded-lg shadow-xl p-3 transform -translate-x-1/2 -translate-y-1/2">
+                                                class="absolute top-0 right-[60%] z-50 w-full bg-white dark:bg-[#0a0a0a] border border-gray-300 dark:border-gray-800 rounded-lg shadow-xl p-3 transform -translate-x-1/2 -translate-y-1/2">
 
                                                 <!-- Header -->
                                                 <div class="flex items-center justify-between mb-2">
