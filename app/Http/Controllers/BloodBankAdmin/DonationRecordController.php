@@ -7,22 +7,27 @@ use App\Models\BloodInventory;
 use App\Models\Donation;
 use App\Models\DonationRequest;
 use App\Models\Donor;
+use App\Notifications\DonationCompleted;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Notification;
 
 class DonationRecordController extends Controller
 {
     public function index()
     {
         $bloodBank = auth()->user()->bloodBank;
-        
+
         $donationRequests = DonationRequest::with('donor', 'bloodBank')
             ->where('blood_bank_id', $bloodBank->id)
             ->where('status', 'approved')
-            ->filter(request(['search', 'date']))
+            ->filter(['search' => request('search_request'), 'date' => request('date_request')])
             ->paginate(10);
-        $donations = Donation::latest()->paginate(5);
+        $donations = Donation::with('donor')
+            ->filter(['search' => request('search_donation'), 'date' => request('date_donation'), 'blood_type' => request('blood_type_donation')])
+            ->latest()
+            ->paginate(5);
         $countOfDonations = Donation::where('blood_bank_id', $bloodBank->id)->count();
 
         return view('bloodBankAdmin.donation-record', [
@@ -71,6 +76,8 @@ class DonationRecordController extends Controller
             );
 
             $inventory->increment('units', $validated['units']);
+
+            Notification::send($donor->user, new DonationCompleted($donation));
         });
 
         return redirect()->back()->with('success', 'Donation recorded successfully.');

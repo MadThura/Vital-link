@@ -16,12 +16,18 @@ class DonationRequestController extends Controller
             'appointment_date' => 'required|date|after_or_equal:today',
         ]);
 
-        $isRequested = DonationRequest::where('donor_id', auth()->user()->donor->id)->first();
+        $donor = auth()->user()->donor;
+        $isRequested = DonationRequest::where('donor_id', $donor->id)->first();
+        $cooldownUntil = \Carbon\Carbon::parse($donor->cooldown_until);
 
         if ($isRequested) {
             return back()->with('fail', 'You have already made a appointment.');
         }
 
+        if ($donor->cooldown_until && $cooldownUntil->isFuture()) {
+            return back()->with('fail', 'You have recent donation.');
+        }
+        
         $bloodBank = BloodBank::findOrFail($validated['blood_bank_id']);
 
         // Check closed day

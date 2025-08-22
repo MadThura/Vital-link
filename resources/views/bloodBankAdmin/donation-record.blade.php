@@ -85,7 +85,7 @@
                     <form method="GET" action="" class="flex flex-col md:flex-row items-center gap-3">
                         <!-- Search Input -->
                         <div class="relative">
-                            <input type="text" name="search" value="{{ request('search') }}"
+                            <input type="text" name="search_request" value="{{ request('search_request') }}"
                                 placeholder="Search donors... (id or name or appointment id)"
                                 class="bg-gray-700 border border-gray-600 text-white px-4 py-2 rounded-lg pl-10 focus:outline-none focus:ring-1 focus:ring-cyan-500 w-72">
                             <i class="fas fa-search absolute left-3 top-3 text-gray-400"></i>
@@ -93,7 +93,7 @@
 
                         <!-- Date Filter -->
                         <div>
-                            <input type="date" name="date" value="{{ request('date') }}"
+                            <input type="date" name="date_request" value="{{ request('date_request') }}"
                                 class="bg-gray-700 border border-gray-600 text-white px-4 py-2 rounded-lg focus:outline-none focus:ring-1 focus:ring-cyan-500">
                         </div>
 
@@ -207,7 +207,7 @@
                     <form method="GET" action="" class="flex flex-col md:flex-row items-center gap-3">
                         <!-- Search Input -->
                         <div class="relative">
-                            <input type="text" name="search" value="{{ request('search') }}"
+                            <input type="text" name="search_donation" value="{{ request('search_donation') }}"
                                 placeholder="Search donors... (id or name or appointment id)"
                                 class="bg-gray-700 border border-gray-600 text-white px-4 py-2 rounded-lg pl-10 focus:outline-none focus:ring-1 focus:ring-cyan-500 w-72">
                             <i class="fas fa-search absolute left-3 top-3 text-gray-400"></i>
@@ -215,28 +215,28 @@
 
                         <!-- Date Filter -->
                         <div>
-                            <input type="date" name="date" value="{{ request('date') }}"
+                            <input type="date" name="date_donation" value="{{ request('date_donation') }}"
                                 class="bg-gray-700 border border-gray-600 text-white px-4 py-2 rounded-lg focus:outline-none focus:ring-1 focus:ring-cyan-500">
                         </div>
                         <div>
-                            <select name="blood_type"
+                            <select name="blood_type_donation" onchange="this.form.submit()"
                                 class="bg-gray-700 border border-gray-600 text-white px-4 py-2 rounded-lg focus:outline-none focus:ring-1 focus:ring-cyan-500">
                                 <option value="">All Blood Types</option>
-                                <option value="A+" {{ request('blood_type') == 'A+' ? 'selected' : '' }}>A+
+                                <option value="A+" {{ request('blood_type_donation') == 'A+' ? 'selected' : '' }}>A+
                                 </option>
-                                <option value="A-" {{ request('blood_type') == 'A-' ? 'selected' : '' }}>A-
+                                <option value="A-" {{ request('blood_type_donation') == 'A-' ? 'selected' : '' }}>A-
                                 </option>
-                                <option value="B+" {{ request('blood_type') == 'B+' ? 'selected' : '' }}>B+
+                                <option value="B+" {{ request('blood_type_donation') == 'B+' ? 'selected' : '' }}>B+
                                 </option>
-                                <option value="B-" {{ request('blood_type') == 'B-' ? 'selected' : '' }}>B-
+                                <option value="B-" {{ request('blood_type_donation') == 'B-' ? 'selected' : '' }}>B-
                                 </option>
-                                <option value="AB+" {{ request('blood_type') == 'AB+' ? 'selected' : '' }}>AB+
+                                <option value="AB+" {{ request('blood_type_donation') == 'AB+' ? 'selected' : '' }}>AB+
                                 </option>
-                                <option value="AB-" {{ request('blood_type') == 'AB-' ? 'selected' : '' }}>AB-
+                                <option value="AB-" {{ request('blood_type_donation') == 'AB-' ? 'selected' : '' }}>AB-
                                 </option>
-                                <option value="O+" {{ request('blood_type') == 'O+' ? 'selected' : '' }}>O+
+                                <option value="O+" {{ request('blood_type_donation') == 'O+' ? 'selected' : '' }}>O+
                                 </option>
-                                <option value="O-" {{ request('blood_type') == 'O-' ? 'selected' : '' }}>O-
+                                <option value="O-" {{ request('blood_type_donation') == 'O-' ? 'selected' : '' }}>O-
                                 </option>
                             </select>
                         </div>
@@ -248,7 +248,7 @@
                         </button>
 
                         <!-- Clear Button -->
-                        <a href=""
+                        <a href="{{ route('bba.donation-record') }}"
                             class="bg-gray-500 hover:bg-gray-600 text-white px-4 py-2 rounded-lg transition-colors font-semibold">
                             Clear
                         </a>
@@ -334,6 +334,10 @@
                             @endforelse
                         </tbody>
                     </table>
+                </div>
+                <!-- Pagination (outside the scroll) -->
+                <div class="m-3 px-5">
+                    {{ $donations->links() }}
                 </div>
             </div>
         </div>

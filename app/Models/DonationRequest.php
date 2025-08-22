@@ -49,7 +49,6 @@ class DonationRequest extends Model
             });
         }
 
-
         if ($status = $filters['status'] ?? null) {
             $query->where('status', '=', $status);
         }
