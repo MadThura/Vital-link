@@ -13,13 +13,12 @@ return new class extends Migration
     {
         Schema::create('donation_requests', function (Blueprint $table) {
             $table->id();
-            $table->string('appointment_id')->unique()->nullable();
             $table->foreignId('donor_id')->constrained()->onDelete('cascade');
             $table->foreignId('blood_bank_id')->constrained()->onDelete('cascade');
             $table->date('appointment_date');
-            // $table->time('appointment_time');
             $table->enum('status', ['pending', 'approved', 'rejected'])->default('pending');
             $table->timestamps();
+            $table->unique(['donor_id', 'blood_bank_id']);
         });
     }
 

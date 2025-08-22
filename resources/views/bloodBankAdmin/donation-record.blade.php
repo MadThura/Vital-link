@@ -86,7 +86,7 @@
                     <form method="GET" action="" class="flex flex-col md:flex-row items-center gap-3">
                         <!-- Search Input -->
                         <div class="relative">
-                            <input type="text" name="search_request" value="{{ request('search_request') }}"
+                            <input type="text" name="search_appointment" value="{{ request('search_appointment') }}"
                                 placeholder="Search donors... (id or name or appointment id)"
                                 class="bg-gray-700 border border-gray-600 text-white px-4 py-2 rounded-lg pl-10 focus:outline-none focus:ring-1 focus:ring-cyan-500 w-72">
                             <i class="fas fa-search absolute left-3 top-3 text-gray-400"></i>
@@ -94,7 +94,7 @@
 
                         <!-- Date Filter -->
                         <div>
-                            <input type="date" name="date_request" value="{{ request('date_request') }}"
+                            <input type="date" name="appointment_date" value="{{ request('appointment_date') }}"
                                 class="bg-gray-700 border border-gray-600 text-white px-4 py-2 rounded-lg focus:outline-none focus:ring-1 focus:ring-cyan-500">
                         </div>
 
@@ -221,7 +221,7 @@
 
                         <!-- Date Filter -->
                         <div>
-                            <input type="date" name="date_donation" value="{{ request('date_donation') }}"
+                            <input type="date" name="donation_date" value="{{ request('donation_date') }}"
                                 class="bg-gray-700 border border-gray-600 text-white px-4 py-2 rounded-lg focus:outline-none focus:ring-1 focus:ring-cyan-500">
                         </div>
                         <div>

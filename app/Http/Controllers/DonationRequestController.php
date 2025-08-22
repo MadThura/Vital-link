@@ -28,7 +28,6 @@ class DonationRequestController extends Controller
         if ($donor->cooldown_until && $cooldownUntil->isFuture()) {
             return back()->with('fail', 'You have recent donation.');
         }
-        
         $bloodBank = BloodBank::findOrFail($validated['blood_bank_id']);
 
         // Check closed day

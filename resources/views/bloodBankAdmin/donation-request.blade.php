@@ -67,8 +67,6 @@
                     <thead class="bg-gray-800 sticky top-0 z-10">
                         <tr>
                             <th class="py-3 px-4 text-left text-gray-300 font-semibold w-[30%]">Donor</th>
-                            <th class="py-3 px-4 text-center text-gray-300 font-semibold w-[30%]">Appointment ID</th>
-
                             <th class="py-3 px-4 text-center text-gray-300 font-semibold w-[20%]">Appointment</th>
                             <th class="py-3 px-4 text-center text-gray-300 font-semibold w-[20%]">Status</th>
                             <th class="py-3 px-4 text-center text-gray-300 font-semibold w-[20%]">Actions</th>
@@ -98,21 +96,6 @@
                                                 @endif
                                             </div>
                                         </div>
-                                    </div>
-                                </td>
-                                {{-- Appoint Id Column --}}
-                                <td class="py-3 px-3 text-gray-300 text-center">
-                                    <div x-data="{ text: '{{ $request->appointment_id }}', copied: false }" class="flex items-center justify-center gap-2">
-                                        @if ($request->appointment_id)
-                                            <p class="font-bold text-cyan-200 text-sm" x-text="text"></p>
-                                            <button
-                                                @click="navigator.clipboard.writeText(text).then(() => { copied = true; setTimeout(() => copied = false, 1000) })"
-                                                class="hover:text-cyan-400">
-                                                <i class="fa-solid fa-copy text-cyan-200 text-sm"></i>
-                                            </button>
-                                            <span x-show="copied" x-transition
-                                                class="text-green-400 text-xs">Copied!</span>
-                                        @endif
                                     </div>
                                 </td>
 

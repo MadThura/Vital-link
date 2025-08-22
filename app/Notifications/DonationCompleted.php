@@ -42,10 +42,10 @@ class DonationCompleted extends Notification
             ->view('emails.donation-completed', [
                 'donation' => $this->donation,
             ]);
-        // ->attach(storage_path('app/public/files/report.pdf'), [
-        //     'as' => 'Donation-Report.pdf',
-        //     'mime' => 'application/pdf',
-        // ])
+            // ->attach(storage_path('app/public/files/report.pdf'), [
+            //     'as' => 'Donation-Report.pdf',
+            //     'mime' => 'application/pdf',
+            // ]);
 
     }
 

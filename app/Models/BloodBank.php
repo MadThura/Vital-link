@@ -27,6 +27,11 @@ class BloodBank extends Model
         return $this->hasMany(DonationRequest::class);
     }
 
+    public function appointments()
+    {
+        return $this->hasMany(Appointment::class);
+    }
+
     public function isClosedOn($date): bool
     {
 
