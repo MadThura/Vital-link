@@ -52,7 +52,12 @@ Route::get('/email/verify', function () {
 // Verification Handler (clicked from email)
 Route::get('/email/verify/{id}/{hash}', function (EmailVerificationRequest $request) {
     $request->fulfill(); // marks email as verified
-    return redirect()->route('donor.complete');
+
+    if (auth()->user()->role === 'blood_bank_admin') {
+        return redirect()->route('bba.dashboard');
+    } else {
+        return redirect()->route('donor.complete');
+    }
 })->middleware(['auth', 'signed'])->name('verification.verify');
 
 // Resend verification email
