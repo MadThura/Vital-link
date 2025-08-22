@@ -41,11 +41,11 @@ class DonationCompleted extends Notification
             ->subject('Donation Report')
             ->view('emails.donation-completed', [
                 'donation' => $this->donation,
-            ])
-            ->attach(storage_path('app/public/files/report.pdf'), [
-                'as' => 'Donation-Report.pdf',
-                'mime' => 'application/pdf',
             ]);
+        // ->attach(storage_path('app/public/files/report.pdf'), [
+        //     'as' => 'Donation-Report.pdf',
+        //     'mime' => 'application/pdf',
+        // ])
 
     }
 
@@ -58,7 +58,7 @@ class DonationCompleted extends Notification
     {
         return [
             'type' => static::class,
-            'note' => $this->donation->note
+            'donation' => $this->donation->load('donor', 'bloodBank'),
         ];
     }
 }

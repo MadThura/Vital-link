@@ -32,8 +32,7 @@
 
     <!-- Mark all as read -->
     <div v-if="filteredNotifications(activeTab).length > 0" class="flex justify-end mb-2">
-      <button @click="markAllAsRead"
-        class="text-xs text-blue-500 dark:text-blue-400 hover:underline">
+      <button @click="markAllAsRead" class="text-xs text-blue-500 dark:text-blue-400 hover:underline">
         Mark all as read
       </button>
     </div>
@@ -43,8 +42,7 @@
       <!-- Blogs Tab -->
       <ul class="space-y-3" v-if="activeTab === 'blogs'">
         <template v-if="filteredNotifications('blogs').length > 0">
-          <li v-for="item in filteredNotifications('blogs')" :key="item.id"
-            @click="markAsRead(item)"
+          <li v-for="item in filteredNotifications('blogs')" :key="item.id" @click="markAsRead(item)"
             class="group py-2 px-3 rounded-lg transition-colors hover:bg-gray-50 dark:hover:bg-gray-700 cursor-pointer">
             <a :href="item.data.url" target="_blank" class="flex items-start gap-3">
               <div class="flex-shrink-0 mt-1">
@@ -73,10 +71,9 @@
       <!-- Requests Tab -->
       <ul class="space-y-3" v-if="activeTab === 'requests'">
         <template v-if="filteredNotifications('requests').length > 0">
-          <li v-for="item in filteredNotifications('requests')" :key="item.id"
-            @click="markAsRead(item)"
+          <li v-for="item in filteredNotifications('requests')" :key="item.id" @click="markAsRead(item)"
             class="group py-2 px-3 rounded-lg transition-colors cursor-pointer">
-            
+
             <!-- ✅ Approved -->
             <a v-if="item.type === 'App\\Notifications\\DonationRequestApproved'"
               :href="`/notifications/${item.id}/approve`" target="_blank"
@@ -105,6 +102,25 @@
                 ❌ Rejected by {{ item.data.blood_bank_name }}
               </p>
               <p class="text-[11px] text-gray-400 dark:text-gray-500 mt-2">{{ formatTimestamp(item.created_at) }}</p>
+            </div>
+
+            <div v-else-if="item.type === 'App\\Notifications\\DonationCompleted'"
+              class="p-3 border border-blue-200 dark:border-blue-700 rounded-lg bg-blue-50 dark:bg-blue-900/20">
+              <p class="text-sm text-blue-600 dark:text-blue-400 font-semibold">
+                🎉 Donation Completed at {{ item.data.donation.blood_bank.name }}
+              </p>
+              <!-- <p class="text-xs text-gray-500 dark:text-gray-400 mt-1">
+                Donor: <span class="font-medium">{{ item.data.donor_name }}</span>
+              </p>
+              <div class="flex items-center justify-between mt-2">
+                <p class="text-[11px] text-gray-400 dark:text-gray-500">{{ formatTimestamp(item.created_at) }}</p>
+                <button class="flex items-center gap-1 text-blue-600 dark:text-blue-400 font-semibold text-sm 
+            bg-blue-50 dark:bg-blue-900/20 hover:bg-blue-100 dark:hover:bg-blue-800/40 
+            px-2 py-1 rounded-lg shadow-sm transition-all duration-200 transform hover:scale-105">
+                  <i class="fas fa-check-circle"></i>
+                  <span>View Details</span>
+                </button>
+              </div> -->
             </div>
           </li>
         </template>
@@ -140,7 +156,8 @@ function filteredNotifications(tabKey) {
   if (tabKey === 'requests') {
     return notifications.value.filter(n =>
       n.type === 'App\\Notifications\\DonationRequestApproved' ||
-      n.type === 'App\\Notifications\\DonationRequestRejected'
+      n.type === 'App\\Notifications\\DonationRequestRejected' ||
+      n.type === 'App\\Notifications\\DonationCompleted'
     )
   }
   return []
@@ -156,6 +173,7 @@ async function fetchNotifications() {
   try {
     const res = await axios.get('/notifications')
     notifications.value = res.data
+    console.log(notifications.value[1]);
   } catch (error) {
     console.error('Error fetching notifications:', error)
   }
@@ -218,3 +236,5 @@ onBeforeUnmount(() => {
   if (refreshInterval) clearInterval(refreshInterval)
 })
 </script>
+<!-- 
+{"type":"App\\Notifications\\DonationCompleted","donation":{"donation_id":"DID-22-08-2025-8RZFTLCV","donor_id":21,"blood_bank_id":1,"donation_date":"2025-08-22T07:21:58.246085Z","units":"5","note":"hello","updated_at":"2025-08-22T07:21:58.000000Z","created_at":"2025-08-22T07:21:58.000000Z","id":1,"donor":{"id":21,"user_id":3,"blood_bank_id":1,"donor_code":"DNR-2025-59SV5Q","profile_img":"donors\/profiles\/luffy.jpg","gender":"Male","dob":"2003-10-06","nrc":"08\/MaTaNa(N)494444","phone":"09250500009","address":"Foosha Village on Dawn Island","blood_type":"B+","donation_count":1,"last_donation_at":"2025-08-22 07:21:58","cooldown_until":"2026-02-22 07:21:58","health_certificate":"https:\/\/via.placeholder.com\/640x480.png\/00bb99?text=exercitationem","nrc_front":"https:\/\/via.placeholder.com\/640x480.png\/00ff66?text=possimus","nrc_back":"https:\/\/via.placeholder.com\/640x480.png\/00ffaa?text=ipsum","status":"approved","rejection_errors":null,"created_at":"2025-08-22T07:20:57.000000Z","updated_at":"2025-08-22T07:21:58.000000Z"},"blood_bank":{"id":1,"user_id":2,"name":"National Blood Center","phone":"09250052532","address":"No. 97, Corner of Bogyoke Aung San Road and Shwedagon Pagoda Road, Latha Township, Yangon 11131, Myanmar","maxPersonsPerDay":1,"created_at":"2025-08-22T07:20:57.000000Z","updated_at":"2025-08-22T07:20:57.000000Z"}}} -->
