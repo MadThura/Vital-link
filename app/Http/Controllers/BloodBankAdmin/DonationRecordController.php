@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\BloodBankAdmin;
 
 use App\Http\Controllers\Controller;
+use App\Models\Appointment;
 use App\Models\BloodInventory;
 use App\Models\Donation;
 use App\Models\DonationRequest;
@@ -20,19 +21,18 @@ class DonationRecordController extends Controller
     {
         $bloodBank = auth()->user()->bloodBank;
 
-        $donationRequests = DonationRequest::with('donor', 'bloodBank')
+        $appointments = Appointment::with('donor', 'bloodBank')
             ->where('blood_bank_id', $bloodBank->id)
-            ->where('status', 'approved')
-            ->filter(['search' => request('search_request'), 'date' => request('date_request')])
+            ->filter(['search' => request('search_appointment'), 'date' => request('appointment_date'), 'status' => request('appointment_status')])
             ->paginate(10);
         $donations = Donation::with('donor')
-            ->filter(['search' => request('search_donation'), 'date' => request('date_donation'), 'blood_type' => request('blood_type_donation')])
+            ->filter(['search' => request('search_donation'), 'date' => request('donation_date'), 'blood_type' => request('blood_type_donation')])
             ->latest()
             ->paginate(5);
         $countOfDonations = Donation::where('blood_bank_id', $bloodBank->id)->count();
 
         return view('bloodBankAdmin.donation-record', [
-            'approvedAppointments' => $donationRequests,
+            'approvedAppointments' => $appointments,
             'countOfDonations' => $countOfDonations,
             'donations' => $donations
         ]);

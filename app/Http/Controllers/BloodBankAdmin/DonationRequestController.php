@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\BloodBankAdmin;
 
 use App\Http\Controllers\Controller;
+use App\Models\Appointment;
 use App\Models\BloodBankClosedDay;
 use App\Models\DonationRequest;
 use App\Models\Donor;
@@ -31,7 +32,13 @@ class DonationRequestController extends Controller
         switch ($action) {
             case 'approve':
                 $donationRequest->status = "approved";
-                $donationRequest->appointment_id = DonationRequest::generateAppointmentId();
+                $donor = $donationRequest->donor;
+                $donor->appointment()->create([
+                    'appointment_id' => Appointment::generateAppointmentId(),
+                    'blood_bank_id' => $donationRequest->blood_bank_id,
+                    'date' => $donationRequest->appointment_date,
+                    'status' => 'in_progress'
+                ]);
                 Notification::send($user, new DonationRequestApproved($donationRequest));
                 break;
             case 'reject':
