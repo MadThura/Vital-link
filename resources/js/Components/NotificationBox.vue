@@ -104,24 +104,33 @@
               <p class="text-[11px] text-gray-400 dark:text-gray-500 mt-2">{{ formatTimestamp(item.created_at) }}</p>
             </div>
 
-            <div v-else-if="item.type === 'App\\Notifications\\DonationCompleted'"
-              class="p-3 border border-blue-200 dark:border-blue-700 rounded-lg bg-blue-50 dark:bg-blue-900/20">
-              <p class="text-sm text-blue-600 dark:text-blue-400 font-semibold">
-                🎉 Donation Completed at {{ item.data.donation.blood_bank.name }}
-              </p>
-              <!-- <p class="text-xs text-gray-500 dark:text-gray-400 mt-1">
-                Donor: <span class="font-medium">{{ item.data.donor_name }}</span>
-              </p>
-              <div class="flex items-center justify-between mt-2">
-                <p class="text-[11px] text-gray-400 dark:text-gray-500">{{ formatTimestamp(item.created_at) }}</p>
-                <button class="flex items-center gap-1 text-blue-600 dark:text-blue-400 font-semibold text-sm 
-            bg-blue-50 dark:bg-blue-900/20 hover:bg-blue-100 dark:hover:bg-blue-800/40 
-            px-2 py-1 rounded-lg shadow-sm transition-all duration-200 transform hover:scale-105">
-                  <i class="fas fa-check-circle"></i>
+            <!-- 🎉 Donation Completed -->
+            <a v-else-if="item.type === 'App\\Notifications\\DonationCompleted'" href="#"
+              class="block p-4 border border-blue-200 dark:border-blue-700 rounded-xl bg-blue-50 dark:bg-blue-900/20 shadow-sm hover:shadow-md transition-shadow duration-200 hover:bg-blue-100 dark:hover:bg-blue-800/30">
+              <div class="flex items-center gap-3">
+                <div class="flex-1">
+                  <p class="text-sm font-semibold text-blue-700 dark:text-blue-300">
+                    🎉 Donation Completed
+                  </p>
+                  <p class="text-xs text-gray-600 dark:text-gray-400 mt-0.5">
+                    <span class="font-medium">{{ item.data.donor_name }}</span> donated
+                    <span class="font-semibold">{{ item.data.donation.units }} unit(s)</span> at
+                    <span class="font-medium">{{ item.data.donation.blood_bank.name }}</span>
+                  </p>
+                  <p class="text-[11px] text-gray-400 dark:text-gray-500 mt-1">
+                    {{ formatTimestamp(item.data.donation.donation_date) }}
+                  </p>
+                </div>
+              </div>
+              <div class="mt-3 flex justify-end">
+                <button type="button" class="flex items-center gap-1 text-blue-600 dark:text-blue-400 font-semibold text-sm 
+           bg-blue-50 dark:bg-blue-900/20 hover:bg-blue-100 dark:hover:bg-blue-800/40
+           px-3 py-1.5 rounded-lg shadow-sm transition-all duration-200 transform hover:scale-105">
+                  <i class="fas fa-eye"></i>
                   <span>View Details</span>
                 </button>
-              </div> -->
-            </div>
+              </div>
+            </a>
           </li>
         </template>
         <template v-else>

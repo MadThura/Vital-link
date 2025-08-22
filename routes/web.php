@@ -148,7 +148,7 @@ Route::middleware(['auth', 'role:blood_bank_admin'])->prefix('blood-bank-admin')
     Route::put('/donation-requests/{donationRequest}/{action}', [BBADonationRequestController::class, 'updateStatus'])->name('donation-requests.updateStatus');
 
     Route::get('/donation-records', [BBADonationRecordController::class, 'index'])->name('donation-record');
-    Route::post('/donation-records/{donor}', [BBADonationRecordController::class, 'store'])->name('donation-records.store');
+    Route::post('/donation-records/{donor}/{appointment}', [BBADonationRecordController::class, 'store'])->name('donation-records.store');
     Route::get('/blood-inventory', [BloodInventoryController::class, 'index'])->name('blood-inventory');
 
     Route::get('/profile', [BBAProfileController::class, 'index'])->name('profile');

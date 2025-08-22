@@ -38,7 +38,7 @@ class DonationRecordController extends Controller
         ]);
     }
 
-    public function store(Request $request, Donor $donor)
+    public function store(Request $request, Donor $donor, Appointment $appointment)
     {
         $validated = $request->validate([
             'units' => ['required', 'integer', 'min:1'],
@@ -47,7 +47,7 @@ class DonationRecordController extends Controller
 
         $bloodBank = auth()->user()->bloodBank; // keep whole model, not id
 
-        DB::transaction(function () use ($validated, $donor, $bloodBank) {
+        DB::transaction(function () use ($validated, $donor, $bloodBank, $appointment) {
 
             // create donation
             $donation = Donation::create([
@@ -65,6 +65,10 @@ class DonationRecordController extends Controller
             $donor->cooldown_until   = Carbon::parse($donation->donation_date)->addMonths(6);
             $donor->save();
 
+            // update appointment
+            $appointment->status = 'completed';
+            $appointment->save();
+
             // update blood inventory   
             $inventory = BloodInventory::firstOrCreate(
                 [
@@ -78,7 +82,7 @@ class DonationRecordController extends Controller
 
             $inventory->increment('units', $validated['units']);
 
-            Notification::send($donor->user, new DonationCompleted($donation));
+            Notification::send($donor->user, new DonationCompleted($donation, false));
         });
 
         return redirect()->back()->with('success', 'Donation recorded successfully.');

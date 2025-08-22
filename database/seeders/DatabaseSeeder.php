@@ -26,45 +26,188 @@ class DatabaseSeeder extends Seeder
         ]);
 
         User::factory()->create([
-            'name' => 'Dr Thet',
-            'email' => 'bbank@gmail.com',
+            'name' => 'National Blood Centre - Yangon General Hospital',
+            'email' => 'bbank1@gmail.com',
+            'password' => 'password',
+            'role' => 'blood_bank_admin',
+        ]);
+        User::factory()->create([
+            'name' => 'Yangon General Hospital Blood Bank',
+            'email' => 'bbank2@gmail.com',
+            'password' => 'password',
+            'role' => 'blood_bank_admin',
+        ]);
+        User::factory()->create([
+            'name' => 'Thingangyun Sanpya Hospital',
+            'email' => 'bbank3@gmail.com',
             'password' => 'password',
             'role' => 'blood_bank_admin',
         ]);
 
         User::factory()->create([
-            'name' => 'Test Donor',
-            'email' => 'donor@gmail.com',
+            'name' => 'Thura Aung',
+            'email' => 'tya@gmail.com',
+            'password' => 'password',
+            'role' => 'donor',
+        ]);
+        User::factory()->create([
+            'name' => 'Shwe Yee Shoon Lei Khaing',
+            'email' => 'syslk@gmail.com',
+            'password' => 'password',
+            'role' => 'donor',
+        ]);
+        User::factory()->create([
+            'name' => 'Thet Maung Maung',
+            'email' => 'tmm@gmail.com',
+            'password' => 'password',
+            'role' => 'donor',
+        ]);
+        User::factory()->create([
+            'name' => 'Myat Htoo Kyaw',
+            'email' => 'mhk@gmail.com',
+            'password' => 'password',
+            'role' => 'donor',
+        ]);
+        User::factory()->create([
+            'name' => 'Kaung Myat Zaw',
+            'email' => 'kmz@gmail.com',
+            'password' => 'password',
+            'role' => 'donor',
+        ]);
+        User::factory()->create([
+            'name' => 'Wai Phyo Lynn',
+            'email' => 'wpl@gmail.com',
             'password' => 'password',
             'role' => 'donor',
         ]);
 
-        User::factory(10)->create();
+        // User::factory(10)->create();
 
+        //Blood Bank
         BloodBank::factory()->create([
             'user_id' => 2,
-            'name' => 'National Blood Center',
+            'name' => 'National Blood Centre - Yangon General Hospital',
             'phone' => '09250052532',
             'address' => 'No. 97, Corner of Bogyoke Aung San Road and Shwedagon Pagoda Road, Latha Township, Yangon 11131, Myanmar',
             'maxPersonsPerDay' => 1,
         ]);
 
-        Donor::factory(20)->create();
-
-        Donor::factory()->create([
+        BloodBank::factory()->create([
             'user_id' => 3,
-            'blood_bank_id' => 1,
+            'name' => 'Yangon General Hospital Blood Bank',
+            'phone' => '01256012',
+            'address' => 'Lanmadaw Township, Yangon, Myanmar',
+            'maxPersonsPerDay' => 1,
+        ]);
+
+        BloodBank::factory()->create([
+            'user_id' => 4,
+            'name' => 'Thingangyun Sanpya Hospital',
+            'phone' => '01580501',
+            'address' => 'Pyi Tharyar Road, Thingangyun Township, Yangon, Myanmar',
+            'maxPersonsPerDay' => 1,
+        ]);
+
+        //Donors Seeder
+        Donor::factory()->create([
+            'user_id' => 5,
+            'blood_bank_id' => BloodBank::inRandomOrder()->first()->id,
             'donor_code' => Donor::generateDonorCode(),
             'status' => 'approved',
             'profile_img' => 'donors/profiles/luffy.jpg',
             'address' => 'Foosha Village on Dawn Island',
             'blood_type' => 'B+',
             'gender' => 'Male',
-            'health_certificate' => fake()->imageUrl(),
-            'nrc' => '08/MaTaNa(N)494444',
-            'nrc_back' => fake()->imageUrl(),
-            'nrc_front' => fake()->imageUrl(),
+            'health_certificate' => 'donors/health_certificates/certificate_1.jpeg',
+            'nrc' => '08/MaTaNa(N)569874',
+            'nrc_back' => 'donors/nrc/nrc_1.jpeg',
+            'nrc_front' => 'donors/nrc/nrc_2.jpeg',
             'phone' => '09250500009'
+        ]);
+
+        // Mei Mei
+        Donor::factory()->create([
+            'user_id' => 6,
+            'blood_bank_id' => BloodBank::inRandomOrder()->first()->id,
+            'donor_code' => Donor::generateDonorCode(),
+            'status' => 'approved',
+            'profile_img' => 'donors/profiles/mei_mei.jpeg',
+            'address' => 'Apartment 1205, Sakura Heights, 2-8-14 Shibuya, Shibuya-ku, Tokyo 150-0002, Japan',
+            'blood_type' => 'B+',
+            'gender' => 'Female',
+            'health_certificate' => 'donors/health_certificates/certificate_2.jpeg',
+            'nrc' => '08/ShTaNa(N)472913',
+            'nrc_back' => 'donors/nrc/nrc_3.jpeg',
+            'nrc_front' => 'donors/nrc/nrc_4.jpeg',
+            'phone' => '09250500010'
+        ]);
+
+        // Ayanokoji
+        Donor::factory()->create([
+            'user_id' => 7,
+            'blood_bank_id' => BloodBank::inRandomOrder()->first()->id,
+            'donor_code' => Donor::generateDonorCode(),
+            'status' => 'approved',
+            'profile_img' => 'donors/profiles/Ayanokoji.jpeg',
+            'address' => 'Crescent Tower, 5-12-8 Minato, Tokyo 105-0011, Japan',
+            'blood_type' => 'B+',
+            'gender' => 'Male',
+            'health_certificate' => 'donors/health_certificates/certificate_3.jpeg',
+            'nrc' => '08/ToKaNa(N)583721',
+            'nrc_back' => 'donors/nrc/nrc_5.jpeg',
+            'nrc_front' => 'donors/nrc/nrc_6.jpeg',
+            'phone' => '09250500011'
+        ]);
+
+        // Nakami
+        Donor::factory()->create([
+            'user_id' => 8,
+            'blood_bank_id' => BloodBank::inRandomOrder()->first()->id,
+            'donor_code' => Donor::generateDonorCode(),
+            'status' => 'approved',
+            'profile_img' => 'donors/profiles/nakami.jpeg',
+            'address' => 'Sunset Hills, 3-6-21 Shinjuku, Tokyo 160-0022, Japan',
+            'blood_type' => 'B+',
+            'gender' => 'Male',
+            'health_certificate' => 'donors/health_certificates/certificate_4.jpeg',
+            'nrc' => '08/ShKuNa(N)694852',
+            'nrc_back' => 'donors/nrc/nrc_7.jpeg',
+            'nrc_front' => 'donors/nrc/nrc_8.jpeg',
+            'phone' => '09250500012'
+        ]);
+
+        // Meow
+        Donor::factory()->create([
+            'user_id' => 9,
+            'blood_bank_id' => BloodBank::inRandomOrder()->first()->id,
+            'donor_code' => Donor::generateDonorCode(),
+            'status' => 'approved',
+            'profile_img' => 'donors/profiles/meow.jpeg',
+            'address' => 'Harmony Heights, 7-2-14 Meguro, Tokyo 153-0063, Japan',
+            'blood_type' => 'B+',
+            'gender' => 'Male',
+            'health_certificate' => 'donors/health_certificates/certificate_5.jpeg',
+            'nrc' => '08/MeTaNa(N)785964',
+            'nrc_back' => 'donors/nrc/nrc_9.jpeg',
+            'nrc_front' => 'donors/nrc/nrc_10.jpeg',
+            'phone' => '09250500013'
+        ]);
+
+        // Sung Jin Woo
+        Donor::factory()->create([
+            'user_id' => 10,
+            'blood_bank_id' => BloodBank::inRandomOrder()->first()->id,
+            'donor_code' => Donor::generateDonorCode(),
+            'status' => 'approved',
+            'profile_img' => 'donors/profiles/sung_jin_woo.jpeg',
+            'address' => 'Riverside Mansion, 1-8-11 Chiyoda, Tokyo 100-0001, Japan',
+            'blood_type' => 'B+',
+            'gender' => 'Male',
+            'health_certificate' => 'donors/health_certificates/certificate_6.jpeg',
+            'nrc' => '08/ChRiNa(N)896135',
+            'nrc_back' => 'donors/nrc/nrc_11.jpeg',
+            'nrc_front' => 'donors/nrc/nrc_12.jpeg',
+            'phone' => '09250500014'
         ]);
 
         $blogs = [

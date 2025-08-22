@@ -12,28 +12,32 @@ class DonationCompleted extends Notification
 {
     use Queueable;
 
+    public $donation;
+    public $sendMail = true; // flag to control email sending
+
     /**
      * Create a new notification instance.
      */
-    public $donation;
-
-    public function __construct(Donation $donation)
+    public function __construct(Donation $donation, $sendMail = true)
     {
         $this->donation = $donation;
+        $this->sendMail = $sendMail;
     }
 
     /**
      * Get the notification's delivery channels.
-     *
-     * @return array<int, string>
      */
     public function via(object $notifiable): array
     {
-        return ['mail', 'database'];
+        $channels = ['database']; // always send to database
+        if ($this->sendMail) {
+            $channels[] = 'mail'; // add mail channel only if flag is true
+        }
+        return $channels;
     }
 
     /**
-     * Get the mail representation of the notification.
+     * Optional: configure email if mail channel is enabled.
      */
     public function toMail(object $notifiable): MailMessage
     {
@@ -42,17 +46,10 @@ class DonationCompleted extends Notification
             ->view('emails.donation-completed', [
                 'donation' => $this->donation,
             ]);
-            // ->attach(storage_path('app/public/files/report.pdf'), [
-            //     'as' => 'Donation-Report.pdf',
-            //     'mime' => 'application/pdf',
-            // ]);
-
     }
 
     /**
-     * Get the array representation of the notification.
-     *
-     * @return array<string, mixed>
+     * Array representation for database notification.
      */
     public function toArray(object $notifiable): array
     {

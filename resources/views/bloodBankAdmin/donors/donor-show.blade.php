@@ -99,113 +99,111 @@
 
                             <!-- Actions Column -->
                             <td class="py-3 px-3 text-center">
-                                <div class="flex justify-center gap-1">
-                                    <div x-data="{ showDonorDetail: false, selectedDonor: null }">
-                                        <!-- View Button -->
-                                        <button @click="showDonorDetail = true;"
-                                            class="text-cyan-400 hover:text-cyan-300 p-2 rounded-full hover:bg-gray-700 transition"
-                                            title="View">
-                                            <i class="fas fa-eye"></i>
-                                        </button>
-                                        <!-- Donation Detail Dialog -->
-                                        <x-donor-detail-dialog-box :donor="$donor" />
-                                    </div>
-                                    @if ($donor->status === 'pending')
-                                        <form
-                                            action="{{ route('bba.donors.updateStatus', ['donor' => $donor, 'action' => 'approve']) }}"
-                                            method="POST">
-                                            @csrf
-                                            @method('PATCH')
-                                            <x-tooltip-button peerClass="approve" tooltipText="Approve" icon="fa-check"
-                                                hoverColor="emerald-400" />
-                                        </form>
-                                        <!-- Wrapper for Alpine state -->
-                                        <div x-data="{ showRejectModal: false }">
-                                            <!-- Reject Button (Triggers modal) -->
-                                            <x-tooltip-button peerClass="reject" tooltipText="Reject" icon="fa-xmark"
-                                                hoverColor="red-400" @click="showRejectModal = true" />
-                                            <!-- Modal -->
-                                            <x-rejection-dialog :donor="$donor" />
+                                @if (auth()->user()->bloodBank->id === $donor->blood_bank_id)
+                                    <div class="flex justify-center gap-1">
+                                        <!-- View Button + Detail Dialog -->
+                                        <div x-data="{ showDonorDetail: false }">
+                                            <button @click="showDonorDetail = true"
+                                                class="text-cyan-400 hover:text-cyan-300 p-2 rounded-full hover:bg-gray-700 transition"
+                                                title="View">
+                                                <i class="fas fa-eye"></i>
+                                            </button>
+                                            <x-donor-detail-dialog-box :donor="$donor" />
                                         </div>
-                                </div>
-                            @endif
-                    @if ($donor->status === 'approved')
-                        <form
-                            action="{{ route('bba.donors.updateStatus', ['donor' => $donor, 'action' => 'suspend']) }}"
-                            method="POST">
-                            @csrf
-                            @method('PATCH')
-                            <x-tooltip-button peerClass="ban" tooltipText="Ban" icon="fa-ban" hoverColor="rose-500" />
-                        </form>
-                        <form action="{{ route('bba.donors.destroy', $donor) }}" method="POST">
-                            @csrf
-                            @method('DELETE')
-                            <x-tooltip-button peerClass="delete" tooltipText="Delete" icon="fa-trash"
-                                hoverColor="rose-500" />
-                        </form>
-                    @endif
-                    @if ($donor->status === 'suspended')
-                        <form
-                            action="{{ route('bba.donors.updateStatus', ['donor' => $donor, 'action' => 'approve']) }}"
-                            method="POST">
-                            @csrf
-                            @method('PATCH')
-                            <x-tooltip-button peerClass="approve" tooltipText="Approve" icon="fa-check"
-                                hoverColor="emerald-400" />
-                        </form>
-                        <form action="{{ route('bba.donors.destroy', $donor) }}" method="POST">
-                            @csrf
-                            @method('DELETE')
-                            <x-tooltip-button peerClass="delete" tooltipText="Delete" icon="fa-trash"
-                                hoverColor="rose-500" />
-                        </form>
-                    @endif
-                    @if ($donor->status === 'rejected')
-                        <form
-                            action="{{ route('bba.donors.updateStatus', ['donor' => $donor, 'action' => 'approve']) }}"
-                            method="POST">
-                            @csrf
-                            @method('PATCH')
-                            <x-tooltip-button peerClass="approve" tooltipText="Approve" icon="fa-check"
-                                hoverColor="emerald-400" />
-                        </form>
-                        <form action="{{ route('bba.donors.destroy', $donor) }}" method="POST">
-                            @csrf
-                            @method('DELETE')
-                            <x-tooltip-button peerClass="delete" tooltipText="Delete" icon="fa-trash"
-                                hoverColor="rose-500" />
-                        </form>
-                    @endif
-                    @if ($donor->status === 'resubmitted')
-                        <form
-                            action="{{ route('bba.donors.updateStatus', ['donor' => $donor, 'action' => 'approve']) }}"
-                            method="POST">
-                            @csrf
-                            @method('PATCH')
-                            <x-tooltip-button peerClass="approve" tooltipText="Approve" icon="fa-check"
-                                hoverColor="emerald-400" />
-                        </form>
-                        <div x-data="{ showRejectModal: false }">
-                            <!-- Reject Button (Triggers modal) -->
-                            <x-tooltip-button peerClass="reject" tooltipText="Reject" icon="fa-xmark"
-                                hoverColor="red-400" @click="showRejectModal = true" />
-                            <!-- Modal -->
-                            <x-rejection-dialog :donor="$donor" />
-                        </div>
-                    @endif
+
+                                        @php
+                                            $statusActions = [
+                                                'pending' => [
+                                                    [
+                                                        'type' => 'patch',
+                                                        'action' => 'approve',
+                                                        'icon' => 'fa-check',
+                                                        'color' => 'emerald-400',
+                                                    ],
+                                                    ['type' => 'reject', 'icon' => 'fa-xmark', 'color' => 'red-400'],
+                                                ],
+                                                'approved' => [
+                                                    [
+                                                        'type' => 'patch',
+                                                        'action' => 'suspend',
+                                                        'icon' => 'fa-ban',
+                                                        'color' => 'rose-500',
+                                                    ],
+                                                    ['type' => 'delete', 'icon' => 'fa-trash', 'color' => 'rose-500'],
+                                                ],
+                                                'suspended' => [
+                                                    [
+                                                        'type' => 'patch',
+                                                        'action' => 'approve',
+                                                        'icon' => 'fa-check',
+                                                        'color' => 'emerald-400',
+                                                    ],
+                                                    ['type' => 'delete', 'icon' => 'fa-trash', 'color' => 'rose-500'],
+                                                ],
+                                                'rejected' => [
+                                                    [
+                                                        'type' => 'patch',
+                                                        'action' => 'approve',
+                                                        'icon' => 'fa-check',
+                                                        'color' => 'emerald-400',
+                                                    ],
+                                                    ['type' => 'delete', 'icon' => 'fa-trash', 'color' => 'rose-500'],
+                                                ],
+                                                'resubmitted' => [
+                                                    [
+                                                        'type' => 'patch',
+                                                        'action' => 'approve',
+                                                        'icon' => 'fa-check',
+                                                        'color' => 'emerald-400',
+                                                    ],
+                                                    ['type' => 'reject', 'icon' => 'fa-xmark', 'color' => 'red-400'],
+                                                ],
+                                            ];
+                                        @endphp
+
+                                        @foreach ($statusActions[$donor->status] ?? [] as $act)
+                                            @if ($act['type'] === 'patch')
+                                                <form
+                                                    action="{{ route('bba.donors.updateStatus', ['donor' => $donor, 'action' => $act['action']]) }}"
+                                                    method="POST">
+                                                    @csrf
+                                                    @method('PATCH')
+                                                    <x-tooltip-button peerClass="{{ $act['action'] }}"
+                                                        tooltipText="{{ ucfirst($act['action']) }}"
+                                                        icon="{{ $act['icon'] }}" hoverColor="{{ $act['color'] }}" />
+                                                </form>
+                                            @elseif ($act['type'] === 'delete')
+                                                <form action="{{ route('bba.donors.destroy', $donor) }}"
+                                                    method="POST">
+                                                    @csrf
+                                                    @method('DELETE')
+                                                    <x-tooltip-button peerClass="delete" tooltipText="Delete"
+                                                        icon="{{ $act['icon'] }}" hoverColor="{{ $act['color'] }}" />
+                                                </form>
+                                            @elseif ($act['type'] === 'reject')
+                                                <div x-data="{ showRejectModal: false }">
+                                                    <x-tooltip-button peerClass="reject" tooltipText="Reject"
+                                                        icon="{{ $act['icon'] }}" hoverColor="{{ $act['color'] }}"
+                                                        @click="showRejectModal = true" />
+                                                    <x-rejection-dialog :donor="$donor" />
+                                                </div>
+                                            @endif
+                                        @endforeach
+                                    </div>
+                                @endif
+                            </td>
+
+
+                        </tr>
+                    @empty
+                        <p class="text-red-50">No donors found</p>
+                    @endforelse
+
+                </tbody>
+            </table>
         </div>
-        </td>
-
-        </tr>
-    @empty
-        <p class="text-red-50">No donors found</p>
-        @endforelse
-
-        </tbody>
-        </table>
-    </div>
-    <div class="mt-4">
-        {{ $donors->appends(request()->query())->links() }}
-    </div>
+        <div class="mt-4">
+            {{ $donors->appends(request()->query())->links() }}
+        </div>
     </div>
 </x-admin-layout>

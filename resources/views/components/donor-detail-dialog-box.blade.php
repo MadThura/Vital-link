@@ -103,8 +103,8 @@
                                 <i class="fas fa-notes-medical mr-2 text-cyan-400"></i>Health Certificate
                             </h4>
                             <div>
-                                <p class="text-gray-400 text-sm mb-1">Back:</p>
-                                <img src="/donor-files/{{ $donor->nrc_back }}" alt="NRC Back"
+                                <p class="text-gray-400 text-sm mb-1">Health Certificate:</p>
+                                <img src="/donor-files/{{ $donor->health_certificate }}" alt="NRC Back"
                                     class="rounded-lg w-[250px] object-contain border border-cyan-400 mx-auto cursor-pointer"
                                     x-data @click="$dispatch('open-image-modal', { src: $el.src, alt: $el.alt })" />
 

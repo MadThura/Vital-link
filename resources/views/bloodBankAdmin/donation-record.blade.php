@@ -80,8 +80,8 @@
             <div class="bg-gray-800 rounded-lg border border-gray-700 overflow-hidden mb-8">
                 <div class="p-4 border-b border-gray-700 flex justify-between">
                     <h3 class="text-lg font-medium text-gray-200 flex items-center gap-2">
-                        <i class="fa-solid fa-people-arrows text-emerald-400"></i>
-                        <span>Appointment Approved Donor List</span>
+                        <i class="fa-regular fa-calendar-check text-emerald-400"></i>
+                        <span>Appointments</span>
                     </h3>
                     <form method="GET" action="" class="flex flex-col md:flex-row items-center gap-3">
                         <!-- Search Input -->
@@ -96,6 +96,26 @@
                         <div>
                             <input type="date" name="appointment_date" value="{{ request('appointment_date') }}"
                                 class="bg-gray-700 border border-gray-600 text-white px-4 py-2 rounded-lg focus:outline-none focus:ring-1 focus:ring-cyan-500">
+                        </div>
+                        <div>
+                            <select name="appointment_status" onchange="this.form.submit()"
+                                class="bg-gray-700 border border-gray-600 text-white px-4 py-2 rounded-lg focus:outline-none focus:ring-1 focus:ring-rose-500">
+                                <option value="">All Status</option>
+                                <option value="in_progress"
+                                    {{ request('appointment_status') === 'in_progress' ? 'selected' : '' }}>
+                                    In
+                                    Progress</option>
+                                <option value="completed"
+                                    {{ request('appointment_status') === 'completed' ? 'selected' : '' }}>
+                                    Completed</option>
+                                <option value="cancled"
+                                    {{ request('appointment_status') === 'cancled' ? 'selected' : '' }}>
+                                    Cancelled
+                                </option>
+                                <option value="expired"
+                                    {{ request('appointment_status') === 'expired' ? 'selected' : '' }}>Expired
+                                </option>
+                            </select>
                         </div>
 
                         <!-- Search Button -->
@@ -119,10 +139,12 @@
                         <thead class="bg-gray-800 sticky top-0 z-10">
                             <tr>
                                 <th class="py-3 px-4 text-left text-gray-300 font-semibold w-[20%]">Name</th>
-                                <th class="py-3 px-4 text-center text-gray-300 font-semibold w-[60%]">Donor Code</th>
-                                <th class="py-3 px-4 text-center text-gray-300 font-semibold w-[60%]">Appointment Id
+                                <th class="py-3 px-4 text-center text-gray-300 font-semibold w-[30%]">Donor Code</th>
+                                <th class="py-3 px-4 text-center text-gray-300 font-semibold w-[30%]">Appointment Id
                                 </th>
-                                <th class="py-3 px-4 text-center text-gray-300 font-semibold w-[20%]">Actions</th>
+                                <th class="py-3 px-4 text-center text-gray-300 font-semibold w-[10%]">Status
+                                </th>
+                                <th class="py-3 px-4 text-center text-gray-300 font-semibold w-[10%]">Actions</th>
                             </tr>
                         </thead>
                         <tbody class="divide-y divide-gray-700">
@@ -169,17 +191,34 @@
                                             @endif
                                         </div>
                                     </td>
+                                    <td class="py-3 px-3 text-center">
+                                        @if ($appointment->status === 'in_progress')
+                                            <span class="status-badge pending">{{ $appointment->status }}</span>
+                                        @elseif ($appointment->status === 'completed')
+                                            <span class="status-badge completed">{{ $appointment->status }}
+                                            </span>
+                                        @elseif($appointment->status === 'canceled')
+                                            <span class="status-badge cancelled">{{ $appointment->status }}</span>
+                                        @elseif($appointment->status === 'expired')
+                                            <span class="status-badge suspended">{{ $appointment->status }}</span>
+                                        @endif
+                                    </td>
+
                                     <td class="py-3 px-4 text-center">
 
                                         <div class="flex justify-center gap-2">
                                             <div x-data="{ updateDialog: false }">
                                                 <button @click="updateDialog = true"
-                                                    class="relative text-cyan-400 hover:text-cyan-300 transition-all group">
+                                                    class="relative 
+        {{ $appointment->status === 'completed' ? 'text-gray-400 cursor-not-allowed' : 'text-cyan-400 hover:text-cyan-300' }} 
+        transition-all group"
+                                                    {{ $appointment->status === 'completed' ? 'disabled' : '' }}>
                                                     <i class="fa-solid fa-pen-nib"></i>
                                                     <span
                                                         class="absolute -bottom-1 left-0 w-0 h-0.5 bg-cyan-400 transition-all group-hover:w-full"></span>
                                                 </button>
                                                 <x-update-dialog :appointment="$appointment" />
+
                                             </div>
                                         </div>
 
@@ -187,7 +226,7 @@
                                 </tr>
                             @empty
                                 <tr>
-                                    <td colspan="4" class="text-center text-gray-400 py-4">No appointment found.
+                                    <td colspan="5" class="text-center text-gray-400 py-4">No appointment found.
                                     </td>
                                 </tr>
                             @endforelse
@@ -228,21 +267,29 @@
                             <select name="blood_type_donation" onchange="this.form.submit()"
                                 class="bg-gray-700 border border-gray-600 text-white px-4 py-2 rounded-lg focus:outline-none focus:ring-1 focus:ring-cyan-500">
                                 <option value="">All Blood Types</option>
-                                <option value="A+" {{ request('blood_type_donation') == 'A+' ? 'selected' : '' }}>A+
+                                <option value="A+" {{ request('blood_type_donation') == 'A+' ? 'selected' : '' }}>
+                                    A+
                                 </option>
-                                <option value="A-" {{ request('blood_type_donation') == 'A-' ? 'selected' : '' }}>A-
+                                <option value="A-" {{ request('blood_type_donation') == 'A-' ? 'selected' : '' }}>
+                                    A-
                                 </option>
-                                <option value="B+" {{ request('blood_type_donation') == 'B+' ? 'selected' : '' }}>B+
+                                <option value="B+" {{ request('blood_type_donation') == 'B+' ? 'selected' : '' }}>
+                                    B+
                                 </option>
-                                <option value="B-" {{ request('blood_type_donation') == 'B-' ? 'selected' : '' }}>B-
+                                <option value="B-" {{ request('blood_type_donation') == 'B-' ? 'selected' : '' }}>
+                                    B-
                                 </option>
-                                <option value="AB+" {{ request('blood_type_donation') == 'AB+' ? 'selected' : '' }}>AB+
+                                <option value="AB+"
+                                    {{ request('blood_type_donation') == 'AB+' ? 'selected' : '' }}>AB+
                                 </option>
-                                <option value="AB-" {{ request('blood_type_donation') == 'AB-' ? 'selected' : '' }}>AB-
+                                <option value="AB-"
+                                    {{ request('blood_type_donation') == 'AB-' ? 'selected' : '' }}>AB-
                                 </option>
-                                <option value="O+" {{ request('blood_type_donation') == 'O+' ? 'selected' : '' }}>O+
+                                <option value="O+" {{ request('blood_type_donation') == 'O+' ? 'selected' : '' }}>
+                                    O+
                                 </option>
-                                <option value="O-" {{ request('blood_type_donation') == 'O-' ? 'selected' : '' }}>O-
+                                <option value="O-" {{ request('blood_type_donation') == 'O-' ? 'selected' : '' }}>
+                                    O-
                                 </option>
                             </select>
                         </div>
@@ -330,13 +377,6 @@
 
                                             <!-- Print Button -->
                                             <div x-data="{ showPrintDonation: false, selectedDonation: null }">
-                                                {{-- <button @click="showPrintDonation = true"
-                                                    class="relative text-amber-400 hover:text-amber-300 transition-all group"
-                                                    title="Print">
-                                                    <i class="fas fa-print"></i>
-                                                    <span
-                                                        class="absolute -bottom-1 left-0 w-0 h-0.5 bg-[#fbbf24] transition-all group-hover:w-full"></span>
-                                                </button> --}}
                                                 <a href="{{ route('downloadCertificate', $donation->donation_id) }}"><button
                                                         class="relative text-amber-400 hover:text-amber-300 transition-all group"
                                                         title="Download">
@@ -344,8 +384,7 @@
                                                         <span
                                                             class="absolute -bottom-1 left-0 w-0 h-0.5 bg-[#fbbf24] transition-all group-hover:w-full"></span>
                                                     </button></a>
-                                                <!-- Print Certificate Dialog -->
-                                                {{-- <x-print-dialog-box :donation="$donation" /> --}}
+
                                             </div>
                                         </div>
                                     </td>
