@@ -32,12 +32,7 @@
 
     <!-- Mark all as read -->
     <div v-if="filteredNotifications(activeTab).length > 0" class="flex justify-end mb-2">
-<<<<<<< HEAD
-      <button @click="markAllAsRead"
-        class="text-xs text-blue-500 dark:text-blue-400 hover:underline">
-=======
       <button @click="markAllAsRead" class="text-xs text-blue-500 dark:text-blue-400 hover:underline">
->>>>>>> 7e400a3 (Enhance donation record dialog and home page UI)
         Mark all as read
       </button>
     </div>
@@ -47,12 +42,7 @@
       <!-- Blogs Tab -->
       <ul class="space-y-3" v-if="activeTab === 'blogs'">
         <template v-if="filteredNotifications('blogs').length > 0">
-<<<<<<< HEAD
-          <li v-for="item in filteredNotifications('blogs')" :key="item.id"
-            @click="markAsRead(item)"
-=======
           <li v-for="item in filteredNotifications('blogs')" :key="item.id" @click="markAsRead(item)"
->>>>>>> 7e400a3 (Enhance donation record dialog and home page UI)
             class="group py-2 px-3 rounded-lg transition-colors hover:bg-gray-50 dark:hover:bg-gray-700 cursor-pointer">
             <a :href="item.data.url" target="_blank" class="flex items-start gap-3">
               <div class="flex-shrink-0 mt-1">
@@ -224,8 +214,4 @@ onMounted(() => {
 onBeforeUnmount(() => {
   if (refreshInterval) clearInterval(refreshInterval)
 })
-<<<<<<< HEAD
 </script>
-=======
-</script>
->>>>>>> 7e400a3 (Enhance donation record dialog and home page UI)
