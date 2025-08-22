@@ -19,7 +19,7 @@
             <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
                 <!-- Left Column -->
                 <div class="lg:col-span-2 space-y-6">
-                    {{-- operating hours --}}
+                    {{-- Operating Hours --}}
                     <form method="POST" action=""
                         class="bg-gray-800/50 backdrop-blur-md border border-gray-700 p-6 rounded-2xl shadow-xl space-y-4">
                         @csrf
@@ -36,7 +36,7 @@
                                 <input type="time" name="start_time" id="start_time"
                                     value="{{ old('start_time', $hours->start_time ?? '') }}"
                                     class="w-full bg-gray-900 border border-gray-700 text-white px-4 py-2 rounded-lg 
-                                   focus:outline-none focus:ring-2 focus:ring-cyan-500 transition shadow-sm">
+                    focus:outline-none focus:ring-2 focus:ring-cyan-500 transition shadow-sm">
                             </div>
 
                             <!-- End Time -->
@@ -45,19 +45,52 @@
                                 <input type="time" name="end_time" id="end_time"
                                     value="{{ old('end_time', $hours->end_time ?? '') }}"
                                     class="w-full bg-gray-900 border border-gray-700 text-white px-4 py-2 rounded-lg 
-                                   focus:outline-none focus:ring-2 focus:ring-cyan-500 transition shadow-sm">
+                    focus:outline-none focus:ring-2 focus:ring-cyan-500 transition shadow-sm">
                             </div>
                         </div>
 
-                        <!-- Save Button -->
+                        <!-- Save Hours Button -->
                         <div class="flex justify-end">
                             <button type="submit"
-                                class="bg-gradient-to-r from-cyan-500 to-blue-500 hover:from-cyan-600 hover:to-blue-600 
-                               text-white px-6 py-2 rounded-xl shadow-lg transition-transform transform hover:scale-105 font-semibold">
+                                class="px-6 py-2 rounded-lg font-semibold text-white shadow-md bg-gradient-to-r from-cyan-500 to-blue-500 
+        hover:from-cyan-600 hover:to-blue-600 transition-transform transform hover:scale-105">
                                 <i class="fa-solid fa-save mr-2"></i> Save Hours
                             </button>
                         </div>
                     </form>
+
+                    {{-- Maximum Persons Per Day --}}
+                    <form method="POST" action=""
+                        class="bg-gray-800/50 backdrop-blur-md border border-gray-700 p-6 rounded-2xl shadow-xl space-y-4">
+                        @csrf
+
+                        <h2 class="text-lg font-semibold text-blue-400 flex items-center gap-2">
+                            <i class="fas fa-users text-blue-300"></i>
+                            Maximum Persons Per Day
+                        </h2>
+
+                        <div class="relative">
+                            <input type="number" id="maxPersonsPerDay" name="maxPersonsPerDay"
+                                value="{{ old('maxPersonsPerDay', $settings->maxPersonsPerDay ?? '') }}"
+                                class="w-full bg-gray-900/80 border border-gray-700 rounded-xl px-4 py-3 text-gray-100 
+                placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 shadow-inner transition"
+                                placeholder="Enter limit (e.g., 50)" min="1">
+                            <span class="absolute right-10 top-1/2 -translate-y-1/2 text-gray-400">
+                                <i class="fas fa-users"></i>
+                            </span>
+                        </div>
+                        <p class="text-xs text-gray-500">Set the maximum number of donors allowed per day.</p>
+
+                        <!-- Save Limit Button -->
+                        <div class="flex justify-end">
+                            <button type="submit"
+                                class="px-6 py-2 rounded-lg font-semibold text-white shadow-md bg-gradient-to-r from-pink-500 to-red-500 
+        hover:from-pink-600 hover:to-red-600 transition-transform transform hover:scale-105">
+                                <i class="fa-solid fa-save mr-2"></i> Save Limit
+                            </button>
+                        </div>
+                    </form>
+
 
                     <!-- Calendar Section - Full Width and Height -->
                     <div x-data="multiDatePicker()" class="w-full bg-gray-800 rounded-xl p-6 border border-gray-700">
@@ -209,14 +242,16 @@
                                 </template>
                             </div>
 
-                            <div class="flex justify-end gap-2 mt-4">
+                            <!-- Closed Dates Buttons -->
+                            <div class="flex justify-end gap-3 mt-4">
                                 <button type="button" @click="clearSelection"
-                                    class="px-4 py-2 rounded bg-gray-700 text-gray-200 hover:bg-gray-600">
-                                    Clear Selection
+                                    class="px-5 py-2 rounded-lg font-medium text-gray-200 bg-gray-700 hover:bg-gray-600 transition">
+                                    <i class="fa-solid fa-eraser mr-2"></i> Clear Selection
                                 </button>
                                 <button type="submit"
-                                    class="px-4 py-2 rounded bg-rose-600 text-white hover:bg-rose-500">
-                                    Save Closed Dates
+                                    class="px-5 py-2 rounded-lg font-semibold text-white shadow-md bg-gradient-to-r from-rose-500 to-red-500 
+        hover:from-rose-600 hover:to-red-600 transition-transform transform hover:scale-105">
+                                    <i class="fa-solid fa-save mr-2"></i> Save Closed Dates
                                 </button>
                             </div>
                         </form>

@@ -53,11 +53,11 @@
             <div class="grid grid-cols-2 gap-3">
                 <div class="bg-gray-700/40 p-3 rounded-lg text-center">
                     <p class="text-gray-400 text-xs">Donations</p>
-                    <p class="text-cyan-300 font-semibold">11</p>
+                    <p class="text-cyan-300 font-semibold">{{$appointment->donor->donation_count }}</p>
                 </div>
                 <div class="bg-gray-700/40 p-3 rounded-lg text-center">
                     <p class="text-gray-400 text-xs">Last Donation At</p>
-                    <p class="text-cyan-300 font-semibold">{{ $appointment->donor->last_donation_at ?? "No Donation"  }}</p>
+                    <p class="text-cyan-300 font-semibold">{{ $appointment->donor->last_donation_at ? \Carbon\Carbon::parse($appointment->donor->last_donation_at)->format('F j, Y'): "Never"  }}</p>
                 </div>
             </div>
 
@@ -69,9 +69,9 @@
                         {{ $appointment->donor->blood_type }}</li>
                     <li class="flex items-center"><i class="fas fa-venus-mars text-gray-400 mr-2 w-4"></i>
                         {{ $appointment->donor->gender }}</li>
-                    <li class="flex items-center"><i class="fas fa-weight text-gray-400 mr-2 w-4"></i>
+                    <li class="flex items-center"><i class="fas fa-calendar text-gray-400 mr-2 w-4"></i>
                         {{ $appointment->donor->dob }}</li>
-                    <li class="flex items-center"><i class="fas fa-heartbeat text-gray-400 mr-2 w-4"></i>
+                    <li class="flex items-center"><i class="fas fa-id-card text-gray-400 mr-2 w-4"></i>
                         {{ $appointment->donor->nrc }}</li>
 
                 </ul>

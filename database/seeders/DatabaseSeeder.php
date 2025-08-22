@@ -46,7 +46,7 @@ class DatabaseSeeder extends Seeder
             'name' => 'National Blood Center',
             'phone' => '09250052532',
             'address' => 'No. 97, Corner of Bogyoke Aung San Road and Shwedagon Pagoda Road, Latha Township, Yangon 11131, Myanmar',
-            'maxPersonsPerDay' => 20,
+            'maxPersonsPerDay' => 1,
         ]);
 
         Donor::factory(20)->create();
