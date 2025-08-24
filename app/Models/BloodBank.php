@@ -10,11 +10,17 @@ class BloodBank extends Model
     /** @use HasFactory<\Database\Factories\BloodBankFactory> */
     use HasFactory;
 
-    protected $fillable = ['user_id', 'name', 'phone', 'address', 'maxPersonsPerDay'];
+    protected $fillable = ['user_id', 'name', 'phone', 'address', 'maxPersonsPerDay', 'operating_hour'];
 
+    // BloodBank.php
     public function user()
     {
-        return $this->belongsTo(User::class)->where('role', 'blood_bank_admin');
+        return $this->belongsTo(User::class, 'user_id');
+    }
+
+    public function admin()
+    {
+        return $this->belongsTo(User::class, 'user_id')->where('role', 'blood_bank_admin');
     }
 
     public function closedDays()

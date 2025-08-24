@@ -17,12 +17,23 @@ document.addEventListener("DOMContentLoaded", () => {
 let notiBadge = document.getElementById("notificationCount");
 let pollingInterval;
 
+let lastUnreadCount = 0;
+const audio = new Audio("/sounds/notification.mp3"); // file in public/sounds/
+
 // Function to fetch notifications
 async function updateNotifications() {
     try {
         const res = await axios.get("/notifications");
-        let unreadCount = res.data.filter((n) => !n.read_at).length;
-        notiBadge.innerHTML = unreadCount;
+        const unreadCount = res.data.filter((n) => !n.read_at).length;
+
+        if (unreadCount > lastUnreadCount) {
+            audio
+                .play()
+                .catch((err) => console.warn("Audio play blocked:", err));
+        }
+
+        lastUnreadCount = unreadCount; // update memory
+
         if (unreadCount > 0) {
             notiBadge.textContent = unreadCount;
             notiBadge.style.display = "inline-block";

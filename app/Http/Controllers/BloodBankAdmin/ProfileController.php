@@ -11,8 +11,6 @@ class ProfileController extends Controller
     public function index()
     {
         $bloodBank = auth()->user()->bloodBank;
-        // dd($bloodBank->closedDays[0]->date);
-        // $closedDays = BloodBankClosedDay::where('blood_bank_id', $bloodBank->id)->pluck('date');
 
         $closedDays = $bloodBank->closedDays()->where('type', 'closedDay')->pluck('date');
         $apmFullDays = $bloodBank->closedDays()->where('type', 'apmFullDay')->pluck('date');
@@ -23,6 +21,55 @@ class ProfileController extends Controller
             'closedDays' => $closedDays,
             'apmFullDays' => $apmFullDays,
         ]);
+    }
+
+    public function updateOperatingHours(Request $request)
+    {
+        $start_time = date("h:i A", strtotime($request->start_time));
+
+        $end_time = date("h:i A", strtotime($request->end_time));
+
+        $operating_hour = $start_time . ' - ' . $end_time;
+
+        $bloodBank = auth()->user()->bloodBank;
+        $bloodBank->operating_hour = $operating_hour;
+
+        $bloodBank->save();
+
+        return back()->with('success', 'Operating hours updated successfully.');
+    }
+
+    public function updateMaxPPDay(Request $request)
+    {
+        $request->validate([
+            'maxPersonsPerDay' => ['required', 'integer']
+        ]);
+
+        $bloodBank = auth()->user()->bloodBank;
+
+        $bloodBank->maxPersonsPerDay = $request->maxPersonsPerDay;
+
+        $bloodBank->save();
+
+        return back()->with('success', 'Maximun persons per day updated successfully.');
+    }
+
+    public function updateContactInfo(Request $request)
+    {
+
+        $request->validate([
+            'address' => ['required', 'string'],
+            'phone' => ['required'],
+        ]);
+
+        $bloodBank = auth()->user()->bloodBank;
+
+        $bloodBank->update([
+            'address' => $request->address,
+            'phone' => $request->phone
+        ]);
+
+        return back()->with('success', 'Contact infos updated successfully.');
     }
 
     public function storeClosedDays(Request $request)

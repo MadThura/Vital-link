@@ -120,23 +120,7 @@ Route::middleware(['auth', 'role:blood_bank_admin'])->prefix('blood-bank-admin')
     Route::get('/dashboard', [BBADashboardController::class, 'index'])->name('dashboard');
     Route::get('/donation-requests', [BBADonationRequestController::class, 'index'])->name('donation-requests.index');
     Route::put('/donation-requests/{donationRequest}/{action}', [BBADonationRequestController::class, 'updateStatus'])->name('donation-requests.updateStatus');
-    // my route
-    Route::get('/donation-record', function () {
-        return view('bloodBankAdmin.donation-record', [
-            'donors' => Donor::with(['user', 'bloodBank'])
-                ->where('status', 'approved') // only active donors
-                ->latest()
-                ->paginate(10)
-        ]);
-    })->name('donation-record');
-    Route::get('/donation-request', function () {
-        return view('bloodBankAdmin.donation-request', [
-            'donors' => Donor::with(['user', 'bloodBank'])
-                ->where('status', 'approved') // only active donors
-                ->latest()
-                ->paginate(10)
-        ]);
-    })->name('donation-request');
+
     Route::get('/blood-inventory', function () {
         return view('bloodBankAdmin.blood-inventory');
     })->name('blood-inventory');
@@ -152,6 +136,9 @@ Route::middleware(['auth', 'role:blood_bank_admin'])->prefix('blood-bank-admin')
     Route::get('/blood-inventory', [BloodInventoryController::class, 'index'])->name('blood-inventory');
 
     Route::get('/profile', [BBAProfileController::class, 'index'])->name('profile');
+    Route::patch('/set-operating-hours', [BBAProfileController::class, 'updateOperatingHours'])->name('updateOperatingHours');
+    Route::patch('/max-persons-per-day/update', [BBAProfileController::class, 'updateMaxPPDay'])->name('updateMaxPPDay');
+    Route::patch('/contact-info/update', [BBAProfileController::class, 'updateContactInfo'])->name('updateContactInfo');
     Route::post('/set-closed-days', [BBAProfileController::class, 'storeClosedDays'])->name('setClosedDays');
 
     Route::prefix('/donors')->name('donors.')->group(function () {

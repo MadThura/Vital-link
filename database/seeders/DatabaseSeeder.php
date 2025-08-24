@@ -261,7 +261,7 @@ class DatabaseSeeder extends Seeder
             ],
         ];
 
-        $usersToNotify = User::whereIn('role', ['donor', 'blood_bank_admin'])->get();
+        $usersToNotify = User::whereIn('role', ['donor'])->get();
 
         foreach ($blogs as $index => $blogData) {
             $blog = Blog::factory()->create([

@@ -20,10 +20,11 @@
                 <!-- Left Column -->
                 <div class="lg:col-span-2 space-y-6">
                     {{-- Operating Hours --}}
-                    <form method="POST" action=""
-                        class="bg-gray-800/50 backdrop-blur-md border border-gray-700 p-6 rounded-2xl shadow-xl space-y-4">
+                    <form action="{{ route('bba.updateOperatingHours') }}"
+                        class="bg-gray-800/50 backdrop-blur-md border border-gray-700 p-6 rounded-2xl shadow-xl space-y-4"
+                        method="POST">
                         @csrf
-
+                        @method('PATCH')
                         <h2 class="text-lg font-semibold text-cyan-400 flex items-center gap-2">
                             <i class="fa-regular fa-clock text-cyan-300"></i>
                             Operating Hours
@@ -60,10 +61,10 @@
                     </form>
 
                     {{-- Maximum Persons Per Day --}}
-                    <form method="POST" action=""
+                    <form method="POST" action="{{ route('bba.updateMaxPPDay') }}"
                         class="bg-gray-800/50 backdrop-blur-md border border-gray-700 p-6 rounded-2xl shadow-xl space-y-4">
+                        @method('PATCH')
                         @csrf
-
                         <h2 class="text-lg font-semibold text-blue-400 flex items-center gap-2">
                             <i class="fas fa-users text-blue-300"></i>
                             Maximum Persons Per Day
@@ -332,17 +333,12 @@
                                 <i class="fas fa-phone-alt text-rose-400 mr-3"></i>
                                 <p class="text-gray-300">{{ $bloodBank->phone ?? '(555) 123-4567' }}</p>
                             </div>
-                            <div class="flex items-center">
-                                <i class="fas fa-envelope text-rose-400 mr-3"></i>
-                                <p class="text-gray-300">{{ $bloodBank->user->email }}</p>
-                            </div>
                         </div>
 
                         <!-- Edit Form -->
-                        <form x-show="showForm" x-transition method="POST" action="}}" class="space-y-3 mt-3">
+                        <form x-show="showForm" x-transition method="POST" action="{{ route('bba.updateContactInfo') }}" class="space-y-3 mt-3">
+                            @method('PATCH')
                             @csrf
-                            @method('PUT')
-
                             <div>
                                 <label class="block text-gray-400 mb-1">Address</label>
                                 <textarea name="address" rows="3"
@@ -353,12 +349,6 @@
                             <div>
                                 <label class="block text-gray-400 mb-1">Phone</label>
                                 <input type="text" name="phone" value="{{ $bloodBank->phone ?? '' }}"
-                                    class="w-full p-2 rounded bg-gray-700 text-white focus:ring-2 focus:ring-rose-500">
-                            </div>
-
-                            <div>
-                                <label class="block text-gray-400 mb-1">Email</label>
-                                <input type="email" name="email" value="{{ $bloodBank->user->email }}"
                                     class="w-full p-2 rounded bg-gray-700 text-white focus:ring-2 focus:ring-rose-500">
                             </div>
 
