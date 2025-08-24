@@ -17,7 +17,7 @@ document.addEventListener("DOMContentLoaded", () => {
 let notiBadge = document.getElementById("notificationCount");
 let pollingInterval;
 
-let lastUnreadCount = 0;
+let lastUnreadCount = parseInt(localStorage.getItem("lastUnreadCount") || "0");
 const audio = new Audio("/sounds/notification.mp3"); // file in public/sounds/
 
 // Function to fetch notifications
@@ -26,14 +26,18 @@ async function updateNotifications() {
         const res = await axios.get("/notifications");
         const unreadCount = res.data.filter((n) => !n.read_at).length;
 
+        // Play sound only if count increased
         if (unreadCount > lastUnreadCount) {
             audio
                 .play()
                 .catch((err) => console.warn("Audio play blocked:", err));
         }
 
-        lastUnreadCount = unreadCount; // update memory
+        // Save current count to memory + storage
+        lastUnreadCount = unreadCount;
+        localStorage.setItem("lastUnreadCount", unreadCount);
 
+        // Update badge
         if (unreadCount > 0) {
             notiBadge.textContent = unreadCount;
             notiBadge.style.display = "inline-block";
