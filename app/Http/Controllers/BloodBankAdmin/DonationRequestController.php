@@ -20,7 +20,7 @@ class DonationRequestController extends Controller
             'donationRequests' => DonationRequest::with('donor', 'bloodBank')
                 ->where('blood_bank_id', auth()->user()->bloodBank->id)
                 ->filter(request(['search', 'status']))
-                ->get()
+                ->paginate(10) 
         ]);
     }
 

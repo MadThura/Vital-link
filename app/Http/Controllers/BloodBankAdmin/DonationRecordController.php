@@ -82,7 +82,7 @@ class DonationRecordController extends Controller
 
             $inventory->increment('units', $validated['units']);
 
-            Notification::send($donor->user, new DonationCompleted($donation, false));
+            Notification::send($donor->user, new DonationCompleted($donation, true));
         });
 
         return redirect()->back()->with('success', 'Donation recorded successfully.');
