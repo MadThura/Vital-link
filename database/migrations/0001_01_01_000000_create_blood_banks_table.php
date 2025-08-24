@@ -18,6 +18,7 @@ return new class extends Migration
             $table->string('phone', 20);
             $table->string('address');
             $table->integer('maxPersonsPerDay')->default(1);
+            $table->string('operating_hour')->nullable();
             $table->timestamps();
         });
     }
