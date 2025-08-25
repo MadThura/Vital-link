@@ -4,8 +4,11 @@ namespace App\Http\Controllers\BloodBankAdmin;
 
 use App\Http\Controllers\Controller;
 use App\Models\Donor;
+use App\Notifications\NewDonorApproved;
+use App\Notifications\NewDonorRejected;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Notification;
 
 class DonorController extends Controller
 {
@@ -26,21 +29,11 @@ class DonorController extends Controller
         try {
             switch ($action) {
                 case 'approve':
-                    $donor->status = 'approved';
-                    $user = $donor->user;
-                    $user->role = 'donor';
-                    $user->save();
-
-                    $donor->donor_code = Donor::generateDonorCode();
+                    $this->approveDonor($donor);
                     break;
 
                 case 'reject':
-                    $donor->status = 'rejected';
-                    $validated = $request->validate([
-                        'reasons' => ['nullable', 'array'],
-                        'reasons.*' => ['string'],
-                    ]);
-                    $donor->rejection_errors = $validated['reasons'];
+                    $this->rejectDonor($request, $donor);
                     break;
 
                 case 'suspend':
@@ -51,17 +44,59 @@ class DonorController extends Controller
                     return back()->with('fail', 'Invalid action');
             }
 
+            // Always assign blood bank from current user
             $donor->blood_bank_id = auth()->user()->bloodBank->id;
             $donor->save();
 
             DB::commit();
 
-            return back()->with('success', 'Donor ' . $donor->status . ' successfully.');
+            return back()->with('success', "Donor {$donor->status} successfully.");
         } catch (\Throwable $e) {
             DB::rollBack();
             return back()->with('fail', 'Something went wrong: ' . $e->getMessage());
         }
     }
+
+    /**
+     * Approve donor.
+     */
+    private function approveDonor(Donor $donor): void
+    {
+        $donor->status = 'approved';
+
+        $user = $donor->user;
+        $user->role = 'donor';
+        $user->save();
+
+        $donor->donor_code = Donor::generateDonorCode();
+
+        // clear rejection errors if any
+        $donor->rejection_errors = null;
+
+        $donor->save();
+
+        Notification::send($donor->user, new NewDonorApproved($donor));
+    }
+
+    /**
+     * Reject donor.
+     */
+    private function rejectDonor(Request $request, Donor $donor): void
+    {
+        $donor->status = 'rejected';
+
+        $validated = $request->validate([
+            'reasons'   => ['nullable', 'array'],
+            'reasons.*' => ['string'],
+        ]);
+
+        $donor->rejection_errors = $validated['reasons'] ?? null;
+
+        $donor->save();
+
+        Notification::send($donor->user, new NewDonorRejected($donor));
+    }
+
 
     public function destroy(Donor $donor)
     {

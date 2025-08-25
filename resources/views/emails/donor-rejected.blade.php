@@ -1,0 +1,1 @@
+<h1>Rejected {{$donor}}</h1>
