@@ -1,3 +1,19 @@
+@php
+    $allTypes = ['A+', 'A-', 'B+', 'B-', 'O+', 'O-', 'AB+', 'AB-'];
+    $bloodMap = $bloods->keyBy('blood_type');
+
+    // Assign fixed colors for each type
+    $colors = [
+        'A+' => 'border-red-500 text-red-400',
+        'A-' => 'border-pink-500 text-pink-400',
+        'B+' => 'border-yellow-500 text-yellow-400',
+        'B-' => 'border-orange-500 text-orange-400',
+        'O+' => 'border-green-500 text-green-400',
+        'O-' => 'border-emerald-500 text-emerald-400',
+        'AB+' => 'border-purple-500 text-purple-400',
+        'AB-' => 'border-blue-500 text-blue-400',
+    ];
+@endphp
 <x-admin-layout>
     <div class="p-5 bg-gray-900 text-gray-100 min-h-screen">
         <!-- Stats Cards - Top Overview -->
@@ -30,31 +46,24 @@
                 @foreach ($allTypes as $type)
                     @php
                         $units = $bloodMap->has($type) ? $bloodMap[$type]->units : 0;
+                        $color = $colors[$type];
                     @endphp
 
-                    <div class="bg-gray-800 p-5 rounded-2xl shadow-lg border border-gray-700 relative hover:scale-105 transition-transform">
+                    <div
+                        class="bg-gray-800 p-5 rounded-2xl shadow-lg border {{ explode(' ', $color)[0] }} relative hover:scale-105 transition-transform">
                         <div class="flex justify-between items-center">
-                            <span class="text-lg font-bold">{{ $type }}</span>
-                            <button class="text-red-500 hover:text-red-400 transition">
-                                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
-                                    <path d="M13.586 3.586a2 2 0 112.828 2.828l-.793.793-2.828-2.828.793-.793zM11.379 5.793L3 14.172V17h2.828l8.38-8.379-2.83-2.828z" />
+                            <span class="text-lg font-bold {{ explode(' ', $color)[1] }}">{{ $type }}</span>
+                            <button class="{{ explode(' ', $color)[1] }} hover:opacity-80 transition">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20"
+                                    fill="currentColor">
+                                    <path
+                                        d="M13.586 3.586a2 2 0 112.828 2.828l-.793.793-2.828-2.828.793-.793zM11.379 5.793L3 14.172V17h2.828l8.38-8.379-2.83-2.828z" />
                                 </svg>
                             </button>
                         </div>
 
                         <p class="text-3xl font-bold mt-3">{{ $units }}</p>
                         <p class="text-gray-400 text-sm">Units Available</p>
-
-                        <!-- Status Badge -->
-                        <div class="mt-4">
-                            @if($units > 20)
-                                <span class="px-3 py-1 text-xs rounded-full bg-green-900/50 text-green-400">Safe</span>
-                            @elseif($units > 5)
-                                <span class="px-3 py-1 text-xs rounded-full bg-yellow-900/50 text-yellow-400">Low</span>
-                            @else
-                                <span class="px-3 py-1 text-xs rounded-full bg-red-900/50 text-red-400">Critical</span>
-                            @endif
-                        </div>
                     </div>
                 @endforeach
             </div>

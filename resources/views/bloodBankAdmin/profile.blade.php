@@ -1,4 +1,5 @@
 <x-admin-layout>
+    <x-alert-box/>
     <div class="bg-gray-900 text-gray-100 overflow-auto scrollbar-hide">
         <!-- Header -->
         <header class="sticky top-0 z-20 bg-gradient-to-r from-gray-800 to-gray-900">
@@ -363,20 +364,12 @@
                     <!-- Operating Hours Card (existing) -->
                     <div class="bg-gray-800 rounded-xl p-6 border border-gray-700">
                         <h2 class="text-xl font-bold mb-4 flex items-center">
-                            <i class="fas fa-clock text-rose-400 mr-2"></i> Operating Hours
+                            <i class="fas fa-clock text-rose-400 mr-2"></i> Other Info
                         </h2>
                         <div class="space-y-3">
                             <div class="flex justify-between">
-                                <span class="text-gray-300">Monday - Friday</span>
-                                <span class="font-medium">8:00 AM - 6:00 PM</span>
-                            </div>
-                            <div class="flex justify-between">
-                                <span class="text-gray-300">Saturday</span>
-                                <span class="font-medium">9:00 AM - 4:00 PM</span>
-                            </div>
-                            <div class="flex justify-between">
-                                <span class="text-gray-300">Sunday</span>
-                                <span class="font-medium">9:00 AM - 2:00 PM</span>
+                                <span class="text-gray-300">Operating Hours</span>
+                                <span class="font-medium">{{ $bloodBank->operating_hour }}</span>
                             </div>
                         </div>
                     </div>

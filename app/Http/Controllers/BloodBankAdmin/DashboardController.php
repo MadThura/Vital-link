@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\BloodBankAdmin;
 
 use App\Http\Controllers\Controller;
+use App\Models\BloodInventory;
 use App\Models\Donation;
 use Illuminate\Http\Request;
 use App\Models\Donor;
@@ -50,6 +51,8 @@ class DashboardController extends Controller
             'numOfDonorsThisWeek' => $numOfDonorsThisWeek,
             'numOfDeferredThisWeek' => $numOfDeferredThisWeek,
             'numOfDonationsThisWeek' => $numOfDonationsThisWeek,
+            'bloods' => BloodInventory::where('blood_bank_id', auth()->user()->bloodBank->id)->get(),
+            'total_units' => BloodInventory::where('blood_bank_id', auth()->user()->bloodBank->id)->sum('units'),
         ]);
     }
 }

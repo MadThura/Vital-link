@@ -24,7 +24,7 @@
                     $user = auth()->user();
                 @endphp
                 <div class="flex items-center gap-5">
-                    @if ($donor?->status === 'approved' || $user->role === 'blood_bank_admin')
+                    @if ($donor?->status === 'approved')
                         <button id="openNotificationBtn" class="relative p-3 rounded-full transition-all duration-300 ease-out group  hover:bg-gray-200/70 dark:hover:bg-gray-700/70  hover:shadow-lg dark:shadow-gray-800/30">
                             <i class="fa-solid fa-bell text-gray-700 group-hover:text-gray-900 dark:text-gray-300 dark:group-hover:text-white transition-all duration-300 text-lg"></i>
 

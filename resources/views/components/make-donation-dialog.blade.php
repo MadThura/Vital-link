@@ -52,10 +52,10 @@
                                     </p>
                                 </div>
 
-                                <div class="flex items-start gap-3">
-                                    <i class="fas fa-clock text-red-600 dark:text-red-500 mt-0.5 text-sm"></i>
-                                    <p class="text-gray-600 dark:text-gray-400 text-sm">Mon-Fri: 8AM - 6PM<br>Sat-Sun:
-                                        9AM - 4PM</p>
+                                 <div class="flex items-start gap-3">
+                                    <i class="fa-regular fa-clock text-red-600 dark:text-red-500 mt-0.5 text-sm"></i>
+                                    <p class="text-gray-600 dark:text-gray-400 text-sm">{{ $bloodBank->operating_hour }}
+                                    </p>
                                 </div>
                             </div>
 
@@ -94,7 +94,7 @@
 
                                             <!-- Calendar popover -->
                                             <div x-show="open" @click.outside="open=false" x-transition
-                                                class="absolute top-0 right-[60%] z-50 w-full bg-white dark:bg-[#0a0a0a] border border-gray-300 dark:border-gray-800 rounded-lg shadow-xl p-3 transform -translate-x-1/2 -translate-y-1/2">
+                                                class="absolute top-0 right-[20%] z-50 w-[375px] bg-white dark:bg-[#0a0a0a] border border-gray-300 dark:border-gray-800 rounded-lg shadow-xl p-3 transform -translate-x-1/2 -translate-y-1/2">
 
                                                 <!-- Header -->
                                                 <div class="flex items-center justify-between mb-2">

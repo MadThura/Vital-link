@@ -18,7 +18,7 @@
                     </div>
                     <h1 class="ml-4 text-xl font-bold text-white">Appointment Approved</h1>
                 </div>
-                <p class="mt-2 text-emerald-200">by {{ $data['blood_bank_name'] }}</p>
+                <p class="mt-2 text-emerald-200">by {{ $data['blood_bank_name'] }} </p>
             </div>
 
             <!-- Content -->
@@ -32,7 +32,7 @@
                     </svg>
                     <div class="ml-3">
                         <p class="text-sm font-medium text-gray-400">Scheduled Date</p>
-                        <p class="font-semibold text-white">{{ $data['date'] }}</p>
+                        <p class="font-semibold text-white">{{ $data['date'] }} {{$data['time']}}</p>
                     </div>
                 </div>
 

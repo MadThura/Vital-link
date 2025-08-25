@@ -588,9 +588,6 @@
     </div>
 
 </body>
-
-</html>
-
 <script>
     const stateToTownships = {
         "01": [
@@ -1103,3 +1100,5 @@
         "health-cert-placeholder"
     );
 </script>
+
+</html>

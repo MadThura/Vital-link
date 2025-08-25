@@ -128,7 +128,7 @@
                                     <span
                                         class="text-white font-medium truncate max-w-[160px]">{{ $donation->donor->user->email }}</span>
                                 </div>
-                                <div class="flex items-center justify-between p-3 bg-gray-700/40 rounded-lg">
+                                <div class=" p-3 bg-gray-700/40 rounded-lg">
                                     <div class="flex items-center">
                                         <div
                                             class="w-8 h-8 rounded-lg bg-rose-500/20 flex items-center justify-center mr-3">
@@ -136,7 +136,7 @@
                                         </div>
                                         <span class="text-gray-300">Address</span>
                                     </div>
-                                    <span class="text-white font-medium">{{ $donation->donor->address }}</span>
+                                    <p class="text-white font-medium mt-3">{{ $donation->donor->address }}</p>
                                 </div>
                             </div>
                         </div>
@@ -163,7 +163,7 @@
                                         <span class="text-gray-300">Date & Time</span>
                                     </div>
                                     <span
-                                        class="text-white font-medium">{{ \Carbon\Carbon::parse($donation->donation_date)->format('F j, Y g:i A') }}</span>
+                                        class="text-white font-medium">{{ \Carbon\Carbon::parse($donation->donation_date)->format('F j, Y') }}</span>
                                 </div>
 
                                 <div class="flex items-center justify-between p-3 bg-gray-700/40 rounded-lg">

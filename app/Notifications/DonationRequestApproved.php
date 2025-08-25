@@ -57,6 +57,7 @@ class DonationRequestApproved extends Notification
             'type' => static::class,
             'date' => $this->donation_request->appointment_date,
             'blood_bank_name' => $bb->name,
+            'time' => $bb->operating_hour
         ];
     }
 }

@@ -125,9 +125,9 @@
               <div class="mt-3 flex justify-end">
                 <button type="button" class="flex items-center gap-1 text-blue-600 dark:text-blue-400 font-semibold text-sm 
            bg-blue-50 dark:bg-blue-900/20 hover:bg-blue-100 dark:hover:bg-blue-800/40
-           px-3 py-1.5 rounded-lg shadow-sm transition-all duration-200 transform hover:scale-105">
+           px-3 py-1.5 rounded-lg shadow-sm">
                   <i class="fas fa-eye"></i>
-                  <span>View Details</span>
+                  <span>Check Your Email</span>
                 </button>
               </div>
             </a>
