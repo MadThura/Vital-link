@@ -76,7 +76,7 @@
 
             <!-- ✅ Approved -->
             <a v-if="item.type === 'App\\Notifications\\DonationRequestApproved'"
-              :href="`/notifications/${item.id}/approve`" target="_blank"
+              :href="`/notifications/${item.id}/approve`"
               class="block p-3 border border-green-200 dark:border-green-700 rounded-lg bg-green-50 dark:bg-green-900/20 hover:bg-green-100 dark:hover:bg-green-900/40 transition-colors">
               <p class="text-sm text-green-600 dark:text-green-400 font-semibold">
                 ✅ Approved By {{ item.data.blood_bank_name }}

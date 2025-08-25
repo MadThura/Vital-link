@@ -4,9 +4,7 @@ namespace App\Http\Controllers\BloodBankAdmin;
 
 use App\Http\Controllers\Controller;
 use App\Models\Appointment;
-use App\Models\BloodBankClosedDay;
 use App\Models\DonationRequest;
-use App\Models\Donor;
 use App\Notifications\DonationRequestApproved;
 use App\Notifications\DonationRequestRejected;
 use Illuminate\Http\Request;

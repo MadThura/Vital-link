@@ -85,9 +85,6 @@ Route::middleware(['auth', 'verified'])->group(function () {
         Route::post('/complete', [DonorController::class, 'storeCompletion'])->name('storeComplete');
         Route::put('/update', [DonorController::class, 'updateCompletion'])->name('updateComplete');
     });
-    Route::get('/notifications', [NotificationController::class, 'index']);
-    Route::post('/notifications/{id}/read', [NotificationController::class, 'markAsRead']);
-    Route::post('/notifications/read-all', [NotificationController::class, 'markAllAsRead']);
 });
 
 Route::middleware(['auth', 'verified', 'role:donor'])->group(function () {
@@ -96,45 +93,14 @@ Route::middleware(['auth', 'verified', 'role:donor'])->group(function () {
 
     Route::post('/donation-requests', [DonationRequestController::class, 'store'])
         ->name('donation-requests.store');
-    Route::get('/notifications/{notification}/approve', function (Notification $notification) {
-        $user = auth()->user()->donor;
-        $qr = $user->donationRequest->appointment_id;
-        $name = $user->user->name;
-        $code = $user->donor_code;
-        $nrc = $user->nrc;
-        $dob = $user->dob;
-        $date = $user->donationRequest->appointment_date;
-        $qrText = sprintf(
-            "Appointment ID:      %s\nDonor Name:           %s\nDonor Code:            %s\nNRC Number:           %s\nDOB:                        %s\nAppointment Date:  %s",
-            $qr,
-            $name,
-            $code,
-            $nrc,
-            $dob,
-            $date
-        );
-        $qrCodeUrl = "https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=" . urlencode($qrText);
-
-        return view('approved-notification', compact('notification', 'qrCodeUrl'));
-    });
+    Route::get('/notifications', [NotificationController::class, 'index']);
+    Route::post('/notifications/{id}/read', [NotificationController::class, 'markAsRead']);
+    Route::post('/notifications/read-all', [NotificationController::class, 'markAllAsRead']);
+    Route::get('/notifications/{notification}/approve', [NotificationController::class, 'approve']);
 });
 
 Route::middleware(['auth', 'role:blood_bank_admin'])->prefix('blood-bank-admin')->name('bba.')->group(function () {
 
-    Route::get('/profile', function () {
-        $bloodBank = auth()->user()->bloodBank()->with('user')->firstOrFail();
-        return view('bloodBankAdmin.profile', compact('bloodBank'));
-    })->name('profile');
-    Route::get('/dashboard', [BBADashboardController::class, 'index'])->name('dashboard');
-    Route::get('/donation-requests', [BBADonationRequestController::class, 'index'])->name('donation-requests.index');
-    Route::put('/donation-requests/{donationRequest}/{action}', [BBADonationRequestController::class, 'updateStatus'])->name('donation-requests.updateStatus');
-
-    Route::get('/blood-inventory', function () {
-        return view('bloodBankAdmin.blood-inventory');
-    })->name('blood-inventory');
-    Route::get('/blood-inventory', function () {
-        return view('bloodBankAdmin.blood-inventory');
-    })->name('blood-inventory');
     Route::get('/dashboard', [BBADashboardController::class, 'index'])->name('dashboard');
     Route::get('/donation-requests', [BBADonationRequestController::class, 'index'])->name('donation-requests.index');
     Route::put('/donation-requests/{donationRequest}/{action}', [BBADonationRequestController::class, 'updateStatus'])->name('donation-requests.updateStatus');

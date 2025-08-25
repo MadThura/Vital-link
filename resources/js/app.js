@@ -87,6 +87,5 @@ document.querySelectorAll(".password-field .toggle-password").forEach((btn) => {
         icon.classList.toggle("fa-eye", show);
     });
 });
-// request info
 
 
