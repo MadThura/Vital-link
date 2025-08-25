@@ -52,10 +52,10 @@
                                     </p>
                                 </div>
 
-                                <div class="flex items-start gap-3">
-                                    <i class="fas fa-clock text-red-600 dark:text-red-500 mt-0.5 text-sm"></i>
-                                    <p class="text-gray-600 dark:text-gray-400 text-sm">Mon-Fri: 8AM - 6PM<br>Sat-Sun:
-                                        9AM - 4PM</p>
+                                 <div class="flex items-start gap-3">
+                                    <i class="fa-regular fa-clock text-red-600 dark:text-red-500 mt-0.5 text-sm"></i>
+                                    <p class="text-gray-600 dark:text-gray-400 text-sm">{{ $bloodBank->operating_hour }}
+                                    </p>
                                 </div>
                             </div>
 
