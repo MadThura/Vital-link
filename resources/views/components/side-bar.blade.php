@@ -1,3 +1,4 @@
+@dd($newDonorsCount, $newDonationRequestsCount)
 <aside class="w-[15%] bg-gray-50 dark:bg-gray-900 flex flex-col justify-between border-r border-gray-300 dark:border-gray-800">
     <div>
         <!-- Logo -->
