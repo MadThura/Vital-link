@@ -6,72 +6,74 @@ document.addEventListener("DOMContentLoaded", () => {
     const btn = document.getElementById("openNotificationBtn");
     btn?.addEventListener("click", () => {
         const mountPoint = document.getElementById("notification-box");
-        // if (mountPoint.style.display === "none") {
-        //     mountPoint.style.display = "block";
-        //     createApp(NotificationBox).mount("#notification-box");
-        // }
         createApp(NotificationBox).mount("#notification-box");
     });
 });
 
-let notiBadge = document.getElementById("notificationCount");
-let pollingInterval;
+const res = await axios.get("/me");
+const userRole = res.data.role;
+if (userRole === "donor") {
+    let notiBadge = document.getElementById("notificationCount");
+    let pollingInterval;
 
-let lastUnreadCount = parseInt(localStorage.getItem("lastUnreadCount") || "0");
-const audio = new Audio("/sounds/notification.mp3"); // file in public/sounds/
+    let lastUnreadCount = parseInt(
+        localStorage.getItem("lastUnreadCount") || "0"
+    );
+    const audio = new Audio("/sounds/notification.mp3"); // file in public/sounds/
 
-// Function to fetch notifications
-async function updateNotifications() {
-    try {
-        const res = await axios.get("/notifications");
-        const unreadCount = res.data.filter((n) => !n.read_at).length;
+    // Function to fetch notifications
+    async function updateNotifications() {
+        try {
+            const res = await axios.get("/notifications");
+            const unreadCount = res.data.filter((n) => !n.read_at).length;
 
-        // Play sound only if count increased
-        if (unreadCount > lastUnreadCount) {
-            audio
-                .play()
-                .catch((err) => console.warn("Audio play blocked:", err));
+            // Play sound only if count increased
+            if (unreadCount > lastUnreadCount) {
+                audio
+                    .play()
+                    .catch((err) => console.warn("Audio play blocked:", err));
+            }
+
+            // Save current count to memory + storage
+            lastUnreadCount = unreadCount;
+            localStorage.setItem("lastUnreadCount", unreadCount);
+
+            // Update badge
+            if (unreadCount > 0) {
+                notiBadge.textContent = unreadCount;
+                notiBadge.style.display = "inline-block";
+            } else {
+                notiBadge.style.display = "none";
+            }
+        } catch (error) {
+            console.error("Error fetching notifications:", error);
         }
+    }
 
-        // Save current count to memory + storage
-        lastUnreadCount = unreadCount;
-        localStorage.setItem("lastUnreadCount", unreadCount);
+    // Start polling every 5 seconds
+    function startPolling() {
+        updateNotifications(); // fetch immediately
+        pollingInterval = setInterval(updateNotifications, 5000);
+    }
 
-        // Update badge
-        if (unreadCount > 0) {
-            notiBadge.textContent = unreadCount;
-            notiBadge.style.display = "inline-block";
+    // Stop polling
+    function stopPolling() {
+        clearInterval(pollingInterval);
+    }
+
+    // Listen for tab visibility changes
+    document.addEventListener("visibilitychange", () => {
+        if (document.hidden) {
+            stopPolling(); // pause when tab is inactive
         } else {
-            notiBadge.style.display = "none";
+            startPolling(); // resume when tab is active
         }
-    } catch (error) {
-        console.error("Error fetching notifications:", error);
-    }
+    });
+
+    // Initialize
+    startPolling();
+    //show and hide psw
 }
-
-// Start polling every 5 seconds
-function startPolling() {
-    updateNotifications(); // fetch immediately
-    pollingInterval = setInterval(updateNotifications, 5000);
-}
-
-// Stop polling
-function stopPolling() {
-    clearInterval(pollingInterval);
-}
-
-// Listen for tab visibility changes
-document.addEventListener("visibilitychange", () => {
-    if (document.hidden) {
-        stopPolling(); // pause when tab is inactive
-    } else {
-        startPolling(); // resume when tab is active
-    }
-});
-
-// Initialize
-startPolling();
-//show and hide psw
 
 document.querySelectorAll(".password-field .toggle-password").forEach((btn) => {
     btn.addEventListener("click", () => {

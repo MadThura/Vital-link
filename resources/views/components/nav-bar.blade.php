@@ -28,7 +28,7 @@
                         <button id="openNotificationBtn" class="relative p-3 rounded-full transition-all duration-300 ease-out group  hover:bg-gray-200/70 dark:hover:bg-gray-700/70  hover:shadow-lg dark:shadow-gray-800/30">
                             <i class="fa-solid fa-bell text-gray-700 group-hover:text-gray-900 dark:text-gray-300 dark:group-hover:text-white transition-all duration-300 text-lg"></i>
 
-                            <span id="notificationCount" class="absolute top-0 right-0 inline-flex items-center justify-center w-5 h-5 text-xs font-medium text-white bg-gradient-to-br from-red-400 to-red-500 rounded-full transform translate-x-1 -translate-y-1">
+                            <span id="notificationCount" style="display: none;" class="absolute top-0 right-0 inline-flex items-center justify-center w-5 h-5 text-xs font-medium text-white bg-gradient-to-br from-red-400 to-red-500 rounded-full transform translate-x-1 -translate-y-1">
                             </span>
 
                             <span class="absolute inset-0 rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-300 bg-gradient-to-br from-indigo-100/20 to-blue-200/20 dark:from-indigo-500/10 dark:to-blue-400/10"></span>

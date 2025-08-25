@@ -24,16 +24,16 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
-    $donor = null;
-
-    if (auth()->check() && auth()->user()->donor) {
-        $donor = auth()->user()->donor;
-    }
-    return view('welcome', [
-        'blogs' => Blog::latest()->get(),
-        'donor' => $donor
-    ]);
+    return view('welcome');
 })->name('welcome');
+
+Route::get('/me', function (Request $request) {
+    return response()->json([
+        'id'   => $request->user()->id,
+        'name' => $request->user()->name,
+        'role' => $request->user()->role,
+    ]);
+})->middleware('auth');
 
 Route::get('/blogs', [BlogController::class, 'index'])->name('blogs');
 Route::get('/blogs/{blog}', [BlogController::class, 'show'])->name('blogs.show');
