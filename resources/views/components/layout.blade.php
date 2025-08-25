@@ -15,12 +15,11 @@
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
 
-<body 
+<body
     class="m-0 font-roboto h-screen overflow-hidden 
            text-[#180705] dark:text-gray-100 
            bg-[#F3F0F0] dark:bg-gray-950 
-           transition-colors duration-300"
->
+           transition-colors duration-300">
     {{ $slot }}
 </body>
 
