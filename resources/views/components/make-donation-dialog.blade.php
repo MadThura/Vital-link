@@ -94,7 +94,7 @@
 
                                             <!-- Calendar popover -->
                                             <div x-show="open" @click.outside="open=false" x-transition
-                                                class="absolute top-0 right-[60%] z-50 w-full bg-white dark:bg-[#0a0a0a] border border-gray-300 dark:border-gray-800 rounded-lg shadow-xl p-3 transform -translate-x-1/2 -translate-y-1/2">
+                                                class="absolute top-0 right-[20%] z-50 w-[375px] bg-white dark:bg-[#0a0a0a] border border-gray-300 dark:border-gray-800 rounded-lg shadow-xl p-3 transform -translate-x-1/2 -translate-y-1/2">
 
                                                 <!-- Header -->
                                                 <div class="flex items-center justify-between mb-2">

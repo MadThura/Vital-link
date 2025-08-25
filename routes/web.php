@@ -24,7 +24,15 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
-    return view('welcome');
+    $donor = null;
+
+    if (auth()->check() && auth()->user()->donor) {
+        $donor = auth()->user()->donor;
+    }
+    return view('welcome', [
+        'blogs' => Blog::latest()->get(),
+        'donor' => $donor
+    ]);
 })->name('welcome');
 
 Route::get('/me', function (Request $request) {

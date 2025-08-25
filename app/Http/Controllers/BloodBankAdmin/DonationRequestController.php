@@ -20,7 +20,7 @@ class DonationRequestController extends Controller
             'donationRequests' => DonationRequest::with('donor', 'bloodBank')
                 ->where('blood_bank_id', auth()->user()->bloodBank->id)
                 ->filter(request(['search', 'status']))
-                ->paginate(10) 
+                ->paginate(10)
         ]);
     }
 
@@ -40,16 +40,17 @@ class DonationRequestController extends Controller
                     'status' => 'in_progress'
                 ]);
                 Notification::send($user, new DonationRequestApproved($donationRequest));
+                $donationRequest->save();
                 break;
             case 'reject':
                 $donationRequest->status = "rejected";
                 Notification::send($user, new DonationRequestRejected($donationRequest));
+                $donationRequest->delete();
                 break;
             default:
                 return back()->with('fail', 'Invalid action');
         }
 
-        $donationRequest->save();
 
         return back()->with('success', 'Donation-request ' . $donationRequest->status . ' successfully.');
     }

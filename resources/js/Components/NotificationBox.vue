@@ -44,7 +44,7 @@
         <template v-if="filteredNotifications('blogs').length > 0">
           <li v-for="item in filteredNotifications('blogs')" :key="item.id" @click="markAsRead(item)"
             class="group py-2 px-3 rounded-lg transition-colors hover:bg-gray-50 dark:hover:bg-gray-700 cursor-pointer">
-            <a :href="item.data.url" target="_blank" class="flex items-start gap-3">
+            <a :href="item.data.url" class="flex items-start gap-3">
               <div class="flex-shrink-0 mt-1">
                 <div class="h-2 w-2 rounded-full" :class="item.read_at ? 'bg-gray-400' : 'bg-red-500'"></div>
               </div>
