@@ -69,6 +69,8 @@ class DonationRecordController extends Controller
             $appointment->status = 'completed';
             $appointment->save();
 
+            $donor->donationRequest()->delete();
+
             // update blood inventory   
             $inventory = BloodInventory::firstOrCreate(
                 [
