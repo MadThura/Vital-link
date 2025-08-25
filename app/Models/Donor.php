@@ -50,9 +50,9 @@ class Donor extends Model
         return $this->hasOne(DonationRequest::class);
     }
 
-    public function appointment()
+    public function appointments()
     {
-        return $this->hasOne(Appointment::class);
+        return $this->hasMany(Appointment::class);
     }
 
     public function donations()

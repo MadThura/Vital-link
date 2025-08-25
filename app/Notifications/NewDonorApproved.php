@@ -2,6 +2,7 @@
 
 namespace App\Notifications;
 
+use App\Models\BloodBank;
 use App\Models\Donor;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
@@ -51,8 +52,11 @@ class NewDonorApproved extends Notification
      */
     public function toArray(object $notifiable): array
     {
+        $bb = BloodBank::where('id', $this->donor->blood_bank_id)->first();
         return [
-            //
+            'type' => static::class,
+            'donor' => $this->donor->load('user'),
+            'blood_bank_name' => $bb->name
         ];
     }
 }

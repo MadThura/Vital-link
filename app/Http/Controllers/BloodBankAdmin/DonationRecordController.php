@@ -23,6 +23,7 @@ class DonationRecordController extends Controller
 
         $appointments = Appointment::with('donor', 'bloodBank')
             ->where('blood_bank_id', $bloodBank->id)
+            ->latest()
             ->filter(['search' => request('search_appointment'), 'date' => request('appointment_date'), 'status' => request('appointment_status')])
             ->paginate(10);
         $donations = Donation::with('donor')
@@ -68,6 +69,8 @@ class DonationRecordController extends Controller
             // update appointment
             $appointment->status = 'completed';
             $appointment->save();
+
+             $donor->donationRequest()->delete();
 
             // update blood inventory   
             $inventory = BloodInventory::firstOrCreate(

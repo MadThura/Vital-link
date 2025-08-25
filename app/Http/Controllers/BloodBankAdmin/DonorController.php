@@ -27,6 +27,8 @@ class DonorController extends Controller
         DB::beginTransaction();
 
         try {
+            $donor->blood_bank_id = auth()->user()->bloodBank->id;
+            $donor->save();
             switch ($action) {
                 case 'approve':
                     $this->approveDonor($donor);

@@ -19,7 +19,6 @@ return new class extends Migration
             $table->date('date');
             $table->enum('status', ['in_progress', 'completed', 'canceled', 'expired']);
             $table->timestamps();
-            $table->unique(['donor_id', 'blood_bank_id']);
         });
     }
 

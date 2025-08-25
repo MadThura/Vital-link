@@ -5,10 +5,14 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Donation Status Notification</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
 
         body {
             font-family: 'Poppins', sans-serif;
@@ -18,13 +22,136 @@
             align-items: center;
             justify-content: center;
             padding: 20px;
+            color: #374151;
         }
 
         .email-container {
+            width: 100%;
+            max-width: 700px;
+            margin: 0 auto;
             transition: all 0.3s ease;
             box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
             border-radius: 20px;
             overflow: hidden;
+        }
+
+        .email-header {
+            background: linear-gradient(to right, #2563eb, #4338ca);
+            padding: 24px 32px;
+            color: white;
+        }
+
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo-container {
+            display: flex;
+            align-items: center;
+        }
+
+        .logo-icon {
+            background: white;
+            color: #2563eb;
+            padding: 8px;
+            border-radius: 12px;
+            margin-right: 16px;
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .logo-icon svg {
+            width: 24px;
+            height: 24px;
+        }
+
+        .logo-text h1 {
+            font-size: 24px;
+            font-weight: 700;
+        }
+
+        .logo-text p {
+            color: #bfdbfe;
+            font-size: 14px;
+        }
+
+        .header-date {
+            font-size: 14px;
+        }
+
+        .email-content {
+            background: white;
+            padding: 32px;
+        }
+
+        .greeting {
+            margin-bottom: 32px;
+        }
+
+        .greeting h2 {
+            font-size: 24px;
+            font-weight: 700;
+            color: #1f2937;
+            margin-bottom: 8px;
+        }
+
+        .greeting p {
+            color: #6b7280;
+        }
+
+        .status-section {
+            margin-bottom: 32px;
+            padding: 24px;
+            border-radius: 12px;
+            background: linear-gradient(to right, #f0fdf4, #ecfdf5);
+            border: 1px solid #bbf7d0;
+        }
+
+        .status-container {
+            display: flex;
+            align-items: center;
+            margin-bottom: 16px;
+        }
+
+        .status-icon {
+            background: #dcfce7;
+            padding: 12px;
+            border-radius: 50%;
+            width: 48px;
+            height: 48px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .status-icon svg {
+            width: 24px;
+            height: 24px;
+        }
+
+        .status-text {
+            margin-left: 16px;
+        }
+
+        .status-text h3 {
+            font-size: 18px;
+            font-weight: 600;
+            color: #1f2937;
+        }
+
+        .status-detail {
+            display: flex;
+            align-items: center;
+            margin-top: 4px;
+        }
+
+        .status-detail span:first-child {
+            color: #6b7280;
         }
 
         .status-badge {
@@ -34,6 +161,85 @@
             border-radius: 20px;
             font-weight: 600;
             margin-left: 10px;
+            background: #dcfce7;
+            color: #166534;
+        }
+
+        .status-badge svg {
+            margin-right: 8px;
+            width: 14px;
+            height: 14px;
+        }
+
+        .status-message {
+            color: #6b7280;
+        }
+
+        .details-section {
+            margin-bottom: 32px;
+        }
+
+        .details-section h3 {
+            font-size: 18px;
+            font-weight: 600;
+            color: #1f2937;
+            margin-bottom: 16px;
+        }
+
+        .details-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 16px;
+        }
+
+        @media (min-width: 640px) {
+            .details-grid {
+                grid-template-columns: 1fr 1fr;
+            }
+        }
+
+        .donation-card {
+            background: #f9fafb;
+            padding: 20px;
+            border-radius: 12px;
+            border: 1px solid #e5e7eb;
+            transition: transform 0.3s ease;
+        }
+
+        .donation-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .card-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 12px;
+        }
+
+        .card-icon {
+            background: #dbeafe;
+            padding: 8px;
+            border-radius: 8px;
+            margin-right: 12px;
+            width: 32px;
+            height: 32px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .card-icon svg {
+            width: 16px;
+            height: 16px;
+        }
+
+        .card-header h4 {
+            font-weight: 500;
+            color: #374151;
+        }
+
+        .card-content {
+            color: #1f2937;
         }
 
         .divider {
@@ -42,85 +248,247 @@
             margin: 24px 0;
         }
 
-        .donation-card {
-            transition: transform 0.3s ease;
+        .impact-section {
+            margin-bottom: 32px;
+            background: #eff6ff;
+            padding: 24px;
+            border-radius: 12px;
+            border: 1px solid #bfdbfe;
         }
 
-        .donation-card:hover {
-            transform: translateY(-5px);
+        .impact-container {
+            display: flex;
+            align-items: flex-start;
+        }
+
+        .impact-icon {
+            background: #dbeafe;
+            padding: 12px;
+            border-radius: 50%;
+            margin-top: 4px;
+            width: 42px;
+            height: 42px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .impact-icon svg {
+            width: 18px;
+            height: 18px;
+        }
+
+        .impact-text {
+            margin-left: 16px;
+        }
+
+        .impact-text h3 {
+            font-size: 18px;
+            font-weight: 600;
+            color: #1f2937;
+            margin-bottom: 8px;
+        }
+
+        .impact-text p {
+            color: #6b7280;
+        }
+
+        .contact-section {
+            background: #f9fafb;
+            padding: 24px;
+            border-radius: 12px;
+            border: 1px solid #e5e7eb;
+        }
+
+        .contact-section h3 {
+            font-size: 18px;
+            font-weight: 600;
+            color: #1f2937;
+            margin-bottom: 12px;
+        }
+
+        .contact-section p {
+            color: #6b7280;
+            margin-bottom: 16px;
+        }
+
+        .contact-info {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .contact-item {
+            display: flex;
+            align-items: center;
+            color: #6b7280;
+        }
+
+        .contact-item svg {
+            color: #3b82f6;
+            margin-right: 12px;
+            width: 16px;
+            height: 16px;
+        }
+
+        .email-footer {
+            background: linear-gradient(to right, #1f2937, #111827);
+            padding: 32px;
+            color: white;
+        }
+
+        .footer-top {
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 24px;
+        }
+
+        @media (min-width: 768px) {
+            .footer-top {
+                flex-direction: row;
+            }
+        }
+
+        .footer-logo {
+            margin-bottom: 16px;
+        }
+
+        @media (min-width: 768px) {
+            .footer-logo {
+                margin-bottom: 0;
+            }
+        }
+
+        .footer-logo h2 {
+            font-size: 20px;
+            font-weight: 700;
+        }
+
+        .footer-logo p {
+            color: #9ca3af;
+            font-size: 14px;
+        }
+
+        .social-links {
+            display: flex;
+            gap: 16px;
+        }
+
+        .social-links a {
+            color: #d1d5db;
+            font-size: 18px;
+            transition: color 0.3s ease;
+        }
+
+        .social-links a:hover {
+            color: white;
+        }
+
+        .social-links svg {
+            width: 18px;
+            height: 18px;
+        }
+
+        .footer-bottom {
+            text-align: center;
+            padding-top: 24px;
+            border-top: 1px solid #374151;
+        }
+
+        .footer-bottom p {
+            color: #9ca3af;
+            font-size: 12px;
+            margin-bottom: 4px;
+        }
+
+        .footer-bottom p:last-child {
+            margin-top: 12px;
         }
     </style>
 </head>
 
 <body>
-    <div class="max-w-2xl mx-auto email-container">
+    <div class="email-container">
         <!-- Header -->
-        <div class="bg-gradient-to-r from-blue-600 to-indigo-700 px-8 py-6 text-white">
-            <div class="flex justify-between items-center">
-                <div class="flex items-center">
-                    <div class="bg-white text-blue-600 p-2 rounded-lg mr-4">
-                        <i class="fas fa-hand-holding-heart text-2xl"></i>
+        <div class="email-header">
+            <div class="header-content">
+                <div class="logo-container">
+                    <div class="logo-icon">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512" fill="currentColor">
+                            <path d="M248 0H208c-26.5 0-48 21.5-48 48V160c0 35.3 28.7 64 64 64h16 16c35.3 0 64-28.7 64-64V48c0-26.5-21.5-48-48-48H248zM64 256c-35.3 0-64 28.7-64 64v48c0 35.3 28.7 64 64 64h16 16c35.3 0 64-28.7 64-64V320c0-35.3-28.7-64-64-64H64 64zm384 0c-35.3 0-64 28.7-64 64v48c0 35.3 28.7 64 64 64h16 16c35.3 0 64-28.7 64-64V320c0-35.3-28.7-64-64-64H448 448zM288 288c0 35.3-28.7 64-64 64h-16-16c-35.3 0-64-28.7-64-64v-32c0-35.3 28.7-64 64-64h16 16c35.3 0 64 28.7 64 64v32zM512 96h-16-16c-35.3 0-64 28.7-64 64v32c0 35.3 28.7 64 64 64h16 16c35.3 0 64-28.7 64-64V160c0-35.3-28.7-64-64-64zM224 416v32c0 35.3 28.7 64 64 64h16 16c35.3 0 64-28.7 64-64V416c0-35.3-28.7-64-64-64h-16-16c-35.3 0-64 28.7-64 64z"/>
+                        </svg>
                     </div>
-                    <div>
-                        <h1 class="text-2xl font-bold">Vital Link</h1>
-                        <p class="text-blue-100">Making a difference together</p>
+                    <div class="logo-text">
+                        <h1>Vital Link</h1>
+                        <p>Making a difference together</p>
                     </div>
                 </div>
-                <div class="text-sm">October 15, 2023</div>
+                <div class="header-date">{{ $donor->created_at->format('d M Y') }}</div>
             </div>
         </div>
 
         <!-- Email Content -->
-        <div class="bg-white px-8 py-8">
+        <div class="email-content">
             <!-- Greeting -->
-            <div class="mb-8">
-                <h2 class="text-2xl font-bold text-gray-800 mb-2">Dear Alex Johnson,</h2>
-                <p class="text-gray-600">Thank you for your generous donation to our cause. Here is the status of your
-                    recent contribution:</p>
+            <div class="greeting">
+                <h2>Dear {{ $donor->user->name }}</h2>
+                <p>Thank you for your generous donation to our cause. Here is the status of your recent contribution:
+                </p>
             </div>
 
             <!-- Status Section -->
-            <div class="mb-8 p-6 rounded-xl bg-gradient-to-r from-green-50 to-emerald-50 border border-green-200">
-                <div class="flex items-center mb-4">
-                    <div class="bg-green-100 p-3 rounded-full">
-                        <i class="fas fa-check-circle text-green-600 text-2xl"></i>
+            <div class="status-section">
+                <div class="status-container">
+                    <div class="status-icon">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" fill="currentColor">
+                            <path d="M256 512A256 256 0 1 0 256 0a256 256 0 1 0 0 512zM369 209L241 337c-9.4 9.4-24.6 9.4-33.9 0l-64-64c-9.4-9.4-9.4-24.6 0-33.9s24.6-9.4 33.9 0l47 47L335 175c9.4-9.4 24.6-9.4 33.9 0s9.4 24.6 0 33.9z"/>
+                        </svg>
                     </div>
-                    <div class="ml-4">
-                        <h3 class="text-lg font-semibold text-gray-800">Donation Status</h3>
-                        <div class="flex items-center mt-1">
-                            <span class="text-gray-600">Approved</span>
-                            <span class="status-badge bg-green-100 text-green-800">
-                                <i class="fas fa-check-circle mr-2"></i> Completed
+                    <div class="status-text">
+                        <h3>Donation Status</h3>
+                        <div class="status-detail">
+                            <span>{{ $donor->status }}</span>
+                            <span class="status-badge">
+                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" fill="currentColor">
+                                    <path d="M256 512A256 256 0 1 0 256 0a256 256 0 1 0 0 512zM369 209L241 337c-9.4 9.4-24.6 9.4-33.9 0l-64-64c-9.4-9.4-9.4-24.6 0-33.9s24.6-9.4 33.9 0l47 47L335 175c9.4-9.4 24.6-9.4 33.9 0s9.4 24.6 0 33.9z"/>
+                                </svg>
+                                Completed
                             </span>
                         </div>
                     </div>
                 </div>
-                <p class="text-gray-600 mt-4">Your donation has been successfully processed and will directly support
-                    our community outreach programs.</p>
+                <p class="status-message">Your donation has been successfully processed and will directly support our
+                    community outreach programs.</p>
             </div>
 
             <!-- Donation Details -->
-            <div class="mb-8">
-                <h3 class="text-lg font-semibold text-gray-800 mb-4">Donation Details</h3>
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    <div class="donation-card bg-gray-50 p-5 rounded-xl border border-gray-200">
-                        <div class="flex items-center mb-3">
-                            <div class="bg-blue-100 p-2 rounded-lg mr-3">
-                                <i class="fas fa-receipt text-blue-600"></i>
+            <div class="details-section">
+                <h3>Donation Details</h3>
+                <div class="details-grid">
+                    <div class="donation-card">
+                        <div class="card-header">
+                            <div class="card-icon">
+                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 384 512" fill="currentColor">
+                                    <path d="M64 0C28.7 0 0 28.7 0 64V448c0 35.3 28.7 64 64 64H320c35.3 0 64-28.7 64-64V160H256c-17.7 0-32-14.3-32-32V0H64zM256 0V128H384L256 0zM112 256h64c8.8 0 16 7.2 16 16s-7.2 16-16 16H112c-8.8 0-16-7.2-16-16s7.2-16 16-16zm0 64h64c8.8 0 16 7.2 16 16s-7.2 16-16 16H112c-8.8 0-16-7.2-16-16s7.2-16 16-16zm0 64h64c8.8 0 16 7.2 16 16s-7.2 16-16 16H112c-8.8 0-16-7.2-16-16s7.2-16 16-16zm128 0H112c-8.8 0-16-7.2-16-16s7.2-16 16-16H240c8.8 0 16 7.2 16 16s-7.2 16-16 16zm0-64H112c-8.8 0-16-7.2-16-16s7.2-16 16-16H240c8.8 0 16 7.2 16 16s-7.2 16-16 16zm0-64H112c-8.8 0-16-7.2-16-16s7.2-16 16-16H240c8.8 0 16 7.2 16 16s-7.2 16-16 16z"/>
+                                </svg>
                             </div>
-                            <h4 class="font-medium text-gray-700">Donor Id</h4>
+                            <h4>Donor Id</h4>
                         </div>
-                        <p class="text-gray-800 font-mono">DN-2023-78945</p>
+                        <div class="card-content">{{ $donor->donor_code }}</div>
                     </div>
 
-                    <div class="donation-card bg-gray-50 p-5 rounded-xl border border-gray-200">
-                        <div class="flex items-center mb-3">
-                            <div class="bg-blue-100 p-2 rounded-lg mr-3">
-                                <i class="fas fa-calendar text-blue-600"></i>
+                    <div class="donation-card">
+                        <div class="card-header">
+                            <div class="card-icon">
+                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" fill="currentColor">
+                                    <path d="M152 24c0-13.3-10.7-24-24-24s-24 10.7-24 24V64H64C28.7 64 0 92.7 0 128v16 48V448c0 35.3 28.7 64 64 64H384c35.3 0 64-28.7 64-64V192 144 128c0-35.3-28.7-64-64-64H344V24c0-13.3-10.7-24-24-24s-24 10.7-24 24V64H152V24zM48 192H400V448c0 8.8-7.2 16-16 16H64c-8.8 0-16-7.2-16-16V192z"/>
+                                </svg>
                             </div>
-                            <h4 class="font-medium text-gray-700">Date</h4>
+                            <h4>Date</h4>
                         </div>
-                        <p class="text-gray-800">October 15, 2023</p>
+                        <div class="card-content">{{ $donor->created_at->format('d M Y') }}</div>
                     </div>
                 </div>
             </div>
@@ -129,61 +497,80 @@
             <div class="divider"></div>
 
             <!-- Impact Message -->
-            <div class="mb-8 bg-blue-50 p-6 rounded-xl border border-blue-200">
-                <div class="flex items-start">
-                    <div class="bg-blue-100 p-3 rounded-full mt-1">
-                        <i class="fas fa-hands-helping text-blue-600 text-xl"></i>
+            <div class="impact-section">
+                <div class="impact-container">
+                    <div class="impact-icon">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 512" fill="currentColor">
+                            <path d="M192 64C86 64 0 150 0 256S86 448 192 448H448c106 0 192-86 192-192s-86-192-192-192H192zM496 168a40 40 0 1 1 0 80 40 40 0 1 1 0-80zM392 304a40 40 0 1 1 80 0 40 40 0 1 1 -80 0zM168 200a40 40 0 1 1 0 80 40 40 0 1 1 0-80z"/>
+                        </svg>
                     </div>
-                    <div class="ml-4">
-                        <h3 class="text-lg font-semibold text-gray-800 mb-2">Your Impact</h3>
-                        <p class="text-gray-600">Your generous contribution will provide essential supplies for 5
-                            families in need this month. We truly appreciate your support in making our community a
-                            better place.</p>
+                    <div class="impact-text">
+                        <h3>Your Impact</h3>
+                        <p>Your generous contribution will provide essential supplies for 5 families in need this month.
+                            We truly appreciate your support in making our community a better place.</p>
                     </div>
                 </div>
             </div>
 
             <!-- Contact Info -->
-            <div class="bg-gray-50 p-6 rounded-xl border border-gray-200">
-                <h3 class="text-lg font-semibold text-gray-800 mb-3">Need Assistance?</h3>
-                <p class="text-gray-600 mb-4">Our donor support team is here to help with any questions you may have.
-                </p>
-                <div class="flex items-center text-gray-600 mb-2">
-                    <i class="fas fa-envelope mr-3 text-blue-500"></i>
-                    <span>donors@Vital Link.org</span>
-                </div>
-                <div class="flex items-center text-gray-600">
-                    <i class="fas fa-phone mr-3 text-blue-500"></i>
-                    <span>(555) 123-4567</span>
+            <div class="contact-section">
+                <h3>Need Assistance?</h3>
+                <p>Our donor support team is here to help with any questions you may have.</p>
+                <div class="contact-info">
+                    <div class="contact-item">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" fill="currentColor">
+                            <path d="M48 64C21.5 64 0 85.5 0 112c0 15.1 7.1 29.3 19.2 38.4L236.8 313.6c11.4 8.5 27 8.5 38.4 0L492.8 150.4c12.1-9.1 19.2-23.3 19.2-38.4c0-26.5-21.5-48-48-48H48zM0 176V384c0 35.3 28.7 64 64 64H448c35.3 0 64-28.7 64-64V176L294.4 339.2c-22.8 17.1-54 17.1-76.8 0L0 176z"/>
+                        </svg>
+                        <span>thetmgmg.123875@gmail.com</span>
+                    </div>
+                    <div class="contact-item">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" fill="currentColor">
+                            <path d="M164.9 24.6c-7.7-18.6-28-28.5-47.4-23.2l-88 24C12.1 30.2 0 46 0 64C0 311.4 200.6 512 448 512c18 0 33.8-12.1 38.6-29.5l24-88c5.3-19.4-4.6-39.7-23.2-47.4l-96-40c-16.3-6.8-35.2-2.1-46.3 11.6L304.7 368C234.3 334.7 177.3 277.7 144 207.3L193.3 167c13.7-11.2 18.4-30 11.6-46.3l-40-96z"/>
+                        </svg>
+                        <span>09757500076</span>
+                    </div>
                 </div>
             </div>
         </div>
 
         <!-- Footer -->
-        <div class="bg-gradient-to-r from-gray-800 to-gray-900 px-8 py-8 text-white">
-            <div class="flex flex-col md:flex-row justify-between items-center mb-6">
-                <div class="mb-4 md:mb-0">
-                    <h2 class="text-xl font-bold">Vital Link</h2>
-                    <p class="text-gray-400">501(c)(3) Nonprofit Organization</p>
+        <div class="email-footer">
+            <div class="footer-top">
+                <div class="footer-logo">
+                    <h2>Vital Link</h2>
+                    <p>501(c)(3) Nonprofit Organization</p>
                 </div>
-                <div class="flex space-x-4">
-                    <a href="#" class="text-gray-300 hover:text-white transition"><i
-                            class="fab fa-face-f fa-lg"></i></a>
-                    <a href="#" class="text-gray-300 hover:text-white transition"><i
-                            class="fab fa-twitter fa-lg"></i></a>
-                    <a href="#" class="text-gray-300 hover:text-white transition"><i
-                            class="fab fa-instagram fa-lg"></i></a>
-                    <a href="#" class="text-gray-300 hover:text-white transition"><i
-                            class="fab fa-linkedin-in fa-lg"></i></a>
+                <div class="social-links">
+                    <a href="#">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512" fill="currentColor">
+                            <path d="M80 299.3V512H196V299.3h86.5l18-97.8H196V166.9c0-51.7 20.3-71.5 72.7-71.5c16.3 0 29.4 .4 37 1.2V7.9C291.4 4 256.4 0 236.2 0C129.3 0 80 50.5 80 159.4v42.1H14v97.8H80z"/>
+                        </svg>
+                    </a>
+                    <a href="#">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" fill="currentColor">
+                            <path d="M459.4 151.7c.3 4.5 .3 9.1 .3 13.6 0 138.7-105.6 298.6-298.6 298.6-59.5 0-114.7-17.2-161.1-47.1 8.4 1 16.6 1.3 25.3 1.3 49.1 0 94.2-16.6 130.3-44.8-46.1-1-84.8-31.2-98.1-72.8 6.5 1 13 1.6 19.8 1.6 9.4 0 18.8-1.3 27.6-3.6-48.1-9.7-84.1-52-84.1-103v-1.3c14 7.8 30.2 12.7 47.4 13.3-28.3-18.8-46.8-51-46.8-87.4 0-19.5 5.2-37.4 14.3-53 51.7 63.7 129.3 105.3 216.4 109.8-1.6-7.8-2.6-15.9-2.6-24 0-57.8 46.8-104.9 104.9-104.9 30.2 0 57.5 12.7 76.7 33.1 23.7-4.5 46.5-13.3 66.6-25.3-7.8 24.4-24.4 44.8-46.1 57.8 21.1-2.3 41.6-8.1 60.4-16.2-14.3 20.8-32.2 39.3-52.6 54.3z"/>
+                        </svg>
+                    </a>
+                    <a href="#">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" fill="currentColor">
+                            <path d="M224.1 141c-63.6 0-114.9 51.3-114.9 114.9s51.3 114.9 114.9 114.9S339 319.5 339 255.9 287.7 141 224.1 141zm0 189.6c-41.1 0-74.7-33.5-74.7-74.7s33.5-74.7 74.7-74.7 74.7 33.5 74.7 74.7-33.6 74.7-74.7 74.7zm146.4-194.3c0 14.9-12 26.8-26.8 26.8-14.9 0-26.8-12-26.8-26.8s12-26.8 26.8-26.8 26.8 12 26.8 26.8zm76.1 27.2c-1.7-35.9-9.9-67.7-36.2-93.9-26.2-26.2-58-34.4-93.9-36.2-37-2.1-147.9-2.1-184.9 0-35.8 1.7-67.6 9.9-93.9 36.1s-34.4 58-36.2 93.9c-2.1 37-2.1 147.9 0 184.9 1.7 35.9 9.9 67.7 36.2 93.9s58 34.4 93.9 36.2c37 2.1 147.9 2.1 184.9 0 35.9-1.7 67.7-9.9 93.9-36.2 26.2-26.2 34.4-58 36.2-93.9 2.1-37 2.1-147.8 0-184.8zM398.8 388c-7.8 19.6-22.9 34.7-42.6 42.6-29.5 11.7-99.5 9-132.1 9s-102.7 2.6-132.1-9c-19.6-7.8-34.7-22.9-42.6-42.6-11.7-29.5-9-99.5-9-132.1s-2.6-102.7 9-132.1c7.8-19.6 22.9-34.7 42.6-42.6 29.5-11.7 99.5-9 132.1-9s102.7-2.6 132.1 9c19.6 7.8 34.7 22.9 42.6 42.6 11.7 29.5 9 99.5 9 132.1s2.7 102.7-9 132.1z"/>
+                        </svg>
+                    </a>
+                    <a href="#">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" fill="currentColor">
+                            <path d="M416 32H31.9C14.3 32 0 46.5 0 64.3v383.4C0 465.5 14.3 480 31.9 480H416c17.6 0 32-14.5 32-32.3V64.3c0-17.8-14.4-32.3-32-32.3zM135.4 416H69V202.2h66.5V416zm-33.2-243c-21.3 0-38.5-17.3-38.5-38.5S80.9 96 102.2 96c21.2 0 38.5 17.3 38.5 38.5 0 21.3-17.2 38.5-38.5 38.5zm282.1 243h-66.4V312c0-24.8-.5-56.7-34.5-56.7-34.6 0-39.9 27-39.9 54.9V416h-66.4V202.2h63.7v29.2h.9c8.9-16.8 30.6-34.5 62.9-34.5 67.2 0 79.7 44.3 79.7 101.9V416z"/>
+                        </svg>
+                    </a>
                 </div>
             </div>
 
-            <div class="text-center text-gray-400 text-xs pt-4 border-t border-gray-700">
+            <div class="footer-bottom">
                 <p>© 2023 Vital Link. All rights reserved.</p>
-                <p class="mt-1">EIN: 12-3456789 | Tax-Exempt since 2010</p>
-                <p class="mt-3">You are receiving this email because you made a donation to Vital Link. </p>
+                <p>EIN: 12-3456789 | Tax-Exempt since 2010</p>
+                <p>You are receiving this email because you made a donation to Vital Link.</p>
             </div>
         </div>
     </div>
 </body>
+
 </html>

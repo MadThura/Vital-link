@@ -112,7 +112,7 @@
                                             </button>
                                             <x-donor-detail-dialog-box :donor="$donor" />
                                         </div>
-                                        <form action="{{ route('bba.donors.updateStatus', ['donor' => $donor, 'action' => 'approve']) }}" method="POST">
+                                        <form id="searchForm" action="{{ route('bba.donors.updateStatus', ['donor' => $donor, 'action' => 'approve']) }}" method="POST">
                                             @csrf
                                             @method('PATCH')
                                             <x-tooltip-button peerClass="approve" tooltipText="Approve" icon="fa-check" hoverColor="emerald-500" />
@@ -194,4 +194,5 @@
             {{ $donors->appends(request()->query())->links() }}
         </div>
     </div>
+    <x-loading-indicator></x-loading-indicator>
 </x-admin-layout>

@@ -31,7 +31,7 @@ class DonationRequestController extends Controller
             case 'approve':
                 $donationRequest->status = "approved";
                 $donor = $donationRequest->donor;
-                $donor->appointment()->create([
+                $donor->appointments()->create([
                     'appointment_id' => Appointment::generateAppointmentId(),
                     'blood_bank_id' => $donationRequest->blood_bank_id,
                     'date' => $donationRequest->appointment_date,

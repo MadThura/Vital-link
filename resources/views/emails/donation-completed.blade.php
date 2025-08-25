@@ -227,10 +227,7 @@
                         <div class="detail-value">{{ $donation->bloodBank->name }}</div>
                     </div>
                 </div>
-            </div>
-            
-            {{-- <a href="{{ url('/donations/'.$donation->id) }}" class="button">View Full Details</a> --}}
-            
+            </div>      
             <div class="closing">
                 <p>With heartfelt gratitude,</p>
                 <p class="signature">The VitalLink Team</p>

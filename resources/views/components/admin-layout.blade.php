@@ -2,7 +2,7 @@
 
     <div class="flex w-full h-screen text-black overflow-hidden">
         <x-side-bar/>
-        <div class="flex flex-col w-[85%] h-full">
+        <div class="flex flex-col w-[84%] h-full">
             <x-header/>
             {{ $slot }}
         </div>

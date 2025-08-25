@@ -131,6 +131,15 @@
                 </button>
               </div>
             </a>
+
+            <!-- New Donor Approved -->
+            <div v-else-if="item.type === 'App\\Notifications\\NewDonorApproved'"
+              class="p-3 border border-green-200 dark:border-green-700 rounded-lg bg-green-50 dark:bg-green-900/20">
+              <p class="text-sm text-green-600 dark:text-green-400 font-semibold">
+                ✅ Your donor registration was approved by {{ item.data.blood_bank_name }}
+              </p>
+              <p class="text-[11px] text-gray-400 dark:text-gray-500 mt-2">{{ formatTimestamp(item.created_at) }}</p>
+            </div>
           </li>
         </template>
         <template v-else>
@@ -166,7 +175,9 @@ function filteredNotifications(tabKey) {
     return notifications.value.filter(n =>
       n.type === 'App\\Notifications\\DonationRequestApproved' ||
       n.type === 'App\\Notifications\\DonationRequestRejected' ||
-      n.type === 'App\\Notifications\\DonationCompleted'
+      n.type === 'App\\Notifications\\DonationCompleted' ||
+      n.type === 'App\\Notifications\\NewDonorApproved' ||
+      n.type === 'App\\Notifications\\NewDonorRejected'
     )
   }
   return []
@@ -245,5 +256,4 @@ onBeforeUnmount(() => {
   if (refreshInterval) clearInterval(refreshInterval)
 })
 </script>
-<!-- 
-{"type":"App\\Notifications\\DonationCompleted","donation":{"donation_id":"DID-22-08-2025-8RZFTLCV","donor_id":21,"blood_bank_id":1,"donation_date":"2025-08-22T07:21:58.246085Z","units":"5","note":"hello","updated_at":"2025-08-22T07:21:58.000000Z","created_at":"2025-08-22T07:21:58.000000Z","id":1,"donor":{"id":21,"user_id":3,"blood_bank_id":1,"donor_code":"DNR-2025-59SV5Q","profile_img":"donors\/profiles\/luffy.jpg","gender":"Male","dob":"2003-10-06","nrc":"08\/MaTaNa(N)494444","phone":"09250500009","address":"Foosha Village on Dawn Island","blood_type":"B+","donation_count":1,"last_donation_at":"2025-08-22 07:21:58","cooldown_until":"2026-02-22 07:21:58","health_certificate":"https:\/\/via.placeholder.com\/640x480.png\/00bb99?text=exercitationem","nrc_front":"https:\/\/via.placeholder.com\/640x480.png\/00ff66?text=possimus","nrc_back":"https:\/\/via.placeholder.com\/640x480.png\/00ffaa?text=ipsum","status":"approved","rejection_errors":null,"created_at":"2025-08-22T07:20:57.000000Z","updated_at":"2025-08-22T07:21:58.000000Z"},"blood_bank":{"id":1,"user_id":2,"name":"National Blood Center","phone":"09250052532","address":"No. 97, Corner of Bogyoke Aung San Road and Shwedagon Pagoda Road, Latha Township, Yangon 11131, Myanmar","maxPersonsPerDay":1,"created_at":"2025-08-22T07:20:57.000000Z","updated_at":"2025-08-22T07:20:57.000000Z"}}} -->
+<!-- {"type":"App\\Notifications\\NewDonorApproved","donor":{"id":7,"user_id":11,"blood_bank_id":null,"donor_code":"DNR-2025-TNUFKL","profile_img":"donors\/profiles\/hPSpRo9b25G3RqdwpDLKxRJqR9RjFMD5Z8GdJqgC.jpg","gender":"Female","dob":"1987-10-08","nrc":"01\/KhaLaHpa(N)975123","phone":"+1 (955) 874-1102","address":"Et id numquam suscip","blood_type":"AB-","donation_count":0,"last_donation_at":null,"cooldown_until":null,"health_certificate":"donors\/health_certificates\/L9QqQQ0DHNRrpMUwkOxqmQeyuVyzIiFbhwRwEOjV.jpg","nrc_front":"donors\/nrc\/SuZSQ2YgRd6qGgF2mu7fIJuCFbp5p2puTRLbmVYL.jpg","nrc_back":"donors\/nrc\/xI90S3ngp3wvyLcb6EUfjM3d4i8a89rgwawyqF28.jpg","status":"approved","rejection_errors":null,"created_at":"2025-08-25T14:32:30.000000Z","updated_at":"2025-08-25T14:32:43.000000Z","user":{"id":11,"name":"Erin Cooley","email":"pyma@mailinator.com","email_verified_at":"2025-08-25T14:31:59.000000Z","role":"donor","status":"active","created_at":"2025-08-25T14:31:38.000000Z","updated_at":"2025-08-25T14:32:43.000000Z"}}} -->
