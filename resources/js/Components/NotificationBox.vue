@@ -44,7 +44,7 @@
         <template v-if="filteredNotifications('blogs').length > 0">
           <li v-for="item in filteredNotifications('blogs')" :key="item.id" @click="markAsRead(item)"
             class="group py-2 px-3 rounded-lg transition-colors hover:bg-gray-50 dark:hover:bg-gray-700 cursor-pointer">
-            <a :href="item.data.url" target="_blank" class="flex items-start gap-3">
+            <a :href="item.data.url" class="flex items-start gap-3">
               <div class="flex-shrink-0 mt-1">
                 <div class="h-2 w-2 rounded-full" :class="item.read_at ? 'bg-gray-400' : 'bg-red-500'"></div>
               </div>
@@ -76,7 +76,7 @@
 
             <!-- ✅ Approved -->
             <a v-if="item.type === 'App\\Notifications\\DonationRequestApproved'"
-              :href="`/notifications/${item.id}/approve`" target="_blank"
+              :href="`/notifications/${item.id}/approve`"
               class="block p-3 border border-green-200 dark:border-green-700 rounded-lg bg-green-50 dark:bg-green-900/20 hover:bg-green-100 dark:hover:bg-green-900/40 transition-colors">
               <p class="text-sm text-green-600 dark:text-green-400 font-semibold">
                 ✅ Approved By {{ item.data.blood_bank_name }}

@@ -1,7 +1,7 @@
 <x-layout title="Register">
     <div class="h-full overflow-y-auto flex items-center justify-center scrollbar-none">
         <div class="bg-white rounded-xl p-5 pt-3 w-full max-w-md shadow-xl">
-            
+
             <!-- Home icon -->
             <div>
                 <a href="/">
@@ -47,7 +47,7 @@
                         </div>
                     </div>
                     @error('name')
-                        <p class="text-xs text-[#E91815] mt-2">{{$message}}</p>
+                        <p class="text-xs text-[#E91815] mt-2">{{ $message }}</p>
                     @enderror
                 </div>
 
@@ -116,13 +116,15 @@
                            hover:from-[#690D0B] hover:to-[#E91815] hover:shadow-lg hover:shadow-[#E91815]/30 
                            transition-all duration-300 group">
                     <span class="group-hover:tracking-wider transition-all duration-300 text-center">SUBMIT</span>
-                    <i class="fas fa-arrow-right-long ml-2 text-xs opacity-0 group-hover:opacity-100 group-hover:ml-3 transition-all duration-300"></i>
+                    <i
+                        class="fas fa-arrow-right-long ml-2 text-xs opacity-0 group-hover:opacity-100 group-hover:ml-3 transition-all duration-300"></i>
                 </button>
 
                 <!-- Login link -->
                 <div class="text-center text-xs text-[#690D0B] tracking-wider pt-4 font-light">
-                    Already have an account? 
-                    <a href="{{ route('login') }}" class="text-[#E91815] hover:text-[#690D0B] transition-colors">LOG IN</a>
+                    Already have an account?
+                    <a href="{{ route('login') }}" class="text-[#E91815] hover:text-[#690D0B] transition-colors">LOG
+                        IN</a>
                 </div>
 
             </form>
