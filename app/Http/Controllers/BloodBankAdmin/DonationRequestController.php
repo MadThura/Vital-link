@@ -13,12 +13,16 @@ use Illuminate\Support\Facades\Notification;
 class DonationRequestController extends Controller
 {
     public function index()
-    {
+    {   
+        $requests = DonationRequest::with('donor', 'bloodBank')
+                ->where('blood_bank_id', auth()->user()->bloodBank->id);
+
         return view('bloodBankAdmin.donation-request', [
-            'donationRequests' => DonationRequest::with('donor', 'bloodBank')
-                ->where('blood_bank_id', auth()->user()->bloodBank->id)
+            'donationRequests' => $requests
                 ->filter(request(['search', 'status']))
-                ->paginate(10)
+                ->paginate(10),
+            'totalRequestsCount' => $requests->count(),
+            'pendingRequestsCount' => $requests->where('status', 'pending')->count(),
         ]);
     }
 

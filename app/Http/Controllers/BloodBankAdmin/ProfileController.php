@@ -76,7 +76,9 @@ class ProfileController extends Controller
     {
 
         $closedDays = $request->days;
-
+        if (!$closedDays) {
+            return back()->with('fail', 'Plese select dates.');
+        }
         $bloodBank = auth()->user()->bloodBank;
 
         foreach ($closedDays as $day) {
@@ -92,5 +94,24 @@ class ProfileController extends Controller
         }
 
         return back()->with('success', 'Close days are stored successfully.');
+    }
+
+    public function destroyClosedDays(Request $request)
+    {
+        $closedDays = $request->days;
+        // dd($closedDays);
+        $bloodBank = auth()->user()->bloodBank;
+
+        foreach ($closedDays as $day) {
+            $isClosed = BloodBankClosedDay::where('blood_bank_id', $bloodBank->id)
+                ->where('date', $day['date'])->first();
+
+            if (!$isClosed) {
+                return back()->with('fail', 'Seleted dates are not closed days.');
+            }
+            $isClosed->delete();
+        }
+
+        return back()->with('success', 'Closed days are deleted successfully.');
     }
 }

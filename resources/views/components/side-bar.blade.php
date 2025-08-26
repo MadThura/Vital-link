@@ -44,7 +44,7 @@
                         class="no-underline text-sm py-3 px-4 rounded-lg flex items-center gap-3 transition-all group border-l-4 {{ request()->routeIs('bba.donors.index') ? 'border-purple-400 bg-gray-100 dark:bg-gray-700/50 text-purple-400' : 'border-transparent text-gray-800 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700/50 hover:text-purple-400' }}">
                         <i
                             class="fa-solid fa-user-check text-base transition-colors {{ request()->routeIs('bba.donors.index') ? 'text-purple-400' : 'text-gray-600 dark:text-gray-400 group-hover:text-purple-400' }}"></i>
-                        <div class="flex items-center gap-4">
+                        <div class="flex items-center gap-3">
                             <span
                                 class="transition-transform {{ request()->routeIs('bba.donors.index') ? 'translate-x-1' : 'group-hover:translate-x-1' }}">
                                 Donor Management
@@ -67,8 +67,8 @@
                     <a href="{{ route('bba.donation-requests.index') }}"
                         class="no-underline text-sm py-3 px-4 rounded-lg flex items-center gap-3 transition-all group border-l-4 {{ request()->routeIs('bba.donation-requests.index') ? 'border-rose-400 bg-gray-100 dark:bg-gray-700/50 text-rose-400' : 'border-transparent text-gray-800 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700/50 hover:text-rose-400' }}">
                         <i
-                            class="fa-solid fa-file-medical text-base transition-colors {{ request()->routeIs('bba.donation-requests.index') ? 'text-rose-400' : 'text-gray-600 dark:text-gray-400 group-hover:text-rose-400' }}"></i>
-                        <div class="flex items-center gap-8">
+                            class="fas fa-hand-holding-droplet text-base transition-colors {{ request()->routeIs('bba.donation-requests.index') ? 'text-rose-400' : 'text-gray-600 dark:text-gray-400 group-hover:text-rose-400' }}"></i>
+                        <div class="flex items-center gap-5">
                             <span
                             class="transition-transform {{ request()->routeIs('bba.donation-requests.index') ? 'translate-x-1' : 'group-hover:translate-x-1' }}">
                             Donation Requests
@@ -85,7 +85,28 @@
                         @endif
                         </div>
                     </a>
-
+                    {{-- appoinments --}}
+                    <a href="{{ route('bba.appointments') }}"
+                        class="no-underline text-sm py-3 px-4 rounded-lg flex items-center gap-3 transition-all group border-l-4 {{ request()->routeIs('bba.appointments') ? 'border-rose-400 bg-gray-100 dark:bg-gray-700/50 text-rose-400' : 'border-transparent text-gray-800 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700/50 hover:text-rose-400' }}">
+                        <i
+                            class="fa-regular fa-calendar-check text-base transition-colors {{ request()->routeIs('bba.appointments') ? 'text-rose-400' : 'text-gray-600 dark:text-gray-400 group-hover:text-rose-400' }}"></i>
+                        <div class="w-fll flex items-center gap-[45%]">
+                            <span
+                            class="transition-transform {{ request()->routeIs('bba.appointments') ? 'translate-x-1' : 'group-hover:translate-x-1' }}">
+                            Appointments
+                        </span>
+                        @if ($newAppointmentsCount > 0)
+                            <span class="ml-2 relative inline-flex items-center justify-center">
+                                <span
+                                    class="absolute inline-flex w-full h-full rounded-full bg-rose-400 opacity-75 animate-ping"></span>
+                                <span
+                                    class="relative bg-gradient-to-r from-rose-500 to-pink-500 text-white text-[10px] font-bold px-2 py-0.5 rounded-full shadow-md">
+                                    {{ $newAppointmentsCount }} 
+                                </span>
+                            </span>
+                        @endif
+                        </div>
+                    </a>
                     <!-- Donation Records (Emerald) -->
                     <a href="{{ route('bba.donation-record') }}"
                         class="no-underline text-sm py-3 px-4 rounded-lg flex items-center gap-3 transition-all group border-l-4 {{ request()->routeIs('bba.donation-record') ? 'border-emerald-400 bg-gray-100 dark:bg-gray-700/50 text-emerald-400' : 'border-transparent text-gray-800 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700/50 hover:text-emerald-400' }}">

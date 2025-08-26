@@ -2,6 +2,7 @@
 
 namespace App\Providers;
 
+use App\Models\Appointment;
 use App\Models\DonationRequest;
 use App\Models\Donor;
 use Illuminate\Support\Facades\View;
@@ -27,7 +28,8 @@ class AppServiceProvider extends ServiceProvider
         View::composer('components.side-bar', function ($view) {
             $view->with([
                 'newDonorsCount' => Donor::where('status', 'pending')->count(),
-                'newDonationRequestsCount' => DonationRequest::where('status', 'pending')->count(),
+                'newDonationRequestsCount' => DonationRequest::where('blood_bank_id', auth()->user()->bloodBank->id)->where('status', 'pending')->count(),
+                'newAppointmentsCount' => Appointment::where('blood_bank_id', auth()->user()->bloodBank->id)->where('status', 'in_progress')->count()
             ]);
         });
     }

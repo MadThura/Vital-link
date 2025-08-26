@@ -1,5 +1,5 @@
 <x-admin-layout>
-    <x-alert-box/>
+    <x-alert-box />
     <div class="bg-gray-900 text-gray-100 overflow-auto scrollbar-hide">
         <!-- Header -->
         <header class="sticky top-0 z-20 bg-gradient-to-r from-gray-800 to-gray-900">
@@ -203,7 +203,7 @@
 
                                             <!-- Note box that appears to the left of the selected day -->
                                             <div x-show="activeDay === d && (isSelected(d) || !isClosed(d))"
-                                                class="absolute z-10 right-full mr-2 top-0 w-48 bg-gray-800 border border-gray-700 rounded-lg p-2 shadow-lg">
+                                                class="absolute z-10 right-50 mr-2 top-0 w-48 bg-gray-800 border border-gray-700 rounded-lg p-2 shadow-lg">
                                                 <input type="text"
                                                     x-model="dateNotes[getLocalDateString(new Date(year, month, d))]"
                                                     @click.stop
@@ -250,12 +250,36 @@
                                     class="px-5 py-2 rounded-lg font-medium text-gray-200 bg-gray-700 hover:bg-gray-600 transition">
                                     <i class="fa-solid fa-eraser mr-2"></i> Clear Selection
                                 </button>
+                                {{-- delete form --}}
+                                <button type="submit" form="delete-closed-days"
+                                    x-show="selectedDates.some(d => closed_date.includes(getLocalDateString(d)))"
+                                    class="px-5 py-2 rounded-lg font-semibold text-white shadow-md 
+           bg-gradient-to-r from-rose-500 to-red-500 
+           hover:from-rose-600 hover:to-red-600 transition-transform transform hover:scale-105">
+                                    <i class="fa-solid fa-trash mr-2"></i> Delete
+                                </button>
                                 <button type="submit"
                                     class="px-5 py-2 rounded-lg font-semibold text-white shadow-md bg-gradient-to-r from-rose-500 to-red-500 
         hover:from-rose-600 hover:to-red-600 transition-transform transform hover:scale-105">
                                     <i class="fa-solid fa-save mr-2"></i> Save Closed Dates
                                 </button>
+
                             </div>
+                        </form>
+                        <form action="{{ route('bba.destroyClosedDays') }}" method="POST" id="delete-closed-days">
+                            @csrf
+                            @method('DELETE')
+                            <template x-for="(date, index) in selectedDates" :key="index">
+                                <div>
+                                    <input type="hidden" :name="'days[' + index + '][blood_bank_id]'"
+                                        value="{{ $bloodBank->id }}" />
+                                    <input type="hidden" :name="'days[' + index + '][date]'"
+                                        :value="getLocalDateString(date)" />
+                                    <input type="hidden" :name="'days[' + index + '][reason]'"
+                                        :value="dateNotes[getLocalDateString(date)] || ''" />
+                                </div>
+                            </template>
+
                         </form>
                     </div>
 
@@ -337,7 +361,8 @@
                         </div>
 
                         <!-- Edit Form -->
-                        <form x-show="showForm" x-transition method="POST" action="{{ route('bba.updateContactInfo') }}" class="space-y-3 mt-3">
+                        <form x-show="showForm" x-transition method="POST"
+                            action="{{ route('bba.updateContactInfo') }}" class="space-y-3 mt-3">
                             @method('PATCH')
                             @csrf
                             <div>
@@ -368,11 +393,90 @@
                         </h2>
                         <div class="space-y-3">
                             <div class="flex justify-between">
+                                <span class="text-gray-300">Maximun Person</span>
+                                <span class="font-medium">{{ $bloodBank->maxPersonsPerDay }}</span>
+                            </div>
+                            <div class="flex justify-between">
                                 <span class="text-gray-300">Operating Hours</span>
                                 <span class="font-medium">{{ $bloodBank->operating_hour }}</span>
                             </div>
                         </div>
                     </div>
+                    <div class="bg-gray-800 rounded-xl p-6 border border-gray-700">
+                        <h2 class="text-xl font-bold mb-4 flex items-center">
+                            <i class="fas fa-clock text-rose-400 mr-2"></i> Closed Days & Full Days
+                        </h2>
+
+                        <div class="space-y-6">
+                            @php
+                                $closedDays = $bloodBank
+                                    ->closedDays()
+                                    ->where('type', 'closedDay')
+                                    ->pluck('date', 'reason')
+                                    ->toArray(); // key: reason, value: date
+                                $fullDays = $bloodBank
+                                    ->closedDays()
+                                    ->where('type', 'apmFullDay')
+                                    ->pluck('date')
+                                    ->toArray();
+                                function formatDate($date)
+                                {
+                                    return \Carbon\Carbon::parse($date)->format('D, M j, Y'); // e.g., Mon, Aug 26, 2025
+                                }
+                            @endphp
+
+                            {{-- Closed Days --}}
+                            @if (count($closedDays) > 0)
+                                <div>
+                                    <h3 class="text-lg font-bold text-red-400 mb-3 flex items-center gap-2">
+                                        <i class="fas fa-calendar-times text-red-300"></i> Closed Days
+                                    </h3>
+                                    <ul class="flex flex-wrap gap-4">
+                                        @foreach ($bloodBank->closedDays()->where('type', 'closedDay')->get() as $day)
+                                            <li
+                                                class="bg-red-600/50 text-white px-4 py-2 rounded-2xl text-sm font-medium shadow-md hover:scale-105 transform transition-all cursor-default flex flex-col gap-1">
+                                                <span>{{ formatDate($day->date) }}</span>
+                                                @if ($day->reason)
+                                                    <span
+                                                        class="bg-red-500/70 text-white text-xs px-2 py-0.5 rounded-full shadow-inner truncate">
+                                                        {{ $day->reason }}
+                                                    </span>
+                                                @endif
+                                            </li>
+                                        @endforeach
+                                    </ul>
+                                </div>
+                            @endif
+
+                            {{-- Full Appointment Days --}}
+                            @if (count($fullDays) > 0)
+                                <div>
+                                    <h3 class="text-lg font-bold text-orange-400 mb-3 flex items-center gap-2">
+                                        <i class="fas fa-calendar-check text-orange-300"></i> Full Appointment Days
+                                    </h3>
+                                    <ul class="flex flex-wrap gap-2">
+                                        @foreach ($fullDays as $date)
+                                            <li
+                                                class="bg-gradient-to-r from-orange-500/80 to-yellow-500/80 text-white px-4 py-1 rounded-2xl text-sm font-medium shadow-md hover:scale-105 transform transition-all cursor-default">
+                                                {{ formatDate($date) }}
+                                            </li>
+                                        @endforeach
+                                    </ul>
+                                </div>
+                            @endif
+
+                            {{-- No Dates Message --}}
+                            @if (count($closedDays) === 0 && count($fullDays) === 0)
+                                <p
+                                    class="text-gray-400 text-sm italic text-center py-4 border border-gray-700 rounded-xl">
+                                    No closed or full days have been set yet.
+                                </p>
+                            @endif
+                        </div>
+
+
+                    </div>
+
 
                     <!-- Update Password Card (new) -->
                     <div class="bg-gray-800 rounded-xl p-6 border border-gray-700 mt-6" x-data="{ showPasswordForm: false }">
@@ -453,7 +557,6 @@
                     if (this.selectedDates.length === 0) return '';
                     return this.selectedDates.length + ' date(s) selected';
                 },
-
                 // Date manipulation
                 prevMonth() {
                     this.cursor = new Date(this.year, this.month - 1, 1);
@@ -532,6 +635,7 @@
                     const date = new Date(this.year, this.month, day);
                     return this.closed_date.includes(this.getLocalDateString(date));
                 },
+
 
                 isApmFull(day) {
                     const date = new Date(this.year, this.month, day);

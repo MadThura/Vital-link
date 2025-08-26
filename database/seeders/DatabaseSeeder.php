@@ -4,6 +4,7 @@ namespace Database\Seeders;
 
 use App\Models\Blog;
 use App\Models\BloodBank;
+use App\Models\DonationRequest;
 use App\Models\Donor;
 use App\Models\User;
 use App\Notifications\NewBlogUploaded;
@@ -116,7 +117,7 @@ class DatabaseSeeder extends Seeder
             'status' => 'approved',
             'profile_img' => 'donors/profiles/luffy.jpg',
             'address' => 'Foosha Village on Dawn Island',
-            'blood_type' => 'B+',
+            'blood_type' => 'A+',
             'gender' => 'Male',
             'health_certificate' => 'donors/health_certificates/certificate_1.jpeg',
             'nrc' => '08/MaTaNa(N)569874',
@@ -133,7 +134,7 @@ class DatabaseSeeder extends Seeder
             'status' => 'approved',
             'profile_img' => 'donors/profiles/mei_mei.jpeg',
             'address' => 'Apartment 1205, Sakura Heights, 2-8-14 Shibuya, Shibuya-ku, Tokyo 150-0002, Japan',
-            'blood_type' => 'B+',
+            'blood_type' => 'B-',
             'gender' => 'Female',
             'health_certificate' => 'donors/health_certificates/certificate_2.jpeg',
             'nrc' => '08/ShTaNa(N)472913',
@@ -167,7 +168,7 @@ class DatabaseSeeder extends Seeder
             'status' => 'approved',
             'profile_img' => 'donors/profiles/nakami.jpeg',
             'address' => 'Sunset Hills, 3-6-21 Shinjuku, Tokyo 160-0022, Japan',
-            'blood_type' => 'B+',
+            'blood_type' => 'O-',
             'gender' => 'Male',
             'health_certificate' => 'donors/health_certificates/certificate_4.jpeg',
             'nrc' => '08/ShKuNa(N)694852',
@@ -184,7 +185,7 @@ class DatabaseSeeder extends Seeder
             'status' => 'approved',
             'profile_img' => 'donors/profiles/meow.jpeg',
             'address' => 'Harmony Heights, 7-2-14 Meguro, Tokyo 153-0063, Japan',
-            'blood_type' => 'B+',
+            'blood_type' => 'AB+',
             'gender' => 'Male',
             'health_certificate' => 'donors/health_certificates/certificate_5.jpeg',
             'nrc' => '08/MeTaNa(N)785964',
@@ -201,7 +202,7 @@ class DatabaseSeeder extends Seeder
             'status' => 'approved',
             'profile_img' => 'donors/profiles/sung_jin_woo.jpeg',
             'address' => 'Riverside Mansion, 1-8-11 Chiyoda, Tokyo 100-0001, Japan',
-            'blood_type' => 'B+',
+            'blood_type' => 'AB-',
             'gender' => 'Male',
             'health_certificate' => 'donors/health_certificates/certificate_6.jpeg',
             'nrc' => '08/ChRiNa(N)896135',
@@ -209,6 +210,17 @@ class DatabaseSeeder extends Seeder
             'nrc_front' => 'donors/nrc/nrc_12.jpeg',
             'phone' => '09250500014'
         ]);
+
+        //Requests
+        $donorIds = Donor::pluck('id')->shuffle()->take(4);
+        foreach ($donorIds as $donorId) {
+            DonationRequest::factory()->create([
+                'donor_id' => $donorId,
+                'blood_bank_id' => BloodBank::first()->id,
+                'appointment_date' => now()->format('Y-m-d'),
+                'status' => 'pending',
+            ]);
+        }
 
         $blogs = [
             [

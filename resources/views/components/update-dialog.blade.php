@@ -21,7 +21,7 @@
         </div>
 
         <!-- Content -->
-        <form action="{{ route('bba.donation-records.store', ['donor' => $appointment->donor->id, 'appointment' => $appointment->id]) }}" method="POST" class="p-6 space-y-6">
+        <form id="searchForm" action="{{ route('bba.donation-records.store', ['donor' => $appointment->donor->id, 'appointment' => $appointment->id]) }}" method="POST" class="p-6 space-y-6">
 
             @csrf
             @method('POST')
@@ -90,6 +90,6 @@
                 </button>
             </div>
         </form>
-
+        <x-loading-indicator></x-loading-indicator>
     </div>
 </div>

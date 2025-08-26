@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\BlogController;
+use App\Http\Controllers\BloodBankAdmin\AppointmentController;
 use App\Http\Controllers\BloodBankAdmin\BloodInventoryController;
 use App\Http\Controllers\BloodBankAdmin\DashboardController as BBADashboardController;
 use App\Http\Controllers\BloodBankAdmin\DonorController as BBADonorController;
@@ -104,7 +105,7 @@ Route::middleware(['auth', 'role:blood_bank_admin'])->prefix('blood-bank-admin')
     Route::get('/dashboard', [BBADashboardController::class, 'index'])->name('dashboard');
     Route::get('/donation-requests', [BBADonationRequestController::class, 'index'])->name('donation-requests.index');
     Route::put('/donation-requests/{donationRequest}/{action}', [BBADonationRequestController::class, 'updateStatus'])->name('donation-requests.updateStatus');
-
+    Route::get('/appointments', [AppointmentController::class, 'index'])->name('appointments');
     Route::get('/donation-records', [BBADonationRecordController::class, 'index'])->name('donation-record');
     Route::post('/donation-records/{donor}/{appointment}', [BBADonationRecordController::class, 'store'])->name('donation-records.store');
     Route::get('/blood-inventory', [BloodInventoryController::class, 'index'])->name('blood-inventory');
@@ -114,6 +115,8 @@ Route::middleware(['auth', 'role:blood_bank_admin'])->prefix('blood-bank-admin')
     Route::patch('/max-persons-per-day/update', [BBAProfileController::class, 'updateMaxPPDay'])->name('updateMaxPPDay');
     Route::patch('/contact-info/update', [BBAProfileController::class, 'updateContactInfo'])->name('updateContactInfo');
     Route::post('/set-closed-days', [BBAProfileController::class, 'storeClosedDays'])->name('setClosedDays');
+    Route::delete('/destroy-closed-days', [BBAProfileController::class, 'destroyClosedDays'])->name('destroyClosedDays');
+
 
     Route::prefix('/donors')->name('donors.')->group(function () {
         Route::get('/', [BBADonorController::class, 'index'])->name('index');
