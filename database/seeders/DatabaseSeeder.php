@@ -212,15 +212,15 @@ class DatabaseSeeder extends Seeder
         ]);
 
         //Requests
-        $donorIds = Donor::pluck('id')->shuffle()->take(4);
-        foreach ($donorIds as $donorId) {
-            DonationRequest::factory()->create([
-                'donor_id' => $donorId,
-                'blood_bank_id' => BloodBank::first()->id,
-                'appointment_date' => now()->format('Y-m-d'),
-                'status' => 'pending',
-            ]);
-        }
+        // $donorIds = Donor::pluck('id')->shuffle()->take(4);
+        // foreach ($donorIds as $donorId) {
+        //     DonationRequest::factory()->create([
+        //         'donor_id' => $donorId,
+        //         'blood_bank_id' => BloodBank::first()->id,
+        //         'appointment_date' => now()->format('Y-m-d'),
+        //         'status' => 'pending',
+        //     ]);
+        // }
 
         $blogs = [
             [

@@ -130,4 +130,18 @@
             </form>
         </div>
     </div>
+    <script>
+        document.querySelectorAll(".password-field .toggle-password").forEach((btn) => {
+            btn.addEventListener("click", () => {
+                const wrapper = btn.closest(".password-field");
+                const input = wrapper.querySelector("input");
+                const icon = btn.querySelector("i");
+                const show = input.type === "password";
+
+                input.type = show ? "text" : "password";
+                icon.classList.toggle("fa-eye-slash", !show);
+                icon.classList.toggle("fa-eye", show);
+            });
+        });
+    </script>
 </x-layout>

@@ -22,7 +22,7 @@
                 <div class="bg-gray-800 p-4 rounded-lg border border-gray-700">
                     <div class="flex justify-between items-start">
                         <div>
-                            <p class="text-gray-400 text-sm">Approved Appointments</p>
+                            <p class="text-gray-400 text-sm">Completed Appointments</p>
                             <h3 class="text-2xl font-bold text-white mt-1">{{ $approvedAppointmentsCount }}</h3>
                         </div>
                         <div class="bg-cyan-900/30 p-2 rounded-lg">

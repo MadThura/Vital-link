@@ -283,7 +283,7 @@
                         </form>
                     </div>
 
-                    <!-- Blood Inventory -->
+                    {{-- <!-- Blood Inventory -->
                     <section class="bg-gray-800 rounded-xl p-6 border border-gray-700">
                         <div class="flex justify-between items-center mb-4">
                             <h2 class="text-xl font-bold flex items-center">
@@ -330,7 +330,7 @@
                                 </div>
                             </div>
                         </div>
-                    </section>
+                    </section> --}}
                 </div>
                 <!-- Right Column -->
                 <div class="space-y-6">

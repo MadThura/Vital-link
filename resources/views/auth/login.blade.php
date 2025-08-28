@@ -1,11 +1,13 @@
 <x-layout title="Login">
     <div class="h-full overflow-y-auto flex items-center justify-center scrollbar-none px-4">
-        <div class="bg-white dark:bg-gray-900 rounded-xl p-5 pt-3 w-full max-w-md border border-[#DAD0D0] dark:border-gray-700 shadow-xl transition-colors duration-300">
-            
+        <div
+            class="bg-white dark:bg-gray-900 rounded-xl p-5 pt-3 w-full max-w-md border border-[#DAD0D0] dark:border-gray-700 shadow-xl transition-colors duration-300">
+
             <!-- Home + Theme Toggle -->
             <div class="flex items-center justify-between">
                 <a href="/">
-                    <i class="fa-solid fa-home text-[#690D0B] dark:text-gray-300 hover:text-[#E91815] transition-colors"></i>
+                    <i
+                        class="fa-solid fa-home text-[#690D0B] dark:text-gray-300 hover:text-[#E91815] transition-colors"></i>
                 </a>
                 <x-theme-toggle />
             </div>
@@ -20,7 +22,8 @@
             </div>
 
             <!-- Title -->
-            <h1 class="text-2xl font-playfair font-medium text-center mb-2 text-[#180705] dark:text-gray-100 tracking-wider">
+            <h1
+                class="text-2xl font-playfair font-medium text-center mb-2 text-[#180705] dark:text-gray-100 tracking-wider">
                 Vital Link
             </h1>
             <div class="text-center">
@@ -34,7 +37,7 @@
             <form class="space-y-6" action="{{ route('login') }}" method="POST">
                 @csrf
                 @method('POST')
-                
+
                 <!-- Email -->
                 <div>
                     <label class="block text-xs text-[#690D0B] dark:text-gray-300 mb-2 tracking-widest">EMAIL</label>
@@ -51,7 +54,7 @@
                         </div>
                     </div>
                     @error('email')
-                        <p class="text-xs text-[#E91815] dark:text-red-400 mt-2">{{$message}}</p>
+                        <p class="text-xs text-[#E91815] dark:text-red-400 mt-2">{{ $message }}</p>
                     @enderror
                 </div>
 
@@ -82,18 +85,33 @@
                            hover:from-[#690D0B] hover:to-[#E91815] hover:shadow-lg hover:shadow-[#E91815]/30 
                            transition-all duration-300 group">
                     <span class="group-hover:tracking-wider transition-all duration-300 text-center">AUTHENTICATE</span>
-                    <i class="fas fa-arrow-right-long ml-2 text-xs opacity-0 group-hover:opacity-100 group-hover:ml-3 transition-all duration-300"></i>
+                    <i
+                        class="fas fa-arrow-right-long ml-2 text-xs opacity-0 group-hover:opacity-100 group-hover:ml-3 transition-all duration-300"></i>
                 </button>
 
                 <!-- Register link -->
                 <div class="text-center text-xs text-[#690D0B] dark:text-gray-400 tracking-wider pt-4 font-light">
-                    Don't have an account? 
-                    <a href="{{ route('register') }}" 
-                       class="text-[#E91815] hover:text-[#690D0B] dark:text-red-400 dark:hover:text-gray-300 transition-colors">
-                       REGISTER
+                    Don't have an account?
+                    <a href="{{ route('register') }}"
+                        class="text-[#E91815] hover:text-[#690D0B] dark:text-red-400 dark:hover:text-gray-300 transition-colors">
+                        REGISTER
                     </a>
                 </div>
             </form>
         </div>
     </div>
+    <script>
+        document.querySelectorAll(".password-field .toggle-password").forEach((btn) => {
+            btn.addEventListener("click", () => {
+                const wrapper = btn.closest(".password-field");
+                const input = wrapper.querySelector("input");
+                const icon = btn.querySelector("i");
+                const show = input.type === "password";
+
+                input.type = show ? "text" : "password";
+                icon.classList.toggle("fa-eye-slash", !show);
+                icon.classList.toggle("fa-eye", show);
+            });
+        });
+    </script>
 </x-layout>
